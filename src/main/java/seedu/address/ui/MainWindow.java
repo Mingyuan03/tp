@@ -21,6 +21,7 @@ import seedu.address.model.Model;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import seedu.address.model.job.Job;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -41,6 +42,7 @@ public class MainWindow extends UiPart<Stage> {
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
     private boolean isJobView = false;
+    private int selectedJobIndex = -1; // -1 means no job selected
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -132,8 +134,10 @@ public class MainWindow extends UiPart<Stage> {
             jobListPanelPlaceholder.setVisible(true);
             jobListPanelPlaceholder.setManaged(true);
             
-            // We no longer call addJobFilterSections since we're using StatisticsSidebar
-            // which has its own implementation
+            // If a job is selected, show its specific statistics
+            if (selectedJobIndex >= 0 && selectedJobIndex < logic.getFilteredJobList().size()) {
+                viewJobStatistics(selectedJobIndex);
+            }
         } else {
             personListPanel = new PersonListPanel(logic.getFilteredPersonList(), logic);
             personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
@@ -143,6 +147,9 @@ public class MainWindow extends UiPart<Stage> {
             // Show person list
             personListPanelPlaceholder.setVisible(true);
             personListPanelPlaceholder.setManaged(true);
+            
+            // Reset job selection when switching to person view
+            selectedJobIndex = -1;
         }
 
         resultDisplay = new ResultDisplay();
@@ -156,37 +163,76 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Adds filter sections to the job list sidebar.
-     * Note: This method is currently not used as we've implemented StatisticsSidebar instead.
-     * It's kept for reference in case we want to add filters in the future.
+     * Displays statistics for a specific job.
+     * 
+     * @param jobIndex the index of the job to view
      */
-    private void addJobFilterSections() {
-        // Create a sample status filter
-        VBox statusFilter = new VBox();
-        statusFilter.setSpacing(5);
+    public void viewJobStatistics(int jobIndex) {
+        if (!isJobView) {
+            toggleJobView(); // Ensure we're in job view
+        }
         
-        CheckBox activeCheckbox = new CheckBox("Active");
-        CheckBox closedCheckbox = new CheckBox("Closed");
-        CheckBox interviewScheduledCheckbox = new CheckBox("Interview Scheduled");
+        if (jobIndex >= 0 && jobIndex < logic.getFilteredJobList().size()) {
+            selectedJobIndex = jobIndex;
+            Job selectedJob = logic.getFilteredJobList().get(jobIndex);
+            
+            // Set the model to job detail view
+            if (logic instanceof Model) {
+                ((Model) logic).setViewState(Model.ViewState.JOB_DETAIL_VIEW);
+            }
+            
+            if (jobListPanel != null) {
+                // Tell the job list panel to show job-specific statistics
+                jobListPanel.showJobSpecificStatistics(selectedJob);
+                
+                // Optionally select the job in the list view
+                jobListPanel.selectJob(jobIndex);
+                
+                logger.info("Viewing statistics for job: " + selectedJob.getJobTitle().jobTitle());
+            }
+        } else {
+            logger.warning("Invalid job index for statistics: " + jobIndex);
+            selectedJobIndex = -1;
+        }
+    }
+
+    /**
+     * Resets the job selection and shows general statistics.
+     */
+    public void resetJobSelection() {
+        selectedJobIndex = -1;
         
-        statusFilter.getChildren().addAll(activeCheckbox, closedCheckbox, interviewScheduledCheckbox);
+        // Set the model to regular job view
+        if (logic instanceof Model) {
+            ((Model) logic).setViewState(Model.ViewState.JOB_VIEW);
+        }
         
-        // This method is no longer available in JobListPanel
-        // jobListPanel.addFilterSection("Job Status", statusFilter);
-        
-        // Create a sample date filter
-        VBox dateFilter = new VBox();
-        dateFilter.setSpacing(5);
-        
-        Label fromDateLabel = new Label("From:");
-        DatePicker fromDatePicker = new DatePicker();
-        Label toDateLabel = new Label("To:");
-        DatePicker toDatePicker = new DatePicker();
-        
-        dateFilter.getChildren().addAll(fromDateLabel, fromDatePicker, toDateLabel, toDatePicker);
-        
-        // This method is no longer available in JobListPanel
-        // jobListPanel.addFilterSection("Date Posted", dateFilter);
+        if (isJobView && jobListPanel != null) {
+            jobListPanel.showGeneralStatistics();
+        }
+    }
+
+    /**
+     * Clears the current view and returns to the general overview.
+     */
+    public void clearView() {
+        // Return to overview mode
+        if (isJobView) {
+            // Ensure model state is synchronized
+            if (logic instanceof Model) {
+                Model model = (Model) logic;
+                model.setViewState(Model.ViewState.JOB_VIEW);
+            }
+            
+            resetJobSelection();
+            
+            // Refresh the panel with general statistics
+            if (jobListPanel != null) {
+                jobListPanel.showGeneralStatistics();
+            }
+            
+            logger.info("View cleared, returned to job overview");
+        }
     }
 
     /**
@@ -254,6 +300,31 @@ public class MainWindow extends UiPart<Stage> {
      */
     private CommandResult executeCommand(String commandText) throws CommandException, ParseException {
         try {
+            // Reset from detail view if not a view-specific command
+            // These commands are exempt as they explicitly manage view state
+            boolean isViewCommand = commandText.trim().startsWith("viewjob") || 
+                                   commandText.trim().startsWith("viewperson") ||
+                                   commandText.trim().startsWith("clearview");
+            
+            if (!isViewCommand && logic instanceof Model) {
+                Model model = (Model) logic;
+                Model.ViewState currentState = model.getCurrentViewState();
+                
+                // Reset to regular job view if currently in a detail view
+                if (currentState == Model.ViewState.JOB_DETAIL_VIEW || 
+                    currentState == Model.ViewState.PERSON_DETAIL_VIEW) {
+                    model.setViewState(Model.ViewState.JOB_VIEW);
+                    resetJobSelection();
+                    
+                    // Refresh to show statistics
+                    if (jobListPanel != null) {
+                        jobListPanel.showGeneralStatistics();
+                    }
+                    
+                    logger.info("Reset from detail view to job view for command: " + commandText);
+                }
+            }
+            
             CommandResult commandResult = logic.execute(commandText);
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
@@ -269,12 +340,60 @@ public class MainWindow extends UiPart<Stage> {
             if (commandResult.setToggleView()) {
                 toggleJobView();
             }
+            
+            if (commandResult.isViewJob()) {
+                viewJobStatistics(commandResult.getJobIndex());
+            }
+            
+            if (commandResult.isViewPerson()) {
+                viewPersonDetails(commandResult.getJobIndex(), commandResult.getPersonIndex());
+            }
+            
+            if (commandResult.isClearView()) {
+                clearView();
+            }
 
             return commandResult;
         } catch (CommandException | ParseException e) {
             logger.info("An error occurred while executing command: " + commandText);
             resultDisplay.setFeedbackToUser(e.getMessage());
             throw e;
+        }
+    }
+
+    /**
+     * Displays the details of a person for a specific job.
+     * 
+     * @param jobIndex The index of the job
+     * @param personIndex The index of the person
+     */
+    private void viewPersonDetails(int jobIndex, int personIndex) {
+        if (!isJobView) {
+            toggleJobView(); // Ensure we're in job view
+        }
+        
+        if (jobIndex >= 0 && jobIndex < logic.getFilteredJobList().size()) {
+            selectedJobIndex = jobIndex;
+            Job selectedJob = logic.getFilteredJobList().get(jobIndex);
+            
+            // Set the model to person detail view
+            if (logic instanceof Model) {
+                ((Model) logic).setViewState(Model.ViewState.PERSON_DETAIL_VIEW);
+            }
+            
+            if (jobListPanel != null) {
+                // Tell the job list panel to show the person details
+                jobListPanel.showPersonDetails(selectedJob, personIndex);
+                
+                // Optionally select the job in the list view
+                jobListPanel.selectJob(jobIndex);
+                
+                logger.info("Viewing person details for job: " + selectedJob.getJobTitle().jobTitle() 
+                        + ", person index: " + personIndex);
+            }
+        } else {
+            logger.warning("Invalid job index for person details: " + jobIndex);
+            selectedJobIndex = -1;
         }
     }
 }

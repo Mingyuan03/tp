@@ -220,4 +220,72 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredApplicationList(Predicate<Application> predicate);
+
+    /**
+     * View states for the application.
+     */
+    enum ViewState {
+        PERSON_VIEW,  // Default view showing persons
+        JOB_VIEW,     // View showing jobs
+        JOB_DETAIL_VIEW, // View showing details of a specific job
+        PERSON_DETAIL_VIEW // View showing details of a specific person
+        // Add more views as needed
+    }
+    
+    /**
+     * Returns the current view state of the application.
+     */
+    ViewState getCurrentViewState();
+    
+    /**
+     * Sets the current view state of the application.
+     */
+    void setViewState(ViewState viewState);
+    
+    /**
+     * Toggles between person view and job view.
+     * If in any job view, switches to person view.
+     * If in person view, switches to job view.
+     */
+    void toggleJobView();
+    
+    /**
+     * Returns true if the current view is job view or job detail view.
+     */
+    default boolean isInJobView() {
+        return getCurrentViewState() == ViewState.JOB_VIEW 
+            || getCurrentViewState() == ViewState.JOB_DETAIL_VIEW;
+    }
+    
+    /**
+     * Sets a global application status filter.
+     * @param status The application status to filter by, or null to clear the filter
+     */
+    void setApplicationStatusFilter(String status);
+    
+    /**
+     * Gets the current application status filter.
+     * @return The current status filter, or null if no filter is set
+     */
+    String getApplicationStatusFilter();
+    
+    /**
+     * Applies the current status filter to both job and person views.
+     * This updates the filtered job, person, and application lists.
+     */
+    void applyStatusFilter();
+    
+    /**
+     * Clears the application status filter and resets all filtered lists.
+     */
+    void clearStatusFilter();
+    
+    /**
+     * Gets a filtered list of applications for a specific job based on the current status filter.
+     * If no status filter is active, returns all applications for the job.
+     * 
+     * @param job The job to get applications for
+     * @return Filtered list of applications for the job
+     */
+    List<Application> getFilteredApplicationsByJob(Job job);
 }

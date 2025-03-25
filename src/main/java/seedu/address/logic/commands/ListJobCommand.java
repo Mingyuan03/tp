@@ -17,6 +17,10 @@ public class ListJobCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.resetFilteredJobList();
+        
+        // Clear any application status filter
+        model.clearStatusFilter();
+        
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }

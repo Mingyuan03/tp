@@ -14,6 +14,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.Logic;
 import seedu.address.model.application.Application;
 import seedu.address.model.job.Job;
+import seedu.address.model.person.Person;
 
 /**
  * Panel containing the list of jobs with a sidepane for additional information.
@@ -27,6 +28,10 @@ public class JobListPanel extends UiPart<Region> {
 
     private Logic logic;
     private StatisticsChartPanel statisticsPanel;
+    private JobSpecificStatsPanel jobSpecificStatsPanel;
+    private PersonDetailPanel personDetailPanel;
+    private Job currentlyViewedJob;
+    private Person currentlyViewedPerson;
     
     @FXML
     private SplitPane splitPane;
@@ -97,6 +102,110 @@ public class JobListPanel extends UiPart<Region> {
     }
     
     /**
+     * Shows statistics specific to the given job.
+     * 
+     * @param job The job to show statistics for
+     */
+    public void showJobSpecificStatistics(Job job) {
+        if (job == null) {
+            showGeneralStatistics();
+            return;
+        }
+        
+        currentlyViewedJob = job;
+        
+        // Create a job-specific stats panel if needed
+        if (jobSpecificStatsPanel == null) {
+            jobSpecificStatsPanel = new JobSpecificStatsPanel(logic);
+        }
+        
+        // Update the panel with the job data
+        jobSpecificStatsPanel.updateForJob(job);
+        
+        // Show the job-specific stats panel
+        if (splitPane != null && splitPane.getItems().size() > 1) {
+            splitPane.getItems().set(1, jobSpecificStatsPanel.getRoot());
+        }
+        
+        // Ensure the sidepane is visible
+        setSidepaneVisible(true);
+    }
+    
+    /**
+     * Shows general statistics for all jobs.
+     */
+    public void showGeneralStatistics() {
+        currentlyViewedJob = null;
+        
+        // Show the general statistics panel
+        if (splitPane != null && splitPane.getItems().size() > 1 && statisticsPanel != null) {
+            // Refresh the statistics panel
+            statisticsPanel.refresh();
+            
+            // Set the panel
+            splitPane.getItems().set(1, statisticsPanel.getRoot());
+        }
+    }
+    
+    /**
+     * Shows person details for a specific person from a job.
+     * 
+     * @param job The job the person applied to
+     * @param applicationIndex The index of the application in the job's applications
+     */
+    public void showPersonDetails(Job job, int applicationIndex) {
+        if (job == null) {
+            showGeneralStatistics();
+            return;
+        }
+        
+        List<Application> applications = logic.getApplicationsByJob(job);
+        if (applications == null || applicationIndex < 0 || applicationIndex >= applications.size()) {
+            showGeneralStatistics();
+            return;
+        }
+        
+        Application application = applications.get(applicationIndex);
+        Person person = application.applicant();
+        
+        if (person == null) {
+            showGeneralStatistics();
+            return;
+        }
+        
+        currentlyViewedJob = job;
+        currentlyViewedPerson = person;
+        
+        // Create a person detail panel if needed
+        if (personDetailPanel == null) {
+            personDetailPanel = new PersonDetailPanel(logic);
+        }
+        
+        // Update the panel with the person data
+        personDetailPanel.updateForPerson(person, job, application);
+        
+        // Show the person detail panel
+        if (splitPane != null && splitPane.getItems().size() > 1) {
+            splitPane.getItems().set(1, personDetailPanel.getRoot());
+        }
+        
+        // Ensure the sidepane is visible
+        setSidepaneVisible(true);
+    }
+    
+    /**
+     * Selects the job at the given index.
+     * 
+     * @param index The index of the job to select
+     */
+    public void selectJob(int index) {
+        if (index >= 0 && index < jobListView.getItems().size()) {
+            jobListView.getSelectionModel().select(index);
+            jobListView.scrollTo(index);
+        }
+    }
+    
+    /**
      * Changes the sidepane content to a different panel.
      * This is a placeholder for future extensibility.
      * 
@@ -114,18 +223,18 @@ public class JobListPanel extends UiPart<Region> {
         
         switch (contentType) {
             case STATISTICS:
-                // We're already using statistics panel, create if needed
-                if (statisticsPanel == null) {
-                    statisticsPanel = new StatisticsChartPanel(logic);
+                // Reset to general statistics
+                showGeneralStatistics();
+                break;
+                
+            case JOB_DETAILS:
+                // We use the job-specific stats for this now
+                if (currentlyViewedJob != null) {
+                    showJobSpecificStatistics(currentlyViewedJob);
                 }
-                splitPane.getItems().set(1, statisticsPanel.getRoot());
                 break;
                 
             // Future content types would be added here as new cases
-            // case JOB_DETAILS:
-            //     JobDetailsPanel detailsPanel = new JobDetailsPanel(selectedJob);
-            //     splitPane.getItems().set(1, detailsPanel.getRoot());
-            //     break;
                 
             default:
                 logger.warning("Unknown sidepane content type: " + contentType);
@@ -140,7 +249,11 @@ public class JobListPanel extends UiPart<Region> {
      * Refreshes the current sidepane content.
      */
     private void refreshSidepane() {
-        if (statisticsPanel != null) {
+        if (currentlyViewedJob != null && jobSpecificStatsPanel != null) {
+            // If we're viewing a specific job, update its statistics
+            jobSpecificStatsPanel.updateForJob(currentlyViewedJob);
+        } else if (statisticsPanel != null) {
+            // Otherwise refresh the general statistics
             statisticsPanel.refresh();
         }
     }
@@ -187,7 +300,8 @@ public class JobListPanel extends UiPart<Region> {
                 setGraphic(null);
                 setText(null);
             } else {
-                List<Application> applications = logic.getApplicationsByJob(job);
+                // Use the filtered applications instead of all applications
+                List<Application> applications = logic.getFilteredApplicationsByJob(job);
                 setGraphic(new JobCard(job, applications, getIndex() + 1).getRoot());
             }
         }
@@ -195,14 +309,11 @@ public class JobListPanel extends UiPart<Region> {
 
     /**
      * Enum to represent different types of content that can be displayed in the sidepane.
-     * This is for future extensibility.
      */
     public enum SidepaneContentType {
         STATISTICS,
+        JOB_DETAILS
         // Add more types in the future as needed
-        // JOB_DETAILS,
-        // APPLICANT_DETAILS,
-        // etc.
     }
     
     public List<Job> getJobList() {

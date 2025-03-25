@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -28,6 +29,8 @@ public class ModelManager implements Model {
     private final StackableFilteredList<Person> filteredPersons;
     private final StackableFilteredList<Job> filteredJobs;
     private final FilteredList<Application> filteredApplications;
+    private ViewState currentViewState = ViewState.PERSON_VIEW; // Default to person view
+    private String applicationStatusFilter; // Current status filter, null when no filter is active
 
     /**
      * Initializes a ModelManager with the given addressBook, applicationsManager,
@@ -287,6 +290,112 @@ public class ModelManager implements Model {
     public void updateFilteredApplicationList(Predicate<Application> predicate) {
         requireNonNull(predicate);
         filteredApplications.setPredicate(predicate);
+    }
+
+    @Override
+    public boolean isInJobView() {
+        return currentViewState == ViewState.JOB_VIEW;
+    }
+
+    @Override
+    public ViewState getCurrentViewState() {
+        return currentViewState;
+    }
+
+    @Override
+    public void setViewState(ViewState viewState) {
+        this.currentViewState = viewState;
+    }
+
+    /**
+     * Toggles between person view and job view.
+     * If in any job view, switches to person view.
+     * If in person view, switches to job view.
+     */
+    public void toggleJobView() {
+        if (isInJobView()) {
+            setViewState(ViewState.PERSON_VIEW);
+        } else {
+            setViewState(ViewState.JOB_VIEW);
+        }
+    }
+
+    // =========== Status Filter Methods ==========================================================================
+    
+    @Override
+    public void setApplicationStatusFilter(String status) {
+        this.applicationStatusFilter = status;
+        logger.info("Application status filter set to: " + status);
+    }
+    
+    @Override
+    public String getApplicationStatusFilter() {
+        return applicationStatusFilter;
+    }
+    
+    @Override
+    public void applyStatusFilter() {
+        if (applicationStatusFilter == null) {
+            // If no status filter, just reset all lists
+            resetFilteredPersonList();
+            resetFilteredJobList();
+            updateFilteredApplicationList(PREDICATE_SHOW_ALL_APPLICATIONS);
+            return;
+        }
+        
+        // Apply the status filter to the application list
+        Predicate<Application> statusPredicate = app -> 
+            Integer.toString(app.applicationStatus().applicationStatus).equals(applicationStatusFilter);
+        updateFilteredApplicationList(statusPredicate);
+        
+        // Get jobs that have applications with the matching status
+        List<Job> jobsWithMatchingApps = getFilteredApplicationList().stream()
+            .map(Application::job)
+            .distinct()
+            .collect(Collectors.toList());
+        
+        // Filter the job list to only show jobs with matching applications
+        updateFilteredJobList(job -> jobsWithMatchingApps.contains(job));
+        
+        // Get persons that have applications with the matching status
+        List<Person> personsWithMatchingApps = getFilteredApplicationList().stream()
+            .map(Application::applicant)
+            .distinct()
+            .collect(Collectors.toList());
+        
+        // Filter the person list to only show persons with matching applications
+        updateFilteredPersonList(person -> personsWithMatchingApps.contains(person));
+        
+        logger.info("Applied filter for status: " + applicationStatusFilter);
+        logger.info("Filtered to " + getFilteredApplicationList().size() + " applications");
+        logger.info("Filtered to " + getFilteredJobList().size() + " jobs");
+        logger.info("Filtered to " + getFilteredPersonList().size() + " persons");
+    }
+    
+    @Override
+    public void clearStatusFilter() {
+        applicationStatusFilter = null;
+        resetFilteredPersonList();
+        resetFilteredJobList();
+        updateFilteredApplicationList(PREDICATE_SHOW_ALL_APPLICATIONS);
+        logger.info("Status filter cleared, reset all filtered lists");
+    }
+
+    @Override
+    public List<Application> getFilteredApplicationsByJob(Job job) {
+        requireNonNull(job);
+        List<Application> allJobApplications = getApplicationsByJob(job);
+        
+        // If no status filter is active, return all applications for the job
+        if (applicationStatusFilter == null) {
+            return allJobApplications;
+        }
+        
+        // Filter applications by the current status filter
+        return allJobApplications.stream()
+                .filter(app -> Integer.toString(app.applicationStatus().applicationStatus)
+                        .equals(applicationStatusFilter))
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -20,16 +20,83 @@ public class CommandResult {
     private final boolean exit;
 
     /** Whether the job view should be shown. */
-    private final boolean toggleJobView;
+    private final boolean toggleView;
+
+    /** Whether the job view should be shown. */
+    private final boolean viewJob;
+
+    /** Whether the person view should be shown. */
+    private final boolean viewPerson;
+    
+    /** Whether to clear the current view. */
+    private final boolean clearView;
+
+    /** Job index. */
+    private final int jobIndex;
+
+    /** Person index. */
+    private final int personIndex;
 
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
-    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean toggleJobView) {
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean toggleView) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.showHelp = showHelp;
         this.exit = exit;
-        this.toggleJobView = toggleJobView;
+        this.toggleView = toggleView;
+        this.viewJob = false;
+        this.viewPerson = false;
+        this.clearView = false;
+        this.jobIndex = -1;
+        this.personIndex = -1;
+    }
+
+    /**
+     * Constructs a {@code CommandResult} with the specified fields including job viewing.
+     */
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean toggleView, 
+                         boolean viewJob, int jobIndex) {
+        this.feedbackToUser = requireNonNull(feedbackToUser);
+        this.showHelp = showHelp;
+        this.exit = exit;
+        this.toggleView = toggleView;
+        this.viewJob = viewJob;
+        this.viewPerson = false;
+        this.clearView = false;
+        this.jobIndex = jobIndex;
+        this.personIndex = -1;
+    }
+
+    /**
+     * Constructs a {@code CommandResult} with the specified fields including person viewing.
+     */
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean toggleView, 
+                         boolean viewJob, boolean viewPerson, int jobIndex, int personIndex) {
+        this.feedbackToUser = requireNonNull(feedbackToUser);
+        this.showHelp = showHelp;
+        this.exit = exit;
+        this.toggleView = toggleView;
+        this.viewJob = viewJob;
+        this.viewPerson = viewPerson;
+        this.clearView = false;
+        this.jobIndex = jobIndex;
+        this.personIndex = personIndex;
+    }
+    
+    /**
+     * Constructs a {@code CommandResult} with the clear view flag set.
+     */
+    public CommandResult(String feedbackToUser, boolean clearView) {
+        this.feedbackToUser = requireNonNull(feedbackToUser);
+        this.showHelp = false;
+        this.exit = false;
+        this.toggleView = false;
+        this.viewJob = false;
+        this.viewPerson = false;
+        this.clearView = clearView;
+        this.jobIndex = -1;
+        this.personIndex = -1;
     }
 
     /**
@@ -53,7 +120,27 @@ public class CommandResult {
     }
 
     public boolean setToggleView() {
-        return toggleJobView;
+        return toggleView;
+    }
+
+    public boolean isViewJob() {
+        return viewJob;
+    }
+
+    public boolean isViewPerson() {
+        return viewPerson;
+    }
+    
+    public boolean isClearView() {
+        return clearView;
+    }
+
+    public int getJobIndex() {
+        return jobIndex;
+    }
+
+    public int getPersonIndex() {
+        return personIndex;
     }
 
     @Override
@@ -70,12 +157,18 @@ public class CommandResult {
         CommandResult otherCommandResult = (CommandResult) other;
         return feedbackToUser.equals(otherCommandResult.feedbackToUser)
                 && showHelp == otherCommandResult.showHelp
-                && exit == otherCommandResult.exit;
+                && exit == otherCommandResult.exit
+                && toggleView == otherCommandResult.toggleView
+                && viewJob == otherCommandResult.viewJob
+                && viewPerson == otherCommandResult.viewPerson
+                && clearView == otherCommandResult.clearView
+                && jobIndex == otherCommandResult.jobIndex
+                && personIndex == otherCommandResult.personIndex;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(feedbackToUser, showHelp, exit);
+        return Objects.hash(feedbackToUser, showHelp, exit, toggleView, viewJob, viewPerson, clearView, jobIndex, personIndex);
     }
 
     @Override
@@ -84,6 +177,12 @@ public class CommandResult {
                 .add("feedbackToUser", feedbackToUser)
                 .add("showHelp", showHelp)
                 .add("exit", exit)
+                .add("toggleView", toggleView)
+                .add("viewJob", viewJob)
+                .add("viewPerson", viewPerson)
+                .add("clearView", clearView)
+                .add("jobIndex", jobIndex)
+                .add("personIndex", personIndex)
                 .toString();
     }
 }

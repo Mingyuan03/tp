@@ -42,6 +42,9 @@ public interface Logic {
     /** Returns an unmodifiable view of the filtered list of applications by job */
     List<Application> getApplicationsByJob(Job job);
 
+    /** Returns applications for a job filtered by current status filter */
+    List<Application> getFilteredApplicationsByJob(Job job);
+
     /** Returns an unmodifiable view of the filtered list of applications */
     List<Application> getApplicationsByPerson(Person person);
 
