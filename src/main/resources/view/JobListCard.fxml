@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
 
 <HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
@@ -18,27 +19,34 @@
       <padding>
         <Insets bottom="5" left="15" right="5" top="5" />
       </padding>
-      <!-- Title and ID -->
-      <HBox fx:id="jobTitleBox" alignment="CENTER_LEFT" spacing="5">
-        <Label fx:id="id" styleClass="cell_big_label" text="1" />
-        <Label fx:id="jobTitle" styleClass="cell_big_label" text="\$jobTitle" wrapText="true" />
-      </HBox>
-      <!-- Company -->
-      <HBox fx:id="companyBox" alignment="CENTER_LEFT" spacing="5">
-        <Label fx:id="company" styleClass="cell_small_label" text="\$company" />
-      </HBox>
-      <!-- Job Rounds -->
-      <HBox fx:id="jobRoundsBox" alignment="CENTER_LEFT" spacing="5">
-        <Label fx:id="jobRounds" styleClass="cell_small_label" text="\$jobRounds" />
-      </HBox>
-      <!-- Applications -->
-      <HBox fx:id="applicationsBox" alignment="CENTER_LEFT" spacing="5">
-        <Label fx:id="applications" styleClass="cell_small_label" text="\$applications" />
-      </HBox>
-      <!-- Applicants Preview - Changed to HBox -->
-      <HBox fx:id="applicantsPreview" styleClass="applicants-preview">
-        <!-- MiniPersonCards will be added here dynamically -->
-      </HBox>
+      <!-- Job Header -->
+      <VBox fx:id="jobHeaderContainer" spacing="5">
+        <!-- Title and ID -->
+        <HBox fx:id="jobTitleBox" alignment="CENTER_LEFT" spacing="5">
+          <Label fx:id="id" styleClass="cell_big_label" text="1" />
+          <Label fx:id="jobTitle" styleClass="cell_big_label" text="\$jobTitle" wrapText="true" />
+        </HBox>
+        
+        <!-- Job Info -->
+        <HBox spacing="15" alignment="CENTER_LEFT">
+          <!-- Job Rounds -->
+          <HBox fx:id="jobRoundsBox" alignment="CENTER_LEFT" spacing="5">
+            <Label fx:id="jobRounds" styleClass="cell_small_label" text="\$jobRounds" />
+          </HBox>
+          <!-- Applications -->
+          <HBox fx:id="applicationsBox" alignment="CENTER_LEFT" spacing="5">
+            <Label fx:id="applications" styleClass="cell_small_label" text="\$applications" />
+          </HBox>
+        </HBox>
+      </VBox>
+      
+      <!-- Applicants Container - TilePane for responsive grid layout -->
+      <TilePane fx:id="applicantsContainer" hgap="15" vgap="15" prefColumns="2">
+        <padding>
+          <Insets top="15" right="5" bottom="5" left="15" />
+        </padding>
+        <!-- Applicant cards will be added here dynamically -->
+      </TilePane>
     </VBox>
     <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

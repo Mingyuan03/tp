@@ -9,6 +9,7 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
@@ -17,6 +18,9 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -127,6 +131,9 @@ public class MainWindow extends UiPart<Stage> {
             // Show job list
             jobListPanelPlaceholder.setVisible(true);
             jobListPanelPlaceholder.setManaged(true);
+            
+            // Add filter sections to the sidebar only when in job view
+            addJobFilterSections();
         } else {
             personListPanel = new PersonListPanel(logic.getFilteredPersonList(), logic);
             personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
@@ -146,6 +153,36 @@ public class MainWindow extends UiPart<Stage> {
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+    }
+
+    /**
+     * Adds filter sections to the job list sidebar
+     */
+    private void addJobFilterSections() {
+        // Create a sample status filter
+        VBox statusFilter = new VBox();
+        statusFilter.setSpacing(5);
+        
+        CheckBox activeCheckbox = new CheckBox("Active");
+        CheckBox closedCheckbox = new CheckBox("Closed");
+        CheckBox interviewScheduledCheckbox = new CheckBox("Interview Scheduled");
+        
+        statusFilter.getChildren().addAll(activeCheckbox, closedCheckbox, interviewScheduledCheckbox);
+        
+        jobListPanel.addFilterSection("Job Status", statusFilter);
+        
+        // Create a sample date filter
+        VBox dateFilter = new VBox();
+        dateFilter.setSpacing(5);
+        
+        Label fromDateLabel = new Label("From:");
+        DatePicker fromDatePicker = new DatePicker();
+        Label toDateLabel = new Label("To:");
+        DatePicker toDatePicker = new DatePicker();
+        
+        dateFilter.getChildren().addAll(fromDateLabel, fromDatePicker, toDateLabel, toDatePicker);
+        
+        jobListPanel.addFilterSection("Date Posted", dateFilter);
     }
 
     /**
