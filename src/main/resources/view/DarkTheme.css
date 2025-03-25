@@ -309,7 +309,10 @@
 }
 
 #cardPane {
-    -fx-background-color: transparent;
+    -fx-background-color: #3a3a3a;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 5);
     -fx-border-width: 0;
 }
 
@@ -340,30 +343,36 @@
 
 #tags {
     -fx-hgap: 7;
-    -fx-vgap: 3;
+    -fx-vgap: 5;
 }
 
 #tags .label {
     -fx-text-fill: white;
     -fx-background-color: #3e7b91;
-    -fx-padding: 1 3 1 3;
-    -fx-border-radius: 2;
-    -fx-background-radius: 2;
-    -fx-font-size: 11;
+    -fx-padding: 3 8 3 8;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 2, 0, 0, 1);
 }
 
 #apps {
     -fx-hgap: 7;
-    -fx-vgap: 3;
+    -fx-vgap: 7;
 }
 
 #apps .label {
     -fx-text-fill: white;
-    -fx-background-color: #8e44ad;
-    -fx-padding: 1 3 1 3;
-    -fx-border-radius: 2;
-    -fx-background-radius: 2;
-    -fx-font-size: 11;
+    -fx-padding: 5;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 12px;
+    -fx-alignment: center-left;
+    -fx-wrap-text: true;
+    -fx-max-width: 250px;
 }
 
 .applications-icon {
@@ -873,4 +882,45 @@
     -fx-background-color: #2d2d30;
     -fx-padding: 10;
     -fx-spacing: 15;
+}
+
+/* Progress Bar Styling */
+.progress-bar {
+    -fx-accent: white;
+    -fx-control-inner-background: #1a1a1a;
+    -fx-background-radius: 3;
+    -fx-background-color: #1a1a1a;
+    -fx-border-radius: 3;
+    -fx-border-color: #333333;
+    -fx-border-width: 1;
+}
+
+.progress-bar > .bar {
+    -fx-background-color: white;
+    -fx-background-radius: 2;
+    -fx-background-insets: 1;
+    -fx-padding: 0.20em;
+}
+
+.progress-bar > .track {
+    -fx-background-color: #1a1a1a;
+    -fx-background-radius: 3;
+    -fx-background-insets: 0;
+}
+
+/* Custom Progress Bar IDs */
+#person-detail-progress-bar .bar {
+    -fx-background-color: white;
+}
+
+#person-detail-progress-bar .track {
+    -fx-background-color: #1a1a1a;
+}
+
+[id^="custom-progress-bar-"] .bar {
+    -fx-background-color: white;
+}
+
+[id^="custom-progress-bar-"] .track {
+    -fx-background-color: #1a1a1a;
 }

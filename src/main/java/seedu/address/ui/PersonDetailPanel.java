@@ -4,6 +4,7 @@ import java.util.List;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -31,6 +32,7 @@ public class PersonDetailPanel {
     private Label tagsLabel;
     private Label jobTitleLabel;
     private Label applicationStatusLabel;
+    private ProgressBar progressBar;
     
     /**
      * Creates a {@code PersonDetailPanel} with the given {@code Logic}.
@@ -77,8 +79,14 @@ public class PersonDetailPanel {
         
         // Update application information
         jobTitleLabel.setText(job.getJobTitle().jobTitle());
-        String applicationStatus = "Round " + application.applicationStatus().applicationStatus + " of " + job.getJobRounds().jobRounds;
+        int currentRound = application.applicationStatus().applicationStatus;
+        int maxRound = job.getJobRounds().jobRounds;
+        String applicationStatus = "Round " + currentRound + " of " + maxRound;
         applicationStatusLabel.setText(applicationStatus);
+        
+        // Update progress bar
+        double progress = (double) currentRound / maxRound;
+        progressBar.setProgress(progress);
     }
     
     /**
@@ -116,6 +124,30 @@ public class PersonDetailPanel {
         applicationStatusLabel = new Label("Application Status");
         applicationStatusLabel.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
         applicationBox.getChildren().add(applicationStatusLabel);
+        
+        // Add progress bar with white-on-black styling
+        Label progressLabel = new Label("Application Progress");
+        progressLabel.setStyle("-fx-text-fill: #aaaaaa; -fx-font-size: 14px; -fx-padding: 10 0 5 0;");
+        applicationBox.getChildren().add(progressLabel);
+        
+        progressBar = new ProgressBar(0);
+        progressBar.setPrefHeight(12);
+        progressBar.setMaxWidth(Double.MAX_VALUE);
+        progressBar.setStyle(
+            "-fx-accent: white !important; " +
+            "-fx-control-inner-background: #1a1a1a !important; " +
+            "-fx-background-radius: 3 !important; " +
+            "-fx-background-color: #1a1a1a !important; " +
+            "-fx-border-radius: 3 !important; " +
+            "-fx-border-color: #333333 !important; " +
+            "-fx-border-width: 1 !important; " +
+            "-fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.1), 1, 0, 0, 1) !important;"
+        );
+        
+        // Give the progress bar a unique ID for CSS targeting
+        progressBar.setId("person-detail-progress-bar");
+        
+        applicationBox.getChildren().add(progressBar);
         
         container.getChildren().add(applicationBox);
         
