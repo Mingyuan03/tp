@@ -132,8 +132,8 @@ public class MainWindow extends UiPart<Stage> {
             jobListPanelPlaceholder.setVisible(true);
             jobListPanelPlaceholder.setManaged(true);
             
-            // Add filter sections to the sidebar only when in job view
-            addJobFilterSections();
+            // We no longer call addJobFilterSections since we're using StatisticsSidebar
+            // which has its own implementation
         } else {
             personListPanel = new PersonListPanel(logic.getFilteredPersonList(), logic);
             personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
@@ -156,7 +156,9 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Adds filter sections to the job list sidebar
+     * Adds filter sections to the job list sidebar.
+     * Note: This method is currently not used as we've implemented StatisticsSidebar instead.
+     * It's kept for reference in case we want to add filters in the future.
      */
     private void addJobFilterSections() {
         // Create a sample status filter
@@ -169,7 +171,8 @@ public class MainWindow extends UiPart<Stage> {
         
         statusFilter.getChildren().addAll(activeCheckbox, closedCheckbox, interviewScheduledCheckbox);
         
-        jobListPanel.addFilterSection("Job Status", statusFilter);
+        // This method is no longer available in JobListPanel
+        // jobListPanel.addFilterSection("Job Status", statusFilter);
         
         // Create a sample date filter
         VBox dateFilter = new VBox();
@@ -182,7 +185,8 @@ public class MainWindow extends UiPart<Stage> {
         
         dateFilter.getChildren().addAll(fromDateLabel, fromDatePicker, toDateLabel, toDatePicker);
         
-        jobListPanel.addFilterSection("Date Posted", dateFilter);
+        // This method is no longer available in JobListPanel
+        // jobListPanel.addFilterSection("Date Posted", dateFilter);
     }
 
     /**

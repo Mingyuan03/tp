@@ -590,9 +590,12 @@
 
 /* Sidebar Styling */
 .sidebar-container {
-    -fx-background-color: #2A2E33;
-    -fx-border-color: #444;
-    -fx-border-width: 0 1 0 0;
+    -fx-min-width: 350px;
+    -fx-pref-width: 350px;
+    -fx-max-width: 450px;
+    -fx-background-color: derive(#1d1d1d, 10%);
+    -fx-border-color: derive(#1d1d1d, 30%);
+    -fx-border-width: 0 0 0 1;
 }
 
 .sidebar-header {
@@ -637,6 +640,237 @@
 
 /* Style the SplitPane divider for the sidebar */
 #splitPane > .split-pane-divider {
-    -fx-background-color: #444;
-    -fx-padding: 0 1 0 1;
+    -fx-background-color: derive(#1d1d1d, 30%);
+    -fx-padding: 0 1px 0 1px;
+}
+
+/* Hide scrollbars in SplitPane */
+.split-pane .scroll-bar:vertical,
+.split-pane .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+}
+
+.split-pane .corner {
+    -fx-background-color: transparent;
+}
+
+/* Ensure scrollbars are hidden in any containers within SplitPane */
+.split-pane * .scroll-bar:vertical,
+.split-pane * .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+}
+
+/* List container styling */
+.job-list-container {
+    -fx-min-width: 350px;
+    -fx-pref-width: 500px;
+}
+
+/* Statistics Panel Styling */
+.statistics-container {
+    -fx-background-color: #2d2d30;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-padding: 15;
+}
+
+.chart {
+    -fx-padding: 10;
+    -fx-background-color: transparent;
+}
+
+.chart-title {
+    -fx-text-fill: #e7e7e7;
+    -fx-font-size: 14pt;
+    -fx-font-weight: bold;
+}
+
+.chart-legend {
+    -fx-background-color: transparent;
+}
+
+.chart-legend-item {
+    -fx-text-fill: #e7e7e7;
+}
+
+/* Pie Chart Styling */
+.pie-chart {
+    -fx-background-color: transparent;
+}
+
+.pie-chart .chart-content {
+    -fx-padding: 10;
+}
+
+.pie-chart .chart-pie {
+    -fx-border-color: #2d2d30;
+    -fx-border-width: 1;
+}
+
+.pie-chart .data0.chart-pie { -fx-pie-color: #3e7b91; }
+.pie-chart .data1.chart-pie { -fx-pie-color: #f39c12; }
+.pie-chart .data2.chart-pie { -fx-pie-color: #e74c3c; }
+.pie-chart .data3.chart-pie { -fx-pie-color: #2ecc71; }
+.pie-chart .data4.chart-pie { -fx-pie-color: #9b59b6; }
+.pie-chart .data5.chart-pie { -fx-pie-color: #1abc9c; }
+.pie-chart .data6.chart-pie { -fx-pie-color: #d35400; }
+.pie-chart .data7.chart-pie { -fx-pie-color: #95a5a6; }
+
+.pie-chart .chart-pie-label {
+    -fx-fill: #e7e7e7;
+    -fx-font-size: 10pt;
+}
+
+/* Bar Chart Styling */
+.bar-chart {
+    -fx-background-color: transparent;
+    -fx-legend-visible: true;
+}
+
+.bar-chart .chart-content {
+    -fx-padding: 10;
+}
+
+.bar-chart .axis {
+    -fx-tick-label-fill: #e7e7e7;
+    -fx-tick-length: 10;
+    -fx-minor-tick-length: 5;
+    -fx-tick-label-font-size: 9pt;
+}
+
+.bar-chart .axis-label {
+    -fx-text-fill: #e7e7e7;
+    -fx-font-size: 10pt;
+}
+
+.bar-chart .chart-bar {
+    -fx-bar-fill: #3e7b91;
+    -fx-background-radius: 3;
+}
+
+.bar-chart .series0.chart-bar { -fx-bar-fill: #3e7b91; }
+.bar-chart .series1.chart-bar { -fx-bar-fill: #f39c12; }
+.bar-chart .series2.chart-bar { -fx-bar-fill: #e74c3c; }
+
+.no-data-label {
+    -fx-text-fill: #e7e7e7;
+    -fx-font-size: 14pt;
+    -fx-font-style: italic;
+    -fx-alignment: center;
+}
+
+/* Sidebar Chart Title Styling */
+.chart-section-title {
+    -fx-font-size: 14pt;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e7e7e7;
+    -fx-padding: 5 0 5 0;
+}
+
+.sidebar-title {
+    -fx-font-size: 16pt;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e7e7e7;
+    -fx-padding: 0 10 0 0;
+}
+
+.sidebar-section-label {
+    -fx-font-size: 12pt;
+    -fx-font-weight: bold;
+    -fx-text-fill: #b3b3b3;
+    -fx-padding: 10 0 5 0;
+}
+
+/* Chart size customization - make charts more visible */
+.pie-chart, .bar-chart {
+    -fx-min-height: 250px;
+    -fx-pref-height: 250px;
+    -fx-background-color: #2d2d30;
+    -fx-padding: 10;
+    -fx-legend-visible: true;
+    -fx-legend-side: RIGHT;
+    -fx-border-color: #444;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+}
+
+/* CRITICAL: This ensures the chart content is rendered */
+.chart-content {
+    -fx-padding: 10px;
+    -fx-background-color: #2d2d30;
+}
+
+/* Make chart plot area visible */
+.chart-plot-background {
+    -fx-background-color: #2d2d30;
+}
+
+/* Make pie chart labels more visible */
+.chart-pie-label {
+    -fx-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+/* Make pie chart slices more prominent */
+.chart-pie {
+    -fx-border-color: #2d2d30;
+    -fx-border-width: 2px;
+}
+
+/* Force pie colors to be bright */
+.default-color0.chart-pie { -fx-pie-color: #3e7b91; }
+.default-color1.chart-pie { -fx-pie-color: #f39c12; }
+.default-color2.chart-pie { -fx-pie-color: #e74c3c; }
+.default-color3.chart-pie { -fx-pie-color: #2ecc71; }
+.default-color4.chart-pie { -fx-pie-color: #9b59b6; }
+
+/* Make bar chart bars more visible */
+.chart-bar {
+    -fx-bar-fill: #3e7b91;
+    -fx-background-color: #3e7b91;
+    -fx-background-radius: 3;
+    -fx-border-color: transparent;
+}
+
+.default-color0.chart-bar { -fx-bar-fill: #3e7b91; }
+.default-color1.chart-bar { -fx-bar-fill: #f39c12; }
+.default-color2.chart-bar { -fx-bar-fill: #e74c3c; }
+
+/* Make axis labels visible */
+.axis {
+    -fx-tick-label-fill: #e7e7e7;
+    -fx-font-size: 10px;
+}
+
+.axis-label {
+    -fx-text-fill: #e7e7e7;
+}
+
+/* Chart section title styling */
+.chart-section-title {
+    -fx-font-size: 16pt;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e7e7e7;
+    -fx-padding: 15 0 10 0;
+}
+
+/* Improve no-data message visibility */
+.no-data-label {
+    -fx-text-fill: #e7e7e7;
+    -fx-font-size: 14pt;
+    -fx-font-style: italic;
+    -fx-padding: 20px;
+    -fx-alignment: center;
+}
+
+/* Sidebar content styling */
+.statistics-container {
+    -fx-background-color: #2d2d30;
+    -fx-padding: 10;
+    -fx-spacing: 15;
 }
