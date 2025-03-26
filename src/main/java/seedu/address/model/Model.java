@@ -198,18 +198,6 @@ public interface Model {
      */
     Application advanceApplication(Application application, int rounds);
 
-    /**
-     * Returns a list of applications associated with a specific person.
-     * @return A list of applications associated with the person
-     */
-    List<Application> getApplicationsByPerson(Person person);
-
-    /**
-     * Returns a list of applications associated with a specific job.
-     * @return A list of applications associated with the job
-     */
-    List<Application> getApplicationsByJob(Job job);
-
     /** Returns an unmodifiable view of the filtered application list */
     ObservableList<Application> getFilteredApplicationList();
 
@@ -250,11 +238,13 @@ public interface Model {
     void toggleJobView();
     
     /**
-     * Returns true if the current view is job view or job detail view.
+     * Returns true if the current view is job-related and can access job listings and operations.
+     * This includes JOB_VIEW, JOB_DETAIL_VIEW, and PERSON_DETAIL_VIEW (since it shows person details within a job context).
      */
     default boolean isInJobView() {
         return getCurrentViewState() == ViewState.JOB_VIEW 
-            || getCurrentViewState() == ViewState.JOB_DETAIL_VIEW;
+            || getCurrentViewState() == ViewState.JOB_DETAIL_VIEW
+            || getCurrentViewState() == ViewState.PERSON_DETAIL_VIEW;
     }
     
     /**
@@ -281,11 +271,20 @@ public interface Model {
     void clearStatusFilter();
     
     /**
-     * Gets a filtered list of applications for a specific job based on the current status filter.
+     * Gets a list of applications for a specific job, respecting any active status filters.
      * If no status filter is active, returns all applications for the job.
      * 
      * @param job The job to get applications for
-     * @return Filtered list of applications for the job
+     * @return List of applications for the job, filtered by status if applicable
      */
-    List<Application> getFilteredApplicationsByJob(Job job);
+    List<Application> getApplicationsByJob(Job job);
+    
+    /**
+     * Gets a list of applications for a specific person, respecting any active status filters.
+     * If no status filter is active, returns all applications for the person.
+     * 
+     * @param person The person to get applications for
+     * @return List of applications for the person, filtered by status if applicable
+     */
+    List<Application> getApplicationsByPerson(Person person);
 }

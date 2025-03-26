@@ -201,20 +201,20 @@ public class StatisticsChartPanel {
         // Prepare the data with consistent order to get predictable colors
         List<Job> sortedJobs = jobs.stream()
             .filter(job -> {
-                List<Application> applications = logic.getFilteredApplicationsByJob(job);
+                List<Application> applications = logic.getApplicationsByJob(job);
                 return applications != null && !applications.isEmpty();
             })
             .sorted((job1, job2) -> {
                 // Sort by number of applications (descending)
-                List<Application> apps1 = logic.getFilteredApplicationsByJob(job1);
-                List<Application> apps2 = logic.getFilteredApplicationsByJob(job2);
+                List<Application> apps1 = logic.getApplicationsByJob(job1);
+                List<Application> apps2 = logic.getApplicationsByJob(job2);
                 return Integer.compare(apps2.size(), apps1.size());
             })
             .toList();
             
         // Add data in a consistent order
         for (Job job : sortedJobs) {
-            List<Application> applications = logic.getFilteredApplicationsByJob(job);
+            List<Application> applications = logic.getApplicationsByJob(job);
             int appCount = applications.size();
             String jobName = job.getJobTitle().jobTitle();
             pieChartData.add(new PieChart.Data(jobName, appCount));
@@ -247,7 +247,7 @@ public class StatisticsChartPanel {
         // Collect all unique persons from applications
         for (Job job : jobs) {
             // Use filtered applications to respect status filter
-            List<Application> applications = logic.getFilteredApplicationsByJob(job);
+            List<Application> applications = logic.getApplicationsByJob(job);
             if (applications != null) {
                 for (Application app : applications) {
                     Person person = app.applicant();
@@ -330,7 +330,7 @@ public class StatisticsChartPanel {
         
         for (Job job : jobs) {
             // Use filtered applications to respect status filter
-            List<Application> applications = logic.getFilteredApplicationsByJob(job);
+            List<Application> applications = logic.getApplicationsByJob(job);
             if (applications != null) {
                 totalApplications += applications.size();
                 

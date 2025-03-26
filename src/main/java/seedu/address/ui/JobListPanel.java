@@ -9,7 +9,6 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.Logic;
 import seedu.address.model.application.Application;
@@ -103,12 +102,11 @@ public class JobListPanel extends UiPart<Region> {
     
     /**
      * Shows statistics specific to the given job.
-     * 
      * @param job The job to show statistics for
      */
     public void showJobSpecificStatistics(Job job) {
         if (job == null) {
-            showGeneralStatistics();
+            showGeneralStatistics(); //If no job selected, show general statistics
             return;
         }
         
@@ -116,7 +114,7 @@ public class JobListPanel extends UiPart<Region> {
         
         // Create a job-specific stats panel if needed
         if (jobSpecificStatsPanel == null) {
-            jobSpecificStatsPanel = new JobSpecificStatsPanel(logic);
+            jobSpecificStatsPanel = new JobSpecificStatsPanel(logic); //Else create a new job-specific stats panel
         }
         
         // Update the panel with the job data
@@ -155,8 +153,8 @@ public class JobListPanel extends UiPart<Region> {
      */
     public void showPersonDetails(Job job, int applicationIndex) {
         if (job == null) {
-            showGeneralStatistics();
-            return;
+            showGeneralStatistics(); //If no job selected, show general statistics
+            return; //We use job to filter applicants first
         }
         
         List<Application> applications = logic.getApplicationsByJob(job);
@@ -168,7 +166,7 @@ public class JobListPanel extends UiPart<Region> {
         Application application = applications.get(applicationIndex);
         Person person = application.applicant();
         
-        if (person == null) {
+        if (person == null) { //Check if person is null
             showGeneralStatistics();
             return;
         }
@@ -182,7 +180,7 @@ public class JobListPanel extends UiPart<Region> {
         }
         
         // Update the panel with the person data
-        personDetailPanel.updateForPerson(person, job, application);
+        personDetailPanel.updateForPerson(currentlyViewedPerson, currentlyViewedJob, application);
         
         // Show the person detail panel
         if (splitPane != null && splitPane.getItems().size() > 1) {
@@ -231,6 +229,20 @@ public class JobListPanel extends UiPart<Region> {
                 // We use the job-specific stats for this now
                 if (currentlyViewedJob != null) {
                     showJobSpecificStatistics(currentlyViewedJob);
+                }
+                break;
+                
+            case PERSON_DETAILS:
+                if (currentlyViewedJob != null && currentlyViewedPerson != null) {
+                    // We need to find the application to pass to showPersonDetails
+                    List<Application> applications = logic.getApplicationsByJob(currentlyViewedJob);
+                    for (int i = 0; i < applications.size(); i++) {
+                        Application app = applications.get(i);
+                        if (app.applicant().equals(currentlyViewedPerson)) {
+                            showPersonDetails(currentlyViewedJob, i);
+                            break;
+                        }
+                    }
                 }
                 break;
                 
@@ -301,7 +313,7 @@ public class JobListPanel extends UiPart<Region> {
                 setText(null);
             } else {
                 // Use the filtered applications instead of all applications
-                List<Application> applications = logic.getFilteredApplicationsByJob(job);
+                List<Application> applications = logic.getApplicationsByJob(job);
                 setGraphic(new JobCard(job, applications, getIndex() + 1).getRoot());
             }
         }
@@ -312,8 +324,8 @@ public class JobListPanel extends UiPart<Region> {
      */
     public enum SidepaneContentType {
         STATISTICS,
-        JOB_DETAILS
-        // Add more types in the future as needed
+        JOB_DETAILS,
+        PERSON_DETAILS
     }
     
     public List<Job> getJobList() {

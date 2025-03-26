@@ -39,13 +39,10 @@ public interface Logic {
     /** Returns an unmodifiable view of the filtered list of jobs */
     ObservableList<Job> getFilteredJobList();
 
-    /** Returns an unmodifiable view of the filtered list of applications by job */
+    /** Returns filtered list of applications for a job */
     List<Application> getApplicationsByJob(Job job);
 
-    /** Returns applications for a job filtered by current status filter */
-    List<Application> getFilteredApplicationsByJob(Job job);
-
-    /** Returns an unmodifiable view of the filtered list of applications */
+    /** Returns filtered list of applications for a person */
     List<Application> getApplicationsByPerson(Person person);
 
     /**

@@ -80,11 +80,6 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public List<Application> getFilteredApplicationsByJob(Job job) {
-        return model.getFilteredApplicationsByJob(job);
-    }
-
-    @Override
     public List<Application> getApplicationsByPerson(Person person) {
         return model.getApplicationsByPerson(person);
     }

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.Comparator;
 
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -270,18 +271,6 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public List<Application> getApplicationsByPerson(Person person) {
-        requireNonNull(person);
-        return applicationsManager.getApplicationsByPerson(person);
-    }
-
-    @Override
-    public List<Application> getApplicationsByJob(Job job) {
-        requireNonNull(job);
-        return applicationsManager.getApplicationsByJob(job);
-    }
-
-    @Override
     public ObservableList<Application> getFilteredApplicationList() {
         return filteredApplications;
     }
@@ -294,7 +283,9 @@ public class ModelManager implements Model {
 
     @Override
     public boolean isInJobView() {
-        return currentViewState == ViewState.JOB_VIEW;
+        return currentViewState == ViewState.JOB_VIEW
+            || currentViewState == ViewState.JOB_DETAIL_VIEW
+            || currentViewState == ViewState.PERSON_DETAIL_VIEW;
     }
 
     @Override
@@ -382,9 +373,10 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public List<Application> getFilteredApplicationsByJob(Job job) {
+    public List<Application> getApplicationsByJob(Job job) {
         requireNonNull(job);
-        List<Application> allJobApplications = getApplicationsByJob(job);
+        // Get all applications for the job directly from the manager
+        List<Application> allJobApplications = applicationsManager.getApplicationsByJob(job);
         
         // If no status filter is active, return all applications for the job
         if (applicationStatusFilter == null) {
@@ -393,6 +385,24 @@ public class ModelManager implements Model {
         
         // Filter applications by the current status filter
         return allJobApplications.stream()
+                .filter(app -> Integer.toString(app.applicationStatus().applicationStatus)
+                        .equals(applicationStatusFilter))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Application> getApplicationsByPerson(Person person) {
+        requireNonNull(person);
+        // Get all applications for the person directly from the manager
+        List<Application> allPersonApplications = applicationsManager.getApplicationsByPerson(person);
+        
+        // If no status filter is active, return all applications for the person
+        if (applicationStatusFilter == null) {
+            return allPersonApplications;
+        }
+        
+        // Filter applications by the current status filter
+        return allPersonApplications.stream()
                 .filter(app -> Integer.toString(app.applicationStatus().applicationStatus)
                         .equals(applicationStatusFilter))
                 .collect(Collectors.toList());

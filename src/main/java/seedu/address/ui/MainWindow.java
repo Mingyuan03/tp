@@ -40,7 +40,9 @@ public class MainWindow extends UiPart<Stage> {
     private PersonListPanel personListPanel;
     private JobListPanel jobListPanel;
     private ResultDisplay resultDisplay;
+    private StatusBarFooter statusBarFooter;
     private HelpWindow helpWindow;
+    private ViewStateIndicator viewStateIndicator;
     private boolean isJobView = false;
     private int selectedJobIndex = -1; // -1 means no job selected
 
@@ -62,7 +64,8 @@ public class MainWindow extends UiPart<Stage> {
     @FXML
     private StackPane jobListPanelPlaceholder;
 
-
+    @FXML
+    private StackPane viewStateIndicatorPlaceholder;
 
     /**
      * Creates a {@code MainWindow} with the given {@code Stage} and {@code Logic}.
@@ -124,42 +127,104 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
+        // Initialize status bar first (only once)
+        if (statusBarFooter == null) {
+            statusBarFooter = new StatusBarFooter(logic.getAddressBookFilePath());
+            statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
+        }
+        
+        // Initialize view state indicator
+        if (viewStateIndicator == null) {
+            viewStateIndicator = new ViewStateIndicator();
+            viewStateIndicatorPlaceholder.getChildren().add(viewStateIndicator.getRoot());
+        }
+        
+        // Update the view state indicator
+        updateViewStateIndicator();
+        
+        // Initialize the appropriate view
         if (isJobView) {
-            jobListPanel = new JobListPanel(logic.getFilteredJobList(), logic);
-            jobListPanelPlaceholder.getChildren().add(jobListPanel.getRoot());
-            // Hide person list completely
-            personListPanelPlaceholder.setVisible(false);
-            personListPanelPlaceholder.setManaged(false);
-            // Show job list
-            jobListPanelPlaceholder.setVisible(true);
-            jobListPanelPlaceholder.setManaged(true);
-            
-            // If a job is selected, show its specific statistics
-            if (selectedJobIndex >= 0 && selectedJobIndex < logic.getFilteredJobList().size()) {
-                viewJobStatistics(selectedJobIndex);
-            }
+            initJobView();
         } else {
-            personListPanel = new PersonListPanel(logic.getFilteredPersonList(), logic);
-            personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
-            // Hide job list completely
-            jobListPanelPlaceholder.setVisible(false);
-            jobListPanelPlaceholder.setManaged(false);
-            // Show person list
-            personListPanelPlaceholder.setVisible(true);
-            personListPanelPlaceholder.setManaged(true);
-            
-            // Reset job selection when switching to person view
-            selectedJobIndex = -1;
+            initPersonView();
         }
 
-        resultDisplay = new ResultDisplay();
-        resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
+        // Initialize components that are always present
+        if (resultDisplay == null) {
+            resultDisplay = new ResultDisplay();
+            resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
+        }
 
-        StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getAddressBookFilePath());
-        statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
+        if (commandBoxPlaceholder.getChildren().isEmpty()) {
+            CommandBox commandBox = new CommandBox(this::executeCommand);
+            commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+        }
+    }
+    
+    /**
+     * Initializes the job view components.
+     */
+    private void initJobView() {
+        // Clear person list placeholder
+        personListPanelPlaceholder.getChildren().clear();
+        
+        // Create job list panel if needed
+        jobListPanel = new JobListPanel(logic.getFilteredJobList(), logic);
+        jobListPanelPlaceholder.getChildren().clear();
+        jobListPanelPlaceholder.getChildren().add(jobListPanel.getRoot());
+        
+        // Hide person list completely
+        personListPanelPlaceholder.setVisible(false);
+        personListPanelPlaceholder.setManaged(false);
+        
+        // Show job list
+        jobListPanelPlaceholder.setVisible(true);
+        jobListPanelPlaceholder.setManaged(true);
+        
+        // If a job is selected, show its specific statistics
+        if (selectedJobIndex >= 0 && selectedJobIndex < logic.getFilteredJobList().size()) {
+            viewJobStatistics(selectedJobIndex);
+        }
+    }
+    
+    /**
+     * Initializes the person view components.
+     */
+    private void initPersonView() {
+        // Clear job list placeholder
+        jobListPanelPlaceholder.getChildren().clear();
+        
+        // Create person list panel if needed
+        personListPanel = new PersonListPanel(logic.getFilteredPersonList(), logic);
+        personListPanelPlaceholder.getChildren().clear();
+        personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
+        
+        // Hide job list completely
+        jobListPanelPlaceholder.setVisible(false);
+        jobListPanelPlaceholder.setManaged(false);
+        
+        // Show person list
+        personListPanelPlaceholder.setVisible(true);
+        personListPanelPlaceholder.setManaged(true);
+        
+        // Reset job selection when switching to person view
+        selectedJobIndex = -1;
+    }
 
-        CommandBox commandBox = new CommandBox(this::executeCommand);
-        commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+    /**
+     * Updates the view state indicator with the current view state.
+     */
+    private void updateViewStateIndicator() {
+        if (viewStateIndicator != null) {
+            if (logic instanceof Model) {
+                Model model = (Model) logic;
+                viewStateIndicator.updateViewState(model.getCurrentViewState());
+            } else {
+                // If logic is not a Model, use isJobView to determine the state
+                viewStateIndicator.updateViewState(isJobView ? 
+                    Model.ViewState.JOB_VIEW : Model.ViewState.PERSON_VIEW);
+            }
+        }
     }
 
     /**
@@ -179,6 +244,7 @@ public class MainWindow extends UiPart<Stage> {
             // Set the model to job detail view
             if (logic instanceof Model) {
                 ((Model) logic).setViewState(Model.ViewState.JOB_DETAIL_VIEW);
+                updateViewStateIndicator();
             }
             
             if (jobListPanel != null) {
@@ -205,6 +271,7 @@ public class MainWindow extends UiPart<Stage> {
         // Set the model to regular job view
         if (logic instanceof Model) {
             ((Model) logic).setViewState(Model.ViewState.JOB_VIEW);
+            updateViewStateIndicator();
         }
         
         if (isJobView && jobListPanel != null) {
@@ -280,9 +347,16 @@ public class MainWindow extends UiPart<Stage> {
      */
     public void toggleJobView() {
         this.isJobView = !this.isJobView;
-        personListPanelPlaceholder.getChildren().clear();
-        jobListPanelPlaceholder.getChildren().clear();
-        fillInnerParts();
+        
+        // Update the UI for the new view
+        if (isJobView) {
+            initJobView();
+        } else {
+            initPersonView();
+        }
+        
+        // Update view state indicator
+        updateViewStateIndicator();
     }
 
     public PersonListPanel getPersonListPanel() {
@@ -300,31 +374,6 @@ public class MainWindow extends UiPart<Stage> {
      */
     private CommandResult executeCommand(String commandText) throws CommandException, ParseException {
         try {
-            // Reset from detail view if not a view-specific command
-            // These commands are exempt as they explicitly manage view state
-            boolean isViewCommand = commandText.trim().startsWith("viewjob") || 
-                                   commandText.trim().startsWith("viewperson") ||
-                                   commandText.trim().startsWith("clearview");
-            
-            if (!isViewCommand && logic instanceof Model) {
-                Model model = (Model) logic;
-                Model.ViewState currentState = model.getCurrentViewState();
-                
-                // Reset to regular job view if currently in a detail view
-                if (currentState == Model.ViewState.JOB_DETAIL_VIEW || 
-                    currentState == Model.ViewState.PERSON_DETAIL_VIEW) {
-                    model.setViewState(Model.ViewState.JOB_VIEW);
-                    resetJobSelection();
-                    
-                    // Refresh to show statistics
-                    if (jobListPanel != null) {
-                        jobListPanel.showGeneralStatistics();
-                    }
-                    
-                    logger.info("Reset from detail view to job view for command: " + commandText);
-                }
-            }
-            
             CommandResult commandResult = logic.execute(commandText);
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
@@ -333,14 +382,10 @@ public class MainWindow extends UiPart<Stage> {
                 handleHelp();
             }
 
-            if (commandResult.isExit()) {
-                handleExit();
-            }
-
             if (commandResult.setToggleView()) {
                 toggleJobView();
             }
-            
+
             if (commandResult.isViewJob()) {
                 viewJobStatistics(commandResult.getJobIndex());
             }
@@ -348,14 +393,17 @@ public class MainWindow extends UiPart<Stage> {
             if (commandResult.isViewPerson()) {
                 viewPersonDetails(commandResult.getJobIndex(), commandResult.getPersonIndex());
             }
-            
-            if (commandResult.isClearView()) {
-                clearView();
+
+            if (commandResult.isExit()) {
+                handleExit();
             }
+            
+            // Update view state indicator after command execution
+            updateViewStateIndicator();
 
             return commandResult;
         } catch (CommandException | ParseException e) {
-            logger.info("An error occurred while executing command: " + commandText);
+            logger.info("Invalid command: " + commandText);
             resultDisplay.setFeedbackToUser(e.getMessage());
             throw e;
         }

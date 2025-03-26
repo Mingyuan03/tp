@@ -15,6 +15,7 @@ public class ViewJobCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Viewing job at index: %1$d";
     public static final String MESSAGE_INVALID_JOB_INDEX = "The job index provided is invalid";
+    public static final String MESSAGE_NOT_IN_JOB_VIEW = "Please switch to job view first using 'switchview' command.";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Views the detailed information of a job. "
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
@@ -28,6 +29,11 @@ public class ViewJobCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        // Check if in an appropriate view that has job listings
+        if (model.getCurrentViewState() == Model.ViewState.PERSON_VIEW) {
+            throw new CommandException(MESSAGE_NOT_IN_JOB_VIEW);
+        }
 
         if (targetIndex.getZeroBased() >= model.getFilteredJobList().size()) {
             throw new CommandException(MESSAGE_INVALID_JOB_INDEX);
