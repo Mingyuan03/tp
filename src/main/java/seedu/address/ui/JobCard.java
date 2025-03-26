@@ -87,8 +87,9 @@ public class JobCard extends UiPart<Region> {
         
         if (!applications.isEmpty()) {
             // Add each applicant card to the TilePane
+            int[] index = {0}; // Use array to allow modification in lambda
             applications.stream()
-                    .map(application -> createDetailedMiniPersonCard(application))
+                    .map(application -> createDetailedMiniPersonCard(application, index[0]++))
                     .forEach(miniCard -> applicantsContainer.getChildren().add(miniCard));
         } else {
             Label noApplicantsLabel = new Label("No applications yet");
@@ -99,15 +100,25 @@ public class JobCard extends UiPart<Region> {
     
     /**
      * Creates a detailed mini person card for each applicant
+     * 
+     * @param application The application to display
+     * @param displayIndex The index to display (0-based)
+     * @return A VBox containing the mini person card
      */
-    private VBox createDetailedMiniPersonCard(Application application) {
+    private VBox createDetailedMiniPersonCard(Application application, int displayIndex) {
         // Container for the mini card - using VBox for TilePane layout
         VBox miniCard = new VBox(10);
         miniCard.getStyleClass().add("mini-card");
         miniCard.setPrefWidth(320);
         
-        // Header with name
-        HBox nameBox = new HBox(5);
+        // Header with index and name
+        HBox nameBox = new HBox(8);
+        
+        // Add the index label
+        Label indexLabel = new Label(displayIndex + 1 + ""); // Convert to 1-based index
+        indexLabel.getStyleClass().add("mini-card-index");
+        nameBox.getChildren().add(indexLabel);
+        
         nameBox.getChildren().add(IconUtil.createIcon(FontAwesomeIcon.USER, "white"));
         Label nameLabel = new Label(application.applicant().getName().fullName);
         nameLabel.getStyleClass().add("mini-card-name");

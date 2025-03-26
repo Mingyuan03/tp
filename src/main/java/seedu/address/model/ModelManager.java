@@ -346,7 +346,15 @@ public class ModelManager implements Model {
             .collect(Collectors.toList());
         
         // Filter the job list to only show jobs with matching applications
-        updateFilteredJobList(job -> jobsWithMatchingApps.contains(job));
+        updateFilteredJobList(job -> {
+            // Only include jobs that have matching applications after filtering
+            if (!jobsWithMatchingApps.contains(job)) {
+                return false; // Job has no applications matching the filter
+            }
+            
+            // Include this job since it has at least one application matching the filter
+            return true;
+        });
         
         // Get persons that have applications with the matching status
         List<Person> personsWithMatchingApps = getFilteredApplicationList().stream()

@@ -21,5 +21,6 @@ public class CliSyntax {
     public static final Prefix PREFIX_JOB_ADDRESS = new Prefix("ja/");
     public static final Prefix PREFIX_EMPLOYMENT_TYPE = new Prefix("em/"); // Correspond to job type.
     public static final Prefix PREFIX_JOB_INDEX = new Prefix("j/");
+    public static final Prefix PREFIX_PERSON_INDEX = new Prefix("p/");
     public static final Prefix PREFIX_STATUS = new Prefix("st/");
 }

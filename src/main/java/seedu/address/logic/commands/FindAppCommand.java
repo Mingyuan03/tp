@@ -12,6 +12,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.application.Application;
 import seedu.address.model.job.Job;
 
 /**
@@ -64,6 +65,7 @@ public class FindAppCommand extends Command {
         
         String feedbackMessage = String.format(MESSAGE_SUCCESS, status);
         boolean shouldClearView = false;
+        boolean shouldRefreshJobView = model.isInJobView(); // Set to true if in job view
         
         // Check if we need to reset the view
         if (model.getCurrentViewState() == Model.ViewState.JOB_DETAIL_VIEW || 
@@ -73,7 +75,7 @@ public class FindAppCommand extends Command {
             shouldClearView = true;
         }
         
-        // First, set the global status filter
+        // Set the global status filter
         model.setApplicationStatusFilter(status);
         
         if (jobIndex.isPresent()) {
@@ -93,19 +95,20 @@ public class FindAppCommand extends Command {
                 Job jobToFilter = lastShownList.get(jobIndex.get().getZeroBased());
                 logger.info("Filtering applications for job: " + jobToFilter.getJobTitle().jobTitle());
                 
-                // Set status filter
-                model.setApplicationStatusFilter(status);
-                
-                // Apply filter but also restrict to this specific job
+                // Apply filter for this specific job AND with the specified status
+                // First apply the global status filter
                 model.applyStatusFilter();
                 
-                // Further filter applications to just this job
-                model.updateFilteredApplicationList(app -> 
-                    app.job().equals(jobToFilter) && 
-                    Integer.toString(app.applicationStatus().applicationStatus).equals(status));
+                // Then get applications that are both for this job AND have the specified status
+                List<Application> filteredJobApps = model.getApplicationsByJob(jobToFilter);
                 
-                // Check if we have any matches
-                if (model.getFilteredApplicationList().isEmpty()) {
+                // Update the application list to only show these applications
+                model.updateFilteredApplicationList(app -> filteredJobApps.contains(app));
+                
+                // Update job list to show only this job if it has matching applications
+                if (!filteredJobApps.isEmpty()) {
+                    model.updateFilteredJobList(job -> job.equals(jobToFilter));
+                } else {
                     // No applications found with that status for that job
                     model.clearStatusFilter();
                     feedbackMessage = String.format(MESSAGE_NO_MATCHES, status);
@@ -123,8 +126,8 @@ public class FindAppCommand extends Command {
             }
         }
         
-        // Use the correct constructor to ensure the view is cleared
-        return new CommandResult(feedbackMessage, shouldClearView);
+        // Use the constructor with refreshJobView flag
+        return new CommandResult(feedbackMessage, shouldClearView, shouldRefreshJobView);
     }
 
     @Override

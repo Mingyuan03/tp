@@ -378,6 +378,34 @@ public class MainWindow extends UiPart<Stage> {
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
 
+            // Handle commands that need to refresh statistics and clear views
+            String trimmedCommand = commandText.trim();
+            if (trimmedCommand.startsWith("listjob") || 
+                trimmedCommand.startsWith("findjob") || 
+                trimmedCommand.startsWith("listapp") || 
+                trimmedCommand.startsWith("findapp") || 
+                trimmedCommand.startsWith("list")) {
+                
+                // If we're in job view, refresh the job list and statistics
+                if (isJobView && jobListPanel != null) {
+                    // Clear any detailed view by setting the model to the regular job view
+                    if (logic instanceof Model) {
+                        ((Model) logic).setViewState(Model.ViewState.JOB_VIEW);
+                    }
+                    
+                    // Update the view state indicator
+                    updateViewStateIndicator();
+                    
+                    // Refresh the general statistics
+                    jobListPanel.showGeneralStatistics();
+                }
+            }
+
+            // Check if we need to clear the view based on the command result
+            if (commandResult.isClearView()) {
+                clearView();
+            }
+
             if (commandResult.isShowHelp()) {
                 handleHelp();
             }
@@ -392,6 +420,11 @@ public class MainWindow extends UiPart<Stage> {
             
             if (commandResult.isViewPerson()) {
                 viewPersonDetails(commandResult.getJobIndex(), commandResult.getPersonIndex());
+            }
+            
+            if (commandResult.isRefreshJobView() && isJobView && jobListPanel != null) {
+                jobListPanel.refreshJobView();
+                logger.info("Refreshing job view");
             }
 
             if (commandResult.isExit()) {

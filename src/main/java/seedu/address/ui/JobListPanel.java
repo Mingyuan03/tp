@@ -293,7 +293,7 @@ public class JobListPanel extends UiPart<Region> {
     /**
      * Refreshes the job view by forcing an update of visible cells
      */
-    private void refreshJobView() {
+    public void refreshJobView() {
         int size = jobListView.getItems().size();
         if (size > 0) {
             jobListView.refresh();

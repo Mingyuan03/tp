@@ -1,20 +1,27 @@
 package seedu.address.ui;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Side;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import seedu.address.logic.Logic;
 import seedu.address.model.application.Application;
 import seedu.address.model.job.Job;
 import seedu.address.model.person.Person;
+import seedu.address.model.tag.Tag;
 
 /**
  * Panel that displays statistics for a specific job.
@@ -22,10 +29,12 @@ import seedu.address.model.person.Person;
 public class JobSpecificStatsPanel {
     
     private final Logic logic;
+    private final ScrollPane scrollPane;
     private final VBox container;
     private Label jobTitleLabel;
     private Label applicantCountLabel;
     private PieChart schoolDistributionChart;
+    private FlowPane skillsSummaryPane;
     
     /**
      * Creates a {@code JobSpecificStatsPanel} with the given {@code Logic}.
@@ -33,13 +42,32 @@ public class JobSpecificStatsPanel {
     public JobSpecificStatsPanel(Logic logic) {
         this.logic = logic;
         this.container = createContainer();
+        this.scrollPane = createScrollPane();
     }
     
     /**
      * Returns the root container for this panel.
      */
-    public VBox getRoot() {
-        return container;
+    public ScrollPane getRoot() {
+        return scrollPane;
+    }
+    
+    /**
+     * Creates a ScrollPane to wrap the content container.
+     */
+    private ScrollPane createScrollPane() {
+        ScrollPane scrollPane = new ScrollPane(container);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(false);
+        scrollPane.getStyleClass().add("stats-scroll-pane");
+        scrollPane.setStyle("-fx-background-color: #2d2d30; -fx-background: #2d2d30;");
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setPannable(true);
+        
+        container.setPadding(new javafx.geometry.Insets(20, 30, 20, 20));
+        
+        return scrollPane;
     }
     
     /**
@@ -58,6 +86,7 @@ public class JobSpecificStatsPanel {
         // Update statistics
         updateApplicantCount(job);
         updateSchoolDistribution(job);
+        updateSkillsSummary(job);
     }
     
     /**
@@ -72,8 +101,13 @@ public class JobSpecificStatsPanel {
         
         // Add job title label
         jobTitleLabel = new Label("Job Title");
-        jobTitleLabel.setStyle("-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;");
+        jobTitleLabel.getStyleClass().add("job-stats-title");
         container.getChildren().add(jobTitleLabel);
+        
+        // Add a subtle scroll hint at the top
+        Label scrollHintLabel = new Label("Scroll for more stats ↓");
+        scrollHintLabel.getStyleClass().add("scroll-hint-label");
+        container.getChildren().add(scrollHintLabel);
         
         // Add summary panel with nice styling
         VBox summaryBox = new VBox(10);
@@ -119,6 +153,23 @@ public class JobSpecificStatsPanel {
         schoolDistributionChart.setStyle("-fx-background-color: #2d2d30; -fx-padding: 10; " + pieChartCss);
         
         container.getChildren().add(schoolDistributionChart);
+        
+        // Add Skills Summary Section
+        Label skillsSummaryTitle = new Label("All Applicant Skills");
+        skillsSummaryTitle.getStyleClass().add("skills-summary-title");
+        container.getChildren().add(skillsSummaryTitle);
+        
+        // Create a box for the skills summary with styled background
+        VBox skillsBox = new VBox(10);
+        skillsBox.getStyleClass().add("skills-summary-container");
+        
+        // Create a flow pane for the skills
+        skillsSummaryPane = new FlowPane();
+        skillsSummaryPane.getStyleClass().add("skills-summary-pane");
+        skillsSummaryPane.setPrefWrapLength(350);
+        
+        skillsBox.getChildren().add(skillsSummaryPane);
+        container.getChildren().add(skillsBox);
         
         return container;
     }
@@ -176,5 +227,47 @@ public class JobSpecificStatsPanel {
         
         // Set the data
         schoolDistributionChart.setData(pieChartData);
+    }
+    
+    /**
+     * Updates the skills summary for the given job.
+     */
+    private void updateSkillsSummary(Job job) {
+        List<Application> applications = logic.getApplicationsByJob(job);
+        skillsSummaryPane.getChildren().clear();
+        
+        // If no applications, show a message
+        if (applications == null || applications.isEmpty()) {
+            Label noSkillsLabel = new Label("No skills data available");
+            noSkillsLabel.setStyle("-fx-text-fill: #aaaaaa; -fx-font-style: italic;");
+            skillsSummaryPane.getChildren().add(noSkillsLabel);
+            return;
+        }
+        
+        // Collect all unique skills from all applicants
+        Set<String> allSkills = new HashSet<>();
+        for (Application application : applications) {
+            Person person = application.applicant();
+            if (person != null) {
+                for (Tag tag : person.getTags()) {
+                    allSkills.add(tag.tagName());
+                }
+            }
+        }
+        
+        // If no skills found
+        if (allSkills.isEmpty()) {
+            Label noSkillsLabel = new Label("No skills data available");
+            noSkillsLabel.setStyle("-fx-text-fill: #aaaaaa; -fx-font-style: italic;");
+            skillsSummaryPane.getChildren().add(noSkillsLabel);
+            return;
+        }
+        
+        // Create a skill tag for each unique skill
+        for (String skill : allSkills) {
+            Label skillLabel = new Label(skill);
+            skillLabel.getStyleClass().add("skill-summary-tag");
+            skillsSummaryPane.getChildren().add(skillLabel);
+        }
     }
 } 

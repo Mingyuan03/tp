@@ -31,6 +31,9 @@ public class CommandResult {
     /** Whether to clear the current view. */
     private final boolean clearView;
 
+    /** Whether to refresh the job view. */
+    private final boolean refreshJobView;
+
     /** Job index. */
     private final int jobIndex;
 
@@ -48,6 +51,7 @@ public class CommandResult {
         this.viewJob = false;
         this.viewPerson = false;
         this.clearView = false;
+        this.refreshJobView = false;
         this.jobIndex = -1;
         this.personIndex = -1;
     }
@@ -64,6 +68,7 @@ public class CommandResult {
         this.viewJob = viewJob;
         this.viewPerson = false;
         this.clearView = false;
+        this.refreshJobView = false;
         this.jobIndex = jobIndex;
         this.personIndex = -1;
     }
@@ -80,6 +85,7 @@ public class CommandResult {
         this.viewJob = viewJob;
         this.viewPerson = viewPerson;
         this.clearView = false;
+        this.refreshJobView = false;
         this.jobIndex = jobIndex;
         this.personIndex = personIndex;
     }
@@ -95,6 +101,23 @@ public class CommandResult {
         this.viewJob = false;
         this.viewPerson = false;
         this.clearView = clearView;
+        this.refreshJobView = false;
+        this.jobIndex = -1;
+        this.personIndex = -1;
+    }
+
+    /**
+     * Constructs a {@code CommandResult} with the clear view and refresh job view flags set.
+     */
+    public CommandResult(String feedbackToUser, boolean clearView, boolean refreshJobView) {
+        this.feedbackToUser = requireNonNull(feedbackToUser);
+        this.showHelp = false;
+        this.exit = false;
+        this.toggleView = false;
+        this.viewJob = false;
+        this.viewPerson = false;
+        this.clearView = clearView;
+        this.refreshJobView = refreshJobView;
         this.jobIndex = -1;
         this.personIndex = -1;
     }
@@ -135,6 +158,10 @@ public class CommandResult {
         return clearView;
     }
 
+    public boolean isRefreshJobView() {
+        return refreshJobView;
+    }
+
     public int getJobIndex() {
         return jobIndex;
     }
@@ -162,13 +189,15 @@ public class CommandResult {
                 && viewJob == otherCommandResult.viewJob
                 && viewPerson == otherCommandResult.viewPerson
                 && clearView == otherCommandResult.clearView
+                && refreshJobView == otherCommandResult.refreshJobView
                 && jobIndex == otherCommandResult.jobIndex
                 && personIndex == otherCommandResult.personIndex;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(feedbackToUser, showHelp, exit, toggleView, viewJob, viewPerson, clearView, jobIndex, personIndex);
+        return Objects.hash(feedbackToUser, showHelp, exit, toggleView, viewJob, viewPerson, clearView, 
+                refreshJobView, jobIndex, personIndex);
     }
 
     @Override
@@ -181,6 +210,7 @@ public class CommandResult {
                 .add("viewJob", viewJob)
                 .add("viewPerson", viewPerson)
                 .add("clearView", clearView)
+                .add("refreshJobView", refreshJobView)
                 .add("jobIndex", jobIndex)
                 .add("personIndex", personIndex)
                 .toString();

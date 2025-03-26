@@ -1,6 +1,8 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_INDEX;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PERSON_INDEX;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -24,8 +26,8 @@ public class ViewPersonCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Views detailed information for the person identified by the job index and person index within that job.\n"
-            + "Parameters: JOB_INDEX PERSON_INDEX (both must be positive integers)\n"
-            + "Example: " + COMMAND_WORD + " 1 2";
+            + "Parameters: " + PREFIX_JOB_INDEX + "JOB_INDEX " + PREFIX_PERSON_INDEX + "PERSON_INDEX\n"
+            + "Example: " + COMMAND_WORD + " " + PREFIX_JOB_INDEX + "1 " + PREFIX_PERSON_INDEX + "2";
 
     public static final String MESSAGE_VIEW_PERSON_SUCCESS = "Viewing Person: %1$s (from Job: %2$s)";
     public static final String MESSAGE_NOT_IN_JOB_VIEW = "This command is only available in job-related views. Please switch to job view first using 'switchview' command.";
