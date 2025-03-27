@@ -32,7 +32,7 @@ public class CommandResultTest {
 
         // different exit value -> returns false
         assertFalse(commandResult.equals(CommandResult.withExit("feedback")));
-        
+
         // different refreshApplications value -> returns false
         assertFalse(commandResult.equals(CommandResult.withRefreshApplications("feedback")));
     }
@@ -52,11 +52,11 @@ public class CommandResultTest {
 
         // different exit value -> returns different hashcode
         assertNotEquals(commandResult.hashCode(), CommandResult.withExit("feedback").hashCode());
-        
+
         // different refreshApplications value -> returns different hashcode
         assertNotEquals(commandResult.hashCode(), CommandResult.withRefreshApplications("feedback").hashCode());
     }
-    
+
     @Test
     public void toStringMethod() {
         CommandResult commandResult = CommandResult.withFeedback("feedback");
@@ -73,7 +73,7 @@ public class CommandResultTest {
                 .add("personIndex", -1)
                 .add("refreshApplications", false)
                 .toString();
-        
+
         assertEquals(expected, commandResult.toString());
     }
 }

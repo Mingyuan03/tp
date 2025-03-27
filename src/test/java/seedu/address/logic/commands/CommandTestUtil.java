@@ -108,7 +108,7 @@ public class CommandTestUtil {
             assertCommandSuccess(command, actualModel, expectedCommandResult, expectedModel);
             return;
         }
-        
+
         // For other commands, execute and check
         CommandResult actualResult;
         try {
@@ -119,7 +119,7 @@ public class CommandTestUtil {
 
         // Create the expected CommandResult based on the command type
         CommandResult expectedCommandResult;
-        
+
         if (command instanceof FindAppCommand) {
             // For FindAppCommand, create the expected result based on the command's behavior
             if (actualResult.isClearView()) {
@@ -131,7 +131,7 @@ public class CommandTestUtil {
             }
         } else if (command instanceof ClearCommand) {
             expectedCommandResult = CommandResult.withClearView(expectedMessage);
-        } else if (command instanceof DeleteCommand || command instanceof AddCommand 
+        } else if (command instanceof DeleteCommand || command instanceof AddCommand
                 || command instanceof DeleteJobCommand) {
             expectedCommandResult = CommandResult.withFeedback(expectedMessage);
         } else {
@@ -143,7 +143,7 @@ public class CommandTestUtil {
             } else if (actualResult.setToggleView()) {
                 expectedCommandResult = CommandResult.withToggleView(expectedMessage);
             } else if (actualResult.isViewJob() && actualResult.isViewPerson()) {
-                expectedCommandResult = CommandResult.withPersonView(expectedMessage, actualResult.getJobIndex(), 
+                expectedCommandResult = CommandResult.withPersonView(expectedMessage, actualResult.getJobIndex(),
                         actualResult.getPersonIndex());
             } else if (actualResult.isViewJob()) {
                 expectedCommandResult = CommandResult.withJobView(expectedMessage, actualResult.getJobIndex());

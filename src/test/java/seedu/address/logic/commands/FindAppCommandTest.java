@@ -136,11 +136,11 @@ public class FindAppCommandTest {
         model.addPerson(person);
         model.addApplication(application);
         model.setViewState(Model.ViewState.JOB_VIEW);
-        
+
         // Execute command with job index and status
         FindAppCommand command = new FindAppCommand(Index.fromOneBased(1), "1");
         CommandResult result = command.execute(model);
-        
+
         // Verify result
         assertEquals(String.format(FindAppCommand.MESSAGE_SUCCESS, "1"), result.getFeedbackToUser());
         assertTrue(result.isRefreshJobView());
