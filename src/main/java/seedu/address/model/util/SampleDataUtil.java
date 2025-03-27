@@ -12,8 +12,6 @@ import seedu.address.model.ReadOnlyApplicationsManager;
 import seedu.address.model.application.Application;
 import seedu.address.model.application.ApplicationStatus;
 import seedu.address.model.job.Job;
-import seedu.address.model.job.JobAddress;
-import seedu.address.model.job.JobCompany;
 import seedu.address.model.job.JobRounds;
 import seedu.address.model.job.JobSkills;
 import seedu.address.model.job.JobTitle;
@@ -66,7 +64,7 @@ public class SampleDataUtil {
                         new Email("irfan@example.com"),
                         new Address("Blk 47 Tampines Street 20, #17-35"),
                         new School("SMU"),
-                        new Degree("Business"),
+                new Degree("Business"),
                         getTagSet("Clang")),
                 new Person(new Name("Roy Balakrishnan"),
                         new Phone("92624417"),
@@ -78,42 +76,30 @@ public class SampleDataUtil {
     }
 
     public static Job[] getSampleJobs() {
-        return new Job[] { // Initialisation order: JobTitle, JobCompany, JobRounds, JobSkills, JobAddress, JobType
+        return new Job[] { // Initialisation order: JobTitle, JobRounds, JobSkills, JobType
                 new Job(new JobTitle("Software Engineer"),
-                        new JobCompany("Google"),
                         new JobRounds(5),
                         new JobSkills(FXCollections.observableArrayList("Java", "Spring Boot", "Microservices")),
-                        new JobAddress("70 Pasir Panjang Rd, Singapore 117371"),
                         JobType.fromDisplayType("Intern")),
                 new Job(new JobTitle("Data Scientist"),
-                        new JobCompany("Microsoft"),
                         new JobRounds(4),
                         new JobSkills(FXCollections.observableArrayList("Python", "ML", "TensorFlow")),
-                        new JobAddress("1 Marina Boulevard, #22-01, Singapore 018989"),
                         JobType.fromDisplayType("Full Time")),
                 new Job(new JobTitle("Product Manager"),
-                        new JobCompany("Apple"),
                         new JobRounds(3),
                         new JobSkills(FXCollections.observableArrayList("Agile", "Roadmap Planning")),
-                        new JobAddress("7 Ang Mo Kio Street 64, Singapore 569086"),
                         JobType.fromDisplayType("Contract")),
                 new Job(new JobTitle("UX Designer"),
-                        new JobCompany("Meta"),
                         new JobRounds(3),
                         new JobSkills(FXCollections.observableArrayList("Figma", "User Research", "Wire Framing")),
-                        new JobAddress("9 Straits View, Marina One, Singapore 018937"),
-                        JobType.fromDisplayType("Freelance")),
+                        JobType.fromDisplayType("Full Time")),
                 new Job(new JobTitle("DevOps Engineer"),
-                        new JobCompany("Amazon"),
                         new JobRounds(4),
                         new JobSkills(FXCollections.observableArrayList("AWS", "Kubernetes", "CI/CD")),
-                        new JobAddress("23 Church Street, Capital Square, Singapore 049481"),
-                        JobType.fromDisplayType("Part Time")),
+                        JobType.fromDisplayType("Full Time")),
                 new Job(new JobTitle("Full Stack Developer"),
-                        new JobCompany("Netflix"),
                         new JobRounds(4),
                         new JobSkills(FXCollections.observableArrayList("React", "Node.js", "MongoDB")),
-                        new JobAddress("1 Fusionopolis Place, Galaxis, Singapore 138522"),
                         JobType.fromDisplayType("Full Time"))};
     }
 

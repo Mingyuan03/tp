@@ -111,9 +111,8 @@ public record Application(Person applicant, Job job, ApplicationStatus applicati
      */
     @Override
     public String toString() {
-        return String.format("Application: %s at %s (Status: %d/%d)",
+        return String.format("Application: %s (Status: %d/%d)",
                 job.getJobTitle(),
-                job.getJobCompany(),
                 applicationStatus.applicationStatus,
                 job.getJobRounds().jobRounds);
     }

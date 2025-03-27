@@ -108,50 +108,38 @@ public class TypicalPersons {
             .build();
 
     public static final Job SOFTWARE_ENGINEER_GOOGLE = new JobBuilder().withJobTitle("Software Engineer")
-            .withJobCompany("Google")
             .withJobRounds(5)
             .withJobSkills(FXCollections.observableArrayList("Java", "Spring Boot", "Microservices"))
-            .withJobAddress("70 Pasir Panjang Rd, Singapore 117371")
             .withJobType("Intern")
             .build();
 
     public static final Job DATA_SCIENTIST_MICROSOFT = new JobBuilder().withJobTitle("Data Scientist")
-            .withJobCompany("Microsoft")
             .withJobRounds(4)
             .withJobSkills(FXCollections.observableArrayList("Python", "ML", "TensorFlow"))
-            .withJobAddress("1 Marina Boulevard, #22-01, Singapore 018989")
             .withJobType("Full Time")
             .build();
 
     public static final Job PRODUCT_MANAGER_APPLE = new JobBuilder().withJobTitle("Product Manager")
-            .withJobCompany("Apple")
             .withJobRounds(3)
             .withJobSkills(FXCollections.observableArrayList("Agile", "Roadmap Planning"))
-            .withJobAddress("7 Ang Mo Kio Street 64, Singapore 569086")
             .withJobType("Contract")
             .build();
 
     public static final Job UX_DESIGNER_META = new JobBuilder().withJobTitle("UX Designer")
-            .withJobCompany("Meta")
             .withJobRounds(3)
             .withJobSkills(FXCollections.observableArrayList("Figma", "User Research", "Wire Framing"))
-            .withJobAddress("9 Straits View, Marina One, Singapore 018937")
-            .withJobType("Freelance")
+            .withJobType("Full Time")
             .build();
 
     public static final Job DEVOPS_ENGINEER_AMAZON = new JobBuilder().withJobTitle("DevOps Engineer")
-            .withJobCompany("Amazon")
             .withJobRounds(4)
             .withJobSkills(FXCollections.observableArrayList("AWS", "Kubernetes", "CI/CD"))
-            .withJobAddress("23 Church Street, Capital Square, Singapore 049481")
-            .withJobType("Part Time")
+            .withJobType("Full Time")
             .build();
 
     public static final Job FULLSTACK_DEVELOPER_NETFLIX = new JobBuilder().withJobTitle("Full Stack Developer")
-            .withJobCompany("Netflix")
             .withJobRounds(4)
             .withJobSkills(FXCollections.observableArrayList("React", "Node.js", "MongoDB"))
-            .withJobAddress("1 Fusionopolis Place, Galaxis, Singapore 138522")
             .withJobType("Full Time")
             .build();
 

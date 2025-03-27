@@ -10,8 +10,6 @@ import javafx.collections.FXCollections;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.job.JobAddress;
-import seedu.address.model.job.JobCompany;
 import seedu.address.model.job.JobRounds;
 import seedu.address.model.job.JobSkills;
 import seedu.address.model.job.JobTitle;
@@ -142,18 +140,6 @@ public class ParserUtil {
     }
 
     /**
-     * @param jobCompany Raw JobCompany by user.
-     * @return trimmed remark without leading and trailing whitespaces for more
-     *         efficient processing.
-     * @throws ParseException if the given {@code JobCompany} is invalid.
-     */
-    public static JobCompany parseJobCompany(String jobCompany) throws ParseException {
-        String trimmedJobCompany = jobCompany.trim();
-        requireNonNull(jobCompany);
-        return new JobCompany(trimmedJobCompany);
-    }
-
-    /**
      * @param jobRounds Raw jobRounds by user.
      * @return trimmed remark without leading and trailing whitespaces for more
      *         efficient processing.
@@ -179,14 +165,13 @@ public class ParserUtil {
     }
 
     /**
-     * @param jobAddress Raw jobAddress by user.
-     * @return trimmed jobAddress.
-     * @throws ParseException if the given {@code jobAddress} is invalid.
+     * @param jobSkills List of job skills provided separately.
+     * @return {@code JobSkills} with all the skills.
+     * @throws ParseException if any given {@code jobSkill} is invalid.
      */
-    public static JobAddress parseJobAddress(String jobAddress) throws ParseException {
-        jobAddress = jobAddress.trim();
-        requireNonNull(jobAddress);
-        return new JobAddress(jobAddress);
+    public static JobSkills parseJobSkills(Collection<String> jobSkills) throws ParseException {
+        requireNonNull(jobSkills);
+        return new JobSkills(FXCollections.observableArrayList(jobSkills));
     }
 
     /**

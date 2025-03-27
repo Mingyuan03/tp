@@ -3,8 +3,6 @@ package seedu.address.testutil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.job.Job;
-import seedu.address.model.job.JobAddress;
-import seedu.address.model.job.JobCompany;
 import seedu.address.model.job.JobRounds;
 import seedu.address.model.job.JobSkills;
 import seedu.address.model.job.JobTitle;
@@ -16,18 +14,14 @@ import seedu.address.model.job.JobType;
 public class JobBuilder {
 
     public static final String DEFAULT_JOB_TITLE = "Software Engineering";
-    public static final String DEFAULT_JOB_COMPANY = "Google";
     public static final int DEFAULT_JOB_ROUNDS = 5;
     public static final ObservableList<String> DEFAULT_JOB_SKILLS = FXCollections.observableArrayList("Python",
             "JavaScript", "React");
-    public static final String DEFAULT_JOB_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_JOB_TYPE = "Intern";
 
     private JobTitle jobTitle;
-    private JobCompany jobCompany;
     private JobRounds jobRounds;
     private JobSkills jobSkills;
-    private JobAddress jobAddress;
     private JobType jobType;
 
     /**
@@ -35,10 +29,8 @@ public class JobBuilder {
      */
     public JobBuilder() {
         jobTitle = new JobTitle(DEFAULT_JOB_TITLE);
-        jobCompany = new JobCompany(DEFAULT_JOB_COMPANY);
         jobRounds = new JobRounds(DEFAULT_JOB_ROUNDS);
         jobSkills = new JobSkills(DEFAULT_JOB_SKILLS);
-        jobAddress = new JobAddress(DEFAULT_JOB_ADDRESS);
         jobType = JobType.fromDisplayType(DEFAULT_JOB_TYPE);
     }
 
@@ -47,10 +39,8 @@ public class JobBuilder {
      */
     public JobBuilder(Job jobToCopy) {
         jobTitle = jobToCopy.getJobTitle();
-        jobCompany = jobToCopy.getJobCompany();
         jobRounds = jobToCopy.getJobRounds();
         jobSkills = jobToCopy.getJobSkills();
-        jobAddress = jobToCopy.getJobAddress();
         jobType = jobToCopy.getJobType();
     }
 
@@ -59,14 +49,6 @@ public class JobBuilder {
      */
     public JobBuilder withJobTitle(String jobTitle) {
         this.jobTitle = new JobTitle(jobTitle);
-        return this;
-    }
-
-    /**
-     * Sets the {@code JobCompany} of the {@code Job} that we are building.
-     */
-    public JobBuilder withJobCompany(String jobCompany) {
-        this.jobCompany = new JobCompany(jobCompany);
         return this;
     }
 
@@ -87,14 +69,6 @@ public class JobBuilder {
     }
 
     /**
-     * Sets the {@code JobAddress} of the {@code Job} that we are building.
-     */
-    public JobBuilder withJobAddress(String jobAddress) {
-        this.jobAddress = new JobAddress(jobAddress);
-        return this;
-    }
-
-    /**
      * Sets the {@code JobType} of the {@code Job} that we are building.
      */
     public JobBuilder withJobType(String jobType) {
@@ -103,6 +77,6 @@ public class JobBuilder {
     }
 
     public Job build() {
-        return new Job(jobTitle, jobCompany, jobRounds, jobSkills, jobAddress, jobType);
+        return new Job(jobTitle, jobRounds, jobSkills, jobType);
     }
 }

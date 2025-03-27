@@ -1,21 +1,19 @@
 {
   "persons": [ {
-    "name": "Valid Person",
+    "name": "Hans Muster",
     "phone": "9482424",
     "email": "hans@example.com",
     "address": "4th street"
   }, {
-    "name": "Person With Invalid Phone Field",
-    "phone": "948asdf2424",
-    "email": "hans@example.com",
+    "name": "Hans Muster",
+    "phone": "9482424",
+    "email": "invalid@email!3e",
     "address": "4th street"
   } ],
   "jobs": [ {
     "jobTitle": "Software Engineer",
-    "jobCompany": "Google",
-    "jobRounds": 4,
+    "jobRounds": 5,
     "jobSkills": ["Java", "Spring Boot", "Microservices"],
-    "jobAddress": "70 Pasir Panjang Rd, Singapore 117371",
     "jobType": "Intern"
   } ]
 }

@@ -3,8 +3,6 @@ package seedu.address.testutil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.job.Job;
-import seedu.address.model.job.JobAddress;
-import seedu.address.model.job.JobCompany;
 import seedu.address.model.job.JobRounds;
 import seedu.address.model.job.JobSkills;
 import seedu.address.model.job.JobTitle;
@@ -15,17 +13,13 @@ import seedu.address.model.job.JobType;
  */
 public class JobBuilderFX {
     public static final String DEFAULT_TITLE = "Software Engineer";
-    public static final String DEFAULT_COMPANY = "Tech Corp";
     public static final int DEFAULT_ROUNDS = 3;
     public static final ObservableList<String> DEFAULT_SKILLS = FXCollections.observableArrayList("Java", "Python");
-    public static final String DEFAULT_ADDRESS = "123 Tech Street";
     public static final JobType DEFAULT_TYPE = JobType.FULL_TIME;
 
     private JobTitle jobTitle;
-    private JobCompany jobCompany;
     private JobRounds jobRounds;
     private JobSkills jobSkills;
-    private JobAddress jobAddress;
     private JobType jobType;
 
     /**
@@ -33,10 +27,8 @@ public class JobBuilderFX {
      */
     public JobBuilderFX() {
         jobTitle = new JobTitle(DEFAULT_TITLE);
-        jobCompany = new JobCompany(DEFAULT_COMPANY);
         jobRounds = new JobRounds(DEFAULT_ROUNDS);
         jobSkills = new JobSkills(DEFAULT_SKILLS);
-        jobAddress = new JobAddress(DEFAULT_ADDRESS);
         jobType = DEFAULT_TYPE;
     }
 
@@ -45,14 +37,6 @@ public class JobBuilderFX {
      */
     public JobBuilderFX withTitle(String title) {
         this.jobTitle = new JobTitle(title);
-        return this;
-    }
-
-    /**
-     * Sets the {@code JobCompany} of the {@code Job} that we are building.
-     */
-    public JobBuilderFX withCompany(String company) {
-        this.jobCompany = new JobCompany(company);
         return this;
     }
 
@@ -69,14 +53,6 @@ public class JobBuilderFX {
      */
     public JobBuilderFX withSkills(ObservableList<String> skills) {
         this.jobSkills = new JobSkills(skills);
-        return this;
-    }
-
-    /**
-     * Sets the {@code JobAddress} of the {@code Job} that we are building.
-     */
-    public JobBuilderFX withAddress(String address) {
-        this.jobAddress = new JobAddress(address);
         return this;
     }
 
@@ -102,6 +78,6 @@ public class JobBuilderFX {
      * Builds a Job object with the current attributes.
      */
     public Job build() {
-        return new Job(jobTitle, jobCompany, jobRounds, jobSkills, jobAddress, jobType);
+        return new Job(jobTitle, jobRounds, jobSkills, jobType);
     }
 }

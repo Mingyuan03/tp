@@ -2,8 +2,6 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMPLOYMENT_TYPE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_COMPANY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_ROUNDS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_SKILLS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_TITLE;
@@ -21,13 +19,21 @@ public class AddJobCommand extends Command {
 
     public static final String COMMAND_WORD = "addjob";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a job to the model manager. " + "Parameters: "
-            + PREFIX_JOB_TITLE + "JOB TITLE " + PREFIX_JOB_COMPANY + "COMPANY'S NAME" + PREFIX_JOB_ROUNDS
-            + "NUMBER OF ROUNDS OF INTERVIEWS " + PREFIX_JOB_SKILLS + "SKILLS" + PREFIX_JOB_ADDRESS + "COMPANY ADDRESS"
-            + PREFIX_EMPLOYMENT_TYPE + "JOB TYPE";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a job to the address book. "
+            + "Parameters: "
+            + PREFIX_JOB_TITLE + "JOB_TITLE "
+            + PREFIX_JOB_ROUNDS + "NUMBER_OF_ROUNDS "
+            + PREFIX_JOB_SKILLS + "JOB_SKILL "
+            + PREFIX_EMPLOYMENT_TYPE + "EMPLOYMENT_TYPE\n"
+            + "Example: " + COMMAND_WORD + " "
+            + PREFIX_JOB_TITLE + "Software Engineer "
+            + PREFIX_JOB_ROUNDS + "5 "
+            + PREFIX_JOB_SKILLS + "Python "
+            + PREFIX_JOB_SKILLS + "JavaScript "
+            + PREFIX_EMPLOYMENT_TYPE + "Intern";
 
-    public static final String MESSAGE_SUCCESS = "New Job added: %1$s";
-    public static final String MESSAGE_DUPLICATE_JOB = "This Job already exists in the address book";
+    public static final String MESSAGE_SUCCESS = "New job added: %1$s";
+    public static final String MESSAGE_DUPLICATE_JOB = "This job already exists in the address book";
 
     private final Job toAdd;
 
@@ -53,11 +59,6 @@ public class AddJobCommand extends Command {
 
     @Override
     public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-
-        // instanceof handles nulls
         if (!(other instanceof AddJobCommand otherAddJobCommand)) {
             return false;
         }
@@ -66,6 +67,8 @@ public class AddJobCommand extends Command {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).add("toAddJob", toAdd).toString();
+        return new ToStringBuilder(this)
+                .add("job", toAdd)
+                .toString();
     }
 }

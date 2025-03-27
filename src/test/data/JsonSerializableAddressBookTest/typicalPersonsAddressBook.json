@@ -68,50 +68,38 @@
   "jobs": [
     {
       "jobTitle": "Software Engineer",
-      "jobCompany": "Google",
       "jobRounds": 5,
       "jobSkills": ["Java", "Spring Boot", "Microservices"],
-      "jobAddress": "70 Pasir Panjang Rd, Singapore 117371",
       "jobType": "Intern"
     },
     {
       "jobTitle": "Data Scientist",
-      "jobCompany": "Microsoft",
       "jobRounds": 4,
       "jobSkills": ["Python", "ML", "TensorFlow"],
-      "jobAddress": "1 Marina Boulevard, #22-01, Singapore 018989",
       "jobType": "Full Time"
     },
     {
       "jobTitle": "Product Manager",
-      "jobCompany": "Apple",
       "jobRounds": 3,
       "jobSkills": ["Agile", "Roadmap Planning"],
-      "jobAddress": "7 Ang Mo Kio Street 64, Singapore 569086",
       "jobType": "Contract"
     },
     {
       "jobTitle": "UX Designer",
-      "jobCompany": "Meta",
       "jobRounds": 3,
       "jobSkills": ["Figma", "User Research", "Wire Framing"],
-      "jobAddress": "9 Straits View, Marina One, Singapore 018937",
-      "jobType": "Freelance"
+      "jobType": "Full Time"
     },
     {
       "jobTitle": "DevOps Engineer",
-      "jobCompany": "Amazon",
       "jobRounds": 4,
       "jobSkills": ["AWS", "Kubernetes", "CI/CD"],
-      "jobAddress": "23 Church Street, Capital Square, Singapore 049481",
-      "jobType": "Part Time"
+      "jobType": "Full Time"
     },
     {
       "jobTitle": "Full Stack Developer",
-      "jobCompany": "Netflix",
       "jobRounds": 4,
       "jobSkills": ["React", "Node.js", "MongoDB"],
-      "jobAddress": "1 Fusionopolis Place, Galaxis, Singapore 138522",
       "jobType": "Full Time"
     }
   ]

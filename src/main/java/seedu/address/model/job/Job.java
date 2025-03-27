@@ -5,34 +5,28 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.util.Objects;
 
 /**
- * Represents a job with a job title and company name.
+ * Represents a job with a job title and additional properties.
  */
 public class Job {
     private final JobTitle jobTitle;
-    private final JobCompany jobCompany;
     private final JobRounds jobRounds;
     private final JobSkills jobSkills;
-    private final JobAddress jobAddress;
     private final JobType jobType;
 
     /**
-     * Constructs a Job with the specified job title and company name.
+     * Constructs a Job with the specified job title and properties.
      *
      * @param jobTitle    The title of the job.
-     * @param jobCompany The name of the company offering the job.
      * @param jobRounds   The rounds of the job.
      * @param jobSkills   The requisite skills for the job.
-     * @param jobAddress    The address of the job.
      * @param jobType   The employment type of the job.
      */
-    public Job(JobTitle jobTitle, JobCompany jobCompany, JobRounds jobRounds,
-               JobSkills jobSkills, JobAddress jobAddress, JobType jobType) {
-        requireAllNonNull(jobTitle, jobCompany);
+    public Job(JobTitle jobTitle, JobRounds jobRounds,
+               JobSkills jobSkills, JobType jobType) {
+        requireAllNonNull(jobTitle);
         this.jobTitle = jobTitle;
-        this.jobCompany = jobCompany;
         this.jobRounds = jobRounds;
         this.jobSkills = jobSkills;
-        this.jobAddress = jobAddress;
         this.jobType = jobType;
     }
 
@@ -43,15 +37,6 @@ public class Job {
      */
     public JobTitle getJobTitle() {
         return this.jobTitle;
-    }
-
-    /**
-     * Returns the company name of this job.
-     *
-     * @return The company name.
-     */
-    public JobCompany getJobCompany() {
-        return this.jobCompany;
     }
 
     /**
@@ -73,15 +58,6 @@ public class Job {
     }
 
     /**
-     * Returns the job address of this job.
-     *
-     * @return The job address.
-     */
-    public JobAddress getJobAddress() {
-        return this.jobAddress;
-    }
-
-    /**
      * Returns the employment type of this job, be it intern, part-time or full-time.
      *
      * @return The employment type of the job.
@@ -91,12 +67,11 @@ public class Job {
     }
 
     /**
-     * Returns true if both jobs have the same title and company. This defines a weaker notion
+     * Returns true if both jobs have the same title. This defines a weaker notion
      * of equality between two jobs.
      */
     public boolean isSameJob(Job otherJob) {
-        return otherJob != null && otherJob.getJobTitle().equals(this.jobTitle)
-                && otherJob.getJobCompany().equals(this.jobCompany);
+        return otherJob != null && otherJob.getJobTitle().equals(this.jobTitle);
     }
 
     /**
@@ -113,9 +88,9 @@ public class Job {
         if (!(other instanceof Job otherJob)) {
             return false;
         }
-        return this.jobTitle.equals(otherJob.jobTitle) && this.jobCompany.equals(otherJob.jobCompany)
-                && this.jobRounds.equals(otherJob.jobRounds) && this.jobSkills.equals(otherJob.jobSkills)
-                && this.jobAddress.equals(otherJob.jobAddress)
+        return this.jobTitle.equals(otherJob.jobTitle)
+                && this.jobRounds.equals(otherJob.jobRounds)
+                && this.jobSkills.equals(otherJob.jobSkills)
                 && this.jobType.getDisplayType().equals(otherJob.jobType.getDisplayType());
     }
 
@@ -126,7 +101,7 @@ public class Job {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(this.jobTitle, this.jobCompany, this.jobRounds,
-                this.jobSkills, this.jobAddress, this.jobType);
+        return Objects.hash(this.jobTitle, this.jobRounds,
+                this.jobSkills, this.jobType);
     }
 }
