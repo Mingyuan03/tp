@@ -46,12 +46,12 @@ public class JobBuilder {
      * Initializes the JobBuilder with the data of {@code jobToCopy}.
      */
     public JobBuilder(Job jobToCopy) {
-        jobTitle = jobToCopy.getJobTitle();
-        jobCompany = jobToCopy.getJobCompany();
-        jobRounds = jobToCopy.getJobRounds();
-        jobSkills = jobToCopy.getJobSkills();
-        jobAddress = jobToCopy.getJobAddress();
-        jobType = jobToCopy.getJobType();
+        jobTitle = jobToCopy.jobTitle();
+        jobCompany = jobToCopy.jobCompany();
+        jobRounds = jobToCopy.jobRounds();
+        jobSkills = jobToCopy.jobSkills();
+        jobAddress = jobToCopy.jobAddress();
+        jobType = jobToCopy.jobType();
     }
 
     /**

@@ -4,12 +4,15 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.job.Job;
+import seedu.address.model.job.JobTitle;
 import seedu.address.model.job.UniqueJobList;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Phone;
 import seedu.address.model.person.UniquePersonList;
 
 /**
@@ -17,7 +20,6 @@ import seedu.address.model.person.UniquePersonList;
  * Person::isSamePerson comparison and Job::equals comparison)
  */
 public class AddressBook implements ReadOnlyAddressBook {
-
     private final UniquePersonList persons;
     private final UniqueJobList jobs;
 
@@ -81,7 +83,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public boolean hasPerson(Person person) {
         requireNonNull(person);
-        return persons.contains(person);
+        return this.persons.contains(person);
     }
 
     /**
@@ -89,7 +91,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * address book.
      */
     public void addPerson(Person p) {
-        persons.add(p);
+        this.persons.add(p);
     }
 
     /**
@@ -105,11 +107,22 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
-     * Removes {@code key} from this {@code AddressBook}. {@code key} must exist in
-     * the address book.
+     * Removes {@code key} from this {@code AddressBook}. {@code key} must exist in the address book.
      */
     public void removePerson(Person key) {
         persons.remove(key);
+    }
+
+    /**
+     * Gets all persons associated with a specific phone number.
+     * @param phone The person whose name to retrieve.
+     * @return A List of persons associated with the phone number.
+     */
+    public List<Person> getPersonsByPhone(Phone phone) {
+        requireNonNull(phone);
+        return this.persons.asUnmodifiableObservableList().stream()
+                .filter(person -> person.getPhone().equals(phone))
+                .collect(Collectors.toList());
     }
 
     //// job-level operations
@@ -149,6 +162,18 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void removeJob(Job key) {
         jobs.remove(key);
+    }
+
+    /**
+     * Gets all jobs associated with a specific title and company name.
+     * @param jobTitle The title whose jobs to retrieve.
+     * @return A list of jobs associated with the title and company name.
+     */
+    public List<Job> getJobsByTitle(JobTitle jobTitle) {
+        requireNonNull(jobTitle);
+        return this.jobs.asUnmodifiableObservableList().stream()
+                .filter(job -> job.jobTitle().equals(jobTitle))
+                .collect(Collectors.toList());
     }
 
     //// util methods

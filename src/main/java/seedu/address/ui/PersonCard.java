@@ -116,10 +116,10 @@ public class PersonCard extends UiPart<Region> {
         applicationsBox.getChildren().add(0, IconUtil.createIcon(FontAwesomeIcon.BRIEFCASE, "white"));
         applications.stream().sorted(Comparator.comparing(Application::applicationStatus))
             .forEach(app -> {
-                String jobTitle = app.job().getJobTitle().toString();
+                String jobTitle = app.job().jobTitle().toString();
                 int currentRound = app.applicationStatus().applicationStatus;
-                int maxRound = app.job().getJobRounds().jobRounds;
-                String companyTitle = app.job().getJobCompany().jobCompany();
+                int maxRound = app.job().jobRounds().jobRounds;
+                String companyTitle = app.job().jobCompany().jobCompany();
                 String displayText = jobTitle + "\n" + companyTitle + "\nRound: " + currentRound + "/" + maxRound;
                 apps.getChildren().add(new Label(displayText));
             });

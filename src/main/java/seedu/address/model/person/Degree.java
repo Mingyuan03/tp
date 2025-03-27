@@ -9,12 +9,12 @@ import static java.util.Objects.requireNonNull;
 public class Degree {
 
     public static final String MESSAGE_CONSTRAINTS = "Degree can take any values, and it should not be blank";
-
+    /** Initialises dummy person in {@code AddApplicationCommandParser} below. */
+    public static final Degree DEFAULT_DEGREE = new Degree("DEFAULT_DEGREE");
     public final String value;
 
     /**
      * Constructs an {@code Degree}.
-     *
      * @param degree A valid degree.
      */
     public Degree(String degree) {
@@ -32,12 +32,10 @@ public class Degree {
         if (other == this) {
             return true;
         }
-
         // instanceof handles nulls
         if (!(other instanceof Degree otherDegree)) {
             return false;
         }
-
         return this.value.trim().equals(otherDegree.value.trim()); // Ignore leading or trailing whitespaces.
     }
 

@@ -9,12 +9,10 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class JobAddress {
     public static final String MESSAGE_CONSTRAINTS = "Job addresses can take any values, and it should not be blank";
-
-    /*
-     * The first character of the address must not be a whitespace,
-     * otherwise " " (a blank string) becomes a valid input.
-     */
+    /** The first character of the address must not be a whitespace, else " " (a blank string) becomes a valid input. */
     public static final String VALIDATION_REGEX = "\\S.*";
+    /** Initialises dummy job in {@code AddApplicationCommandParser} below. */
+    public static final JobAddress DEFAULT_JOBADDRESS = new JobAddress("DEFAULT_JOB_ADDRESS");
     public final String value;
 
     /**

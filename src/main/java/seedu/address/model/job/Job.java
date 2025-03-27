@@ -2,38 +2,23 @@ package seedu.address.model.job;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.Objects;
-
 /**
  * Represents a job with a job title and company name.
  */
-public class Job {
-    private final JobTitle jobTitle;
-    private final JobCompany jobCompany;
-    private final JobRounds jobRounds;
-    private final JobSkills jobSkills;
-    private final JobAddress jobAddress;
-    private final JobType jobType;
-
+public record Job(JobTitle jobTitle, JobCompany jobCompany, JobRounds jobRounds, JobSkills jobSkills,
+                  JobAddress jobAddress, JobType jobType) {
     /**
      * Constructs a Job with the specified job title and company name.
      *
-     * @param jobTitle    The title of the job.
+     * @param jobTitle   The title of the job.
      * @param jobCompany The name of the company offering the job.
-     * @param jobRounds   The rounds of the job.
-     * @param jobSkills   The requisite skills for the job.
-     * @param jobAddress    The address of the job.
-     * @param jobType   The employment type of the job.
+     * @param jobRounds  The rounds of the job.
+     * @param jobSkills  The requisite skills for the job.
+     * @param jobAddress The address of the job.
+     * @param jobType    The employment type of the job.
      */
-    public Job(JobTitle jobTitle, JobCompany jobCompany, JobRounds jobRounds,
-               JobSkills jobSkills, JobAddress jobAddress, JobType jobType) {
-        requireAllNonNull(jobTitle, jobCompany);
-        this.jobTitle = jobTitle;
-        this.jobCompany = jobCompany;
-        this.jobRounds = jobRounds;
-        this.jobSkills = jobSkills;
-        this.jobAddress = jobAddress;
-        this.jobType = jobType;
+    public Job {
+        requireAllNonNull(jobTitle, jobCompany, jobRounds, jobSkills, jobAddress, jobType);
     }
 
     /**
@@ -41,7 +26,8 @@ public class Job {
      *
      * @return The job title.
      */
-    public JobTitle getJobTitle() {
+    @Override
+    public JobTitle jobTitle() {
         return this.jobTitle;
     }
 
@@ -50,7 +36,8 @@ public class Job {
      *
      * @return The company name.
      */
-    public JobCompany getJobCompany() {
+    @Override
+    public JobCompany jobCompany() {
         return this.jobCompany;
     }
 
@@ -59,7 +46,8 @@ public class Job {
      *
      * @return The job rounds.
      */
-    public JobRounds getJobRounds() {
+    @Override
+    public JobRounds jobRounds() {
         return this.jobRounds;
     }
 
@@ -68,7 +56,8 @@ public class Job {
      *
      * @return The job skills.
      */
-    public JobSkills getJobSkills() {
+    @Override
+    public JobSkills jobSkills() {
         return this.jobSkills;
     }
 
@@ -77,7 +66,8 @@ public class Job {
      *
      * @return The job address.
      */
-    public JobAddress getJobAddress() {
+    @Override
+    public JobAddress jobAddress() {
         return this.jobAddress;
     }
 
@@ -86,7 +76,8 @@ public class Job {
      *
      * @return The employment type of the job.
      */
-    public JobType getJobType() {
+    @Override
+    public JobType jobType() {
         return this.jobType;
     }
 
@@ -95,13 +86,12 @@ public class Job {
      * of equality between two jobs.
      */
     public boolean isSameJob(Job otherJob) {
-        return otherJob != null && otherJob.getJobTitle().equals(this.jobTitle)
-                && otherJob.getJobCompany().equals(this.jobCompany);
+        return otherJob != null && otherJob.jobTitle().equals(this.jobTitle)
+                && otherJob.jobCompany().equals(this.jobCompany);
     }
 
     /**
      * Returns true if this job is the same as the specified object.
-     *
      * @param other The object to compare to.
      * @return True if the objects are equal, false otherwise.
      */
@@ -110,23 +100,10 @@ public class Job {
         if (other == this) {
             return true;
         }
+        // instanceof handles nulls.
         if (!(other instanceof Job otherJob)) {
             return false;
         }
-        return this.jobTitle.equals(otherJob.jobTitle) && this.jobCompany.equals(otherJob.jobCompany)
-                && this.jobRounds.equals(otherJob.jobRounds) && this.jobSkills.equals(otherJob.jobSkills)
-                && this.jobAddress.equals(otherJob.jobAddress)
-                && this.jobType.getDisplayType().equals(otherJob.jobType.getDisplayType());
-    }
-
-    /**
-     * Returns the hash code of this job.
-     *
-     * @return The hash code.
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.jobTitle, this.jobCompany, this.jobRounds,
-                this.jobSkills, this.jobAddress, this.jobType);
+        return this.jobTitle.equals(otherJob.jobTitle);
     }
 }

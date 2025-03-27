@@ -76,6 +76,8 @@ dependencies {
 
 shadowJar {
     archiveFileName = 'addressbook.jar'
+    // archiveBaseName = 'addressbook'
+    // archiveClassifier = null
 }
 
 defaultTasks 'clean', 'test'
@@ -92,13 +94,19 @@ test {
     systemProperty 'prism.text', 't2k'
     systemProperty 'testfx.setup.timeout', '2500'
     // Add module access for TestFX
-    jvmArgs(
-        '--add-exports=javafx.graphics/com.sun.javafx.application=ALL-UNNAMED',
-        '--add-opens=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED',
-        '--add-opens=javafx.graphics/com.sun.glass.ui.delegate=ALL-UNNAMED',
-        '--add-opens=javafx.graphics/com.sun.glass.ui.monocle=ALL-UNNAMED',
-        '--add-opens=javafx.graphics/com.sun.glass.utils=ALL-UNNAMED',
-        '--add-opens=javafx.graphics/com.sun.javafx.application=ALL-UNNAMED',
-        '--add-opens=javafx.graphics/com.sun.javafx.tk=ALL-UNNAMED'
-    )
+    jvmArgs = [
+            '--module-path', configurations.runtimeClasspath.asPath,
+            '--add-modules', 'javafx.controls,javafx.fxml,javafx.graphics',
+            '--add-exports=javafx.graphics/com.sun.javafx.application=ALL-UNNAMED',
+            '--add-opens=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED',
+            '--add-opens=javafx.graphics/com.sun.glass.ui.delegate=ALL-UNNAMED',
+            '--add-opens=javafx.graphics/com.sun.glass.utils=ALL-UNNAMED',
+            '--add-opens=javafx.graphics/com.sun.javafx.application=ALL-UNNAMED',
+            '--add-opens=javafx.graphics/com.sun.javafx.tk=ALL-UNNAMED'
+    ]
+}
+
+run {
+    // standardInput = System.in
+    enableAssertions = true
 }

@@ -8,9 +8,10 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Guarantees: immutable; name is valid as declared in {@link #isValidTagName(String)}
  */
 public record Tag(String tagName) {
-
-    public static final String MESSAGE_CONSTRAINTS = "Skill names should be alphanumeric";
+    public static final String MESSAGE_CONSTRAINTS = "Tag names should be alphanumeric";
     public static final String VALIDATION_REGEX = "\\p{Alnum}+";
+    /** Initialises dummy person in {@code AddApplicationCommandParser} below. */
+    public static final Tag DEFAULT_TAG = new Tag("DEFAULTTAG");
 
     /**
      * Constructs a {@code Tag}.

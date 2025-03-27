@@ -19,6 +19,9 @@ public class JobSkills {
      * blank string) becomes a valid input.
      */
     public static final String VALIDATION_REGEX = "\\p{Alnum}[\\p{Alnum} /+\\-.]*";
+    /** Initialises dummy job in {@code AddApplicationCommandParser} below. */
+    public static final JobSkills DEFAULT_JOBSKILLS =
+            new JobSkills(FXCollections.observableArrayList("DEFAULT-SKILL"));
     public final ObservableList<String> value = FXCollections.observableArrayList();
 
     /**

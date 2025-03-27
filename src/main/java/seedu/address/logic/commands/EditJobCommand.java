@@ -88,12 +88,12 @@ public class EditJobCommand extends Command {
     private static Job createEditedJob(Job jobToEdit, EditJobDescriptor editJobDescriptor) {
         assert jobToEdit != null;
 
-        JobTitle updatedJobTitle = editJobDescriptor.getJobTitle().orElse(jobToEdit.getJobTitle());
-        JobCompany updatedJobCompany = editJobDescriptor.getJobCompany().orElse(jobToEdit.getJobCompany());
-        JobRounds updatedJobRounds = editJobDescriptor.getJobRounds().orElse(jobToEdit.getJobRounds());
-        JobSkills updatedJobSkills = editJobDescriptor.getJobSkills().orElse(jobToEdit.getJobSkills());
-        JobAddress updatedJobAddress = editJobDescriptor.getJobAddress().orElse(jobToEdit.getJobAddress());
-        JobType updatedJobType = editJobDescriptor.getJobType().orElse(jobToEdit.getJobType());
+        JobTitle updatedJobTitle = editJobDescriptor.getJobTitle().orElse(jobToEdit.jobTitle());
+        JobCompany updatedJobCompany = editJobDescriptor.getJobCompany().orElse(jobToEdit.jobCompany());
+        JobRounds updatedJobRounds = editJobDescriptor.getJobRounds().orElse(jobToEdit.jobRounds());
+        JobSkills updatedJobSkills = editJobDescriptor.getJobSkills().orElse(jobToEdit.jobSkills());
+        JobAddress updatedJobAddress = editJobDescriptor.getJobAddress().orElse(jobToEdit.jobAddress());
+        JobType updatedJobType = editJobDescriptor.getJobType().orElse(jobToEdit.jobType());
 
         return new Job(updatedJobTitle, updatedJobCompany, updatedJobRounds, updatedJobSkills,
                 updatedJobAddress, updatedJobType);

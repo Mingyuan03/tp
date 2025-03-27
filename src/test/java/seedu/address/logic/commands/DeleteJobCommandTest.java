@@ -1,7 +1,7 @@
 package seedu.address.logic.commands;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
+import seedu.address.model.AddressBook;
 import seedu.address.model.ApplicationsManager;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -21,19 +22,20 @@ import seedu.address.model.job.Job;
 
 
 public class DeleteJobCommandTest {
-    private Model model = new ModelManager(getTypicalAddressBook(), getTypicalApplicationsManager(), new UserPrefs());
+    private final Model model = new ModelManager(
+            getTypicalAddressBook(), getTypicalApplicationsManager(), new UserPrefs());
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
-        Job jobtoDelete = model.getFilteredJobList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Job jobToDelete = model.getFilteredJobList().get(INDEX_FIRST_PERSON.getZeroBased());
         DeleteJobCommand deleteJobCommand = new DeleteJobCommand(INDEX_FIRST_PERSON);
 
-        String expectedMessage = String.format(DeleteJobCommand.MESSAGE_DELETE_JOB_SUCESS,
-                Messages.format(jobtoDelete));
+        String expectedMessage = String.format(DeleteJobCommand.MESSAGE_DELETE_JOB_SUCCESS,
+                Messages.format(jobToDelete));
 
-        ModelManager expectedModel = new ModelManager(model.getAddressBook(),
+        ModelManager expectedModel = new ModelManager(new AddressBook(this.model.getAddressBook()),
                 new ApplicationsManager(model.getApplicationsManager()), new UserPrefs());
-        expectedModel.deleteJob(jobtoDelete);
+        expectedModel.deleteJob(jobToDelete);
 
         assertCommandSuccess(deleteJobCommand, model, expectedMessage, expectedModel);
     }
@@ -52,19 +54,19 @@ public class DeleteJobCommandTest {
         DeleteJobCommand deleteJobSecondCommand = new DeleteJobCommand(INDEX_SECOND_PERSON);
 
         // same object -> returns true
-        assertTrue(deleteJobFirstCommand.equals(deleteJobFirstCommand));
+        assertEquals(deleteJobFirstCommand, deleteJobFirstCommand);
 
         // same values -> returns true
         DeleteJobCommand deleteJobFirstCommandCopy = new DeleteJobCommand(INDEX_FIRST_PERSON);
-        assertTrue(deleteJobFirstCommand.equals(deleteJobFirstCommandCopy));
+        assertEquals(deleteJobFirstCommand, deleteJobFirstCommandCopy);
 
         // different types -> returns false
-        assertFalse(deleteJobFirstCommand.equals(1));
+        assertNotEquals(new Object(), deleteJobFirstCommand);
 
         // null -> returns false
-        assertFalse(deleteJobFirstCommand.equals(null));
+        assertNotEquals(null, deleteJobFirstCommand);
 
         // different person -> returns false
-        assertFalse(deleteJobFirstCommand.equals(deleteJobSecondCommand));
+        assertNotEquals(deleteJobFirstCommand, deleteJobSecondCommand);
     }
 }

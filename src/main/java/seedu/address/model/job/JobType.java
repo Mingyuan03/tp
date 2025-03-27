@@ -14,7 +14,9 @@ public enum JobType {
     FREELANCE("Freelance"),
     CONTRACT("Contract");
     public static final String MESSAGE_CONSTRAINTS = "Job type should be one of the valid job types: "
-            + Arrays.stream(JobType.values()).map(JobType::getDisplayType).collect(Collectors.joining(", "));
+            + Arrays.stream(JobType.values()).map(JobType::toString).collect(Collectors.joining(", "));
+    /** Initialises dummy job in {@code AddApplicationCommandParser} below. */
+    public static final JobType DEFAULT_JOBTYPE = JobType.fromDisplayType("Intern");
     private final String displayType;
 
     JobType(String newDisplayType) { // Implicitly private JobType enum constructor.
@@ -22,22 +24,17 @@ public enum JobType {
     }
 
     /**
-     * Constructs a {@code JobType}.
-     *
+     * Constructs a {@code JobType} from {@code displayType} accounting for case differences.
      * @param displayType  The employment type of candidates this job is seeking.
      */
     public static JobType fromDisplayType(String displayType) {
         return Arrays.stream(JobType.values())
-                .filter(jobType -> jobType.getDisplayType().equals(displayType))
+                .filter(jobType -> jobType.toString().equalsIgnoreCase(displayType.trim()))
                 .findFirst().orElseThrow(() -> new IllegalArgumentException(MESSAGE_CONSTRAINTS));
     }
 
     public static boolean isValidDisplayType(String displayType) {
         return Arrays.stream(JobType.values()).anyMatch(jobType -> jobType.displayType.equals(displayType));
-    }
-
-    public String getDisplayType() {
-        return this.displayType;
     }
 
     @Override

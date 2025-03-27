@@ -243,8 +243,8 @@ public class TypicalPersons {
      * Returns a list of typical applications.
      */
     public static List<Application> getTypicalApplications() {
-        return new ArrayList<>(Arrays.asList(ALICE_GOOGLE_APPLICATION, BENSON_MICROSOFT_APPLICATION,
-                CARL_APPLE_APPLICATION, DANIEL_META_APPLICATION, ELLE_AMAZON_APPLICATION, FIONA_NETFLIX_APPLICATION,
-                ALICE_MICROSOFT_APPLICATION, BENSON_GOOGLE_APPLICATION));
+        return new ArrayList<>(Arrays.asList(ALICE_GOOGLE_APPLICATION, ALICE_MICROSOFT_APPLICATION,
+                BENSON_GOOGLE_APPLICATION, BENSON_MICROSOFT_APPLICATION, CARL_APPLE_APPLICATION,
+                DANIEL_META_APPLICATION, ELLE_AMAZON_APPLICATION, FIONA_NETFLIX_APPLICATION));
     }
 }

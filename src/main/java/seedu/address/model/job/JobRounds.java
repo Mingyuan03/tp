@@ -8,6 +8,8 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class JobRounds {
     public static final String MESSAGE_CONSTRAINTS = "Job rounds should be a positive integer";
+    /** Initialises dummy job in {@code AddApplicationCommandParser} below. */
+    public static final JobRounds DEFAULT_JOBROUNDS = new JobRounds(Integer.MAX_VALUE);
     public final int jobRounds; // Primitive int eliminates necessity of this being a normal class.
 
     /**

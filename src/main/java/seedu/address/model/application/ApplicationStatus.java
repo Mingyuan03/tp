@@ -9,6 +9,9 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class ApplicationStatus implements Comparable<ApplicationStatus> {
     public static final String MESSAGE_CONSTRAINTS = "Application status should be a non-negative integer";
+    /** Initialises dummy application in {@code AddApplicationCommandParser} below. */
+    public static final ApplicationStatus DEFAULT_ADDAPPLICATIONSTATUS = new ApplicationStatus(0);
+    public static final ApplicationStatus DEFAULT_ADVANCEAPPLICATIONSTATUS = new ApplicationStatus(1);
 
     /**
      * The status must be a non-negative integer. 0 means applied but no rounds
@@ -23,7 +26,6 @@ public class ApplicationStatus implements Comparable<ApplicationStatus> {
      * @param applicationStatus A valid application status.
      */
     public ApplicationStatus(int applicationStatus) {
-        requireNonNull(applicationStatus);
         checkArgument(isValidApplicationStatus(applicationStatus), MESSAGE_CONSTRAINTS);
         this.applicationStatus = applicationStatus;
     }
@@ -66,7 +68,7 @@ public class ApplicationStatus implements Comparable<ApplicationStatus> {
      */
     @Override
     public String toString() {
-        return String.valueOf(applicationStatus);
+        return String.valueOf(this.applicationStatus);
     }
 
     /**
@@ -80,11 +82,10 @@ public class ApplicationStatus implements Comparable<ApplicationStatus> {
         if (other == this) {
             return true;
         }
-        if (!(other instanceof ApplicationStatus)) {
+        if (!(other instanceof ApplicationStatus otherApplicationStatus)) {
             return false;
         }
-        ApplicationStatus otherApplicationStatus = (ApplicationStatus) other;
-        return applicationStatus == otherApplicationStatus.applicationStatus;
+        return this.applicationStatus == otherApplicationStatus.applicationStatus;
     }
 
     /**
@@ -94,7 +95,7 @@ public class ApplicationStatus implements Comparable<ApplicationStatus> {
      */
     @Override
     public int hashCode() {
-        return Integer.hashCode(applicationStatus);
+        return Integer.hashCode(this.applicationStatus);
     }
 
     @Override

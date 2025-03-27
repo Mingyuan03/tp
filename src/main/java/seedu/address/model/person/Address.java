@@ -8,26 +8,21 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Guarantees: immutable; is valid as declared in {@link #isValidAddress(String)}
  */
 public class Address {
-
     public static final String MESSAGE_CONSTRAINTS = "Addresses can take any values, and it should not be blank";
-
-    /*
-     * The first character of the address must not be a whitespace,
-     * otherwise " " (a blank string) becomes a valid input.
-     */
+    /** Initialises dummy person in {@code AddApplicationCommandParser} below. */
+    public static final Address DEFAULT_ADDRESS = new Address("DEFAULT_ADDRESS");
+    /** The first character of the address must not be a whitespace, else " " (a blank string) becomes a valid input. */
     public static final String VALIDATION_REGEX = "\\S.*";
-
     public final String value;
 
     /**
      * Constructs an {@code Address}.
-     *
      * @param address A valid address.
      */
     public Address(String address) {
         requireNonNull(address);
         checkArgument(isValidAddress(address), MESSAGE_CONSTRAINTS);
-        value = address;
+        this.value = address;
     }
 
     /**
@@ -39,7 +34,7 @@ public class Address {
 
     @Override
     public String toString() {
-        return value;
+        return this.value;
     }
 
     @Override
@@ -47,19 +42,15 @@ public class Address {
         if (other == this) {
             return true;
         }
-
         // instanceof handles nulls
-        if (!(other instanceof Address)) {
+        if (!(other instanceof Address otherAddress)) {
             return false;
         }
-
-        Address otherAddress = (Address) other;
-        return value.equals(otherAddress.value);
+        return this.value.equals(otherAddress.value);
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return this.value.hashCode();
     }
-
 }

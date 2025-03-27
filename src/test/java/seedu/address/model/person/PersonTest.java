@@ -2,6 +2,7 @@ package seedu.address.model.person;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
@@ -32,62 +33,62 @@ public class PersonTest {
         // null -> returns false
         assertFalse(ALICE.isSamePerson(null));
 
-        // same name, all other attributes different -> returns true
-        Person editedAlice = new PersonBuilder(ALICE).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB)
+        // same phone number, all other attributes different -> returns true
+        Person editedAlice = new PersonBuilder(ALICE).withName(VALID_NAME_BOB).withEmail(VALID_EMAIL_BOB)
                 .withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND).build();
         assertTrue(ALICE.isSamePerson(editedAlice));
 
-        // different name, all other attributes same -> returns false
-        editedAlice = new PersonBuilder(ALICE).withName(VALID_NAME_BOB).build();
+        // different phone number, all other attributes same -> returns false
+        editedAlice = new PersonBuilder(ALICE).withPhone(VALID_PHONE_BOB).build();
         assertFalse(ALICE.isSamePerson(editedAlice));
 
-        // name differs in case, all other attributes same -> returns false
-        Person editedBob = new PersonBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
-        assertFalse(BOB.isSamePerson(editedBob));
+        // phone number has letters, all other attributes same -> throws exception for invalid phone number
+        String phoneWithLetters = VALID_PHONE_BOB + "hello";
+        assertThrows(IllegalArgumentException.class, () -> new PersonBuilder().withPhone(phoneWithLetters).build());
 
-        // name has trailing spaces, all other attributes same -> returns false
-        String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
-        editedBob = new PersonBuilder(BOB).withName(nameWithTrailingSpaces).build();
-        assertFalse(BOB.isSamePerson(editedBob));
+        // phone number has trailing spaces, all other attributes same -> throws exception for invalid phone number
+        String phoneWithTrailingSpaces = VALID_PHONE_BOB + " ";
+        assertThrows(IllegalArgumentException.class, () -> new PersonBuilder(BOB)
+                .withPhone(phoneWithTrailingSpaces).build());
     }
 
     @Test
     public void equals() {
         // same values -> returns true
         Person aliceCopy = new PersonBuilder(ALICE).build();
-        assertTrue(ALICE.equals(aliceCopy));
+        assertEquals(ALICE, aliceCopy);
 
         // same object -> returns true
-        assertTrue(ALICE.equals(ALICE));
+        assertEquals(ALICE, ALICE);
 
         // null -> returns false
-        assertFalse(ALICE.equals(null));
+        assertNotEquals(null, ALICE);
 
         // different type -> returns false
-        assertFalse(ALICE.equals(5));
+        assertNotEquals(5, ALICE);
 
         // different person -> returns false
-        assertFalse(ALICE.equals(BOB));
+        assertNotEquals(ALICE, BOB);
 
         // different name -> returns false
         Person editedAlice = new PersonBuilder(ALICE).withName(VALID_NAME_BOB).build();
-        assertFalse(ALICE.equals(editedAlice));
+        assertNotEquals(ALICE, editedAlice);
 
         // different phone -> returns false
         editedAlice = new PersonBuilder(ALICE).withPhone(VALID_PHONE_BOB).build();
-        assertFalse(ALICE.equals(editedAlice));
+        assertNotEquals(ALICE, editedAlice);
 
         // different email -> returns false
         editedAlice = new PersonBuilder(ALICE).withEmail(VALID_EMAIL_BOB).build();
-        assertFalse(ALICE.equals(editedAlice));
+        assertNotEquals(ALICE, editedAlice);
 
         // different address -> returns false
         editedAlice = new PersonBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).build();
-        assertFalse(ALICE.equals(editedAlice));
+        assertNotEquals(ALICE, editedAlice);
 
         // different tags -> returns false
         editedAlice = new PersonBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
-        assertFalse(ALICE.equals(editedAlice));
+        assertNotEquals(ALICE, editedAlice);
     }
 
     @Test

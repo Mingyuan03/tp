@@ -49,12 +49,12 @@ class JsonAdaptedJob {
      * Converts a given {@code Job} into this class for Jackson use.
      */
     public JsonAdaptedJob(Job source) {
-        this.jobTitle = source.getJobTitle().jobTitle(); // JobTitle record class has implicit accessor.
-        this.jobCompany = source.getJobCompany().jobCompany(); // JobCompany record class has implicit accessor.
-        this.jobRounds = source.getJobRounds().jobRounds;
-        this.jobSkills = source.getJobSkills().value;
-        this.jobAddress = source.getJobAddress().value;
-        this.jobType = source.getJobType().getDisplayType();
+        this.jobTitle = source.jobTitle().jobTitle(); // JobTitle record class has implicit accessor.
+        this.jobCompany = source.jobCompany().jobCompany(); // JobCompany record class has implicit accessor.
+        this.jobRounds = source.jobRounds().jobRounds;
+        this.jobSkills = source.jobSkills().value;
+        this.jobAddress = source.jobAddress().value;
+        this.jobType = source.jobType().toString();
     }
 
     /**
