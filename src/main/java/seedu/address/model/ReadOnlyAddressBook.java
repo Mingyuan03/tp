@@ -20,5 +20,4 @@ public interface ReadOnlyAddressBook {
      * duplicate jobs.
      */
     ObservableList<Job> getJobList();
-
 }

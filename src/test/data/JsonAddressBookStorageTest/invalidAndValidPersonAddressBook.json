@@ -1,4 +1,23 @@
 {
+<<<<<<< HEAD
+  "persons": [ {
+    "name": "Valid Person",
+    "phone": "9482424",
+    "email": "hans@example.com",
+    "address": "4th street"
+  }, {
+    "name": "Person With Invalid Phone Field",
+    "phone": "948asdf2424",
+    "email": "hans@example.com",
+    "address": "4th street"
+  } ],
+  "jobs": [ {
+    "jobTitle": "Software Engineer",
+    "jobRounds": 4,
+    "jobSkills": ["Java", "Spring Boot", "Microservices"],
+    "jobType": "Intern"
+  } ]
+=======
   "persons": [
     {
       "name": "Valid Person",
@@ -21,4 +40,5 @@
       "jobType": "Intern"
     }
   ]
+>>>>>>> master
 }

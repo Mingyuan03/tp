@@ -27,8 +27,10 @@ class JsonAdaptedJob {
      * Constructs a {@code JsonAdaptedJob} with the given job details.
      */
     @JsonCreator
-    public JsonAdaptedJob(@JsonProperty("jobTitle") String jobTitle, @JsonProperty("jobRounds") Integer jobRounds,
-            @JsonProperty("jobSkills") ObservableList<String> jobSkills, @JsonProperty("jobType") String jobType) {
+    public JsonAdaptedJob(@JsonProperty("jobTitle") String jobTitle,
+                          @JsonProperty("jobRounds") Integer jobRounds,
+                          @JsonProperty("jobSkills") ObservableList<String> jobSkills,
+                          @JsonProperty("jobType") String jobType) {
         this.jobTitle = jobTitle;
         this.jobRounds = jobRounds;
         this.jobSkills = jobSkills;

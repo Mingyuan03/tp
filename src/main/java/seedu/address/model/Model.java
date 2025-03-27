@@ -64,6 +64,23 @@ public interface Model {
     void setApplicationsManagerFilePath(Path applicationsManagerFilePath);
 
     /**
+     * Adds the previous input of the user to the command history.
+     *
+     * @param command last input command
+     */
+    void addCommand(String command);
+
+    /**
+     * Gets the previous command in the command history
+     */
+    String getPrevCommand();
+
+    /**
+     * Gets the next command in the command history
+     */
+    String getNextCommand();
+
+    /**
      * Replaces address book data with the data in {@code addressBook}.
      */
     void setAddressBook(ReadOnlyAddressBook addressBook);

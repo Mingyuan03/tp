@@ -47,6 +47,16 @@ public interface Logic {
     List<Application> getApplicationsByPerson(Person person);
 
     /**
+     * Returns the previous command relative to current pointer in the command history.
+     */
+    String getPrevCommand();
+
+    /**
+     * Returns the next command relative to current pointer in the command history.
+     */
+    String getNextCommand();
+
+    /**
      * Returns the user prefs' address book file path.
      */
     Path getAddressBookFilePath();

@@ -31,6 +31,7 @@ public class ModelManager implements Model {
     private final FilteredList<Application> filteredApplications;
     private ViewState currentViewState = ViewState.PERSON_VIEW; // Default to person view
     private String applicationStatusFilter; // Current status filter, null when no filter is active
+    private final DoublyLinkedList commandHistory;
 
     /**
      * Initializes a ModelManager with the given addressBook, applicationsManager,
@@ -46,9 +47,10 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.applicationsManager = new ApplicationsManager(applicationsManager);
         this.userPrefs = new UserPrefs(userPrefs);
-        filteredPersons = new StackableFilteredList<>(this.addressBook.getPersonList());
-        filteredJobs = new StackableFilteredList<>(this.addressBook.getJobList());
-        filteredApplications = new FilteredList<>(this.applicationsManager.getApplicationList());
+        this.filteredPersons = new StackableFilteredList<>(this.addressBook.getPersonList());
+        this.filteredJobs = new StackableFilteredList<>(this.addressBook.getJobList());
+        this.filteredApplications = new FilteredList<>(this.applicationsManager.getApplicationList());
+        commandHistory = new DoublyLinkedList();
     }
 
     public ModelManager() {
@@ -102,6 +104,27 @@ public class ModelManager implements Model {
         userPrefs.setApplicationsManagerFilePath(applicationsManagerFilePath);
     }
 
+    // =========== Command History
+    // ================================================================================
+
+    @Override
+    public void addCommand(String command) {
+        commandHistory.add(command);
+        commandHistory.reset();
+    }
+
+    @Override
+    public String getPrevCommand() {
+        commandHistory.moveBack();
+        return commandHistory.getCommand();
+    }
+
+    @Override
+    public String getNextCommand() {
+        commandHistory.moveForward();
+        return commandHistory.getCommand();
+    }
+
     // =========== AddressBook
     // ================================================================================
 
@@ -135,7 +158,7 @@ public class ModelManager implements Model {
     @Override
     public void addPerson(Person person) {
         addressBook.addPerson(person);
-        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        resetFilteredPersonList();
     }
 
     @Override
@@ -169,7 +192,7 @@ public class ModelManager implements Model {
     @Override
     public void addJob(Job job) {
         addressBook.addJob(job);
-        updateFilteredJobList(PREDICATE_SHOW_ALL_JOBS);
+        resetFilteredJobList();
     }
 
     @Override

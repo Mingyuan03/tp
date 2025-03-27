@@ -32,9 +32,11 @@ public class EditJobCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the job identified "
             + "by the index number used in the displayed job list. "
             + "Existing values will be overwritten by the input values.\n"
-            + "Parameters: INDEX (must be a positive integer) " + "[" + PREFIX_JOB_TITLE + "JOB TITLE] " + "["
-            + PREFIX_JOB_ROUNDS + "NUMBER OF ROUNDS] " + "[" + PREFIX_JOB_SKILLS + "SKILLS] " + "["
-            + PREFIX_EMPLOYMENT_TYPE + "WORK TYPE]";
+            + "Parameters: INDEX (must be a positive integer) " + "[" + PREFIX_JOB_TITLE + "JOB_TITLE] "
+            + "[" + PREFIX_JOB_ROUNDS + "NUMBER_OF_ROUNDS] "
+            + "[" + PREFIX_JOB_SKILLS + "SKILLS] "
+            + "[" + PREFIX_EMPLOYMENT_TYPE + "WORK_TYPE]";
+
 
     public static final String MESSAGE_EDIT_JOB_SUCCESS = "Edited Job: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
@@ -82,7 +84,6 @@ public class EditJobCommand extends Command {
      */
     private static Job createEditedJob(Job jobToEdit, EditJobDescriptor editJobDescriptor) {
         assert jobToEdit != null;
-
         JobTitle updatedJobTitle = editJobDescriptor.getJobTitle().orElse(jobToEdit.getJobTitle());
         JobRounds updatedJobRounds = editJobDescriptor.getJobRounds().orElse(jobToEdit.getJobRounds());
         JobSkills updatedJobSkills = editJobDescriptor.getJobSkills().orElse(jobToEdit.getJobSkills());
@@ -189,8 +190,11 @@ public class EditJobCommand extends Command {
 
         @Override
         public String toString() {
-            return new ToStringBuilder(this).add("job title", this.jobTitle).add("job rounds", this.jobRounds)
-                    .add("job skills", this.jobSkills).add("job type", this.jobType).toString();
+            return new ToStringBuilder(this).add("job title", this.jobTitle)
+                    .add("job rounds", this.jobRounds)
+                    .add("job skills", this.jobSkills)
+                    .add("job type", this.jobType).toString();
+
         }
     }
 }

@@ -57,8 +57,7 @@ public class Job {
     }
 
     /**
-     * Returns the employment type of this job, be it intern, part-time or
-     * full-time.
+     * Returns the employment type of this job, be it intern, part-time or full-time.
      *
      * @return The employment type of the job.
      */

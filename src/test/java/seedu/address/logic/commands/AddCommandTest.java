@@ -163,7 +163,21 @@ public class AddCommandTest {
         }
 
         @Override
-        public void addPerson(Person person) {
+        public void addCommand(String command) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public String getPrevCommand() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public String getNextCommand() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        public ReadOnlyAddressBook getAddressBook() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -173,9 +187,17 @@ public class AddCommandTest {
         }
 
         @Override
-        public ReadOnlyAddressBook getAddressBook() {
+        public Path getApplicationsManagerFilePath() {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public void setApplicationsManagerFilePath(Path path) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        // =========== Person Operations
+        // =============================================================
 
         @Override
         public boolean hasPerson(Person person) {
@@ -184,6 +206,11 @@ public class AddCommandTest {
 
         @Override
         public void deletePerson(Person target) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addPerson(Person person) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -207,13 +234,36 @@ public class AddCommandTest {
             throw new AssertionError("This method should not be called.");
         }
 
+        // =========== Job Operations
+        // =============================================================
+
         @Override
-        public ObservableList<Job> getFilteredJobList() {
+        public boolean hasJob(Job job) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void setApplicationsManagerFilePath(Path path) {
+        public void deleteJob(Job job) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addJob(Job job) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setJob(Job target, Job editedJob) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Job> getFilteredJobList() {
+            return null;
+        }
+
+        @Override
+        public ReadOnlyApplicationsManager getApplicationsManager() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -228,17 +278,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void deleteJob(Job job) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public void addApplication(Application application) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public ReadOnlyApplicationsManager getApplicationsManager() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -268,16 +308,6 @@ public class AddCommandTest {
         }
 
         @Override
-        public boolean hasJob(Job job) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void addJob(Job job) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public void setApplicationsManager(ReadOnlyApplicationsManager applicationsManager) {
             throw new AssertionError("This method should not be called.");
         }
@@ -293,20 +323,11 @@ public class AddCommandTest {
         }
 
         @Override
-        public void setJob(Job target, Job editedJob) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public void updateFilteredApplicationList(Predicate<Application> predicate) {
             throw new AssertionError("This method should not be called.");
         }
-
-        @Override
-        public Path getApplicationsManagerFilePath() {
-            throw new AssertionError("This method should not be called.");
-        }
     }
+
 
     /**
      * A Model stub that contains a single person.

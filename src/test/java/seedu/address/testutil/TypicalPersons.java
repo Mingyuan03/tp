@@ -80,28 +80,40 @@ public class TypicalPersons {
             .withDegree(VALID_DEGREE_BOB).withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
 
     public static final Job SOFTWARE_ENGINEER_GOOGLE = new JobBuilder().withJobTitle("Software Engineer")
-            .withJobRounds(5).withJobSkills(FXCollections.observableArrayList("Java", "Spring Boot", "Microservices"))
-            .withJobType("Intern").build();
-
-    public static final Job DATA_SCIENTIST_MICROSOFT = new JobBuilder().withJobTitle("Data Scientist").withJobRounds(4)
-            .withJobSkills(FXCollections.observableArrayList("Python", "ML", "TensorFlow")).withJobType("Full Time")
+            .withJobRounds(5)
+            .withJobSkills(FXCollections.observableArrayList("Java", "Spring Boot", "Microservices"))
+            .withJobType("Intern")
             .build();
 
-    public static final Job PRODUCT_MANAGER_APPLE = new JobBuilder().withJobTitle("Product Manager").withJobRounds(3)
-            .withJobSkills(FXCollections.observableArrayList("Agile", "Roadmap Planning")).withJobType("Contract")
+    public static final Job DATA_SCIENTIST_MICROSOFT = new JobBuilder().withJobTitle("Data Scientist")
+            .withJobRounds(4)
+            .withJobSkills(FXCollections.observableArrayList("Python", "ML", "TensorFlow"))
+            .withJobType("Full Time")
             .build();
 
-    public static final Job UX_DESIGNER_META = new JobBuilder().withJobTitle("UX Designer").withJobRounds(3)
+    public static final Job PRODUCT_MANAGER_APPLE = new JobBuilder().withJobTitle("Product Manager")
+            .withJobRounds(3)
+            .withJobSkills(FXCollections.observableArrayList("Agile", "Roadmap Planning"))
+            .withJobType("Contract")
+            .build();
+
+    public static final Job UX_DESIGNER_META = new JobBuilder().withJobTitle("UX Designer")
+            .withJobRounds(3)
             .withJobSkills(FXCollections.observableArrayList("Figma", "User Research", "Wire Framing"))
-            .withJobType("Freelance").build();
+            .withJobType("Freelance")
+            .build();
 
-    public static final Job DEVOPS_ENGINEER_AMAZON = new JobBuilder().withJobTitle("DevOps Engineer").withJobRounds(4)
-            .withJobSkills(FXCollections.observableArrayList("AWS", "Kubernetes", "CI/CD")).withJobType("Part Time")
+    public static final Job DEVOPS_ENGINEER_AMAZON = new JobBuilder().withJobTitle("DevOps Engineer")
+            .withJobRounds(4)
+            .withJobSkills(FXCollections.observableArrayList("AWS", "Kubernetes", "CI/CD"))
+            .withJobType("Part Time")
             .build();
 
     public static final Job FULLSTACK_DEVELOPER_NETFLIX = new JobBuilder().withJobTitle("Full Stack Developer")
-            .withJobRounds(4).withJobSkills(FXCollections.observableArrayList("React", "Node.js", "MongoDB"))
-            .withJobType("Full Time").build();
+            .withJobRounds(4)
+            .withJobSkills(FXCollections.observableArrayList("React", "Node.js", "MongoDB"))
+            .withJobType("Full Time")
+            .build();
 
     // Typical applications
     public static final Application ALICE_GOOGLE_APPLICATION = new Application(ALICE, // Person

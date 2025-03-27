@@ -50,6 +50,7 @@ public class LogicManager implements Logic {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         CommandResult commandResult;
+        model.addCommand(commandText);
         Command command = addressBookParser.parseCommand(commandText);
         commandResult = command.execute(model);
 
@@ -93,6 +94,16 @@ public class LogicManager implements Logic {
     @Override
     public ObservableList<Job> getFilteredJobList() {
         return model.getFilteredJobList();
+    }
+
+    @Override
+    public String getPrevCommand() {
+        return model.getPrevCommand();
+    }
+
+    @Override
+    public String getNextCommand() {
+        return model.getNextCommand();
     }
 
     @Override

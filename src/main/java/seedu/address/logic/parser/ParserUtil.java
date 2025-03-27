@@ -141,9 +141,10 @@ public class ParserUtil {
     }
 
     /**
-     * @param jobRounds Raw jobRounds by user.
-     * @return trimmed remark without leading and trailing whitespaces for more
-     *         efficient processing.
+     * Parses a {@code String jobRounds} into a {@code JobRounds}. Leading and trailing whitespaces will be trimmed.
+     *
+     * @param jobRounds Raw jobRounds String by user.
+     * @return trimmed remark without leading and trailing whitespaces for more efficient processing.
      * @throws ParseException if the given {@code jobRounds} is invalid.
      */
     public static JobRounds parseJobRounds(String jobRounds) throws ParseException {
@@ -168,7 +169,9 @@ public class ParserUtil {
     }
 
     /**
-     * @param jobType Raw jobType value by user.
+     * Parses a {@code String jobType} into a {@code JobType} key. Leading and trailing whitespaces will be trimmed.
+     *
+     * @param jobType Raw jobType String value by user.
      * @return trimmed jobType key.
      * @throws ParseException if the given {@code jobValue} is invalid.
      */

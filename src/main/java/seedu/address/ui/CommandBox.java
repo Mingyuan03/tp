@@ -70,6 +70,20 @@ public class CommandBox extends UiPart<Region> {
     }
 
     /**
+     * Handles the Arrow Key pressed event.
+     *
+     * @param res String to be displayed on the TextField
+     */
+    public void handleArrowKeyPress(String res) {
+        commandTextField.setText(res);
+        commandTextField.positionCaret(res.length());
+    }
+
+    public TextField getCommandTextField() {
+        return this.commandTextField;
+    }
+
+    /**
      * Represents a function that can execute commands.
      */
     @FunctionalInterface
