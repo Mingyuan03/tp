@@ -15,4 +15,18 @@ public class SwitchViewCommand extends Command {
 
         return new CommandResult("Switched view", false, false, true);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof SwitchViewCommand)) {
+            return false;
+        }
+
+        return true; // All SwitchViewCommand instances are equal since they have no state
+    }
 }

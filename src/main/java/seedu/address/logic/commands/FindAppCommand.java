@@ -85,6 +85,7 @@ public class FindAppCommand extends Command {
                 feedbackMessage = MESSAGE_JOB_PARAM_IGNORED + ". " + feedbackMessage;
                 // Apply the global status filter
                 model.applyStatusFilter();
+                shouldRefreshJobView = false; // Don't refresh job view in person view
             } else {
                 // In job view with job index specified
                 List<Job> lastShownList = model.getFilteredJobList();
