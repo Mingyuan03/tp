@@ -30,13 +30,13 @@ public class DeleteApplicationCommand extends Command {
             + PREFIX_PERSON_INDEX + "1 "
             + PREFIX_JOB_INDEX + "2";
 
-    public static final String MESSAGE_DELETE_APPLICATION_SUCCESS = 
+    public static final String MESSAGE_DELETE_APPLICATION_SUCCESS =
             "Deleted application: %1$s's application for %2$s";
-    public static final String MESSAGE_APPLICATION_NOT_FOUND = 
+    public static final String MESSAGE_APPLICATION_NOT_FOUND =
             "No application found for this person and job";
-    public static final String MESSAGE_PERSON_INVALID_INDEX = 
+    public static final String MESSAGE_PERSON_INVALID_INDEX =
             "Person index is invalid";
-    public static final String MESSAGE_JOB_INVALID_INDEX = 
+    public static final String MESSAGE_JOB_INVALID_INDEX =
             "Job index is invalid";
 
     private final Index personIndex;

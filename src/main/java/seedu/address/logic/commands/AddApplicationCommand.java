@@ -31,7 +31,8 @@ public class AddApplicationCommand extends Command {
             + PREFIX_PERSON_INDEX + "1 "
             + PREFIX_JOB_INDEX + "2";
 
-    public static final String MESSAGE_SUCCESS = "New application created: %1$s has applied for %2$s (0 rounds completed)";
+    public static final String MESSAGE_SUCCESS = "New application created: "
+            + "%1$s has applied for %2$s (0 rounds completed)";
     public static final String MESSAGE_DUPLICATE_APPLICATION = "This application already exists";
     public static final String MESSAGE_PERSON_INVALID_INDEX = "Person index is invalid";
     public static final String MESSAGE_JOB_INVALID_INDEX = "Job index is invalid";

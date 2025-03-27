@@ -31,6 +31,7 @@ public class ViewPersonCommand extends Command {
     public static final String MESSAGE_NOT_IN_JOB_VIEW = "This command is only available in job-related views. "
             + "Please switch to job view first using 'switchview' command.";
     public static final String MESSAGE_NO_SUCH_PERSON = "No person with index %1$d found for job with index %2$d.";
+    public static final String MESSAGE_NO_APPLICATION = "No application exists between this person and job.";
 
     private static final Logger logger = LogsCenter.getLogger(ViewPersonCommand.class);
 
@@ -52,20 +53,29 @@ public class ViewPersonCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         List<Job> jobs = model.getFilteredJobList();
-        List<Person> persons = model.getFilteredPersonList();
 
         // Validate the job index
         if (jobIndex.getZeroBased() >= jobs.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_JOB_DISPLAYED_INDEX);
         }
 
-        // Validate the person index
-        if (personIndex.getZeroBased() >= persons.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
-        }
-
         Job job = jobs.get(jobIndex.getZeroBased());
-        Person person = persons.get(personIndex.getZeroBased());
+        
+        // Get applications for this job
+        List<Application> jobApplications = model.getApplicationsByJob(job);
+        
+        // Validate the person index within the job's applications
+        if (personIndex.getZeroBased() >= jobApplications.size()) {
+            throw new CommandException(String.format(MESSAGE_NO_SUCH_PERSON, 
+                    personIndex.getOneBased(), jobIndex.getOneBased()));
+        }
+        
+        // Get the application using the person index directly
+        Application application = jobApplications.get(personIndex.getZeroBased());
+        Person person = application.getApplicant();
+
+        // Set the view state to PERSON_DETAIL_VIEW before returning the CommandResult
+        model.setViewState(Model.ViewState.PERSON_DETAIL_VIEW);
 
         return CommandResult.withPersonView(
                 String.format(MESSAGE_VIEW_PERSON_SUCCESS, person.getName().fullName, job.getJobTitle().jobTitle()),

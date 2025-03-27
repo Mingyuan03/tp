@@ -56,5 +56,24 @@ public class CommandResultTest {
         // different refreshApplications value -> returns different hashcode
         assertNotEquals(commandResult.hashCode(), CommandResult.withRefreshApplications("feedback").hashCode());
     }
-
+    
+    @Test
+    public void toStringMethod() {
+        CommandResult commandResult = CommandResult.withFeedback("feedback");
+        String expected = new seedu.address.commons.util.ToStringBuilder(commandResult)
+                .add("feedbackToUser", "feedback")
+                .add("showHelp", false)
+                .add("exit", false)
+                .add("toggleView", false)
+                .add("viewJob", false)
+                .add("viewPerson", false)
+                .add("clearView", false)
+                .add("refreshJobView", false)
+                .add("jobIndex", -1)
+                .add("personIndex", -1)
+                .add("refreshApplications", false)
+                .toString();
+        
+        assertEquals(expected, commandResult.toString());
+    }
 }

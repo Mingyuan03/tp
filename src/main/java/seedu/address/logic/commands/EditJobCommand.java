@@ -180,7 +180,7 @@ public class EditJobCommand extends Command {
             if (!(other instanceof EditJobDescriptor)) {
                 return false;
             }
-            
+
             EditJobDescriptor otherEditJobDescriptor = (EditJobDescriptor) other;
             return Objects.equals(this.jobTitle, otherEditJobDescriptor.jobTitle)
                     && Objects.equals(this.jobRounds, otherEditJobDescriptor.jobRounds)

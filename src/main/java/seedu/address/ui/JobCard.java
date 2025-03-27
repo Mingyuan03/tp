@@ -70,7 +70,7 @@ public class JobCard extends UiPart<Region> {
 
         // Applications count with icon
         applicationsBox.getChildren().add(0, IconUtil.createIcon(FontAwesomeIcon.USERS, "white"));
-        
+
         // Ensure applications list is not null
         List<Application> applicationsList = (applications != null) ? applications : List.of();
         this.applications.setText("Applicants: " + applicationsList.size());
@@ -170,7 +170,7 @@ public class JobCard extends UiPart<Region> {
         // Progress bar
         int completedRounds = application.getApplicationStatus().applicationStatus;
         int totalRounds = job.getJobRounds().jobRounds;
-        
+
         // Prevent division by zero
         double progress = totalRounds > 0 ? (double) completedRounds / totalRounds : 0.0;
 

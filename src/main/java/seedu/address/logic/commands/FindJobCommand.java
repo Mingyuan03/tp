@@ -35,10 +35,10 @@ public class FindJobCommand extends Command {
         if (model.getFilteredJobList().isEmpty()) {
             // Reset the view state to job view (default view)
             model.setViewState(Model.ViewState.JOB_VIEW);
-            return CommandResult.withFeedback(
+            return CommandResult.withRefreshJobView(
                 String.format(Messages.MESSAGE_JOBS_LISTED_OVERVIEW, 0));
         } else {
-            return CommandResult.withFeedback(
+            return CommandResult.withRefreshJobView(
                 String.format(Messages.MESSAGE_JOBS_LISTED_OVERVIEW, model.getFilteredJobList().size()));
         }
     }

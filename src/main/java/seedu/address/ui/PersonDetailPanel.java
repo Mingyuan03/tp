@@ -82,7 +82,7 @@ public class PersonDetailPanel {
         // Update application information
         if (job != null) {
             jobTitleLabel.setText(job.getJobTitle().jobTitle());
-            
+
             if (application != null) {
                 int currentRound = application.getApplicationStatus().applicationStatus;
                 int maxRound = job.getJobRounds().jobRounds;

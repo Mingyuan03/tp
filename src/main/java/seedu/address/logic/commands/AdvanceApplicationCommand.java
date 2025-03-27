@@ -34,17 +34,17 @@ public class AdvanceApplicationCommand extends Command {
             + PREFIX_JOB_INDEX + "2 "
             + PREFIX_ROUNDS + "1";
 
-    public static final String MESSAGE_ADVANCE_APPLICATION_SUCCESS = 
+    public static final String MESSAGE_ADVANCE_APPLICATION_SUCCESS =
             "%1$s has completed %3$d/%4$d rounds for %2$s";
-    public static final String MESSAGE_EXCEED_ROUNDS = 
+    public static final String MESSAGE_EXCEED_ROUNDS =
             "Cannot advance application beyond the maximum number of rounds for this job";
-    public static final String MESSAGE_INVALID_ROUNDS = 
+    public static final String MESSAGE_INVALID_ROUNDS =
             "Number of rounds must be a positive integer";
-    public static final String MESSAGE_APPLICATION_NOT_FOUND = 
+    public static final String MESSAGE_APPLICATION_NOT_FOUND =
             "No application found for this person and job";
-    public static final String MESSAGE_PERSON_INVALID_INDEX = 
+    public static final String MESSAGE_PERSON_INVALID_INDEX =
             "Person index is invalid";
-    public static final String MESSAGE_JOB_INVALID_INDEX = 
+    public static final String MESSAGE_JOB_INVALID_INDEX =
             "Job index is invalid";
 
     private final Index personIndex;

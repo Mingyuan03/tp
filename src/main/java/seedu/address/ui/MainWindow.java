@@ -39,6 +39,7 @@ public class MainWindow extends UiPart<Stage> {
     private StatusBarFooter statusBarFooter;
     private HelpWindow helpWindow;
     private ViewStateIndicator viewStateIndicator;
+    private CommandBox commandBox;
     private boolean isJobView = false;
     private int selectedJobIndex = -1; // -1 means no job selected
 
@@ -77,7 +78,7 @@ public class MainWindow extends UiPart<Stage> {
         setWindowDefaultSize(logic.getGuiSettings());
 
         setAccelerators();
-        
+
         // Setup keyboard shortcuts
         setupKeyboardShortcuts();
 
@@ -153,8 +154,22 @@ public class MainWindow extends UiPart<Stage> {
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
 
         // Initialize command box
-        CommandBox commandBox = new CommandBox(this::executeCommand);
+        commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+
+        // Set focus to command text field
+        commandBox.getCommandTextField().requestFocus();
+
+        // Inject event listener to CommandBox to handle Arrow Key pressed events.
+        commandBox.getCommandTextField().setOnKeyPressed(event -> {
+            if (event.getCode() == javafx.scene.input.KeyCode.UP) {
+                String res = logic.getPrevCommand();
+                commandBox.handleArrowKeyPress(res);
+            } else if (event.getCode() == javafx.scene.input.KeyCode.DOWN) {
+                String res = logic.getNextCommand();
+                commandBox.handleArrowKeyPress(res);
+            }
+        });
     }
 
     /**
@@ -183,6 +198,11 @@ public class MainWindow extends UiPart<Stage> {
 
     void show() {
         primaryStage.show();
+
+        // Set focus to command text field after window is shown
+        if (commandBox != null) {
+            commandBox.getCommandTextField().requestFocus();
+        }
     }
 
     /**
@@ -227,7 +247,7 @@ public class MainWindow extends UiPart<Stage> {
      */
     public void refreshApplicationsView() {
         logger.info("Refreshed application view.");
-        
+
         // Refresh the appropriate panel based on the current view
         if (isJobView && jobListPanel != null) {
             // If we're in job view, refresh the job panel to show updated applications
@@ -245,29 +265,29 @@ public class MainWindow extends UiPart<Stage> {
      */
     public void clearDetailPanel() {
         logger.info("Clearing detail panels.");
-        
+
         if (isJobView && jobListPanel != null) {
             // Reset job selection
             selectedJobIndex = -1;
-            
+
             // Return to overview mode
             logic.setViewState(Model.ViewState.JOB_VIEW);
-            
+
             // Refresh the panel with general statistics
             jobListPanel.showGeneralStatistics();
         }
     }
-    
+
     /**
      * Refreshes the job panel to reflect changes in job data.
      */
     public void refreshJobPanel() {
         logger.info("Refreshing job panel.");
-        
+
         if (isJobView && jobListPanel != null) {
             // Refresh the job list view
             jobListPanel.refreshJobView();
-            
+
             // If a specific job was selected, refresh its view too
             if (selectedJobIndex >= 0 && selectedJobIndex < logic.getFilteredJobList().size()) {
                 jobListPanel.selectJob(selectedJobIndex);
@@ -289,24 +309,30 @@ public class MainWindow extends UiPart<Stage> {
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
 
-            // Handle commands that need to refresh statistics and clear views
+            // Handle list and listjob commands specifically, as they should clear filters
             String trimmedCommand = commandText.trim();
-            if (trimmedCommand.startsWith("listjob")
-                || trimmedCommand.startsWith("findjob")
-                || trimmedCommand.startsWith("listapp")
-                || trimmedCommand.startsWith("findapp")
-                || trimmedCommand.startsWith("list")) {
-
-                // If we're in job view, refresh the job list and statistics
-                if (isJobView && jobListPanel != null) {
-                    // Clear any detailed view by setting to regular job view
+            if (trimmedCommand.equals("list") || trimmedCommand.equals("listjob")) {
+                // These commands should completely reset the view and clear any filters
+                if (isJobView && trimmedCommand.equals("listjob")) {
+                    // Reset to job view and clear all filters
                     logic.setViewState(Model.ViewState.JOB_VIEW);
-
-                    // Update the view state indicator
-                    updateViewStateIndicator();
-
-                    // Refresh the general statistics
-                    jobListPanel.showGeneralStatistics();
+                    // Clear application status filter
+                    logic.clearStatusFilter();
+                    // Clear detail panel
+                    clearDetailPanel();
+                    // Refresh job panel to show all jobs without filters
+                    refreshJobPanel();
+                } else if (!isJobView && trimmedCommand.equals("list")) {
+                    // Reset to person view and clear all filters
+                    logic.setViewState(Model.ViewState.PERSON_VIEW);
+                    // Clear application status filter
+                    logic.clearStatusFilter();
+                    // Recreate person list panel to refresh the view
+                    if (personListPanel != null) {
+                        personListPanelPlaceholder.getChildren().clear();
+                        personListPanel = new PersonListPanel(logic.getFilteredPersonList(), logic);
+                        personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
+                    }
                 }
             }
 
@@ -334,7 +360,7 @@ public class MainWindow extends UiPart<Stage> {
             if (commandResult.isRefreshJobView()) {
                 refreshJobPanel();
             }
-            
+
             if (commandResult.isRefreshApplications()) {
                 refreshApplicationsView();
             }
@@ -488,20 +514,20 @@ public class MainWindow extends UiPart<Stage> {
         getRoot().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.isControlDown()) {
                 switch (event.getCode()) {
-                    case H: // Ctrl+H for Help
-                        handleHelp();
-                        event.consume();
-                        break;
-                    case V: // Ctrl+V for toggle View
-                        toggleJobView();
-                        event.consume();
-                        break;
-                    case Q: // Ctrl+Q for Quit
-                        handleExit();
-                        event.consume();
-                        break;
-                    default:
-                        break;
+                case H: // Ctrl+H for Help
+                    handleHelp();
+                    event.consume();
+                    break;
+                case V: // Ctrl+V for toggle View
+                    toggleJobView();
+                    event.consume();
+                    break;
+                case Q: // Ctrl+Q for Quit
+                    handleExit();
+                    event.consume();
+                    break;
+                default:
+                    break;
                 }
             }
         });

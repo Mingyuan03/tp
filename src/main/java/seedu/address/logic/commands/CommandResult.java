@@ -151,6 +151,18 @@ public class CommandResult {
     }
 
     /**
+     * Creates a command result with refresh job view without clearing the view.
+     * This is useful for commands that need to refresh the UI but not clear filters.
+     */
+    public static CommandResult withRefreshJobViewOnly(String feedbackToUser) {
+        return new CommandResult(
+            feedbackToUser, false, false, false,
+            false, false, false, true,
+            -1, -1, false
+        );
+    }
+
+    /**
      * Creates a command result with refreshed applications.
      */
     public static CommandResult withRefreshApplications(String feedbackToUser) {

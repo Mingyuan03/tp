@@ -9,6 +9,7 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.job.Job;
+import seedu.address.model.application.Application;
 
 /**
  * Displays detailed information about a specific job.
@@ -17,9 +18,10 @@ public class ViewJobCommand extends Command {
 
     public static final String COMMAND_WORD = "viewjob";
 
-    public static final String MESSAGE_SUCCESS = "Viewing job at index: %1$d";
+    public static final String MESSAGE_SUCCESS = "Viewing job: %s";
     public static final String MESSAGE_INVALID_JOB_INDEX = "The job index provided is invalid";
     public static final String MESSAGE_NOT_IN_JOB_VIEW = "Please switch to job view first using 'switchview' command.";
+    public static final String MESSAGE_NO_APPLICATIONS = "This job has no applications yet.";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Views the detailed information of a job. "
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
@@ -42,6 +44,15 @@ public class ViewJobCommand extends Command {
         // Get the job at the specified index
         Job job = lastShownList.get(targetIndex.getZeroBased());
         int jobIndex = targetIndex.getZeroBased();
+        
+        // Check if there are any applications for this job
+        List<Application> jobApplications = model.getApplicationsByJob(job);
+        if (jobApplications.isEmpty()) {
+            throw new CommandException(MESSAGE_NO_APPLICATIONS);
+        }
+
+        // Update the model state to JOB_DETAIL_VIEW
+        model.setViewState(Model.ViewState.JOB_DETAIL_VIEW);
 
         return CommandResult.withJobView(
                 String.format(MESSAGE_SUCCESS, job.getJobTitle().jobTitle()),

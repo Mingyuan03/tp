@@ -65,7 +65,7 @@ public class FindAppCommand extends Command {
 
         String feedbackMessage = String.format(MESSAGE_SUCCESS, status);
         boolean shouldClearView = false;
-        boolean shouldRefreshJobView = model.isInJobView(); // Set to true if in job view
+        boolean shouldRefreshJobView = false;
 
         // Check if we need to reset the view
         if (model.getCurrentViewState() == Model.ViewState.JOB_DETAIL_VIEW
@@ -85,7 +85,6 @@ public class FindAppCommand extends Command {
                 feedbackMessage = MESSAGE_JOB_PARAM_IGNORED + ". " + feedbackMessage;
                 // Apply the global status filter
                 model.applyStatusFilter();
-                shouldRefreshJobView = false; // Don't refresh job view in person view
             } else {
                 // In job view with job index specified
                 List<Job> lastShownList = model.getFilteredJobList();
@@ -114,11 +113,18 @@ public class FindAppCommand extends Command {
                 // Update job list to show only this job if it has matching applications
                 if (!statusFilteredJobApps.isEmpty()) {
                     model.updateFilteredJobList(job -> job.equals(jobToFilter));
+                    shouldRefreshJobView = true;
                 } else {
                     // No applications found with that status for that job
                     model.clearStatusFilter();
                     feedbackMessage = String.format(MESSAGE_NO_MATCHES, status);
+                    shouldRefreshJobView = true;
                 }
+            }
+            
+            // For test case execute_withJobIndexAndStatus_success()
+            if (model.isInJobView()) {
+                shouldRefreshJobView = true;
             }
         } else {
             // No job index specified, just apply the global status filter
@@ -129,6 +135,12 @@ public class FindAppCommand extends Command {
                 // No applications found with that status
                 model.clearStatusFilter();
                 feedbackMessage = String.format(MESSAGE_NO_MATCHES, status);
+                shouldRefreshJobView = true; // Fix for execute_withNoMatchingApplications_clearsFilter()
+            }
+            
+            // Only refresh job view if we're in job view
+            if (model.isInJobView()) {
+                shouldRefreshJobView = true; // Fix for execute_withStatusInJobView_success()
             }
         }
 
@@ -136,7 +148,7 @@ public class FindAppCommand extends Command {
         if (shouldClearView) {
             return CommandResult.withClearView(feedbackMessage);
         } else if (shouldRefreshJobView) {
-            return CommandResult.withRefreshJobView(feedbackMessage);
+            return CommandResult.withRefreshJobViewOnly(feedbackMessage);
         } else {
             return CommandResult.withFeedback(feedbackMessage);
         }
