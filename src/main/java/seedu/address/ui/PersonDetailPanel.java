@@ -15,7 +15,6 @@ import seedu.address.model.person.Person;
  */
 public class PersonDetailPanel {
 
-    private final Logic logic;
     private final VBox container;
     private Label nameLabel;
     private Label phoneLabel;
@@ -81,7 +80,7 @@ public class PersonDetailPanel {
 
         // Update application information
         jobTitleLabel.setText(job.getJobTitle().jobTitle());
-        int currentRound = application.applicationStatus().applicationStatus;
+        int currentRound = application.getApplicationStatus().applicationStatus;
         int maxRound = job.getJobRounds().jobRounds;
         String applicationStatus = "Round " + currentRound + " of " + maxRound;
         applicationStatusLabel.setText(applicationStatus);

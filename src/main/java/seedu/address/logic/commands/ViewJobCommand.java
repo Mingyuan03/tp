@@ -2,9 +2,13 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.List;
+
 import seedu.address.commons.core.index.Index;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.job.Job;
 
 /**
  * Displays detailed information about a specific job.
@@ -29,27 +33,19 @@ public class ViewJobCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        List<Job> lastShownList = model.getFilteredJobList();
 
-        // Check if in an appropriate view that has job listings
-        if (model.getCurrentViewState() == Model.ViewState.PERSON_VIEW) {
-            throw new CommandException(MESSAGE_NOT_IN_JOB_VIEW);
+        if (targetIndex.getZeroBased() >= lastShownList.size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_JOB_DISPLAYED_INDEX);
         }
 
-        if (targetIndex.getZeroBased() >= model.getFilteredJobList().size()) {
-            throw new CommandException(MESSAGE_INVALID_JOB_INDEX);
-        }
+        // Get the job at the specified index
+        Job job = lastShownList.get(targetIndex.getZeroBased());
+        int jobIndex = targetIndex.getZeroBased();
 
-        model.setViewState(Model.ViewState.JOB_DETAIL_VIEW);
-
-        return new CommandResult(
-                String.format(MESSAGE_SUCCESS, targetIndex.getOneBased()),
-                false,
-                false,
-                false,
-                true,
-                false,
-                targetIndex.getZeroBased(),
-                -1);
+        return CommandResult.withJobView(
+                String.format(MESSAGE_SUCCESS, job.getJobTitle().jobTitle()),
+                jobIndex);
     }
 
     @Override

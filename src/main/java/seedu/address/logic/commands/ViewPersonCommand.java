@@ -51,50 +51,24 @@ public class ViewPersonCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        List<Job> jobs = model.getFilteredJobList();
+        List<Person> persons = model.getFilteredPersonList();
 
-        // Log the current view state for debugging
-        logger.info("ViewPersonCommand executed. Current ViewState: " + model.getCurrentViewState());
-        logger.info("isInJobView() returns: " + model.isInJobView());
-
-        // Check if we're in job view
-        if (!model.isInJobView()) {
-            logger.warning("Command failed: Not in job view. Current state: " + model.getCurrentViewState());
-            throw new CommandException(MESSAGE_NOT_IN_JOB_VIEW);
-        }
-
-        // Get the job
-        List<Job> jobList = model.getFilteredJobList();
-        if (jobIndex.getZeroBased() >= jobList.size()) {
-            logger.warning("Command failed: Invalid job index: " + jobIndex.getOneBased());
+        // Validate the job index
+        if (jobIndex.getZeroBased() >= jobs.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_JOB_DISPLAYED_INDEX);
         }
-        Job targetJob = jobList.get(jobIndex.getZeroBased());
-        logger.info("Found target job: " + targetJob.getJobTitle().jobTitle());
 
-        // Get the application/person - use filtered applications to respect status filters
-        List<Application> applications = model.getApplicationsByJob(targetJob);
-        if (applications == null || personIndex.getZeroBased() >= applications.size()) {
-            logger.warning("Command failed: Invalid person index: " + personIndex.getOneBased()
-                    + " for job index: " + jobIndex.getOneBased());
-            throw new CommandException(
-                    String.format(MESSAGE_NO_SUCH_PERSON, personIndex.getOneBased(), jobIndex.getOneBased()));
+        // Validate the person index
+        if (personIndex.getZeroBased() >= persons.size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
-        Application targetApplication = applications.get(personIndex.getZeroBased());
-        Person targetPerson = targetApplication.applicant();
-        logger.info("Found target person: " + targetPerson.getName());
+        Job job = jobs.get(jobIndex.getZeroBased());
+        Person person = persons.get(personIndex.getZeroBased());
 
-        // Set the model state
-        model.setViewState(Model.ViewState.PERSON_DETAIL_VIEW);
-        logger.info("View state updated to PERSON_DETAIL_VIEW");
-
-        return new CommandResult(
-                String.format(MESSAGE_VIEW_PERSON_SUCCESS, targetPerson.getName(), targetJob.getJobTitle().jobTitle()),
-                false,
-                false,
-                false,
-                false,
-                true, // Set viewing person flag
+        return CommandResult.withPersonView(
+                String.format(MESSAGE_VIEW_PERSON_SUCCESS, person.getName().fullName, job.getJobTitle().jobTitle()),
                 jobIndex.getZeroBased(),
                 personIndex.getZeroBased());
     }

@@ -201,7 +201,7 @@ public class JobSpecificStatsPanel {
         // Count applicants by school
         Map<String, Integer> schoolCounts = new HashMap<>();
         for (Application application : applications) {
-            Person person = application.applicant();
+            Person person = application.getApplicant();
             if (person != null && person.getSchool() != null) {
                 String school = person.getSchool().value;
                 // Clean up school name if needed
@@ -244,7 +244,7 @@ public class JobSpecificStatsPanel {
         // Collect all unique skills from all applicants
         Set<String> allSkills = new HashSet<>();
         for (Application application : applications) {
-            Person person = application.applicant();
+            Person person = application.getApplicant();
             if (person != null) {
                 for (Tag tag : person.getTags()) {
                     allSkills.add(tag.tagName());

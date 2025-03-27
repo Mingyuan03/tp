@@ -335,12 +335,12 @@ public class ModelManager implements Model {
 
         // Apply the status filter to the application list
         Predicate<Application> statusPredicate = app ->
-            Integer.toString(app.applicationStatus().applicationStatus).equals(applicationStatusFilter);
+            Integer.toString(app.getApplicationStatus().applicationStatus).equals(applicationStatusFilter);
         updateFilteredApplicationList(statusPredicate);
 
         // Get jobs that have applications with the matching status
         List<Job> jobsWithMatchingApps = getFilteredApplicationList().stream()
-            .map(Application::job)
+            .map(Application::getJob)
             .distinct()
             .collect(Collectors.toList());
 
@@ -357,7 +357,7 @@ public class ModelManager implements Model {
 
         // Get persons that have applications with the matching status
         List<Person> personsWithMatchingApps = getFilteredApplicationList().stream()
-            .map(Application::applicant)
+            .map(Application::getApplicant)
             .distinct()
             .collect(Collectors.toList());
 
@@ -392,7 +392,7 @@ public class ModelManager implements Model {
 
         // Filter applications by the current status filter
         return allJobApplications.stream()
-                .filter(app -> Integer.toString(app.applicationStatus().applicationStatus)
+                .filter(app -> Integer.toString(app.getApplicationStatus().applicationStatus)
                         .equals(applicationStatusFilter))
                 .collect(Collectors.toList());
     }
@@ -410,7 +410,7 @@ public class ModelManager implements Model {
 
         // Filter applications by the current status filter
         return allPersonApplications.stream()
-                .filter(app -> Integer.toString(app.applicationStatus().applicationStatus)
+                .filter(app -> Integer.toString(app.getApplicationStatus().applicationStatus)
                         .equals(applicationStatusFilter))
                 .collect(Collectors.toList());
     }

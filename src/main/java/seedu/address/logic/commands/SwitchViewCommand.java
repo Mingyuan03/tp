@@ -13,7 +13,7 @@ public class SwitchViewCommand extends Command {
         // Toggle the model's view state
         model.toggleJobView();
 
-        return new CommandResult("Switched view", false, false, true);
+        return CommandResult.withToggleView("Switched view");
     }
 
     @Override

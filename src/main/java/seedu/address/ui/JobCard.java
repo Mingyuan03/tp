@@ -168,11 +168,11 @@ public class JobCard extends UiPart<Region> {
         progressHeader.getStyleClass().add("progress-header");
 
         // Progress bar
-        int currentRound = application.getApplicationStatus().applicationStatus;
-        int maxRound = job.getJobRounds().jobRounds;
+        int completedRounds = application.getApplicationStatus().applicationStatus;
+        int totalRounds = job.getJobRounds().jobRounds;
         
         // Prevent division by zero
-        double progress = maxRound > 0 ? (double) currentRound / maxRound : 0.0;
+        double progress = totalRounds > 0 ? (double) completedRounds / totalRounds : 0.0;
 
         ProgressBar progressBar = new ProgressBar(progress);
         progressBar.setPrefHeight(12);
@@ -183,7 +183,7 @@ public class JobCard extends UiPart<Region> {
         progressBar.setId("progress-bar-application-" + displayIndex);
 
         // Status label
-        Label statusLabel = new Label("Round " + currentRound + " of " + maxRound);
+        Label statusLabel = new Label("Rounds completed: " + completedRounds + " of " + totalRounds);
         statusLabel.getStyleClass().add("status-label");
 
         // Add all sections to the card

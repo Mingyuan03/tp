@@ -1,5 +1,7 @@
 package seedu.address.logic.commands;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
@@ -18,21 +20,17 @@ public class ClearViewCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) {
-        // Get current view state
-        Model.ViewState currentViewState = model.getCurrentViewState();
-        logger.info("Current view state: " + currentViewState);
+        requireNonNull(model);
 
-        // Check if we're in a detailed view
-        if (Model.ViewState.JOB_DETAIL_VIEW.equals(currentViewState)
-                || Model.ViewState.PERSON_DETAIL_VIEW.equals(currentViewState)) {
-            // Reset to regular job view
+        // Only clear the view if we're in job detail view or person detail view
+        if (model.getCurrentViewState() == Model.ViewState.JOB_DETAIL_VIEW
+                || model.getCurrentViewState() == Model.ViewState.PERSON_DETAIL_VIEW) {
+            // Reset state to job view
             model.setViewState(Model.ViewState.JOB_VIEW);
-            logger.info("View cleared, resetting to JOB_VIEW");
-            return new CommandResult(MESSAGE_SUCCESS, true);
+            return CommandResult.withClearView(MESSAGE_SUCCESS);
+        } else {
+            // Not in a detail view, nothing to clear
+            return CommandResult.withFeedback(MESSAGE_NOT_IN_DETAIL_VIEW);
         }
-
-        // If already in general view, just acknowledge
-        logger.info("Not in a detailed view, no action taken");
-        return new CommandResult(MESSAGE_NOT_IN_DETAIL_VIEW);
     }
 }

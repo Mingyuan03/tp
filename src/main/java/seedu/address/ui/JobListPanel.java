@@ -164,7 +164,7 @@ public class JobListPanel extends UiPart<Region> {
         }
 
         Application application = applications.get(applicationIndex);
-        Person person = application.applicant();
+        Person person = application.getApplicant();
 
         if (person == null) { //Check if person is null
             showGeneralStatistics();
@@ -238,7 +238,7 @@ public class JobListPanel extends UiPart<Region> {
                 List<Application> applications = logic.getApplicationsByJob(currentlyViewedJob);
                 for (int i = 0; i < applications.size(); i++) {
                     Application app = applications.get(i);
-                    if (app.applicant().equals(currentlyViewedPerson)) {
+                    if (app.getApplicant().equals(currentlyViewedPerson)) {
                         showPersonDetails(currentlyViewedJob, i);
                         break;
                     }

@@ -66,6 +66,11 @@ public class LogicManager implements Logic {
     }
 
     @Override
+    public void setViewState(Model.ViewState viewState) {
+        model.setViewState(viewState);
+    }
+
+    @Override
     public ReadOnlyAddressBook getAddressBook() {
         return model.getAddressBook();
     }
@@ -103,10 +108,5 @@ public class LogicManager implements Logic {
     @Override
     public void setGuiSettings(GuiSettings guiSettings) {
         model.setGuiSettings(guiSettings);
-    }
-
-    @Override
-    public void setViewState(Model.ViewState viewState) {
-        model.setViewState(viewState);
     }
 }

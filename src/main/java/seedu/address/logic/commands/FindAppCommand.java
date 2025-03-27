@@ -2,7 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_INDEX;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ROUNDS;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,8 +26,8 @@ public class FindAppCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Filters the list to show only applications "
             + "with the specified status.\n"
             + "In job view: " + COMMAND_WORD + " " + PREFIX_JOB_INDEX + "JOB_INDEX (optional) "
-            + PREFIX_STATUS + "STATUS\n"
-            + "In person view: " + COMMAND_WORD + " " + PREFIX_STATUS + "STATUS\n"
+            + PREFIX_ROUNDS + "ROUNDS\n"
+            + "In person view: " + COMMAND_WORD + " " + PREFIX_ROUNDS + "ROUNDS\n"
             + "Example: " + COMMAND_WORD + " j/1 st/Accepted";
 
     public static final String MESSAGE_SUCCESS = "Filtered applications by status: %1$s";
@@ -105,7 +105,7 @@ public class FindAppCommand extends Command {
 
                 // Filter these applications again to ensure they match both job AND status
                 List<Application> statusFilteredJobApps = filteredJobApps.stream()
-                        .filter(app -> Integer.toString(app.applicationStatus().applicationStatus).equals(status))
+                        .filter(app -> Integer.toString(app.getApplicationStatus().applicationStatus).equals(status))
                         .toList();
 
                 // Update the application list to only show these applications
@@ -132,8 +132,14 @@ public class FindAppCommand extends Command {
             }
         }
 
-        // Use the constructor with refreshJobView flag
-        return new CommandResult(feedbackMessage, shouldClearView, shouldRefreshJobView);
+        // Return a command result with appropriate flags
+        if (shouldClearView) {
+            return CommandResult.withClearView(feedbackMessage);
+        } else if (shouldRefreshJobView) {
+            return CommandResult.withRefreshJobView(feedbackMessage);
+        } else {
+            return CommandResult.withFeedback(feedbackMessage);
+        }
     }
 
     @Override

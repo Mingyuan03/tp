@@ -45,7 +45,7 @@ public class AddJobCommand extends Command {
         }
 
         model.addJob(toAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
+        return CommandResult.withFeedback(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
     }
 
     @Override

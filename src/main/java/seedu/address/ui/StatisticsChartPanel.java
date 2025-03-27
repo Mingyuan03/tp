@@ -249,7 +249,7 @@ public class StatisticsChartPanel {
             List<Application> applications = logic.getApplicationsByJob(job);
             if (applications != null) {
                 for (Application app : applications) {
-                    Person person = app.applicant();
+                    Person person = app.getApplicant();
                     if (person != null) {
                         uniquePersons.add(person);
                     }
@@ -335,7 +335,7 @@ public class StatisticsChartPanel {
 
                 // Also collect unique persons
                 for (Application app : applications) {
-                    Person person = app.applicant();
+                    Person person = app.getApplicant();
                     if (person != null) {
                         uniquePersons.add(person);
                     }

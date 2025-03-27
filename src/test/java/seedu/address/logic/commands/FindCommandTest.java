@@ -64,7 +64,7 @@ public class FindCommandTest {
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredPersonList(predicate);
         expectedModel.setViewState(Model.ViewState.JOB_VIEW);
-        CommandResult expectedCommandResult = new CommandResult(expectedMessage, true);
+        CommandResult expectedCommandResult = CommandResult.withClearView(expectedMessage);
         assertCommandSuccess(command, model, expectedCommandResult, expectedModel);
         assertEquals(Collections.emptyList(), model.getFilteredPersonList());
         assertEquals(Model.ViewState.JOB_VIEW, model.getCurrentViewState());

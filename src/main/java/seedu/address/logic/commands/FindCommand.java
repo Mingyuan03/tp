@@ -37,10 +37,10 @@ public class FindCommand extends Command {
         if (shouldClearView) {
             // Reset the view state to job view (default view)
             model.setViewState(Model.ViewState.JOB_VIEW);
-            return new CommandResult(
-                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, 0), true);
+            return CommandResult.withClearView(
+                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, 0));
         } else {
-            return new CommandResult(
+            return CommandResult.withFeedback(
                 String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
         }
     }

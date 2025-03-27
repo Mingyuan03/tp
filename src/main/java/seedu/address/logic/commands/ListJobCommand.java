@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_JOBS;
 
 import seedu.address.model.Model;
 
@@ -16,11 +17,7 @@ public class ListJobCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        model.resetFilteredJobList();
-
-        // Clear any application status filter
-        model.clearStatusFilter();
-
-        return new CommandResult(MESSAGE_SUCCESS);
+        model.updateFilteredJobList(PREDICATE_SHOW_ALL_JOBS);
+        return CommandResult.withFeedback(MESSAGE_SUCCESS);
     }
 }
