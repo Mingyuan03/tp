@@ -57,7 +57,7 @@
           <StackPane fx:id="jobListPanelPlaceholder" VBox.vgrow="ALWAYS" />
         </VBox>
 
-        <StackPane fx:id="statusbarPlaceholder" VBox.vgrow="NEVER" minHeight="25" prefHeight="25" 
+        <StackPane fx:id="statusbarPlaceholder" VBox.vgrow="NEVER" minHeight="25" prefHeight="25"
                   styleClass="status-bar" maxHeight="25">
           <padding>
             <Insets top="3" right="10" bottom="3" left="10" />

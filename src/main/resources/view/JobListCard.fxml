@@ -26,7 +26,7 @@
           <Label fx:id="id" styleClass="job-card-id" text="1" />
           <Label fx:id="jobTitle" styleClass="job-card-title" text="\$jobTitle" wrapText="true" />
         </HBox>
-        
+
         <!-- Job Info -->
         <HBox spacing="15" alignment="CENTER_LEFT">
           <!-- Job Rounds -->
@@ -39,7 +39,7 @@
           </HBox>
         </HBox>
       </VBox>
-      
+
       <!-- Applicants Container - TilePane for responsive grid layout -->
       <TilePane fx:id="applicantsContainer" styleClass="applicants-container" hgap="15" vgap="15" prefColumns="2">
         <padding>

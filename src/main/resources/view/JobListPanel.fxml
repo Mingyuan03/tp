@@ -9,7 +9,7 @@
   <SplitPane fx:id="splitPane" dividerPositions="0.6" VBox.vgrow="ALWAYS">
     <!-- Main Job List -->
     <ListView fx:id="jobListView" styleClass="job-list-container" VBox.vgrow="ALWAYS" />
-    
+
     <!-- Sidebar container with explicit width settings -->
     <StackPane minWidth="350" prefWidth="400" styleClass="sidebar-container">
       <!-- Sidebar placeholder - will be filled programmatically -->
