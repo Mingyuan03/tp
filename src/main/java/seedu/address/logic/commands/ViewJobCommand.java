@@ -8,8 +8,8 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.job.Job;
 import seedu.address.model.application.Application;
+import seedu.address.model.job.Job;
 
 /**
  * Displays detailed information about a specific job.
@@ -44,7 +44,7 @@ public class ViewJobCommand extends Command {
         // Get the job at the specified index
         Job job = lastShownList.get(targetIndex.getZeroBased());
         int jobIndex = targetIndex.getZeroBased();
-        
+
         // Check if there are any applications for this job
         List<Application> jobApplications = model.getApplicationsByJob(job);
         if (jobApplications.isEmpty()) {

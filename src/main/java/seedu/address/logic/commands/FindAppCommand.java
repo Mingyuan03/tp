@@ -121,7 +121,7 @@ public class FindAppCommand extends Command {
                     shouldRefreshJobView = true;
                 }
             }
-            
+
             // For test case execute_withJobIndexAndStatus_success()
             if (model.isInJobView()) {
                 shouldRefreshJobView = true;
@@ -137,7 +137,7 @@ public class FindAppCommand extends Command {
                 feedbackMessage = String.format(MESSAGE_NO_MATCHES, status);
                 shouldRefreshJobView = true; // Fix for execute_withNoMatchingApplications_clearsFilter()
             }
-            
+
             // Only refresh job view if we're in job view
             if (model.isInJobView()) {
                 shouldRefreshJobView = true; // Fix for execute_withStatusInJobView_success()

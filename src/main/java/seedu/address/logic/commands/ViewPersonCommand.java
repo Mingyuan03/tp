@@ -60,16 +60,16 @@ public class ViewPersonCommand extends Command {
         }
 
         Job job = jobs.get(jobIndex.getZeroBased());
-        
+
         // Get applications for this job
         List<Application> jobApplications = model.getApplicationsByJob(job);
-        
+
         // Validate the person index within the job's applications
         if (personIndex.getZeroBased() >= jobApplications.size()) {
-            throw new CommandException(String.format(MESSAGE_NO_SUCH_PERSON, 
+            throw new CommandException(String.format(MESSAGE_NO_SUCH_PERSON,
                     personIndex.getOneBased(), jobIndex.getOneBased()));
         }
-        
+
         // Get the application using the person index directly
         Application application = jobApplications.get(personIndex.getZeroBased());
         Person person = application.getApplicant();

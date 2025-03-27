@@ -75,7 +75,7 @@ public interface Logic {
      * Sets the current view state.
      */
     void setViewState(Model.ViewState viewState);
-    
+
     /**
      * Clears the application status filter and resets all filtered lists.
      */
