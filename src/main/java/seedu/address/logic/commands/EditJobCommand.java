@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_SKILLS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_TITLE;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import seedu.address.commons.core.index.Index;
@@ -31,10 +32,9 @@ public class EditJobCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the job identified "
             + "by the index number used in the displayed job list. "
             + "Existing values will be overwritten by the input values.\n"
-            + "Parameters: INDEX (must be a positive integer) " + "[" + PREFIX_JOB_TITLE + "JOB TITLE] "
-            + "[" + PREFIX_JOB_ROUNDS + "NUMBER OF ROUNDS] "
-            + "[" + PREFIX_JOB_SKILLS + "SKILLS] "
-            + "[" + PREFIX_EMPLOYMENT_TYPE + "WORK TYPE]";
+            + "Parameters: INDEX (must be a positive integer) " + "[" + PREFIX_JOB_TITLE + "JOB TITLE] " + "["
+            + PREFIX_JOB_ROUNDS + "NUMBER OF ROUNDS] " + "[" + PREFIX_JOB_SKILLS + "SKILLS] " + "["
+            + PREFIX_EMPLOYMENT_TYPE + "WORK TYPE]";
 
     public static final String MESSAGE_EDIT_JOB_SUCCESS = "Edited Job: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
@@ -44,7 +44,7 @@ public class EditJobCommand extends Command {
     private final EditJobDescriptor editJobDescriptor;
 
     /**
-     * @param index                of the person in the filtered person list to edit
+     * @param index             of the person in the filtered person list to edit
      * @param editJobDescriptor details to edit the person with
      */
     public EditJobCommand(Index index, EditJobDescriptor editJobDescriptor) {
@@ -73,7 +73,7 @@ public class EditJobCommand extends Command {
 
         model.setJob(jobToEdit, editedJob);
         model.resetFilteredJobList();
-        return new CommandResult(String.format(MESSAGE_EDIT_JOB_SUCCESS, Messages.format(editedJob)));
+        return CommandResult.withFeedback(String.format(MESSAGE_EDIT_JOB_SUCCESS, Messages.format(editedJob)));
     }
 
     /**
@@ -102,8 +102,8 @@ public class EditJobCommand extends Command {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).add("index", this.index)
-                .add("editPersonDescriptor", this.editJobDescriptor).toString();
+        return new ToStringBuilder(this).add("index", this.index).add("editPersonDescriptor", this.editJobDescriptor)
+                .toString();
     }
 
     /**
@@ -133,7 +133,7 @@ public class EditJobCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(jobTitle, jobRounds, jobSkills, jobType);
+            return CollectionUtil.isAnyNonNull(this.jobTitle, this.jobRounds, this.jobSkills, this.jobType);
         }
 
         public void setJobTitle(JobTitle jobTitle) {
@@ -141,7 +141,7 @@ public class EditJobCommand extends Command {
         }
 
         public Optional<JobTitle> getJobTitle() {
-            return Optional.ofNullable(jobTitle);
+            return Optional.ofNullable(this.jobTitle);
         }
 
         public void setJobRounds(JobRounds jobRounds) {
@@ -157,7 +157,7 @@ public class EditJobCommand extends Command {
         }
 
         public Optional<JobSkills> getJobSkills() {
-            return Optional.ofNullable(jobSkills);
+            return Optional.ofNullable(this.jobSkills);
         }
 
         public void setJobType(JobType jobType) {
@@ -179,21 +179,18 @@ public class EditJobCommand extends Command {
             if (!(other instanceof EditJobDescriptor)) {
                 return false;
             }
-
-            // state check
-            EditJobDescriptor e = (EditJobDescriptor) other;
-
-            return getJobTitle().equals(e.getJobTitle())
-                    && getJobRounds().equals(e.getJobRounds())
-                    && getJobSkills().equals(e.getJobSkills())
-                    && getJobType().equals(e.getJobType());
+            
+            EditJobDescriptor otherEditJobDescriptor = (EditJobDescriptor) other;
+            return Objects.equals(this.jobTitle, otherEditJobDescriptor.jobTitle)
+                    && Objects.equals(this.jobRounds, otherEditJobDescriptor.jobRounds)
+                    && Objects.equals(this.jobSkills, otherEditJobDescriptor.jobSkills)
+                    && Objects.equals(this.jobType, otherEditJobDescriptor.jobType);
         }
 
         @Override
         public String toString() {
-            return new ToStringBuilder(this).add("job title", this.jobTitle)
-                    .add("job rounds", this.jobRounds).add("job skills", this.jobSkills)
-                    .add("job type", this.jobType).toString();
+            return new ToStringBuilder(this).add("job title", this.jobTitle).add("job rounds", this.jobRounds)
+                    .add("job skills", this.jobSkills).add("job type", this.jobType).toString();
         }
     }
 }

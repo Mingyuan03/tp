@@ -25,8 +25,8 @@ public class EditJobCommandParser implements Parser<EditJobCommand> {
      */
     public EditJobCommand parse(String args) throws ParseException {
         requireNonNull(args);
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_JOB_TITLE,
-                PREFIX_JOB_ROUNDS, PREFIX_JOB_SKILLS, PREFIX_EMPLOYMENT_TYPE);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_JOB_TITLE, PREFIX_JOB_ROUNDS,
+                PREFIX_JOB_SKILLS, PREFIX_EMPLOYMENT_TYPE);
 
         Index index;
 
@@ -36,8 +36,8 @@ public class EditJobCommandParser implements Parser<EditJobCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditJobCommand.MESSAGE_USAGE), pe);
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_JOB_TITLE, PREFIX_JOB_ROUNDS,
-                PREFIX_JOB_SKILLS, PREFIX_EMPLOYMENT_TYPE);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_JOB_TITLE, PREFIX_JOB_ROUNDS, PREFIX_JOB_SKILLS,
+                PREFIX_EMPLOYMENT_TYPE);
 
         EditJobDescriptor editJobDescriptor = new EditJobDescriptor();
 

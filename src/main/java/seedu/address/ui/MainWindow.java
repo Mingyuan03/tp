@@ -353,6 +353,24 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
+     * Refreshes the application view to reflect changes in application data.
+     */
+    public void refreshApplicationsView() {
+        logger.info("Refreshed application view.");
+        
+        // Refresh the appropriate panel based on the current view
+        if (isJobView && jobListPanel != null) {
+            // If we're in job view, refresh the job panel to show updated applications
+            jobListPanel.refreshJobView();
+        } else if (personListPanel != null) {
+            // If we're in person view, recreate the person list panel
+            personListPanelPlaceholder.getChildren().clear();
+            personListPanel = new PersonListPanel(logic.getFilteredPersonList(), logic);
+            personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
+        }
+    }
+
+    /**
      * Executes the command and returns the result.
      *
      * @see seedu.address.logic.Logic#execute(String)
@@ -408,6 +426,10 @@ public class MainWindow extends UiPart<Stage> {
             if (commandResult.isRefreshJobView() && isJobView && jobListPanel != null) {
                 jobListPanel.refreshJobView();
                 logger.info("Refreshing job view");
+            }
+            
+            if (commandResult.isRefreshApplications()) {
+                refreshApplicationsView();
             }
 
             if (commandResult.isExit()) {

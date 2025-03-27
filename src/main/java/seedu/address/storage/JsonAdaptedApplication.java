@@ -33,9 +33,9 @@ public class JsonAdaptedApplication {
      * Converts a given {@code Application} into this class for Jackson use.
      */
     public JsonAdaptedApplication(Application source) {
-        applicant = new JsonAdaptedPerson(source.applicant());
-        job = new JsonAdaptedJob(source.job());
-        applicationStatus = source.applicationStatus().applicationStatus;
+        applicant = new JsonAdaptedPerson(source.getApplicant());
+        job = new JsonAdaptedJob(source.getJob());
+        applicationStatus = source.getApplicationStatus().applicationStatus;
     }
 
     /**

@@ -23,7 +23,8 @@ import seedu.address.model.person.School;
 import seedu.address.model.tag.Tag;
 
 /**
- * Contains utility methods used for parsing strings in the various Parser classes.
+ * Contains utility methods used for parsing strings in the various Parser
+ * classes.
  */
 public class ParserUtil {
 
@@ -153,8 +154,10 @@ public class ParserUtil {
     }
 
     /**
-     * @param jobSkills Raw jobSkills in the form of a single String input delimited by whitespace by user.
-     * @return {@code FXCollections.observableArrayList} collection of jobSkill Strings.
+     * @param jobSkills Raw jobSkills in the form of a single String input delimited
+     *                  by whitespace by user.
+     * @return {@code FXCollections.observableArrayList} collection of jobSkill
+     *         Strings.
      * @throws ParseException if any given {@code jobSkill} is invalid.
      */
     public static JobSkills parseJobSkills(String jobSkills) throws ParseException {
@@ -162,16 +165,6 @@ public class ParserUtil {
         requireNonNull(jobSkills);
         String[] jobSkillsArray = jobSkills.split("\\s+");
         return new JobSkills(FXCollections.observableArrayList(jobSkillsArray));
-    }
-
-    /**
-     * @param jobSkills List of job skills provided separately.
-     * @return {@code JobSkills} with all the skills.
-     * @throws ParseException if any given {@code jobSkill} is invalid.
-     */
-    public static JobSkills parseJobSkills(Collection<String> jobSkills) throws ParseException {
-        requireNonNull(jobSkills);
-        return new JobSkills(FXCollections.observableArrayList(jobSkills));
     }
 
     /**

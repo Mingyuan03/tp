@@ -27,10 +27,8 @@ class JsonAdaptedJob {
      * Constructs a {@code JsonAdaptedJob} with the given job details.
      */
     @JsonCreator
-    public JsonAdaptedJob(@JsonProperty("jobTitle") String jobTitle,
-                          @JsonProperty("jobRounds") Integer jobRounds,
-                          @JsonProperty("jobSkills") ObservableList<String> jobSkills,
-                          @JsonProperty("jobType") String jobType) {
+    public JsonAdaptedJob(@JsonProperty("jobTitle") String jobTitle, @JsonProperty("jobRounds") Integer jobRounds,
+            @JsonProperty("jobSkills") ObservableList<String> jobSkills, @JsonProperty("jobType") String jobType) {
         this.jobTitle = jobTitle;
         this.jobRounds = jobRounds;
         this.jobSkills = jobSkills;
@@ -41,16 +39,17 @@ class JsonAdaptedJob {
      * Converts a given {@code Job} into this class for Jackson use.
      */
     public JsonAdaptedJob(Job source) {
-        jobTitle = source.getJobTitle().jobTitle();
-        jobRounds = source.getJobRounds().jobRounds;
-        jobSkills = source.getJobSkills().value;
-        jobType = source.getJobType().getDisplayType();
+        this.jobTitle = source.getJobTitle().jobTitle(); // JobTitle record class has implicit accessor.
+        this.jobRounds = source.getJobRounds().jobRounds;
+        this.jobSkills = source.getJobSkills().value;
+        this.jobType = source.getJobType().getDisplayType();
     }
 
     /**
      * Converts this Jackson-friendly adapted job object into the model's {@code Job} object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted job.
+     * @throws IllegalValueException if there were any data constraints violated in
+     *                               the adapted job.
      */
     public Job toModelType() throws IllegalValueException {
         if (jobTitle == null) {
@@ -60,11 +59,11 @@ class JsonAdaptedJob {
         if (!JobTitle.isValidJobTitle(jobTitle)) {
             throw new IllegalValueException(JobTitle.MESSAGE_CONSTRAINTS);
         }
-        final JobTitle modelJobTitle = new JobTitle(jobTitle);
-
-        if (jobRounds == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-             JobRounds.class.getSimpleName()));
+        final JobTitle modelJobTitle = new JobTitle(this.jobTitle);
+        // Check valid max job rounds below.
+        if (this.jobRounds == null) {
+            throw new IllegalValueException(
+                    String.format(MISSING_FIELD_MESSAGE_FORMAT, JobRounds.class.getSimpleName()));
         }
         final JobRounds modelJobRounds = new JobRounds(jobRounds);
 
@@ -75,16 +74,15 @@ class JsonAdaptedJob {
         if (!JobSkills.areValidIndividualJobSkills(jobSkills)) {
             throw new IllegalValueException(JobSkills.MESSAGE_CONSTRAINTS);
         }
-        final JobSkills modelJobSkills = new JobSkills(jobSkills);
-
-        if (jobType == null) {
+        final JobSkills modelJobSkills = new JobSkills(this.jobSkills);
+        // Check valid job type below.
+        if (this.jobType == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, JobType.class.getSimpleName()));
         }
         if (!JobType.isValidDisplayType(jobType)) {
             throw new IllegalValueException(JobType.MESSAGE_CONSTRAINTS);
         }
-        final JobType modelJobType = JobType.fromDisplayType(jobType);
-
+        final JobType modelJobType = JobType.fromDisplayType(this.jobType);
         return new Job(modelJobTitle, modelJobRounds, modelJobSkills, modelJobType);
     }
 }

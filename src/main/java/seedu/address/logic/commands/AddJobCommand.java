@@ -19,18 +19,9 @@ public class AddJobCommand extends Command {
 
     public static final String COMMAND_WORD = "addjob";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a job to the address book. "
-            + "Parameters: "
-            + PREFIX_JOB_TITLE + "JOB_TITLE "
-            + PREFIX_JOB_ROUNDS + "NUMBER_OF_ROUNDS "
-            + PREFIX_JOB_SKILLS + "JOB_SKILL "
-            + PREFIX_EMPLOYMENT_TYPE + "EMPLOYMENT_TYPE\n"
-            + "Example: " + COMMAND_WORD + " "
-            + PREFIX_JOB_TITLE + "Software Engineer "
-            + PREFIX_JOB_ROUNDS + "5 "
-            + PREFIX_JOB_SKILLS + "Python "
-            + PREFIX_JOB_SKILLS + "JavaScript "
-            + PREFIX_EMPLOYMENT_TYPE + "Intern";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a job to the model manager. " + "Parameters: "
+            + PREFIX_JOB_TITLE + "JOB TITLE " + PREFIX_JOB_ROUNDS + "NUMBER OF ROUNDS OF INTERVIEWS "
+            + PREFIX_JOB_SKILLS + "SKILLS" + PREFIX_EMPLOYMENT_TYPE + "JOB TYPE";
 
     public static final String MESSAGE_SUCCESS = "New job added: %1$s";
     public static final String MESSAGE_DUPLICATE_JOB = "This job already exists in the address book";

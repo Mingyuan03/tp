@@ -6,6 +6,7 @@
 
 <suppressions>
   <suppress files="seedu[\\/]address[\\/]model[\\/]util[\\/]SampleDataUtil\.java" checks="Indentation"/>
+  <suppress files="seedu[\\/]address[\\/]testutil[\\/]TypicalPersons\.java" checks="Indentation"/>
   <suppress checks="JavadocType" files=".*Test\.java"/>
   <suppress checks="MissingJavadocMethodCheck" files=".*Test\.java"/>
 </suppressions>

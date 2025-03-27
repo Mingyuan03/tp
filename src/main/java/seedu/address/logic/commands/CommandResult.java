@@ -40,94 +40,125 @@ public class CommandResult {
     /** Person index. */
     private final int personIndex;
 
-    /**
-     * Constructs a {@code CommandResult} with the specified fields.
-     */
-    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean toggleView) {
-        this.feedbackToUser = requireNonNull(feedbackToUser);
-        this.showHelp = showHelp;
-        this.exit = exit;
-        this.toggleView = toggleView;
-        this.viewJob = false;
-        this.viewPerson = false;
-        this.clearView = false;
-        this.refreshJobView = false;
-        this.jobIndex = -1;
-        this.personIndex = -1;
-    }
+    /** Whether applications have been updated and need to be refreshed. */
+    private final boolean refreshApplications;
 
     /**
-     * Constructs a {@code CommandResult} with the specified fields including job viewing.
+     * Private constructor used by static factory methods.
      */
-    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean toggleView,
-                         boolean viewJob, int jobIndex) {
-        this.feedbackToUser = requireNonNull(feedbackToUser);
-        this.showHelp = showHelp;
-        this.exit = exit;
-        this.toggleView = toggleView;
-        this.viewJob = viewJob;
-        this.viewPerson = false;
-        this.clearView = false;
-        this.refreshJobView = false;
-        this.jobIndex = jobIndex;
-        this.personIndex = -1;
-    }
-
-    /**
-     * Constructs a {@code CommandResult} with the specified fields including person viewing.
-     */
-    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean toggleView,
-                         boolean viewJob, boolean viewPerson, int jobIndex, int personIndex) {
+    private CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean toggleView,
+                         boolean viewJob, boolean viewPerson, boolean clearView, boolean refreshJobView,
+                         int jobIndex, int personIndex, boolean refreshApplications) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.showHelp = showHelp;
         this.exit = exit;
         this.toggleView = toggleView;
         this.viewJob = viewJob;
         this.viewPerson = viewPerson;
-        this.clearView = false;
-        this.refreshJobView = false;
-        this.jobIndex = jobIndex;
-        this.personIndex = personIndex;
-    }
-
-    /**
-     * Constructs a {@code CommandResult} with the clear view flag set.
-     */
-    public CommandResult(String feedbackToUser, boolean clearView) {
-        this.feedbackToUser = requireNonNull(feedbackToUser);
-        this.showHelp = false;
-        this.exit = false;
-        this.toggleView = false;
-        this.viewJob = false;
-        this.viewPerson = false;
-        this.clearView = clearView;
-        this.refreshJobView = false;
-        this.jobIndex = -1;
-        this.personIndex = -1;
-    }
-
-    /**
-     * Constructs a {@code CommandResult} with the clear view and refresh job view flags set.
-     */
-    public CommandResult(String feedbackToUser, boolean clearView, boolean refreshJobView) {
-        this.feedbackToUser = requireNonNull(feedbackToUser);
-        this.showHelp = false;
-        this.exit = false;
-        this.toggleView = false;
-        this.viewJob = false;
-        this.viewPerson = false;
         this.clearView = clearView;
         this.refreshJobView = refreshJobView;
-        this.jobIndex = -1;
-        this.personIndex = -1;
+        this.jobIndex = jobIndex;
+        this.personIndex = personIndex;
+        this.refreshApplications = refreshApplications;
     }
 
     /**
-     * Constructs a {@code CommandResult} with the specified {@code feedbackToUser},
-     * and other fields set to their default value.
+     * Creates a command result with default parameters.
      */
-    public CommandResult(String feedbackToUser) {
-        this(feedbackToUser, false, false, false);
+    public static CommandResult withFeedback(String feedbackToUser) {
+        return new CommandResult(
+            feedbackToUser, false, false, false,
+            false, false, false, false,
+            -1, -1, false
+        );
+    }
+
+    /**
+     * Creates a command result with help display.
+     */
+    public static CommandResult withHelp(String feedbackToUser) {
+        return new CommandResult(
+            feedbackToUser, true, false, false,
+            false, false, false, false,
+            -1, -1, false
+        );
+    }
+
+    /**
+     * Creates a command result that signals exit.
+     */
+    public static CommandResult withExit(String feedbackToUser) {
+        return new CommandResult(
+            feedbackToUser, false, true, false,
+            false, false, false, false,
+            -1, -1, false
+        );
+    }
+
+    /**
+     * Creates a command result that toggles view.
+     */
+    public static CommandResult withToggleView(String feedbackToUser) {
+        return new CommandResult(
+            feedbackToUser, false, false, true,
+            false, false, false, false,
+            -1, -1, false
+        );
+    }
+
+    /**
+     * Creates a command result for viewing job.
+     */
+    public static CommandResult withJobView(String feedbackToUser, int jobIndex) {
+        return new CommandResult(
+            feedbackToUser, false, false, false,
+            true, false, false, false,
+            jobIndex, -1, false
+        );
+    }
+
+    /**
+     * Creates a command result for viewing person.
+     */
+    public static CommandResult withPersonView(String feedbackToUser, int jobIndex, int personIndex) {
+        return new CommandResult(
+            feedbackToUser, false, false, false,
+            true, true, false, false,
+            jobIndex, personIndex, false
+        );
+    }
+
+    /**
+     * Creates a command result with clear view.
+     */
+    public static CommandResult withClearView(String feedbackToUser) {
+        return new CommandResult(
+            feedbackToUser, false, false, false,
+            false, false, true, false,
+            -1, -1, false
+        );
+    }
+
+    /**
+     * Creates a command result with refresh job view.
+     */
+    public static CommandResult withRefreshJobView(String feedbackToUser) {
+        return new CommandResult(
+            feedbackToUser, false, false, false,
+            false, false, true, true,
+            -1, -1, false
+        );
+    }
+
+    /**
+     * Creates a command result with refreshed applications.
+     */
+    public static CommandResult withRefreshApplications(String feedbackToUser) {
+        return new CommandResult(
+            feedbackToUser, false, false, false,
+            false, false, false, false,
+            -1, -1, true
+        );
     }
 
     public String getFeedbackToUser() {
@@ -162,6 +193,10 @@ public class CommandResult {
         return refreshJobView;
     }
 
+    public boolean isRefreshApplications() {
+        return refreshApplications;
+    }
+
     public int getJobIndex() {
         return jobIndex;
     }
@@ -191,13 +226,14 @@ public class CommandResult {
                 && clearView == otherCommandResult.clearView
                 && refreshJobView == otherCommandResult.refreshJobView
                 && jobIndex == otherCommandResult.jobIndex
-                && personIndex == otherCommandResult.personIndex;
+                && personIndex == otherCommandResult.personIndex
+                && refreshApplications == otherCommandResult.refreshApplications;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(feedbackToUser, showHelp, exit, toggleView, viewJob, viewPerson, clearView,
-                refreshJobView, jobIndex, personIndex);
+                refreshJobView, jobIndex, personIndex, refreshApplications);
     }
 
     @Override
@@ -213,6 +249,7 @@ public class CommandResult {
                 .add("refreshJobView", refreshJobView)
                 .add("jobIndex", jobIndex)
                 .add("personIndex", personIndex)
+                .add("refreshApplications", refreshApplications)
                 .toString();
     }
 }

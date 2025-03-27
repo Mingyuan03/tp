@@ -16,14 +16,13 @@ public class Job {
     /**
      * Constructs a Job with the specified job title and properties.
      *
-     * @param jobTitle    The title of the job.
-     * @param jobRounds   The rounds of the job.
-     * @param jobSkills   The requisite skills for the job.
+     * @param jobTitle  The title of the job.
+     * @param jobRounds The rounds of the job.
+     * @param jobSkills The requisite skills for the job.
      * @param jobType   The employment type of the job.
      */
-    public Job(JobTitle jobTitle, JobRounds jobRounds,
-               JobSkills jobSkills, JobType jobType) {
-        requireAllNonNull(jobTitle);
+    public Job(JobTitle jobTitle, JobRounds jobRounds, JobSkills jobSkills, JobType jobType) {
+        requireAllNonNull(jobTitle, jobRounds, jobSkills, jobType);
         this.jobTitle = jobTitle;
         this.jobRounds = jobRounds;
         this.jobSkills = jobSkills;
@@ -58,7 +57,8 @@ public class Job {
     }
 
     /**
-     * Returns the employment type of this job, be it intern, part-time or full-time.
+     * Returns the employment type of this job, be it intern, part-time or
+     * full-time.
      *
      * @return The employment type of the job.
      */
@@ -67,8 +67,8 @@ public class Job {
     }
 
     /**
-     * Returns true if both jobs have the same title. This defines a weaker notion
-     * of equality between two jobs.
+     * Returns true if both jobs have the same title and company. This defines a
+     * weaker notion of equality between two jobs.
      */
     public boolean isSameJob(Job otherJob) {
         return otherJob != null && otherJob.getJobTitle().equals(this.jobTitle);
@@ -88,8 +88,7 @@ public class Job {
         if (!(other instanceof Job otherJob)) {
             return false;
         }
-        return this.jobTitle.equals(otherJob.jobTitle)
-                && this.jobRounds.equals(otherJob.jobRounds)
+        return this.jobTitle.equals(otherJob.jobTitle) && this.jobRounds.equals(otherJob.jobRounds)
                 && this.jobSkills.equals(otherJob.jobSkills)
                 && this.jobType.getDisplayType().equals(otherJob.jobType.getDisplayType());
     }
@@ -101,7 +100,6 @@ public class Job {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(this.jobTitle, this.jobRounds,
-                this.jobSkills, this.jobType);
+        return Objects.hash(this.jobTitle, this.jobRounds, this.jobSkills, this.jobType);
     }
 }

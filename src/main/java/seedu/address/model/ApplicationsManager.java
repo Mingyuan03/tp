@@ -119,7 +119,7 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
 
         // Find all applications involving this person and update them
         getApplicationsByPerson(oldPerson).forEach(app -> {
-            Application newApp = new Application(newPerson, app.job(), app.applicationStatus());
+            Application newApp = new Application(newPerson, app.getJob(), app.getApplicationStatus());
             setApplication(app, newApp);
         });
     }
@@ -138,11 +138,11 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
         // Find all applications involving this job and update them
         getApplicationsByJob(oldJob).forEach(app -> {
             // Check if application status is still valid with new job
-            if (app.applicationStatus().applicationStatus > newJob.getJobRounds().jobRounds) {
+            if (app.getApplicationStatus().applicationStatus > newJob.getJobRounds().jobRounds) {
                 throw new InvalidApplicationStatusException();
             }
 
-            Application newApp = new Application(app.applicant(), newJob, app.applicationStatus());
+            Application newApp = new Application(app.getApplicant(), newJob, app.getApplicationStatus());
             setApplication(app, newApp);
         });
     }
@@ -182,7 +182,7 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
     public List<Application> getApplicationsByPerson(Person person) {
         requireNonNull(person);
 
-        return applications.asUnmodifiableObservableList().stream().filter(app -> app.applicant().equals(person))
+        return applications.asUnmodifiableObservableList().stream().filter(app -> app.getApplicant().equals(person))
                 .collect(Collectors.toList());
     }
 
@@ -195,7 +195,7 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
     public List<Application> getApplicationsByJob(Job job) {
         requireNonNull(job);
 
-        return applications.asUnmodifiableObservableList().stream().filter(app -> app.job().equals(job))
+        return applications.asUnmodifiableObservableList().stream().filter(app -> app.getJob().equals(job))
                 .collect(Collectors.toList());
     }
 

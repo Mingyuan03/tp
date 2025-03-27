@@ -70,11 +70,14 @@ public class JobCard extends UiPart<Region> {
 
         // Applications count with icon
         applicationsBox.getChildren().add(0, IconUtil.createIcon(FontAwesomeIcon.USERS, "white"));
-        this.applications.setText("Applicants: " + applications.size());
+        
+        // Ensure applications list is not null
+        List<Application> applicationsList = (applications != null) ? applications : List.of();
+        this.applications.setText("Applicants: " + applicationsList.size());
 
         // Add application count badge
-        if (applications.size() > 0) {
-            Label badgeLabel = new Label(Integer.toString(applications.size()));
+        if (applicationsList.size() > 0) {
+            Label badgeLabel = new Label(Integer.toString(applicationsList.size()));
             badgeLabel.getStyleClass().add("applications-badge");
             jobTitleBox.getChildren().add(badgeLabel);
         }
@@ -85,16 +88,16 @@ public class JobCard extends UiPart<Region> {
         applicantsContainer.setPrefColumns(2);
         applicantsContainer.setTileAlignment(Pos.TOP_LEFT);
 
-        if (!applications.isEmpty()) {
-            // Add each applicant card to the TilePane
-            int[] index = {0}; // Use array to allow modification in lambda
-            applications.stream()
-                    .map(application -> createDetailedMiniPersonCard(application, index[0]++))
-                    .forEach(miniCard -> applicantsContainer.getChildren().add(miniCard));
-        } else {
+        if (applicationsList.isEmpty()) {
             Label noApplicantsLabel = new Label("No applications yet");
             noApplicantsLabel.getStyleClass().add("no-applicants-label");
             applicantsContainer.getChildren().add(noApplicantsLabel);
+        } else {
+            // Add each applicant card to the TilePane
+            int[] index = {0}; // Use array to allow modification in lambda
+            applicationsList.stream()
+                    .map(application -> createDetailedMiniPersonCard(application, index[0]++))
+                    .forEach(miniCard -> applicantsContainer.getChildren().add(miniCard));
         }
     }
 
@@ -120,14 +123,14 @@ public class JobCard extends UiPart<Region> {
         nameBox.getChildren().add(indexLabel);
 
         nameBox.getChildren().add(IconUtil.createIcon(FontAwesomeIcon.USER, "white"));
-        Label nameLabel = new Label(application.applicant().getName().fullName);
+        Label nameLabel = new Label(application.getApplicant().getName().fullName);
         nameLabel.getStyleClass().add("mini-card-name");
         nameBox.getChildren().add(nameLabel);
 
         // Address with icon
         HBox addressBox = new HBox(5);
         addressBox.getChildren().add(IconUtil.createIcon(FontAwesomeIcon.HOME, "white"));
-        Label addressLabel = new Label(application.applicant().getAddress().value);
+        Label addressLabel = new Label(application.getApplicant().getAddress().value);
         addressLabel.getStyleClass().add("mini-card-address");
         addressBox.getChildren().add(addressLabel);
         addressBox.getStyleClass().add("mini-card-address-box");
@@ -145,7 +148,7 @@ public class JobCard extends UiPart<Region> {
         skillsPane.getStyleClass().add("skills-pane");
         skillsPane.setHgap(5);
         skillsPane.setVgap(5);
-        application.applicant().getTags().stream()
+        application.getApplicant().getTags().stream()
                 .map(Tag::tagName)
                 .map(tagName -> {
                     Label label = new Label(tagName);
@@ -165,9 +168,11 @@ public class JobCard extends UiPart<Region> {
         progressHeader.getStyleClass().add("progress-header");
 
         // Progress bar
-        int currentRound = application.applicationStatus().applicationStatus;
+        int currentRound = application.getApplicationStatus().applicationStatus;
         int maxRound = job.getJobRounds().jobRounds;
-        double progress = (double) currentRound / maxRound;
+        
+        // Prevent division by zero
+        double progress = maxRound > 0 ? (double) currentRound / maxRound : 0.0;
 
         ProgressBar progressBar = new ProgressBar(progress);
         progressBar.setPrefHeight(12);
@@ -175,7 +180,7 @@ public class JobCard extends UiPart<Region> {
         progressBar.getStyleClass().add("custom-progress-bar");
 
         // Set a unique ID for the progress bar
-        progressBar.setId("custom-progress-bar-" + currentRound + "-" + maxRound);
+        progressBar.setId("progress-bar-application-" + displayIndex);
 
         // Status label
         Label statusLabel = new Label("Round " + currentRound + " of " + maxRound);
@@ -201,7 +206,6 @@ public class JobCard extends UiPart<Region> {
 
         // state check
         JobCard card = (JobCard) other;
-        return id.getText().equals(card.id.getText())
-                && job.equals(card.job);
+        return id.getText().equals(card.id.getText()) && job.equals(card.job);
     }
 }

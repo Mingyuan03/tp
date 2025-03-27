@@ -88,13 +88,13 @@
       "jobTitle": "UX Designer",
       "jobRounds": 3,
       "jobSkills": ["Figma", "User Research", "Wire Framing"],
-      "jobType": "Full Time"
+      "jobType": "Freelance"
     },
     {
       "jobTitle": "DevOps Engineer",
       "jobRounds": 4,
       "jobSkills": ["AWS", "Kubernetes", "CI/CD"],
-      "jobType": "Full Time"
+      "jobType": "Part Time"
     },
     {
       "jobTitle": "Full Stack Developer",

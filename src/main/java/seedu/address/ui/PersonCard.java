@@ -32,7 +32,7 @@ public class PersonCard extends UiPart<Region> {
      */
 
     public final Person person;
-    public final List<Application> applications; //This should be applications from person
+    public final List<Application> applications; // This should be applications from person
 
     // Graphic Components
     @FXML
@@ -141,47 +141,12 @@ public class PersonCard extends UiPart<Region> {
 
         // Add applications with Balenciaga-inspired styling - remove company name
         applicationsBox.getChildren().add(0, IconUtil.createIcon(FontAwesomeIcon.BRIEFCASE, "white"));
-        applicationsBox.setStyle(
-                "-fx-background-color: rgba(43, 43, 43, 0.7); "
-                + "-fx-background-radius: 4 4 0 0; "
-                + "-fx-padding: 5 10 5 10;");
-
-        applications.stream()
-                .sorted(Comparator.comparing(Application::applicationStatus))
-                .forEach(app -> {
-                    String jobTitle = app.job().getJobTitle().toString();
-                    int currentRound = app.applicationStatus().applicationStatus;
-                    int maxRound = app.job().getJobRounds().jobRounds;
-
-                    Label appLabel = new Label(jobTitle);
-                    appLabel.setStyle(
-                            "-fx-background-color: #2d2d30; "
-                            + "-fx-text-fill: white; "
-                            + "-fx-padding: 5 10 5 10; "
-                            + "-fx-background-radius: 4; "
-                            + "-fx-font-weight: bold; "
-                            + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 2, 0, 0, 1);");
-
-                    Label progressLabel = new Label("Round: " + currentRound + "/" + maxRound);
-                    progressLabel.setStyle(
-                            "-fx-text-fill: #f39c12; "
-                            + "-fx-font-size: 11px; "
-                            + "-fx-padding: 2 8 2 8; "
-                            + "-fx-background-color: rgba(243, 156, 18, 0.15); "
-                            + "-fx-background-radius: 10;");
-
-                    VBox appBox = new VBox(3);
-                    appBox.getChildren().addAll(appLabel, progressLabel);
-                    appBox.setStyle("-fx-padding: 2;");
-
-                    apps.getChildren().add(appBox);
-                });
-        apps.setStyle("-fx-spacing: 5; -fx-alignment: center-left;");
-
-        // Style the entire card
-        cardPane.setStyle(
-                "-fx-background-color: linear-gradient(to bottom, #303030, #252525); "
-                + "-fx-background-radius: 8; "
-                + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 5);");
+        applications.stream().sorted(Comparator.comparing(Application::getApplicationStatus)).forEach(app -> {
+            String jobTitle = app.getJob().getJobTitle().toString();
+            int currentRound = app.getApplicationStatus().applicationStatus;
+            int maxRound = app.getJob().getJobRounds().jobRounds;
+            String displayText = jobTitle + "\nRound: " + currentRound + "/" + maxRound;
+            apps.getChildren().add(new Label(displayText));
+        });
     }
 }

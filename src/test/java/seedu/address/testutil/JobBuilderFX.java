@@ -58,6 +58,7 @@ public class JobBuilderFX {
 
     /**
      * Sets the {@code JobType} of the {@code Job} that we are building.
+     *
      * @param type The JobType enum value
      */
     public JobBuilderFX withType(JobType type) {
@@ -66,8 +67,11 @@ public class JobBuilderFX {
     }
 
     /**
-     * Sets the {@code JobType} of the {@code Job} that we are building using display type string.
-     * @param displayType The display type string (e.g., "Full Time", "Intern", etc.)
+     * Sets the {@code JobType} of the {@code Job} that we are building using
+     * display type string.
+     *
+     * @param displayType The display type string (e.g., "Full Time", "Intern",
+     *                    etc.)
      */
     public JobBuilderFX withType(String displayType) {
         this.jobType = JobType.fromDisplayType(displayType);
