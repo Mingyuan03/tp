@@ -10,4 +10,4 @@
   </padding>
   <Label text="View:" styleClass="view-state-label-prefix" />
   <Label fx:id="viewStateLabel" text="PERSON_VIEW" styleClass="view-state-label" />
-</HBox> 
+</HBox>

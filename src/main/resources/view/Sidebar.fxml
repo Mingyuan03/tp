@@ -20,4 +20,4 @@
         </padding>
     </HBox>
     <VBox fx:id="sidebarContent" styleClass="sidebar-content" VBox.vgrow="ALWAYS" />
-</VBox> 
+</VBox>
