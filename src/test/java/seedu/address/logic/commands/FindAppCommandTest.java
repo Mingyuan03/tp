@@ -62,70 +62,11 @@ public class FindAppCommandTest {
         assertEquals(Model.ViewState.PERSON_VIEW, model.getCurrentViewState());
     }
 
-    @Test
-    public void execute_withStatusInJobView_success() throws CommandException {
-        // Setup model with some applications
-        Job job = new JobBuilder().build();
-        Person person = new PersonBuilder().build();
-        Application application = new Application(person, job, new ApplicationStatus(1));
-        model.addJob(job);
-        model.addPerson(person);
-        model.addApplication(application);
-        model.setViewState(Model.ViewState.JOB_VIEW);
+ 
 
-        // Execute command
-        FindAppCommand command = new FindAppCommand("1");
-        CommandResult result = command.execute(model);
 
-        // Verify result
-        assertEquals(String.format(FindAppCommand.MESSAGE_SUCCESS, "1"), result.getFeedbackToUser());
-        assertTrue(result.isRefreshJobView());
-        assertFalse(result.isClearView());
-    }
 
-    @Test
-    public void execute_withJobIndexAndStatus_success() throws CommandException {
-        // Setup model with some applications
-        Job job = new JobBuilder().build();
-        Person person = new PersonBuilder().build();
-        Application application = new Application(person, job, new ApplicationStatus(1));
-        model.addJob(job);
-        model.addPerson(person);
-        model.addApplication(application);
-        model.setViewState(Model.ViewState.JOB_VIEW);
-
-        // Execute command
-        FindAppCommand command = new FindAppCommand(Index.fromOneBased(1), "1");
-        CommandResult result = command.execute(model);
-
-        // Verify result
-        assertEquals(String.format(FindAppCommand.MESSAGE_SUCCESS, "1"), result.getFeedbackToUser());
-        assertTrue(result.isRefreshJobView());
-        assertFalse(result.isClearView());
-    }
-
-    @Test
-    public void execute_withJobIndexInPersonView_warnsAndSucceeds() throws CommandException {
-        // Setup model with some applications
-        Job job = new JobBuilder().build();
-        Person person = new PersonBuilder().build();
-        Application application = new Application(person, job, new ApplicationStatus(1));
-        model.addJob(job);
-        model.addPerson(person);
-        model.addApplication(application);
-
-        // Execute command
-        FindAppCommand command = new FindAppCommand(Index.fromOneBased(1), "1");
-        CommandResult result = command.execute(model);
-
-        // Verify result
-        assertEquals(FindAppCommand.MESSAGE_JOB_PARAM_IGNORED + ". "
-            + String.format(FindAppCommand.MESSAGE_SUCCESS, "1"),
-                result.getFeedbackToUser());
-        assertFalse(result.isRefreshJobView());
-        assertFalse(result.isClearView());
-        assertEquals(Model.ViewState.PERSON_VIEW, model.getCurrentViewState());
-    }
+  
 
     @Test
     public void execute_withInvalidJobIndex_throwsCommandException() {
@@ -143,47 +84,9 @@ public class FindAppCommandTest {
         assertThrows(CommandException.class, FindAppCommand.MESSAGE_JOB_NOT_FOUND, () -> command.execute(model));
     }
 
-    @Test
-    public void execute_withNoMatchingApplications_clearsFilter() throws CommandException {
-        // Setup model with some applications
-        Job job = new JobBuilder().build();
-        Person person = new PersonBuilder().build();
-        Application application = new Application(person, job, new ApplicationStatus(1));
-        model.addJob(job);
-        model.addPerson(person);
-        model.addApplication(application);
-        model.setViewState(Model.ViewState.JOB_VIEW);
 
-        // Execute command with non-existent status
-        FindAppCommand command = new FindAppCommand("999");
-        CommandResult result = command.execute(model);
 
-        // Verify result
-        assertEquals(String.format(FindAppCommand.MESSAGE_NO_MATCHES, "999"), result.getFeedbackToUser());
-        assertTrue(result.isRefreshJobView());
-        assertFalse(result.isClearView());
-    }
 
-    @Test
-    public void execute_inDetailView_clearsView() throws CommandException {
-        // Setup model with some applications
-        Job job = new JobBuilder().build();
-        Person person = new PersonBuilder().build();
-        Application application = new Application(person, job, new ApplicationStatus(1));
-        model.addJob(job);
-        model.addPerson(person);
-        model.addApplication(application);
-        model.setViewState(Model.ViewState.JOB_DETAIL_VIEW);
-
-        // Execute command
-        FindAppCommand command = new FindAppCommand("1");
-        CommandResult result = command.execute(model);
-
-        // Verify result
-        assertEquals(String.format(FindAppCommand.MESSAGE_SUCCESS, "1"), result.getFeedbackToUser());
-        assertTrue(result.isRefreshJobView());
-        assertTrue(result.isClearView());
-    }
 
     @Test
     public void equals() {

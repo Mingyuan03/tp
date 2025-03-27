@@ -15,6 +15,7 @@ import seedu.address.model.person.Person;
  */
 public class PersonDetailPanel {
 
+    private final Logic logic;
     private final VBox container;
     private Label nameLabel;
     private Label phoneLabel;
@@ -79,15 +80,27 @@ public class PersonDetailPanel {
         }
 
         // Update application information
-        jobTitleLabel.setText(job.getJobTitle().jobTitle());
-        int currentRound = application.getApplicationStatus().applicationStatus;
-        int maxRound = job.getJobRounds().jobRounds;
-        String applicationStatus = "Round " + currentRound + " of " + maxRound;
-        applicationStatusLabel.setText(applicationStatus);
+        if (job != null) {
+            jobTitleLabel.setText(job.getJobTitle().jobTitle());
+            
+            if (application != null) {
+                int currentRound = application.getApplicationStatus().applicationStatus;
+                int maxRound = job.getJobRounds().jobRounds;
+                String applicationStatus = "Round " + currentRound + " of " + maxRound;
+                applicationStatusLabel.setText(applicationStatus);
 
-        // Update progress bar
-        double progress = (double) currentRound / maxRound;
-        progressBar.setProgress(progress);
+                // Update progress bar with safety check for division by zero
+                double progress = maxRound > 0 ? (double) currentRound / maxRound : 0.0;
+                progressBar.setProgress(progress);
+            } else {
+                applicationStatusLabel.setText("No application found");
+                progressBar.setProgress(0);
+            }
+        } else {
+            jobTitleLabel.setText("No job information");
+            applicationStatusLabel.setText("No application found");
+            progressBar.setProgress(0);
+        }
     }
 
     /**

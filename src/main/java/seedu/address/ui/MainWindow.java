@@ -6,7 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
@@ -78,6 +77,9 @@ public class MainWindow extends UiPart<Stage> {
         setWindowDefaultSize(logic.getGuiSettings());
 
         setAccelerators();
+        
+        // Setup keyboard shortcuts
+        setupKeyboardShortcuts();
 
         helpWindow = new HelpWindow();
     }
@@ -141,31 +143,16 @@ public class MainWindow extends UiPart<Stage> {
 
         // Initialize the appropriate view
         if (isJobView) {
-            jobListPanel = new JobListPanel(logic.getFilteredJobList(), logic);
-            jobListPanelPlaceholder.getChildren().add(jobListPanel.getRoot());
-            // Hide person list completely
-            personListPanelPlaceholder.setVisible(false);
-            personListPanelPlaceholder.setManaged(false);
-            // Show job list
-            jobListPanelPlaceholder.setVisible(true);
-            jobListPanelPlaceholder.setManaged(true);
+            initJobView();
         } else {
-            personListPanel = new PersonListPanel(logic.getFilteredPersonList(), logic);
-            personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
-            // Hide job list completely
-            jobListPanelPlaceholder.setVisible(false);
-            jobListPanelPlaceholder.setManaged(false);
-            // Show person list
-            personListPanelPlaceholder.setVisible(true);
-            personListPanelPlaceholder.setManaged(true);
+            initPersonView();
         }
 
+        // Initialize result display
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
 
-        StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getAddressBookFilePath());
-        statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
-
+        // Initialize command box
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
     }
@@ -402,18 +389,6 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Updates the view state indicator with the current view state.
-     */
-    private void updateViewStateIndicator() {
-        if (viewStateIndicator != null) {
-            // Use isJobView to determine the state
-            viewStateIndicator.updateViewState(isJobView
-                ? Model.ViewState.JOB_VIEW
-                : Model.ViewState.PERSON_VIEW);
-        }
-    }
-
-    /**
      * Initializes the job view components.
      */
     private void initJobView() {
@@ -433,10 +408,8 @@ public class MainWindow extends UiPart<Stage> {
         jobListPanelPlaceholder.setVisible(true);
         jobListPanelPlaceholder.setManaged(true);
 
-        // If a job is selected, show its specific statistics
-        if (selectedJobIndex >= 0 && selectedJobIndex < logic.getFilteredJobList().size()) {
-            viewJobStatistics(selectedJobIndex);
-        }
+        // Reset job selection when switching to job view
+        selectedJobIndex = -1;
     }
 
     /**
@@ -461,6 +434,18 @@ public class MainWindow extends UiPart<Stage> {
 
         // Reset job selection when switching to person view
         selectedJobIndex = -1;
+    }
+
+    /**
+     * Updates the view state indicator with the current view state.
+     */
+    private void updateViewStateIndicator() {
+        if (viewStateIndicator != null) {
+            // Use isJobView to determine the state
+            viewStateIndicator.updateViewState(isJobView
+                ? Model.ViewState.JOB_VIEW
+                : Model.ViewState.PERSON_VIEW);
+        }
     }
 
     /**
@@ -493,6 +478,53 @@ public class MainWindow extends UiPart<Stage> {
         } else {
             logger.warning("Invalid job index for statistics: " + jobIndex);
             selectedJobIndex = -1;
+        }
+    }
+
+    /**
+     * Handles keyboard shortcuts for the application.
+     */
+    public void setupKeyboardShortcuts() {
+        getRoot().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.isControlDown()) {
+                switch (event.getCode()) {
+                    case H: // Ctrl+H for Help
+                        handleHelp();
+                        event.consume();
+                        break;
+                    case V: // Ctrl+V for toggle View
+                        toggleJobView();
+                        event.consume();
+                        break;
+                    case Q: // Ctrl+Q for Quit
+                        handleExit();
+                        event.consume();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+
+    /**
+     * Clears the current view and returns to the general overview.
+     */
+    public void clearView() {
+        // Return to overview mode
+        if (isJobView) {
+            // Ensure model state is synchronized using Logic interface
+            logic.setViewState(Model.ViewState.JOB_VIEW);
+
+            // Reset job selection
+            selectedJobIndex = -1;
+
+            // Refresh the panel with general statistics
+            if (jobListPanel != null) {
+                jobListPanel.showGeneralStatistics();
+            }
+
+            logger.info("View cleared, returned to job overview");
         }
     }
 }

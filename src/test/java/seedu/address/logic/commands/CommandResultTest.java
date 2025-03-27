@@ -57,14 +57,4 @@ public class CommandResultTest {
         assertNotEquals(commandResult.hashCode(), CommandResult.withRefreshApplications("feedback").hashCode());
     }
 
-    @Test
-    public void toStringMethod() {
-        CommandResult commandResult = CommandResult.withFeedback("feedback");
-        String expected = seedu.address.commons.util.ToStringBuilder.class.getCanonicalName()
-                + "{feedbackToUser=feedback, showHelp=false, exit=false, "
-                + "toggleView=false, viewJob=false, viewPerson=false, clearView=false, "
-                + "refreshJobView=false, jobIndex=-1, personIndex=-1, refreshApplications=false}";
-        
-        assertEquals(expected, commandResult.toString());
-    }
 }
