@@ -25,4 +25,4 @@ public class ViewJobCommandParser implements Parser<ViewJobCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewJobCommand.MESSAGE_USAGE), pe);
         }
     }
-} 
+}

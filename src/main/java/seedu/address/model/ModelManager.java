@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import java.util.Comparator;
 
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -312,18 +311,18 @@ public class ModelManager implements Model {
     }
 
     // =========== Status Filter Methods ==========================================================================
-    
+
     @Override
     public void setApplicationStatusFilter(String status) {
         this.applicationStatusFilter = status;
         logger.info("Application status filter set to: " + status);
     }
-    
+
     @Override
     public String getApplicationStatusFilter() {
         return applicationStatusFilter;
     }
-    
+
     @Override
     public void applyStatusFilter() {
         if (applicationStatusFilter == null) {
@@ -333,44 +332,44 @@ public class ModelManager implements Model {
             updateFilteredApplicationList(PREDICATE_SHOW_ALL_APPLICATIONS);
             return;
         }
-        
+
         // Apply the status filter to the application list
-        Predicate<Application> statusPredicate = app -> 
+        Predicate<Application> statusPredicate = app ->
             Integer.toString(app.applicationStatus().applicationStatus).equals(applicationStatusFilter);
         updateFilteredApplicationList(statusPredicate);
-        
+
         // Get jobs that have applications with the matching status
         List<Job> jobsWithMatchingApps = getFilteredApplicationList().stream()
             .map(Application::job)
             .distinct()
             .collect(Collectors.toList());
-        
+
         // Filter the job list to only show jobs with matching applications
         updateFilteredJobList(job -> {
             // Only include jobs that have matching applications after filtering
             if (!jobsWithMatchingApps.contains(job)) {
                 return false; // Job has no applications matching the filter
             }
-            
+
             // Include this job since it has at least one application matching the filter
             return true;
         });
-        
+
         // Get persons that have applications with the matching status
         List<Person> personsWithMatchingApps = getFilteredApplicationList().stream()
             .map(Application::applicant)
             .distinct()
             .collect(Collectors.toList());
-        
+
         // Filter the person list to only show persons with matching applications
         updateFilteredPersonList(person -> personsWithMatchingApps.contains(person));
-        
+
         logger.info("Applied filter for status: " + applicationStatusFilter);
         logger.info("Filtered to " + getFilteredApplicationList().size() + " applications");
         logger.info("Filtered to " + getFilteredJobList().size() + " jobs");
         logger.info("Filtered to " + getFilteredPersonList().size() + " persons");
     }
-    
+
     @Override
     public void clearStatusFilter() {
         applicationStatusFilter = null;
@@ -385,12 +384,12 @@ public class ModelManager implements Model {
         requireNonNull(job);
         // Get all applications for the job directly from the manager
         List<Application> allJobApplications = applicationsManager.getApplicationsByJob(job);
-        
+
         // If no status filter is active, return all applications for the job
         if (applicationStatusFilter == null) {
             return allJobApplications;
         }
-        
+
         // Filter applications by the current status filter
         return allJobApplications.stream()
                 .filter(app -> Integer.toString(app.applicationStatus().applicationStatus)
@@ -403,12 +402,12 @@ public class ModelManager implements Model {
         requireNonNull(person);
         // Get all applications for the person directly from the manager
         List<Application> allPersonApplications = applicationsManager.getApplicationsByPerson(person);
-        
+
         // If no status filter is active, return all applications for the person
         if (applicationStatusFilter == null) {
             return allPersonApplications;
         }
-        
+
         // Filter applications by the current status filter
         return allPersonApplications.stream()
                 .filter(app -> Integer.toString(app.applicationStatus().applicationStatus)

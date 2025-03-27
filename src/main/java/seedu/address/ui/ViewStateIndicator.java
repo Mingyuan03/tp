@@ -15,7 +15,7 @@ public class ViewStateIndicator extends UiPart<Region> {
 
     @FXML
     private HBox viewStateBox;
-    
+
     @FXML
     private Label viewStateLabel;
 
@@ -27,32 +27,32 @@ public class ViewStateIndicator extends UiPart<Region> {
         viewStateLabel.getStyleClass().add("view-state-label");
         viewStateBox.getStyleClass().add("person-view-state");
     }
-    
+
     /**
      * Updates the view state indicator.
      */
     public void updateViewState(Model.ViewState viewState) {
         viewStateLabel.setText(viewState.toString());
-        
+
         // Apply different styles based on view state
-        viewStateBox.getStyleClass().removeAll("job-view-state", "job-detail-view-state", 
+        viewStateBox.getStyleClass().removeAll("job-view-state", "job-detail-view-state",
                                              "person-view-state", "person-detail-view-state");
-        
+
         switch (viewState) {
-            case JOB_VIEW:
-                viewStateBox.getStyleClass().add("job-view-state");
-                break;
-            case JOB_DETAIL_VIEW:
-                viewStateBox.getStyleClass().add("job-detail-view-state");
-                break;
-            case PERSON_VIEW:
-                viewStateBox.getStyleClass().add("person-view-state");
-                break;
-            case PERSON_DETAIL_VIEW:
-                viewStateBox.getStyleClass().add("person-detail-view-state");
-                break;
-            default:
-                break;
+        case JOB_VIEW:
+            viewStateBox.getStyleClass().add("job-view-state");
+            break;
+        case JOB_DETAIL_VIEW:
+            viewStateBox.getStyleClass().add("job-detail-view-state");
+            break;
+        case PERSON_VIEW:
+            viewStateBox.getStyleClass().add("person-view-state");
+            break;
+        case PERSON_DETAIL_VIEW:
+            viewStateBox.getStyleClass().add("person-detail-view-state");
+            break;
+        default:
+            break;
         }
     }
-} 
+}

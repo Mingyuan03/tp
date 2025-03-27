@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.logic.Messages;
 import seedu.address.commons.core.index.Index;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.application.Application;
@@ -22,16 +22,17 @@ import seedu.address.model.person.Person;
 public class ViewPersonCommand extends Command {
 
     public static final String COMMAND_WORD = "viewperson";
-    private static final Logger logger = LogsCenter.getLogger(ViewPersonCommand.class);
-
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Views detailed information for the person identified by the job index and person index within that job.\n"
+            + ": Views detailed information for the person identified by the "
+            + "job index and person index within that job.\n"
             + "Parameters: " + PREFIX_JOB_INDEX + "JOB_INDEX " + PREFIX_PERSON_INDEX + "PERSON_INDEX\n"
             + "Example: " + COMMAND_WORD + " " + PREFIX_JOB_INDEX + "1 " + PREFIX_PERSON_INDEX + "2";
-
     public static final String MESSAGE_VIEW_PERSON_SUCCESS = "Viewing Person: %1$s (from Job: %2$s)";
-    public static final String MESSAGE_NOT_IN_JOB_VIEW = "This command is only available in job-related views. Please switch to job view first using 'switchview' command.";
+    public static final String MESSAGE_NOT_IN_JOB_VIEW = "This command is only available in job-related views. "
+            + "Please switch to job view first using 'switchview' command.";
     public static final String MESSAGE_NO_SUCH_PERSON = "No person with index %1$d found for job with index %2$d.";
+
+    private static final Logger logger = LogsCenter.getLogger(ViewPersonCommand.class);
 
     private final Index jobIndex;
     private final Index personIndex;
@@ -73,12 +74,12 @@ public class ViewPersonCommand extends Command {
         // Get the application/person - use filtered applications to respect status filters
         List<Application> applications = model.getApplicationsByJob(targetJob);
         if (applications == null || personIndex.getZeroBased() >= applications.size()) {
-            logger.warning("Command failed: Invalid person index: " + personIndex.getOneBased() 
+            logger.warning("Command failed: Invalid person index: " + personIndex.getOneBased()
                     + " for job index: " + jobIndex.getOneBased());
             throw new CommandException(
                     String.format(MESSAGE_NO_SUCH_PERSON, personIndex.getOneBased(), jobIndex.getOneBased()));
         }
-        
+
         Application targetApplication = applications.get(personIndex.getZeroBased());
         Person targetPerson = targetApplication.applicant();
         logger.info("Found target person: " + targetPerson.getName());
@@ -112,4 +113,4 @@ public class ViewPersonCommand extends Command {
         return jobIndex.equals(otherCommand.jobIndex)
                 && personIndex.equals(otherCommand.personIndex);
     }
-} 
+}

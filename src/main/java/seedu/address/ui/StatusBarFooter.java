@@ -22,11 +22,11 @@ public class StatusBarFooter extends UiPart<Region> {
      */
     public StatusBarFooter(Path saveLocation) {
         super(FXML);
-        
+
         // Ensure the status bar is visible with clear text
         saveLocationStatus.setText("Data: " + Paths.get(".").resolve(saveLocation).toString());
         saveLocationStatus.getStyleClass().add("label-bright");
-        
+
         // Ensure root has appropriate styling
         getRoot().getStyleClass().add("status-bar");
     }

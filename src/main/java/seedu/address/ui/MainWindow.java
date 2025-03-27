@@ -9,7 +9,6 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
@@ -18,9 +17,6 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
 import seedu.address.model.job.Job;
 
 /**
@@ -132,16 +128,16 @@ public class MainWindow extends UiPart<Stage> {
             statusBarFooter = new StatusBarFooter(logic.getAddressBookFilePath());
             statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
         }
-        
+
         // Initialize view state indicator
         if (viewStateIndicator == null) {
             viewStateIndicator = new ViewStateIndicator();
             viewStateIndicatorPlaceholder.getChildren().add(viewStateIndicator.getRoot());
         }
-        
+
         // Update the view state indicator
         updateViewStateIndicator();
-        
+
         // Initialize the appropriate view
         if (isJobView) {
             initJobView();
@@ -160,53 +156,53 @@ public class MainWindow extends UiPart<Stage> {
             commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
         }
     }
-    
+
     /**
      * Initializes the job view components.
      */
     private void initJobView() {
         // Clear person list placeholder
         personListPanelPlaceholder.getChildren().clear();
-        
+
         // Create job list panel if needed
         jobListPanel = new JobListPanel(logic.getFilteredJobList(), logic);
         jobListPanelPlaceholder.getChildren().clear();
         jobListPanelPlaceholder.getChildren().add(jobListPanel.getRoot());
-        
+
         // Hide person list completely
         personListPanelPlaceholder.setVisible(false);
         personListPanelPlaceholder.setManaged(false);
-        
+
         // Show job list
         jobListPanelPlaceholder.setVisible(true);
         jobListPanelPlaceholder.setManaged(true);
-        
+
         // If a job is selected, show its specific statistics
         if (selectedJobIndex >= 0 && selectedJobIndex < logic.getFilteredJobList().size()) {
             viewJobStatistics(selectedJobIndex);
         }
     }
-    
+
     /**
      * Initializes the person view components.
      */
     private void initPersonView() {
         // Clear job list placeholder
         jobListPanelPlaceholder.getChildren().clear();
-        
+
         // Create person list panel if needed
         personListPanel = new PersonListPanel(logic.getFilteredPersonList(), logic);
         personListPanelPlaceholder.getChildren().clear();
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
-        
+
         // Hide job list completely
         jobListPanelPlaceholder.setVisible(false);
         jobListPanelPlaceholder.setManaged(false);
-        
+
         // Show person list
         personListPanelPlaceholder.setVisible(true);
         personListPanelPlaceholder.setManaged(true);
-        
+
         // Reset job selection when switching to person view
         selectedJobIndex = -1;
     }
@@ -216,44 +212,38 @@ public class MainWindow extends UiPart<Stage> {
      */
     private void updateViewStateIndicator() {
         if (viewStateIndicator != null) {
-            if (logic instanceof Model) {
-                Model model = (Model) logic;
-                viewStateIndicator.updateViewState(model.getCurrentViewState());
-            } else {
-                // If logic is not a Model, use isJobView to determine the state
-                viewStateIndicator.updateViewState(isJobView ? 
-                    Model.ViewState.JOB_VIEW : Model.ViewState.PERSON_VIEW);
-            }
+            // Use isJobView to determine the state since Logic may not have getCurrentViewState
+            viewStateIndicator.updateViewState(isJobView
+                ? Model.ViewState.JOB_VIEW
+                : Model.ViewState.PERSON_VIEW);
         }
     }
 
     /**
      * Displays statistics for a specific job.
-     * 
+     *
      * @param jobIndex the index of the job to view
      */
     public void viewJobStatistics(int jobIndex) {
         if (!isJobView) {
             toggleJobView(); // Ensure we're in job view
         }
-        
+
         if (jobIndex >= 0 && jobIndex < logic.getFilteredJobList().size()) {
             selectedJobIndex = jobIndex;
             Job selectedJob = logic.getFilteredJobList().get(jobIndex);
-            
-            // Set the model to job detail view
-            if (logic instanceof Model) {
-                ((Model) logic).setViewState(Model.ViewState.JOB_DETAIL_VIEW);
-                updateViewStateIndicator();
-            }
-            
+
+            // Set the view state using the Logic interface
+            logic.setViewState(Model.ViewState.JOB_DETAIL_VIEW);
+            updateViewStateIndicator();
+
             if (jobListPanel != null) {
                 // Tell the job list panel to show job-specific statistics
                 jobListPanel.showJobSpecificStatistics(selectedJob);
-                
+
                 // Optionally select the job in the list view
                 jobListPanel.selectJob(jobIndex);
-                
+
                 logger.info("Viewing statistics for job: " + selectedJob.getJobTitle().jobTitle());
             }
         } else {
@@ -267,13 +257,11 @@ public class MainWindow extends UiPart<Stage> {
      */
     public void resetJobSelection() {
         selectedJobIndex = -1;
-        
-        // Set the model to regular job view
-        if (logic instanceof Model) {
-            ((Model) logic).setViewState(Model.ViewState.JOB_VIEW);
-            updateViewStateIndicator();
-        }
-        
+
+        // Set the view state using the Logic interface
+        logic.setViewState(Model.ViewState.JOB_VIEW);
+        updateViewStateIndicator();
+
         if (isJobView && jobListPanel != null) {
             jobListPanel.showGeneralStatistics();
         }
@@ -285,19 +273,16 @@ public class MainWindow extends UiPart<Stage> {
     public void clearView() {
         // Return to overview mode
         if (isJobView) {
-            // Ensure model state is synchronized
-            if (logic instanceof Model) {
-                Model model = (Model) logic;
-                model.setViewState(Model.ViewState.JOB_VIEW);
-            }
-            
+            // Ensure model state is synchronized using Logic interface
+            logic.setViewState(Model.ViewState.JOB_VIEW);
+
             resetJobSelection();
-            
+
             // Refresh the panel with general statistics
             if (jobListPanel != null) {
                 jobListPanel.showGeneralStatistics();
             }
-            
+
             logger.info("View cleared, returned to job overview");
         }
     }
@@ -347,14 +332,14 @@ public class MainWindow extends UiPart<Stage> {
      */
     public void toggleJobView() {
         this.isJobView = !this.isJobView;
-        
+
         // Update the UI for the new view
         if (isJobView) {
             initJobView();
         } else {
             initPersonView();
         }
-        
+
         // Update view state indicator
         updateViewStateIndicator();
     }
@@ -380,22 +365,20 @@ public class MainWindow extends UiPart<Stage> {
 
             // Handle commands that need to refresh statistics and clear views
             String trimmedCommand = commandText.trim();
-            if (trimmedCommand.startsWith("listjob") || 
-                trimmedCommand.startsWith("findjob") || 
-                trimmedCommand.startsWith("listapp") || 
-                trimmedCommand.startsWith("findapp") || 
-                trimmedCommand.startsWith("list")) {
-                
+            if (trimmedCommand.startsWith("listjob")
+                || trimmedCommand.startsWith("findjob")
+                || trimmedCommand.startsWith("listapp")
+                || trimmedCommand.startsWith("findapp")
+                || trimmedCommand.startsWith("list")) {
+
                 // If we're in job view, refresh the job list and statistics
                 if (isJobView && jobListPanel != null) {
-                    // Clear any detailed view by setting the model to the regular job view
-                    if (logic instanceof Model) {
-                        ((Model) logic).setViewState(Model.ViewState.JOB_VIEW);
-                    }
-                    
+                    // Clear any detailed view by setting to regular job view
+                    logic.setViewState(Model.ViewState.JOB_VIEW);
+
                     // Update the view state indicator
                     updateViewStateIndicator();
-                    
+
                     // Refresh the general statistics
                     jobListPanel.showGeneralStatistics();
                 }
@@ -417,11 +400,11 @@ public class MainWindow extends UiPart<Stage> {
             if (commandResult.isViewJob()) {
                 viewJobStatistics(commandResult.getJobIndex());
             }
-            
+
             if (commandResult.isViewPerson()) {
                 viewPersonDetails(commandResult.getJobIndex(), commandResult.getPersonIndex());
             }
-            
+
             if (commandResult.isRefreshJobView() && isJobView && jobListPanel != null) {
                 jobListPanel.refreshJobView();
                 logger.info("Refreshing job view");
@@ -430,7 +413,7 @@ public class MainWindow extends UiPart<Stage> {
             if (commandResult.isExit()) {
                 handleExit();
             }
-            
+
             // Update view state indicator after command execution
             updateViewStateIndicator();
 
@@ -444,7 +427,7 @@ public class MainWindow extends UiPart<Stage> {
 
     /**
      * Displays the details of a person for a specific job.
-     * 
+     *
      * @param jobIndex The index of the job
      * @param personIndex The index of the person
      */
@@ -452,24 +435,22 @@ public class MainWindow extends UiPart<Stage> {
         if (!isJobView) {
             toggleJobView(); // Ensure we're in job view
         }
-        
+
         if (jobIndex >= 0 && jobIndex < logic.getFilteredJobList().size()) {
             selectedJobIndex = jobIndex;
             Job selectedJob = logic.getFilteredJobList().get(jobIndex);
-            
+
             // Set the model to person detail view
-            if (logic instanceof Model) {
-                ((Model) logic).setViewState(Model.ViewState.PERSON_DETAIL_VIEW);
-            }
-            
+            logic.setViewState(Model.ViewState.PERSON_DETAIL_VIEW);
+
             if (jobListPanel != null) {
                 // Tell the job list panel to show the person details
                 jobListPanel.showPersonDetails(selectedJob, personIndex);
-                
+
                 // Optionally select the job in the list view
                 jobListPanel.selectJob(jobIndex);
-                
-                logger.info("Viewing person details for job: " + selectedJob.getJobTitle().jobTitle() 
+
+                logger.info("Viewing person details for job: " + selectedJob.getJobTitle().jobTitle()
                         + ", person index: " + personIndex);
             }
         } else {

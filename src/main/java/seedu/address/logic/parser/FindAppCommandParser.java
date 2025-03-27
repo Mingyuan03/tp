@@ -31,7 +31,7 @@ public class FindAppCommandParser implements Parser<FindAppCommand> {
         }
 
         String status = argMultimap.getValue(PREFIX_STATUS).get();
-        
+
         // If job index is present, parse it
         if (arePrefixesPresent(argMultimap, PREFIX_JOB_INDEX)) {
             try {
@@ -42,7 +42,7 @@ public class FindAppCommandParser implements Parser<FindAppCommand> {
                         String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindAppCommand.MESSAGE_USAGE), pe);
             }
         }
-        
+
         // If no job index, just return command with status
         return new FindAppCommand(status);
     }
@@ -54,4 +54,4 @@ public class FindAppCommandParser implements Parser<FindAppCommand> {
     private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
-} 
+}

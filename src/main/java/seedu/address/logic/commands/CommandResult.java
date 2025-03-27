@@ -27,7 +27,7 @@ public class CommandResult {
 
     /** Whether the person view should be shown. */
     private final boolean viewPerson;
-    
+
     /** Whether to clear the current view. */
     private final boolean clearView;
 
@@ -59,7 +59,7 @@ public class CommandResult {
     /**
      * Constructs a {@code CommandResult} with the specified fields including job viewing.
      */
-    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean toggleView, 
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean toggleView,
                          boolean viewJob, int jobIndex) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.showHelp = showHelp;
@@ -76,7 +76,7 @@ public class CommandResult {
     /**
      * Constructs a {@code CommandResult} with the specified fields including person viewing.
      */
-    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean toggleView, 
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean toggleView,
                          boolean viewJob, boolean viewPerson, int jobIndex, int personIndex) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.showHelp = showHelp;
@@ -89,7 +89,7 @@ public class CommandResult {
         this.jobIndex = jobIndex;
         this.personIndex = personIndex;
     }
-    
+
     /**
      * Constructs a {@code CommandResult} with the clear view flag set.
      */
@@ -153,7 +153,7 @@ public class CommandResult {
     public boolean isViewPerson() {
         return viewPerson;
     }
-    
+
     public boolean isClearView() {
         return clearView;
     }
@@ -196,7 +196,7 @@ public class CommandResult {
 
     @Override
     public int hashCode() {
-        return Objects.hash(feedbackToUser, showHelp, exit, toggleView, viewJob, viewPerson, clearView, 
+        return Objects.hash(feedbackToUser, showHelp, exit, toggleView, viewJob, viewPerson, clearView,
                 refreshJobView, jobIndex, personIndex);
     }
 

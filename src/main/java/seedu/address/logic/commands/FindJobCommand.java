@@ -30,10 +30,10 @@ public class FindJobCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.updateFilteredJobList(this.predicate);
-        
+
         // Clear the detail view if we don't find any results
         boolean shouldClearView = model.getFilteredJobList().isEmpty();
-        
+
         if (shouldClearView) {
             // Reset the view state to job view
             model.setViewState(Model.ViewState.JOB_VIEW);

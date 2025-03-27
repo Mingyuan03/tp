@@ -40,7 +40,7 @@ public class ViewJobCommand extends Command {
         }
 
         model.setViewState(Model.ViewState.JOB_DETAIL_VIEW);
-        
+
         return new CommandResult(
                 String.format(MESSAGE_SUCCESS, targetIndex.getOneBased()),
                 false,
@@ -58,4 +58,4 @@ public class ViewJobCommand extends Command {
                 || (other instanceof ViewJobCommand // instanceof handles nulls
                 && targetIndex.equals(((ViewJobCommand) other).targetIndex)); // state check
     }
-} 
+}
