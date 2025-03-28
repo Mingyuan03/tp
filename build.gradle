@@ -101,6 +101,6 @@ test {
 }
 
 run {
-    jvmArgs('-ea')  // Enables assertions
+    enableAssertions = true  // Enables assertions
 }
 
