@@ -13,7 +13,6 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.job.JobRounds;
 import seedu.address.model.job.JobSkills;
 import seedu.address.model.job.JobTitle;
-import seedu.address.model.job.JobType;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Degree;
 import seedu.address.model.person.Email;
@@ -141,10 +140,12 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code String jobRounds} into a {@code JobRounds}. Leading and trailing whitespaces will be trimmed.
+     * Parses a {@code String jobRounds} into a {@code JobRounds}. Leading and
+     * trailing whitespaces will be trimmed.
      *
      * @param jobRounds Raw jobRounds String by user.
-     * @return trimmed remark without leading and trailing whitespaces for more efficient processing.
+     * @return trimmed remark without leading and trailing whitespaces for more
+     *         efficient processing.
      * @throws ParseException if the given {@code jobRounds} is invalid.
      */
     public static JobRounds parseJobRounds(String jobRounds) throws ParseException {
@@ -166,19 +167,6 @@ public class ParserUtil {
         requireNonNull(jobSkills);
         String[] jobSkillsArray = jobSkills.split("\\s+");
         return new JobSkills(FXCollections.observableArrayList(jobSkillsArray));
-    }
-
-    /**
-     * Parses a {@code String jobType} into a {@code JobType} key. Leading and trailing whitespaces will be trimmed.
-     *
-     * @param jobType Raw jobType String value by user.
-     * @return trimmed jobType key.
-     * @throws ParseException if the given {@code jobValue} is invalid.
-     */
-    public static JobType parseJobType(String jobType) throws ParseException {
-        jobType = jobType.trim();
-        requireNonNull(jobType);
-        return JobType.fromDisplayType(jobType);
     }
 
     /**

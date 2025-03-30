@@ -69,38 +69,32 @@
     {
       "jobTitle": "Software Engineer",
       "jobRounds": 5,
-      "jobSkills": ["Java", "Spring Boot", "Microservices"],
-      "jobType": "Intern"
+      "jobSkills": ["Java", "Spring Boot", "Microservices"]
     },
     {
       "jobTitle": "Data Scientist",
       "jobRounds": 4,
-      "jobSkills": ["Python", "ML", "TensorFlow"],
-      "jobType": "Full Time"
+      "jobSkills": ["Python", "ML", "TensorFlow"]
     },
     {
       "jobTitle": "Product Manager",
       "jobRounds": 3,
-      "jobSkills": ["Agile", "Roadmap Planning"],
-      "jobType": "Contract"
+      "jobSkills": ["Agile", "Roadmap Planning"]
     },
     {
       "jobTitle": "UX Designer",
       "jobRounds": 3,
-      "jobSkills": ["Figma", "User Research", "Wire Framing"],
-      "jobType": "Freelance"
+      "jobSkills": ["Figma", "User Research", "Wire Framing"]
     },
     {
       "jobTitle": "DevOps Engineer",
       "jobRounds": 4,
-      "jobSkills": ["AWS", "Kubernetes", "CI/CD"],
-      "jobType": "Part Time"
+      "jobSkills": ["AWS", "Kubernetes", "CI/CD"]
     },
     {
       "jobTitle": "Full Stack Developer",
       "jobRounds": 4,
-      "jobSkills": ["React", "Node.js", "MongoDB"],
-      "jobType": "Full Time"
+      "jobSkills": ["React", "Node.js", "MongoDB"]
     }
   ]
 }
