@@ -14,7 +14,7 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import seedu.address.model.application.Application;
 import seedu.address.model.job.Job;
-import seedu.address.model.tag.Tag;
+import seedu.address.model.skill.Skill;
 import seedu.address.ui.util.IconUtil;
 
 /**
@@ -148,10 +148,10 @@ public class JobCard extends UiPart<Region> {
         skillsPane.getStyleClass().add("skills-pane");
         skillsPane.setHgap(5);
         skillsPane.setVgap(5);
-        application.getApplicant().getTags().stream()
-                .map(Tag::tagName)
-                .map(tagName -> {
-                    Label label = new Label(tagName);
+        application.getApplicant().getSkills().stream()
+                .map(Skill::skillName)
+                .map(skillName -> {
+                    Label label = new Label(skillName);
                     label.getStyleClass().add("skill-tag");
                     return label;
                 })

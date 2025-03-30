@@ -18,7 +18,7 @@ import seedu.address.logic.Logic;
 import seedu.address.model.application.Application;
 import seedu.address.model.job.Job;
 import seedu.address.model.person.Person;
-import seedu.address.model.tag.Tag;
+import seedu.address.model.skill.Skill;
 
 /**
  * Panel that displays statistics for a specific job.
@@ -246,8 +246,8 @@ public class JobSpecificStatsPanel {
         for (Application application : applications) {
             Person person = application.getApplicant();
             if (person != null) {
-                for (Tag tag : person.getTags()) {
-                    allSkills.add(tag.tagName());
+                for (Skill skill : person.getSkills()) {
+                    allSkills.add(skill.skillName());
                 }
             }
         }

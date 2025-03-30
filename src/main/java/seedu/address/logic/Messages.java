@@ -40,8 +40,8 @@ public class Messages {
         final StringBuilder builder = new StringBuilder();
         builder.append(person.getName()).append(" ; Phone: ").append(person.getPhone()).append(" ; Email: ")
                 .append(person.getEmail()).append(" ; Address: ").append(person.getAddress()).append(" ; School: ")
-                .append(person.getSchool()).append(" ; Degree: ").append(person.getDegree()).append(" ; Tags: ");
-        person.getTags().forEach(builder::append);
+                .append(person.getSchool()).append(" ; Degree: ").append(person.getDegree()).append(" ; Skills: ");
+        person.getSkills().forEach(skill -> builder.append(skill).append(" "));
         return builder.toString();
     }
 

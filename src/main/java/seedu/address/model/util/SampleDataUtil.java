@@ -22,39 +22,39 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.School;
-import seedu.address.model.tag.Tag;
+import seedu.address.model.skill.Skill;
 
 /**
  * Contains utility methods for populating {@code AddressBook} with sample data.
  */
 public class SampleDataUtil {
         public static Person[] getSamplePersons() {
-                return new Person[] { // Initialisation order: Name, Phone, Email, Address, School, Degree[, Tags]
+                return new Person[] { // Initialisation order: Name, Phone, Email, Address, School, Degree[, Skills]
                                 new Person(new Name("Alex Yeoh"), new Phone("87438807"),
                                                 new Email("alexyeoh@example.com"),
                                                 new Address("Blk 30 Geylang Street 29, #06-40"), new School("NUS"),
-                                                new Degree("Computer Science"), getTagSet("DataScience", "Python")),
+                                                new Degree("Computer Science"), getSkillSet("DataScience", "Python")),
                                 new Person(new Name("Bernice Yu"), new Phone("99272758"),
                                                 new Email("berniceyu@example.com"),
                                                 new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"),
                                                 new School("NUS"), new Degree("Information Systems"),
-                                                getTagSet("Flutter", "JavaScript")),
+                                                getSkillSet("Flutter", "JavaScript")),
                                 new Person(new Name("Charlotte Oliveiro"), new Phone("93210283"),
                                                 new Email("charlotte@example.com"),
                                                 new Address("Blk 11 Ang Mo Kio Street 74, #11-04"), new School("NTU"),
-                                                new Degree("Business Analytics"), getTagSet("Python")),
+                                                new Degree("Business Analytics"), getSkillSet("Python")),
                                 new Person(new Name("David Li"), new Phone("91031282"),
                                                 new Email("lidavid@example.com"),
                                                 new Address("Blk 436 Serangoon Gardens Street 26, #16-43"),
-                                                new School("NTU"), new Degree("Mathematics"), getTagSet("Java")),
+                                                new School("NTU"), new Degree("Mathematics"), getSkillSet("Java")),
                                 new Person(new Name("Irfan Ibrahim"), new Phone("92492021"),
                                                 new Email("irfan@example.com"),
                                                 new Address("Blk 47 Tampines Street 20, #17-35"), new School("SMU"),
-                                                new Degree("Business"), getTagSet("Clang")),
+                                                new Degree("Business"), getSkillSet("Clang")),
                                 new Person(new Name("Roy Balakrishnan"), new Phone("92624417"),
                                                 new Email("royb@example.com"),
                                                 new Address("Blk 45 Aljunied Street 85, #11-31"), new School("SMU"),
-                                                new Degree("Political Science"), getTagSet("AWSCertified")) };
+                                                new Degree("Political Science"), getSkillSet("AWSCertified")) };
         }
 
         public static Job[] getSampleJobs() {
@@ -130,9 +130,9 @@ public class SampleDataUtil {
         }
 
         /**
-         * Returns a tag set containing the list of strings given.
+         * Returns a skill set containing the list of strings given.
          */
-        public static Set<Tag> getTagSet(String... strings) {
-                return Arrays.stream(strings).map(Tag::new).collect(Collectors.toSet());
+        public static Set<Skill> getSkillSet(String... strings) {
+                return Arrays.stream(strings).map(Skill::new).collect(Collectors.toSet());
         }
 }
