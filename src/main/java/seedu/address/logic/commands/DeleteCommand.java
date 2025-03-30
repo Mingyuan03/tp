@@ -25,6 +25,8 @@ public class DeleteCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
+    public static final String MESSAGE_WRONG_VIEW = "This command is only available in person view. "
+            + "Please switch to person view first using 'switchview' command.";
 
     private final Index targetIndex;
 
@@ -35,6 +37,12 @@ public class DeleteCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        
+        // Check that we're in person view
+        if (model.isInJobView()) {
+            throw new CommandException(MESSAGE_WRONG_VIEW);
+        }
+        
         List<Person> lastShownList = model.getFilteredPersonList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {

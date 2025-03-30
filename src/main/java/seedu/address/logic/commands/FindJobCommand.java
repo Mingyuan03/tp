@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.job.JobContainsKeywordsPredicate;
 
@@ -19,6 +20,9 @@ public class FindJobCommand extends Command {
             + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
             + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
             + "Example: " + COMMAND_WORD + " Software Engineering";
+            
+    public static final String MESSAGE_WRONG_VIEW = "This command is only available in job view. "
+            + "Please switch to job view first using 'switchview' command.";
 
     private final JobContainsKeywordsPredicate predicate;
 
@@ -27,8 +31,14 @@ public class FindJobCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) {
+    public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        
+        // Check that we're in job view
+        if (!model.isInJobView()) {
+            throw new CommandException(MESSAGE_WRONG_VIEW);
+        }
+        
         model.updateFilteredJobList(predicate);
 
         // Clear the detail view if we don't find any results

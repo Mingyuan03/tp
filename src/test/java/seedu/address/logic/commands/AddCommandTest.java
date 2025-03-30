@@ -10,6 +10,7 @@ import static seedu.address.testutil.TypicalPersons.ALICE;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -97,26 +98,6 @@ public class AddCommandTest {
         }
 
         @Override
-        public void clearStatusFilter() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void setApplicationStatusFilter(String status) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public String getApplicationStatusFilter() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void applyStatusFilter() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public void setViewState(Model.ViewState viewState) {
             throw new AssertionError("This method should not be called.");
         }
@@ -135,7 +116,6 @@ public class AddCommandTest {
         public boolean isInJobView() {
             throw new AssertionError("This method should not be called.");
         }
-
 
         @Override
         public ReadOnlyUserPrefs getUserPrefs() {
@@ -288,12 +268,12 @@ public class AddCommandTest {
         }
 
         @Override
-        public ObservableList<Application> getApplicationsByJob(Job job) {
+        public List<Application> getApplicationsByJob(Job job) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public ObservableList<Application> getApplicationsByPerson(Person person) {
+        public List<Application> getApplicationsByPerson(Person person) {
             throw new AssertionError("This method should not be called.");
         }
 

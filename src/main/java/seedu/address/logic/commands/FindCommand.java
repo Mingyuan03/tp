@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 
@@ -27,8 +28,15 @@ public class FindCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) {
+    public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        
+        // Check that we're in person view
+        if (model.isInJobView()) {
+            throw new CommandException("This command is only available in person view. "
+                + "Please switch to person view first using 'switchview' command.");
+        }
+        
         model.updateFilteredPersonList(this.predicate);
 
         // Clear the detail view if we don't find any results

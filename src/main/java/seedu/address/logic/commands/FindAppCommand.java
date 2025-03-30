@@ -13,27 +13,28 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.application.Application;
+import seedu.address.model.application.ApplicationStatus;
+import seedu.address.model.application.ApplicationStatusPredicate;
 import seedu.address.model.job.Job;
 
 /**
  * Filters the list to show only applications with the specified status.
- * Can be used in both person view and job view.
+ * Can only be used in job view.
  */
 public class FindAppCommand extends Command {
 
     public static final String COMMAND_WORD = "findapp";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Filters the list to show only applications "
-            + "with the specified status.\n"
-            + "In job view: " + COMMAND_WORD + " " + PREFIX_JOB_INDEX + "JOB_INDEX (optional) "
+            + "with the specified status in job view.\n"
+            + "Parameters: " + PREFIX_JOB_INDEX + "JOB_INDEX (optional) "
             + PREFIX_ROUNDS + "ROUNDS\n"
-            + "In person view: " + COMMAND_WORD + " " + PREFIX_ROUNDS + "ROUNDS\n"
-            + "Example: " + COMMAND_WORD + " j/1 st/Accepted";
+            + "Example: " + COMMAND_WORD + " j/1 r/2";
 
     public static final String MESSAGE_SUCCESS = "Filtered applications by status: %1$s";
-    public static final String MESSAGE_NO_MATCHES = "No applications found with status: %1$s. Filter cleared.";
+    public static final String MESSAGE_NO_MATCHES = "No applications found with status: %1$s";
     public static final String MESSAGE_JOB_NOT_FOUND = "The specified job index is invalid";
-    public static final String MESSAGE_JOB_PARAM_IGNORED = "Job index parameter ignored in person view";
+    public static final String MESSAGE_WRONG_VIEW = "This command can only be used in job view";
 
     private static final Logger logger = LogsCenter.getLogger(FindAppCommand.class);
 
@@ -63,95 +64,51 @@ public class FindAppCommand extends Command {
         logger.info("Executing FindAppCommand with status: " + status + ", jobIndex: " + jobIndex);
         logger.info("Current view state: " + model.getCurrentViewState());
 
-        String feedbackMessage = String.format(MESSAGE_SUCCESS, status);
-        boolean shouldClearView = false;
-        boolean shouldRefreshJobView = false;
+        // Check if we're in job view
+        if (!model.isInJobView()) {
+            throw new CommandException(MESSAGE_WRONG_VIEW);
+        }
 
         // Check if we need to reset the view
         if (model.getCurrentViewState() == Model.ViewState.JOB_DETAIL_VIEW
             || model.getCurrentViewState() == Model.ViewState.PERSON_DETAIL_VIEW) {
             model.setViewState(Model.ViewState.JOB_VIEW);
             logger.info("Reset to JOB_VIEW from detail view");
-            shouldClearView = true;
         }
 
-        // Set the global status filter
-        model.setApplicationStatusFilter(status);
+        // Create the status predicate
+        ApplicationStatus targetStatus = new ApplicationStatus(Integer.parseInt(status));
+        ApplicationStatusPredicate statusPredicate = new ApplicationStatusPredicate(targetStatus);
 
         if (jobIndex.isPresent()) {
-            // If job index is specified, we need to filter for a specific job
-            if (!model.isInJobView()) {
-                // Warn about job index being ignored in person view
-                feedbackMessage = MESSAGE_JOB_PARAM_IGNORED + ". " + feedbackMessage;
-                // Apply the global status filter
-                model.applyStatusFilter();
-            } else {
-                // In job view with job index specified
-                List<Job> lastShownList = model.getFilteredJobList();
-                if (jobIndex.get().getZeroBased() >= lastShownList.size()) {
-                    throw new CommandException(MESSAGE_JOB_NOT_FOUND);
-                }
-
-                Job jobToFilter = lastShownList.get(jobIndex.get().getZeroBased());
-                logger.info("Filtering applications for job: " + jobToFilter.getJobTitle().jobTitle());
-
-                // Apply filter for this specific job AND with the specified status
-                // First apply the global status filter
-                model.applyStatusFilter();
-
-                // Then get applications that are both for this job AND have the specified status
-                List<Application> filteredJobApps = model.getApplicationsByJob(jobToFilter);
-
-                // Filter these applications again to ensure they match both job AND status
-                List<Application> statusFilteredJobApps = filteredJobApps.stream()
-                        .filter(app -> Integer.toString(app.getApplicationStatus().applicationStatus).equals(status))
-                        .toList();
-
-                // Update the application list to only show these applications
-                model.updateFilteredApplicationList(app -> statusFilteredJobApps.contains(app));
-
-                // Update job list to show only this job if it has matching applications
-                if (!statusFilteredJobApps.isEmpty()) {
-                    model.updateFilteredJobList(job -> job.equals(jobToFilter));
-                    shouldRefreshJobView = true;
-                } else {
-                    // No applications found with that status for that job
-                    model.clearStatusFilter();
-                    feedbackMessage = String.format(MESSAGE_NO_MATCHES, status);
-                    shouldRefreshJobView = true;
-                }
+            // If job index is specified, first filter the job list
+            List<Job> lastShownList = model.getFilteredJobList();
+            if (jobIndex.get().getZeroBased() >= lastShownList.size()) {
+                throw new CommandException(MESSAGE_JOB_NOT_FOUND);
             }
 
-            // For test case execute_withJobIndexAndStatus_success()
-            if (model.isInJobView()) {
-                shouldRefreshJobView = true;
-            }
+            Job jobToFilter = lastShownList.get(jobIndex.get().getZeroBased());
+            logger.info("Filtering for job: " + jobToFilter.getJobTitle().jobTitle());
+
+            // Update the job list to only show this job
+            model.updateFilteredJobList(job -> job.equals(jobToFilter));
+
+            // Get all applications for this job
+            List<Application> jobApplications = model.getApplicationsByJob(jobToFilter);
+            
+            // Filter these applications by the status predicate
+            List<Application> filteredJobApps = jobApplications.stream()
+                    .filter(app -> statusPredicate.test(app))
+                    .toList();
+            
+            // Update application list to show only these filtered applications
+            model.updateFilteredApplicationList(app -> filteredJobApps.contains(app));
         } else {
-            // No job index specified, just apply the global status filter
-            model.applyStatusFilter();
-
-            // Check if we have any matches
-            if (model.getFilteredApplicationList().isEmpty()) {
-                // No applications found with that status
-                model.clearStatusFilter();
-                feedbackMessage = String.format(MESSAGE_NO_MATCHES, status);
-                shouldRefreshJobView = true; // Fix for execute_withNoMatchingApplications_clearsFilter()
-            }
-
-            // Only refresh job view if we're in job view
-            if (model.isInJobView()) {
-                shouldRefreshJobView = true; // Fix for execute_withStatusInJobView_success()
-            }
+            // No job index specified, apply the status filter to all applications
+            model.updateFilteredApplicationList(statusPredicate);
         }
 
-        // Return a command result with appropriate flags
-        if (shouldClearView) {
-            return CommandResult.withClearView(feedbackMessage);
-        } else if (shouldRefreshJobView) {
-            return CommandResult.withRefreshJobViewOnly(feedbackMessage);
-        } else {
-            return CommandResult.withFeedback(feedbackMessage);
-        }
+        return CommandResult.withRefreshApplications(String.format(MESSAGE_SUCCESS, status));
     }
 
     @Override

@@ -27,6 +27,8 @@ public class AddJobCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New job added: %1$s";
     public static final String MESSAGE_DUPLICATE_JOB = "This job already exists in the address book";
+    public static final String MESSAGE_WRONG_VIEW = "This command is only available in job view. "
+            + "Please switch to job view first using 'switchview' command.";
 
     private final Job toAdd;
 
@@ -41,6 +43,11 @@ public class AddJobCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        // Check that we're in job view
+        if (!model.isInJobView()) {
+            throw new CommandException(MESSAGE_WRONG_VIEW);
+        }
 
         if (model.hasJob(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_JOB);

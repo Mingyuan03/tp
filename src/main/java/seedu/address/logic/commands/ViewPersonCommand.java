@@ -52,6 +52,12 @@ public class ViewPersonCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        
+        // Check that we're in job view
+        if (!model.isInJobView()) {
+            throw new CommandException(MESSAGE_NOT_IN_JOB_VIEW);
+        }
+        
         List<Job> jobs = model.getFilteredJobList();
 
         // Validate the job index
@@ -62,7 +68,7 @@ public class ViewPersonCommand extends Command {
         Job job = jobs.get(jobIndex.getZeroBased());
 
         // Get applications for this job
-        List<Application> jobApplications = model.getApplicationsByJob(job);
+        List<Application> jobApplications = model.getFilteredApplicationsByJob(job);
 
         // Validate the person index within the job's applications
         if (personIndex.getZeroBased() >= jobApplications.size()) {
