@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javafx.collections.FXCollections;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ApplicationsManager;
 import seedu.address.model.ReadOnlyAddressBook;
@@ -73,7 +72,8 @@ public class SampleDataUtil {
                                 new Job(new JobTitle("DevOps Engineer"), new JobRounds(4),
                                                 getSkillSet("AWS", "Kubernetes",
                                                                 "CI/CD")),
-                                new Job(new JobTitle("Full Stack Developer"), new JobRounds(4), getSkillSet("React", "Node.js", "MongoDB"))
+                                new Job(new JobTitle("Full Stack Developer"), new JobRounds(4),
+                                        getSkillSet("React", "Node.js", "MongoDB"))
                 };
         }
 

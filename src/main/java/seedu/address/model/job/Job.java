@@ -1,14 +1,13 @@
 package seedu.address.model.job;
 
-import seedu.address.model.skill.Skill;
-
-import static java.util.Collections.addAll;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import seedu.address.model.skill.Skill;
 
 /**
  * Represents a job with a job title and additional properties.

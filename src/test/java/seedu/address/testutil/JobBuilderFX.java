@@ -1,13 +1,15 @@
 package seedu.address.testutil;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import seedu.address.model.job.Job;
 import seedu.address.model.job.JobRounds;
 import seedu.address.model.job.JobTitle;
 import seedu.address.model.skill.Skill;
 import seedu.address.model.util.SampleDataUtil;
-
-import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * A utility class to help with building Job objects for FX tests.
