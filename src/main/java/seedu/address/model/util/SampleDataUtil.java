@@ -13,7 +13,6 @@ import seedu.address.model.application.Application;
 import seedu.address.model.application.ApplicationStatus;
 import seedu.address.model.job.Job;
 import seedu.address.model.job.JobRounds;
-import seedu.address.model.job.JobSkills;
 import seedu.address.model.job.JobTitle;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Degree;
@@ -58,24 +57,23 @@ public class SampleDataUtil {
         }
 
         public static Job[] getSampleJobs() {
-                return new Job[] { // Initialisation order: JobTitle, JobRounds, JobSkills
+                return new Job[] { // Initialisation order: JobTitle, JobRounds, Skills
                                 new Job(new JobTitle("Software Engineer"), new JobRounds(5),
-                                                new JobSkills(FXCollections.observableArrayList("Java", "Spring Boot",
-                                                                "Microservices"))),
+                                                getSkillSet("Java", "SpringBoot",
+                                                                "Microservices")),
                                 new Job(new JobTitle("Data Scientist"), new JobRounds(4),
-                                                new JobSkills(FXCollections.observableArrayList("Python", "ML",
-                                                                "TensorFlow"))),
+                                                getSkillSet("Python", "ML",
+                                                                "TensorFlow")),
                                 new Job(new JobTitle("Product Manager"), new JobRounds(3),
-                                                new JobSkills(FXCollections.observableArrayList("Agile",
-                                                                "Roadmap Planning"))),
+                                                getSkillSet("Agile",
+                                                                "Planning")),
                                 new Job(new JobTitle("UX Designer"), new JobRounds(3),
-                                                new JobSkills(FXCollections.observableArrayList("Figma",
-                                                                "User Research", "Wire Framing"))),
+                                                getSkillSet("Figma",
+                                                                "Research", "Framing")),
                                 new Job(new JobTitle("DevOps Engineer"), new JobRounds(4),
-                                                new JobSkills(FXCollections.observableArrayList("AWS", "Kubernetes",
-                                                                "CI/CD"))),
-                                new Job(new JobTitle("Full Stack Developer"), new JobRounds(4), new JobSkills(
-                                                FXCollections.observableArrayList("React", "Node.js", "MongoDB"))),
+                                                getSkillSet("AWS", "Kubernetes",
+                                                                "CI/CD")),
+                                new Job(new JobTitle("Full Stack Developer"), new JobRounds(4), getSkillSet("React", "Node.js", "MongoDB"))
                 };
         }
 

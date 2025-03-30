@@ -6,12 +6,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import javafx.collections.FXCollections;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.job.JobRounds;
-import seedu.address.model.job.JobSkills;
 import seedu.address.model.job.JobTitle;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Degree;
@@ -153,20 +151,6 @@ public class ParserUtil {
         requireNonNull(jobRounds);
         int jobRoundsCount = Integer.parseInt(jobRounds);
         return new JobRounds(jobRoundsCount);
-    }
-
-    /**
-     * @param jobSkills Raw jobSkills in the form of a single String input delimited
-     *                  by whitespace by user.
-     * @return {@code FXCollections.observableArrayList} collection of jobSkill
-     *         Strings.
-     * @throws ParseException if any given {@code jobSkill} is invalid.
-     */
-    public static JobSkills parseJobSkills(String jobSkills) throws ParseException {
-        jobSkills = jobSkills.trim();
-        requireNonNull(jobSkills);
-        String[] jobSkillsArray = jobSkills.split("\\s+");
-        return new JobSkills(FXCollections.observableArrayList(jobSkillsArray));
     }
 
     /**

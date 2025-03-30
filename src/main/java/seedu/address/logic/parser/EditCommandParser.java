@@ -69,7 +69,7 @@ public class EditCommandParser implements Parser<EditCommand> {
             editPersonDescriptor.setDegree(ParserUtil.parseDegree(argMultimap.getValue(PREFIX_DEGREE).get()));
         }
 
-        parseTagsForEdit(argMultimap.getAllValues(PREFIX_SKILL)).ifPresent(editPersonDescriptor::setSkills);
+        parseSkillsForEdit(argMultimap.getAllValues(PREFIX_SKILL)).ifPresent(editPersonDescriptor::setSkills);
 
         if (!editPersonDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
@@ -84,7 +84,7 @@ public class EditCommandParser implements Parser<EditCommand> {
      * an empty string, it will be parsed into a {@code Set<Skill>} containing zero
      * skills.
      */
-    private Optional<Set<Skill>> parseTagsForEdit(Collection<String> skills) throws ParseException {
+    private Optional<Set<Skill>> parseSkillsForEdit(Collection<String> skills) throws ParseException {
         assert skills != null;
 
         if (skills.isEmpty()) {

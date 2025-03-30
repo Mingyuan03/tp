@@ -1,13 +1,14 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_ROUNDS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_SKILLS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_TITLE;
+import static seedu.address.logic.parser.CliSyntax.*;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
@@ -17,8 +18,8 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.job.Job;
 import seedu.address.model.job.JobRounds;
-import seedu.address.model.job.JobSkills;
 import seedu.address.model.job.JobTitle;
+import seedu.address.model.skill.Skill;
 
 /**
  * Edits the details of an existing person in the address book.
@@ -32,7 +33,7 @@ public class EditJobCommand extends Command {
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: INDEX (must be a positive integer) " + "[" + PREFIX_JOB_TITLE + "JOB_TITLE] "
             + "[" + PREFIX_JOB_ROUNDS + "NUMBER_OF_ROUNDS] "
-            + "[" + PREFIX_JOB_SKILLS + "SKILLS] ";
+            + "[" + PREFIX_SKILL + "SKILLS] ";
 
     public static final String MESSAGE_EDIT_JOB_SUCCESS = "Edited Job: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
@@ -82,9 +83,9 @@ public class EditJobCommand extends Command {
         assert jobToEdit != null;
         JobTitle updatedJobTitle = editJobDescriptor.getJobTitle().orElse(jobToEdit.getJobTitle());
         JobRounds updatedJobRounds = editJobDescriptor.getJobRounds().orElse(jobToEdit.getJobRounds());
-        JobSkills updatedJobSkills = editJobDescriptor.getJobSkills().orElse(jobToEdit.getJobSkills());
+        Set<Skill> updatedSkills = editJobDescriptor.getSkills().orElse(jobToEdit.getSkills());
 
-        return new Job(updatedJobTitle, updatedJobRounds, updatedJobSkills);
+        return new Job(updatedJobTitle, updatedJobRounds, updatedSkills);
     }
 
     @Override
@@ -109,7 +110,7 @@ public class EditJobCommand extends Command {
     public static class EditJobDescriptor {
         private JobTitle jobTitle;
         private JobRounds jobRounds;
-        private JobSkills jobSkills;
+        private Set<Skill> skills;
 
         public EditJobDescriptor() {
         }
@@ -121,14 +122,14 @@ public class EditJobCommand extends Command {
         public EditJobDescriptor(EditJobDescriptor toCopy) {
             setJobTitle(toCopy.jobTitle);
             setJobRounds(toCopy.jobRounds);
-            setJobSkills(toCopy.jobSkills);
+            setSkills(toCopy.skills);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(this.jobTitle, this.jobRounds, this.jobSkills);
+            return CollectionUtil.isAnyNonNull(this.jobTitle, this.jobRounds, this.skills);
         }
 
         public void setJobTitle(JobTitle jobTitle) {
@@ -147,12 +148,21 @@ public class EditJobCommand extends Command {
             return Optional.ofNullable(jobRounds);
         }
 
-        public void setJobSkills(JobSkills jobSkills) {
-            this.jobSkills = jobSkills;
+        /**
+         * Sets {@code skills} to this object's {@code skills}. A defensive copy of
+         * {@code skills} is used internally.
+         */
+        public void setSkills(Set<Skill> skills) {
+            this.skills = (skills != null) ? new HashSet<>(skills) : null;
         }
 
-        public Optional<JobSkills> getJobSkills() {
-            return Optional.ofNullable(this.jobSkills);
+        /**
+         * Returns an unmodifiable skill set, which throws
+         * {@code UnsupportedOperationException} if modification is attempted. Returns
+         * {@code Optional#empty()} if {@code skills} is null.
+         */
+        public Optional<Set<Skill>> getSkills() {
+            return (this.skills != null) ? Optional.of(Collections.unmodifiableSet(skills)) : Optional.empty();
         }
 
         @Override
@@ -170,14 +180,14 @@ public class EditJobCommand extends Command {
             EditJobDescriptor otherEditJobDescriptor = (EditJobDescriptor) other;
             return Objects.equals(this.jobTitle, otherEditJobDescriptor.jobTitle)
                     && Objects.equals(this.jobRounds, otherEditJobDescriptor.jobRounds)
-                    && Objects.equals(this.jobSkills, otherEditJobDescriptor.jobSkills);
+                    && Objects.equals(this.skills, otherEditJobDescriptor.skills);
         }
 
         @Override
         public String toString() {
             return new ToStringBuilder(this).add("job title", this.jobTitle)
                     .add("job rounds", this.jobRounds)
-                    .add("job skills", this.jobSkills).toString();
+                    .add("job skills", this.skills).toString();
 
         }
     }

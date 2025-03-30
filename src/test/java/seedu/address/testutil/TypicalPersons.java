@@ -33,7 +33,7 @@ import seedu.address.model.person.Person;
  * Standardise Person and Job initialisation orders in {@code SampleDataUtil}
  * for clarity even if order matters not. Person Initialisation order: Name,
  * Phone, Email, Address, School, Degree[, Skills] Job Initialisation order:
- * JobTitle, JobRounds, JobSkills
+ * JobTitle, JobRounds[, Skills]
  */
 public class TypicalPersons {
 
@@ -84,32 +84,32 @@ public class TypicalPersons {
 
         public static final Job SOFTWARE_ENGINEER_GOOGLE = new JobBuilder().withJobTitle("Software Engineer")
                         .withJobRounds(5)
-                        .withJobSkills(FXCollections.observableArrayList("Java", "Spring Boot", "Microservices"))
+                        .withSkills("Java", "SpringBoot", "Microservices")
                         .build();
 
         public static final Job DATA_SCIENTIST_MICROSOFT = new JobBuilder().withJobTitle("Data Scientist")
                         .withJobRounds(4)
-                        .withJobSkills(FXCollections.observableArrayList("Python", "ML", "TensorFlow"))
+                        .withSkills("Python", "ML", "TensorFlow")
                         .build();
 
         public static final Job PRODUCT_MANAGER_APPLE = new JobBuilder().withJobTitle("Product Manager")
                         .withJobRounds(3)
-                        .withJobSkills(FXCollections.observableArrayList("Agile", "Roadmap Planning"))
+                        .withSkills("Agile", "Planning")
                         .build();
 
         public static final Job UX_DESIGNER_META = new JobBuilder().withJobTitle("UX Designer")
                         .withJobRounds(3)
-                        .withJobSkills(FXCollections.observableArrayList("Figma", "User Research", "Wire Framing"))
+                        .withSkills("Figma", "Research", "WireFraming")
                         .build();
 
         public static final Job DEVOPS_ENGINEER_AMAZON = new JobBuilder().withJobTitle("DevOps Engineer")
                         .withJobRounds(4)
-                        .withJobSkills(FXCollections.observableArrayList("AWS", "Kubernetes", "CI/CD"))
+                        .withSkills("AWS", "Kubernetes", "CICD")
                         .build();
 
         public static final Job FULLSTACK_DEVELOPER_NETFLIX = new JobBuilder().withJobTitle("Full Stack Developer")
                         .withJobRounds(4)
-                        .withJobSkills(FXCollections.observableArrayList("React", "Node.js", "MongoDB"))
+                        .withSkills("React", "NodeJS", "MongoDB")
                         .build();
 
         // Typical applications

@@ -1,8 +1,14 @@
 package seedu.address.model.job;
 
+import seedu.address.model.skill.Skill;
+
+import static java.util.Collections.addAll;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Represents a job with a job title and additional properties.
@@ -10,20 +16,20 @@ import java.util.Objects;
 public class Job {
     private final JobTitle jobTitle;
     private final JobRounds jobRounds;
-    private final JobSkills jobSkills;
+    private final Set<Skill> skills = new HashSet<>();
 
     /**
      * Constructs a Job with the specified job title and properties.
      *
      * @param jobTitle  The title of the job.
      * @param jobRounds The rounds of the job.
-     * @param jobSkills The requisite skills for the job.
+     * @param skills The requisite skills for the job.
      */
-    public Job(JobTitle jobTitle, JobRounds jobRounds, JobSkills jobSkills) {
-        requireAllNonNull(jobTitle, jobRounds, jobSkills);
+    public Job(JobTitle jobTitle, JobRounds jobRounds, Set<Skill> skills) {
+        requireAllNonNull(jobTitle, jobRounds, skills);
         this.jobTitle = jobTitle;
         this.jobRounds = jobRounds;
-        this.jobSkills = jobSkills;
+        this.skills.addAll(skills);
     }
 
     /**
@@ -45,12 +51,11 @@ public class Job {
     }
 
     /**
-     * Returns the job skills of this job.
-     *
-     * @return The job skills.
+     * Returns an immutable skill set, which throws
+     * {@code UnsupportedOperationException} if modification is attempted.
      */
-    public JobSkills getJobSkills() {
-        return this.jobSkills;
+    public Set<Skill> getSkills() {
+        return Collections.unmodifiableSet(this.skills);
     }
 
     /**
@@ -76,7 +81,7 @@ public class Job {
             return false;
         }
         return this.jobTitle.equals(otherJob.jobTitle) && this.jobRounds.equals(otherJob.jobRounds)
-                && this.jobSkills.equals(otherJob.jobSkills);
+                && this.skills.equals(otherJob.skills);
     }
 
     /**
@@ -86,6 +91,6 @@ public class Job {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(this.jobTitle, this.jobRounds, this.jobSkills);
+        return Objects.hash(this.jobTitle, this.jobRounds, this.skills);
     }
 }

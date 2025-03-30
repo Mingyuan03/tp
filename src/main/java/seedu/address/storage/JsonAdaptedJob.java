@@ -3,12 +3,16 @@ package seedu.address.storage;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javafx.collections.ObservableList;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.job.Job;
 import seedu.address.model.job.JobRounds;
-import seedu.address.model.job.JobSkills;
 import seedu.address.model.job.JobTitle;
+import seedu.address.model.skill.Skill;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Jackson-friendly version of {@link Job}.
@@ -19,26 +23,28 @@ class JsonAdaptedJob {
 
     private final String jobTitle;
     private final Integer jobRounds;
-    private final ObservableList<String> jobSkills;
+    private final List<JsonAdaptedSkill> skills = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedJob} with the given job details.
      */
     @JsonCreator
     public JsonAdaptedJob(@JsonProperty("jobTitle") String jobTitle, @JsonProperty("jobRounds") Integer jobRounds,
-            @JsonProperty("jobSkills") ObservableList<String> jobSkills) {
+                          @JsonProperty("skills") List<JsonAdaptedSkill> skills) {
         this.jobTitle = jobTitle;
         this.jobRounds = jobRounds;
-        this.jobSkills = jobSkills;
+        if (skills != null) {
+            this.skills.addAll(skills);
+        }
     }
 
     /**
      * Converts a given {@code Job} into this class for Jackson use.
      */
     public JsonAdaptedJob(Job source) {
-        this.jobTitle = source.getJobTitle().jobTitle(); // JobTitle record class has implicit accessor.
-        this.jobRounds = source.getJobRounds().jobRounds;
-        this.jobSkills = source.getJobSkills().value;
+        jobTitle = source.getJobTitle().jobTitle(); // JobTitle record class has implicit accessor.
+        jobRounds = source.getJobRounds().jobRounds;
+        skills.addAll(source.getSkills().stream().map(JsonAdaptedSkill::new).toList());
     }
 
     /**
@@ -49,6 +55,11 @@ class JsonAdaptedJob {
      *                               the adapted job.
      */
     public Job toModelType() throws IllegalValueException {
+        final List<Skill> jobSkills = new ArrayList<>();
+        for (JsonAdaptedSkill skill : skills) {
+            jobSkills.add(skill.toModelType());
+        }
+
         if (jobTitle == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     JobTitle.class.getSimpleName()));
@@ -64,14 +75,7 @@ class JsonAdaptedJob {
         }
         final JobRounds modelJobRounds = new JobRounds(jobRounds);
 
-        if (jobSkills == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                    JobSkills.class.getSimpleName()));
-        }
-        if (!JobSkills.areValidIndividualJobSkills(jobSkills)) {
-            throw new IllegalValueException(JobSkills.MESSAGE_CONSTRAINTS);
-        }
-        final JobSkills modelJobSkills = new JobSkills(this.jobSkills);
-        return new Job(modelJobTitle, modelJobRounds, modelJobSkills);
+        final Set<Skill> modelSkills = new HashSet<>(jobSkills);
+        return new Job(modelJobTitle, modelJobRounds, modelSkills);
     }
 }

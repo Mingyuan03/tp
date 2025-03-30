@@ -52,7 +52,7 @@ public class Messages {
         final StringBuilder builder = new StringBuilder();
         builder.append(job.getJobTitle()).append(" ; Number of rounds: ").append(job.getJobRounds())
                 .append(" ; Skills: ");
-        job.getJobSkills().value.forEach(builder::append);
+        job.getSkills().forEach(skill -> builder.append(skill).append(" "));
         return builder.toString();
     }
 

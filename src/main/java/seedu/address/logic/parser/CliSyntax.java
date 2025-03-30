@@ -16,7 +16,6 @@ public class CliSyntax {
     public static final Prefix PREFIX_DEGREE = new Prefix("d/");
     public static final Prefix PREFIX_JOB_TITLE = new Prefix("jt/");
     public static final Prefix PREFIX_JOB_ROUNDS = new Prefix("jr/");
-    public static final Prefix PREFIX_JOB_SKILLS = new Prefix("js/");
     public static final Prefix PREFIX_JOB_INDEX = new Prefix("ji/");
     public static final Prefix PREFIX_PERSON_INDEX = new Prefix("pi/");
     public static final Prefix PREFIX_ROUNDS = new Prefix("r/");
