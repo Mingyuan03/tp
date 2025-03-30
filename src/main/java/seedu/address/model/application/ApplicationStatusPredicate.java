@@ -1,6 +1,7 @@
 package seedu.address.model.application;
 
 import java.util.function.Predicate;
+
 import seedu.address.commons.util.ToStringBuilder;
 
 /**
@@ -37,4 +38,4 @@ public class ApplicationStatusPredicate implements Predicate<Application> {
     public String toString() {
         return new ToStringBuilder(this).add("targetStatus", targetStatus).toString();
     }
-} 
+}
