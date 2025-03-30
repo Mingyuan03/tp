@@ -1,7 +1,6 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMPLOYMENT_TYPE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_ROUNDS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_SKILLS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_TITLE;
@@ -22,8 +21,7 @@ public class AddJobCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a job to the model manager. " + "Parameters: "
             + PREFIX_JOB_TITLE + "JOB_TITLE "
             + PREFIX_JOB_ROUNDS + "NUMBER_OF_ROUNDS_OF_INTERVIEWS "
-            + PREFIX_JOB_SKILLS + "SKILLS "
-            + PREFIX_EMPLOYMENT_TYPE + "JOB_TYPE";
+            + PREFIX_JOB_SKILLS + "SKILLS ";
 
     public static final String MESSAGE_SUCCESS = "New job added: %1$s";
     public static final String MESSAGE_DUPLICATE_JOB = "This job already exists in the address book";

@@ -51,7 +51,7 @@ public class Messages {
     public static String format(Job job) {
         final StringBuilder builder = new StringBuilder();
         builder.append(job.getJobTitle()).append(" ; Number of rounds: ").append(job.getJobRounds())
-                .append(" ; Job Type: ").append(job.getJobType()).append(" ; Skills: ");
+                .append(" ; Skills: ");
         job.getJobSkills().value.forEach(builder::append);
         return builder.toString();
     }

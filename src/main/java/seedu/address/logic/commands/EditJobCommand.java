@@ -1,7 +1,6 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMPLOYMENT_TYPE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_ROUNDS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_SKILLS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_TITLE;
@@ -20,7 +19,6 @@ import seedu.address.model.job.Job;
 import seedu.address.model.job.JobRounds;
 import seedu.address.model.job.JobSkills;
 import seedu.address.model.job.JobTitle;
-import seedu.address.model.job.JobType;
 
 /**
  * Edits the details of an existing person in the address book.
@@ -34,9 +32,7 @@ public class EditJobCommand extends Command {
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: INDEX (must be a positive integer) " + "[" + PREFIX_JOB_TITLE + "JOB_TITLE] "
             + "[" + PREFIX_JOB_ROUNDS + "NUMBER_OF_ROUNDS] "
-            + "[" + PREFIX_JOB_SKILLS + "SKILLS] "
-            + "[" + PREFIX_EMPLOYMENT_TYPE + "WORK_TYPE]";
-
+            + "[" + PREFIX_JOB_SKILLS + "SKILLS] ";
 
     public static final String MESSAGE_EDIT_JOB_SUCCESS = "Edited Job: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
@@ -87,9 +83,8 @@ public class EditJobCommand extends Command {
         JobTitle updatedJobTitle = editJobDescriptor.getJobTitle().orElse(jobToEdit.getJobTitle());
         JobRounds updatedJobRounds = editJobDescriptor.getJobRounds().orElse(jobToEdit.getJobRounds());
         JobSkills updatedJobSkills = editJobDescriptor.getJobSkills().orElse(jobToEdit.getJobSkills());
-        JobType updatedJobType = editJobDescriptor.getJobType().orElse(jobToEdit.getJobType());
 
-        return new Job(updatedJobTitle, updatedJobRounds, updatedJobSkills, updatedJobType);
+        return new Job(updatedJobTitle, updatedJobRounds, updatedJobSkills);
     }
 
     @Override
@@ -115,9 +110,9 @@ public class EditJobCommand extends Command {
         private JobTitle jobTitle;
         private JobRounds jobRounds;
         private JobSkills jobSkills;
-        private JobType jobType;
 
-        public EditJobDescriptor() {}
+        public EditJobDescriptor() {
+        }
 
         /**
          * Copy constructor.
@@ -127,14 +122,13 @@ public class EditJobCommand extends Command {
             setJobTitle(toCopy.jobTitle);
             setJobRounds(toCopy.jobRounds);
             setJobSkills(toCopy.jobSkills);
-            setJobType(toCopy.jobType);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(this.jobTitle, this.jobRounds, this.jobSkills, this.jobType);
+            return CollectionUtil.isAnyNonNull(this.jobTitle, this.jobRounds, this.jobSkills);
         }
 
         public void setJobTitle(JobTitle jobTitle) {
@@ -161,14 +155,6 @@ public class EditJobCommand extends Command {
             return Optional.ofNullable(this.jobSkills);
         }
 
-        public void setJobType(JobType jobType) {
-            this.jobType = jobType;
-        }
-
-        public Optional<JobType> getJobType() {
-            return Optional.ofNullable(jobType);
-        }
-
         @Override
         public boolean equals(Object other) {
             // short circuit if same object
@@ -184,16 +170,14 @@ public class EditJobCommand extends Command {
             EditJobDescriptor otherEditJobDescriptor = (EditJobDescriptor) other;
             return Objects.equals(this.jobTitle, otherEditJobDescriptor.jobTitle)
                     && Objects.equals(this.jobRounds, otherEditJobDescriptor.jobRounds)
-                    && Objects.equals(this.jobSkills, otherEditJobDescriptor.jobSkills)
-                    && Objects.equals(this.jobType, otherEditJobDescriptor.jobType);
+                    && Objects.equals(this.jobSkills, otherEditJobDescriptor.jobSkills);
         }
 
         @Override
         public String toString() {
             return new ToStringBuilder(this).add("job title", this.jobTitle)
                     .add("job rounds", this.jobRounds)
-                    .add("job skills", this.jobSkills)
-                    .add("job type", this.jobType).toString();
+                    .add("job skills", this.jobSkills).toString();
 
         }
     }

@@ -6,7 +6,6 @@ import seedu.address.model.job.Job;
 import seedu.address.model.job.JobRounds;
 import seedu.address.model.job.JobSkills;
 import seedu.address.model.job.JobTitle;
-import seedu.address.model.job.JobType;
 
 /**
  * A utility class to help with building Job objects.
@@ -22,7 +21,6 @@ public class JobBuilder {
     private JobTitle jobTitle;
     private JobRounds jobRounds;
     private JobSkills jobSkills;
-    private JobType jobType;
 
     /**
      * Creates a {@code JobBuilder} with the default details.
@@ -31,7 +29,6 @@ public class JobBuilder {
         jobTitle = new JobTitle(DEFAULT_JOB_TITLE);
         jobRounds = new JobRounds(DEFAULT_JOB_ROUNDS);
         jobSkills = new JobSkills(DEFAULT_JOB_SKILLS);
-        jobType = JobType.fromDisplayType(DEFAULT_JOB_TYPE);
     }
 
     /**
@@ -41,7 +38,6 @@ public class JobBuilder {
         jobTitle = jobToCopy.getJobTitle();
         jobRounds = jobToCopy.getJobRounds();
         jobSkills = jobToCopy.getJobSkills();
-        jobType = jobToCopy.getJobType();
     }
 
     /**
@@ -68,15 +64,7 @@ public class JobBuilder {
         return this;
     }
 
-    /**
-     * Sets the {@code JobType} of the {@code Job} that we are building.
-     */
-    public JobBuilder withJobType(String jobType) {
-        this.jobType = JobType.fromDisplayType(jobType);
-        return this;
-    }
-
     public Job build() {
-        return new Job(jobTitle, jobRounds, jobSkills, jobType);
+        return new Job(jobTitle, jobRounds, jobSkills);
     }
 }
