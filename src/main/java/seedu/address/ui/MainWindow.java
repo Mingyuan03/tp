@@ -40,7 +40,7 @@ public class MainWindow extends UiPart<Stage> {
     private HelpWindow helpWindow;
     private ViewStateIndicator viewStateIndicator;
     private CommandBox commandBox;
-    private boolean isJobView = false;
+    private boolean isJobView = true;
     private int selectedJobIndex = -1; // -1 means no job selected
 
     @FXML
