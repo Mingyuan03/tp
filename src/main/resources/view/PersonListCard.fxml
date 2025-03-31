@@ -71,7 +71,7 @@
           </padding>
           <Label text="Skills:" styleClass="cell_small_label" style="-fx-font-weight: bold; -fx-text-fill: white;" />
         </HBox>
-        <FlowPane fx:id="tags">
+        <FlowPane fx:id="skills">
           <padding>
             <Insets left="25.0" top="2" />
           </padding>

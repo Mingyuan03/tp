@@ -12,7 +12,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import seedu.address.model.application.Application;
 import seedu.address.model.person.Person;
-import seedu.address.model.tag.Tag;
+import seedu.address.model.skill.Skill;
 import seedu.address.ui.util.IconUtil;
 
 /**
@@ -54,7 +54,7 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label degree;
     @FXML
-    private FlowPane tags;
+    private FlowPane skills;
     @FXML
     private FlowPane apps;
 
@@ -125,11 +125,11 @@ public class PersonCard extends UiPart<Region> {
                 + " -fx-background-radius: 4 4 0 0;"
                 + " -fx-padding: 5 10 5 10;");
 
-        // Add tags with modern styling
-        person.getTags().stream().sorted(Comparator.comparing(Tag::tagName))
-                .forEach(tag -> {
-                    Label tagLabel = new Label(tag.tagName());
-                    tagLabel.setStyle(
+        // Add skill tags with modern styling
+        person.getSkills().stream().sorted(Comparator.comparing(Skill::skillName))
+                .forEach(skill -> {
+                    Label skillLabel = new Label(skill.skillName());
+                    skillLabel.setStyle(
                         "-fx-background-color: #3e7b91; "
                         + "-fx-text-fill: white; "
                         + "-fx-padding: 3 8 3 8; "
@@ -137,9 +137,9 @@ public class PersonCard extends UiPart<Region> {
                         + "-fx-font-size: 11px; "
                         + "-fx-font-weight: bold;"
                     );
-                    tags.getChildren().add(tagLabel);
+                    skills.getChildren().add(skillLabel);
                 });
-        tags.setStyle("-fx-spacing: 5;"
+        skills.setStyle("-fx-spacing: 5;"
                 + " -fx-alignment: center-left;");
 
         // Add applications with Balenciaga-inspired styling - remove company name
