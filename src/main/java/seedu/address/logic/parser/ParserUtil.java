@@ -6,12 +6,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import javafx.collections.FXCollections;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.job.JobRounds;
-import seedu.address.model.job.JobSkills;
 import seedu.address.model.job.JobTitle;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Degree;
@@ -19,7 +17,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.School;
-import seedu.address.model.tag.Tag;
+import seedu.address.model.skill.Skill;
 
 /**
  * Contains utility methods used for parsing strings in the various Parser
@@ -156,43 +154,29 @@ public class ParserUtil {
     }
 
     /**
-     * @param jobSkills Raw jobSkills in the form of a single String input delimited
-     *                  by whitespace by user.
-     * @return {@code FXCollections.observableArrayList} collection of jobSkill
-     *         Strings.
-     * @throws ParseException if any given {@code jobSkill} is invalid.
-     */
-    public static JobSkills parseJobSkills(String jobSkills) throws ParseException {
-        jobSkills = jobSkills.trim();
-        requireNonNull(jobSkills);
-        String[] jobSkillsArray = jobSkills.split("\\s+");
-        return new JobSkills(FXCollections.observableArrayList(jobSkillsArray));
-    }
-
-    /**
-     * Parses a {@code String tag} into a {@code Tag}. Leading and trailing
+     * Parses a {@code String skill} into a {@code Skill}. Leading and trailing
      * whitespaces will be trimmed.
      *
-     * @throws ParseException if the given {@code tag} is invalid.
+     * @throws ParseException if the given {@code skill} is invalid.
      */
-    public static Tag parseTag(String tag) throws ParseException {
-        requireNonNull(tag);
-        String trimmedTag = tag.trim();
-        if (!Tag.isValidTagName(trimmedTag)) {
-            throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
+    public static Skill parseSkill(String skill) throws ParseException {
+        requireNonNull(skill);
+        String trimmedSkill = skill.trim().toLowerCase();
+        if (!Skill.isValidSkillName(trimmedSkill)) {
+            throw new ParseException(Skill.MESSAGE_CONSTRAINTS);
         }
-        return new Tag(trimmedTag);
+        return new Skill(trimmedSkill);
     }
 
     /**
-     * Parses {@code Collection<String> tags} into a {@code Set<Tag>}.
+     * Parses {@code Collection<String> skills} into a {@code Set<Skill>}.
      */
-    public static Set<Tag> parseTags(Collection<String> tags) throws ParseException {
-        requireNonNull(tags);
-        final Set<Tag> tagSet = new HashSet<>();
-        for (String tagName : tags) {
-            tagSet.add(parseTag(tagName));
+    public static Set<Skill> parseSkills(Collection<String> skills) throws ParseException {
+        requireNonNull(skills);
+        final Set<Skill> skillSet = new HashSet<>();
+        for (String skillName : skills) {
+            skillSet.add(parseSkill(skillName));
         }
-        return tagSet;
+        return skillSet;
     }
 }

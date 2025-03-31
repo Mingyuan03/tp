@@ -16,7 +16,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.School;
-import seedu.address.model.tag.Tag;
+import seedu.address.model.skill.Skill;
 
 /**
  * Jackson-friendly version of {@link Person}.
@@ -31,7 +31,7 @@ class JsonAdaptedPerson {
     private final String address;
     private final String school;
     private final String degree;
-    private final List<JsonAdaptedTag> tags = new ArrayList<>();
+    private final List<JsonAdaptedSkill> skills = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
@@ -40,15 +40,15 @@ class JsonAdaptedPerson {
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("address") String address,
             @JsonProperty("school") String school, @JsonProperty("degree") String degree,
-            @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+            @JsonProperty("skills") List<JsonAdaptedSkill> skills) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.school = school;
         this.degree = degree;
-        if (tags != null) {
-            this.tags.addAll(tags);
+        if (skills != null) {
+            this.skills.addAll(skills);
         }
     }
 
@@ -62,7 +62,7 @@ class JsonAdaptedPerson {
         address = source.getAddress().value;
         school = source.getSchool().value;
         degree = source.getDegree().value;
-        tags.addAll(source.getTags().stream().map(JsonAdaptedTag::new).toList());
+        skills.addAll(source.getSkills().stream().map(JsonAdaptedSkill::new).toList());
     }
 
     /**
@@ -73,9 +73,9 @@ class JsonAdaptedPerson {
      *                               the adapted person.
      */
     public Person toModelType() throws IllegalValueException {
-        final List<Tag> personTags = new ArrayList<>();
-        for (JsonAdaptedTag tag : tags) {
-            personTags.add(tag.toModelType());
+        final List<Skill> personSkills = new ArrayList<>();
+        for (JsonAdaptedSkill skill : skills) {
+            personSkills.add(skill.toModelType());
         }
 
         if (name == null) {
@@ -120,8 +120,8 @@ class JsonAdaptedPerson {
         }
         final Degree modelDegree = new Degree(degree);
 
-        final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelSchool, modelDegree, modelTags);
+        final Set<Skill> modelSkills = new HashSet<>(personSkills);
+        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelSchool, modelDegree, modelSkills);
     }
 
 }

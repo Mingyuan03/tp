@@ -71,10 +71,8 @@ public class AddApplicationCommand extends Command {
 
         // Check if an application with the same person and job already exists (regardless of status)
         List<Application> existingPersonApplications = model.getApplicationsByPerson(personToApply);
-        for (Application existingApp : existingPersonApplications) {
-            if (existingApp.getJob().equals(jobToApplyFor)) {
-                throw new CommandException(MESSAGE_DUPLICATE_APPLICATION);
-            }
+        if (hasApp(existingPersonApplications, jobToApplyFor)) {
+            throw new CommandException(MESSAGE_DUPLICATE_APPLICATION);
         }
 
         // Create a new application with initial status of 0 (applied but no rounds completed)
@@ -91,6 +89,22 @@ public class AddApplicationCommand extends Command {
 
         // Return a CommandResult that signals applications need to be refreshed
         return CommandResult.withRefreshApplications(successMessage);
+    }
+
+    /**
+     * Check if an application with the same person and job already exists, regardless of status
+     *
+     * @param existingApplications List of applications for the specified person
+     * @param jobToApply Job that the person is trying to apply for
+     * @return True if application exists, false if it doesn't
+     */
+    private boolean hasApp(List<Application> existingApplications, Job jobToApply) {
+        for (Application existingApp : existingApplications) {
+            if (existingApp.getJob().equals(jobToApply)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

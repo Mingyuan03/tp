@@ -23,7 +23,7 @@ public class PersonDetailPanel {
     private Label addressLabel;
     private Label schoolLabel;
     private Label degreeLabel;
-    private FlowPane tagsContainer;
+    private FlowPane skillsContainer;
     private Label jobTitleLabel;
     private Label applicationStatusLabel;
     private ProgressBar progressBar;
@@ -63,19 +63,19 @@ public class PersonDetailPanel {
         schoolLabel.setText(person.getSchool() != null ? person.getSchool().toString() : "N/A");
         degreeLabel.setText(person.getDegree() != null ? person.getDegree().toString() : "N/A");
 
-        // Update tags - use stylish tags instead of comma-separated text
-        tagsContainer.getChildren().clear();
-        if (person.getTags().isEmpty()) {
-            Label noTagsLabel = new Label("No tags");
-            noTagsLabel.getStyleClass().add("person-detail-label");
-            tagsContainer.getChildren().add(noTagsLabel);
+        // Update skill tags - use stylish tags instead of comma-separated text
+        skillsContainer.getChildren().clear();
+        if (person.getSkills().isEmpty()) {
+            Label noSkillsLabel = new Label("No Skills");
+            noSkillsLabel.getStyleClass().add("person-detail-label");
+            skillsContainer.getChildren().add(noSkillsLabel);
         } else {
-            person.getTags().forEach(tag -> {
-                // Use tagName() method since Tag is a record
-                String tagText = tag.tagName();
-                Label tagLabel = new Label(tagText);
-                tagLabel.getStyleClass().add("person-detail-tag");
-                tagsContainer.getChildren().add(tagLabel);
+            person.getSkills().forEach(skill -> {
+                // Use skillName() method since Skill is a record
+                String skillText = skill.skillName();
+                Label skillLabel = new Label(skillText);
+                skillLabel.getStyleClass().add("person-detail-tag");
+                skillsContainer.getChildren().add(skillLabel);
             });
         }
 
@@ -207,19 +207,19 @@ public class PersonDetailPanel {
 
         container.getChildren().add(educationBox);
 
-        // Add tags
-        VBox tagsBox = createInfoBox("Tags");
+        // Add skill tags
+        VBox skillsBox = createInfoBox("Skills");
 
-        // Use FlowPane for tags to allow wrapping
-        tagsContainer = new FlowPane();
-        tagsContainer.getStyleClass().add("person-detail-tags-container");
-        tagsContainer.setPrefWrapLength(350);
-        tagsContainer.setMinHeight(80);
-        tagsContainer.setHgap(8);
-        tagsContainer.setVgap(10);
+        // Use FlowPane for skill tags to allow wrapping
+        skillsContainer = new FlowPane();
+        skillsContainer.getStyleClass().add("person-detail-tags-container");
+        skillsContainer.setPrefWrapLength(350);
+        skillsContainer.setMinHeight(80);
+        skillsContainer.setHgap(8);
+        skillsContainer.setVgap(10);
 
-        tagsBox.getChildren().add(tagsContainer);
-        container.getChildren().add(tagsBox);
+        skillsBox.getChildren().add(skillsContainer);
+        container.getChildren().add(skillsBox);
 
         return container;
     }

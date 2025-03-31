@@ -57,7 +57,7 @@ public class DoublyLinkedList {
         this.head = null;
         // Dummy tail node
         this.tail = new Node("");
-        this.curr = null;
+        this.curr = this.tail;
         this.size = 0;
     }
 

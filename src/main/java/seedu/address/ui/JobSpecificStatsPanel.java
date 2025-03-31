@@ -18,7 +18,7 @@ import seedu.address.logic.Logic;
 import seedu.address.model.application.Application;
 import seedu.address.model.job.Job;
 import seedu.address.model.person.Person;
-import seedu.address.model.tag.Tag;
+import seedu.address.model.skill.Skill;
 
 /**
  * Panel that displays statistics for a specific job.
@@ -175,7 +175,7 @@ public class JobSpecificStatsPanel {
      * Updates the applicant count for the given job.
      */
     private void updateApplicantCount(Job job) {
-        List<Application> applications = logic.getApplicationsByJob(job);
+        List<Application> applications = logic.getFilteredApplicationsByJob(job);
         int count = applications != null ? applications.size() : 0;
 
         // Update the label with a fun icon
@@ -186,7 +186,7 @@ public class JobSpecificStatsPanel {
      * Updates the school distribution chart for the given job.
      */
     private void updateSchoolDistribution(Job job) {
-        List<Application> applications = logic.getApplicationsByJob(job);
+        List<Application> applications = logic.getFilteredApplicationsByJob(job);
 
         // Create data for pie chart
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
@@ -230,7 +230,7 @@ public class JobSpecificStatsPanel {
      * Updates the skills summary for the given job.
      */
     private void updateSkillsSummary(Job job) {
-        List<Application> applications = logic.getApplicationsByJob(job);
+        List<Application> applications = logic.getFilteredApplicationsByJob(job);
         skillsSummaryPane.getChildren().clear();
 
         // If no applications, show a message
@@ -246,8 +246,8 @@ public class JobSpecificStatsPanel {
         for (Application application : applications) {
             Person person = application.getApplicant();
             if (person != null) {
-                for (Tag tag : person.getTags()) {
-                    allSkills.add(tag.tagName());
+                for (Skill skill : person.getSkills()) {
+                    allSkills.add(skill.skillName());
                 }
             }
         }

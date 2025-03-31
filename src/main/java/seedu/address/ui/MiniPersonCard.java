@@ -29,9 +29,9 @@ public class MiniPersonCard extends UiPart<Region> {
         super(FXML);
         name.setText(person.getName().toString());
         school.setText(person.getSchool().toString());
-        person.getTags().stream()
+        person.getSkills().stream()
                 .forEach(skill -> {
-                    Label skillLabel = new Label(skill.tagName());
+                    Label skillLabel = new Label(skill.skillName());
                     skillLabel.getStyleClass().add("skill-label-small");
                     skills.getChildren().add(skillLabel);
                 });
