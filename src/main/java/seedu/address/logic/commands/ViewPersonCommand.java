@@ -30,7 +30,8 @@ public class ViewPersonCommand extends Command {
     public static final String MESSAGE_VIEW_PERSON_SUCCESS = "Viewing Person: %1$s (from Job: %2$s)";
     public static final String MESSAGE_NOT_IN_JOB_VIEW = "This command is only available in job-related views. "
             + "Please switch to job view first using 'switchview' command.";
-    public static final String MESSAGE_NO_SUCH_APPLICATION = "No application with index %1$d found for job with index %2$d.";
+    public static final String MESSAGE_NO_SUCH_APPLICATION = "No application with "
+            + "index %1$d found for job with index %2$d.";
     public static final String MESSAGE_NO_APPLICATION = "No application exists between this person and job.";
 
     private static final Logger logger = LogsCenter.getLogger(ViewPersonCommand.class);

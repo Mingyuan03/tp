@@ -168,20 +168,20 @@ public class PersonCard extends UiPart<Region> {
         applicationsBox.setStyle("-fx-background-color: rgba(43, 43, 43, 0.7);"
                 + " -fx-background-radius: 4 4 0 0;"
                 + " -fx-padding: 5 10 5 10;");
-        
+
         // Set max width on the apps FlowPane to prevent overflow
         apps.setPrefWidth(350);
         apps.setMaxWidth(350);
-        
+
         applications.stream().sorted(Comparator.comparing(Application::getApplicationStatus))
             .forEach(app -> {
                 String jobTitle = app.getJob().getJobTitle().toString();
-                
+
                 // Truncate long job titles directly in the string
                 if (jobTitle.length() > 20) {
                     jobTitle = jobTitle.substring(0, 17) + "...";
                 }
-                
+
                 int currentRound = app.getApplicationStatus().applicationStatus;
                 int maxRound = app.getJob().getJobRounds().jobRounds;
 

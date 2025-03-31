@@ -1,7 +1,7 @@
 package seedu.address.ui;
 
-import java.util.logging.Logger;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,9 +18,9 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
+import seedu.address.model.application.Application;
 import seedu.address.model.job.Job;
 import seedu.address.model.person.Person;
-import seedu.address.model.application.Application;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -242,17 +242,17 @@ public class MainWindow extends UiPart<Stage> {
         if (isJobView && jobListPanel != null) {
             // If we're in job view, refresh the job panel to show updated applications
             jobListPanel.refreshJobView();
-            
+
             // Check if we're viewing person details for a potentially deleted or updated application
             if (logic.getViewState() == Model.ViewState.PERSON_DETAIL_VIEW) {
                 Job currentJob = jobListPanel.getCurrentlyViewedJob();
                 Person currentPerson = jobListPanel.getCurrentlyViewedPerson();
-                
+
                 if (currentJob != null && currentPerson != null) {
                     boolean applicationExists = false;
                     Application currentApplication = null;
                     List<Application> applications = logic.getFilteredApplicationsByJob(currentJob);
-                    
+
                     if (applications != null) {
                         for (Application app : applications) {
                             if (app.getApplicant().equals(currentPerson)) {
@@ -262,7 +262,7 @@ public class MainWindow extends UiPart<Stage> {
                             }
                         }
                     }
-                    
+
                     if (!applicationExists) {
                         // If application no longer exists, switch to general statistics
                         logger.info("Application was deleted, switching to general statistics view");
@@ -276,7 +276,7 @@ public class MainWindow extends UiPart<Stage> {
                     }
                 }
             }
-            
+
             // Always refresh the sidepane which contains the statistics
             jobListPanel.refreshSidepane();
         } else if (personListPanel != null) {

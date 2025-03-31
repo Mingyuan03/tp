@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -148,17 +146,17 @@ public class JobSpecificStatsPanel {
         roundDistributionChart = new BarChart<>(xAxis, yAxis);
         roundDistributionChart.setMinHeight(300);
         roundDistributionChart.setPrefHeight(300);
-        
+
         // Completely disable the legend
         roundDistributionChart.setLegendVisible(false);
-        
+
         // Set chart ID for CSS
         roundDistributionChart.setId("roundDistributionChart");
-        
+
         roundDistributionChart.setAnimated(false);
         roundDistributionChart.setCategoryGap(50); // Increase space between bars
         roundDistributionChart.setBarGap(2);
-        
+
         // Add more space at the bottom of the chart for labels
         roundDistributionChart.setPadding(new javafx.geometry.Insets(10, 10, 40, 10));
 
@@ -176,15 +174,25 @@ public class JobSpecificStatsPanel {
             + ".chart-vertical-zero-line { -fx-stroke: transparent; }"
             + ".chart-horizontal-zero-line { -fx-stroke: transparent; }"
             + ".default-color0.chart-bar { -fx-background-radius: 0; }"
-            + ".chart-line-symbol, .chart-symbol { -fx-background-color: transparent, transparent; -fx-background-radius: 0px; -fx-padding: 0px; }"
+            + ".chart-line-symbol, .chart-symbol "
+            + "{ -fx-background-color: transparent, transparent; "
+            + "-fx-background-radius: 0px; "
+            + "-fx-padding: 0px; }"
             + ".chart-series-line { -fx-stroke: transparent; }"
             + ".chart-legend-item-symbol { -fx-background-color: transparent; }"
             + ".chart-plot-background > * { -fx-background-color: transparent; }"
             + ".data0.chart-bar { -fx-bar-fill: white; }"
             + ".series0.chart-bar { -fx-bar-fill: white; }"
-            + ".chart-legend { -fx-background-color: transparent; visibility: hidden; -fx-padding: 0px; -fx-border-width: 0px; -fx-max-width: 0px; -fx-max-height: 0px; -fx-opacity: 0; display: none; }"
-            + ".chart-legend-item { visibility: hidden; -fx-padding: 0px; -fx-opacity: 0; display: none; }";
-        roundDistributionChart.setStyle("-fx-background-color: #2d2d30; -fx-padding: 10; " + barChartCss);
+            + ".chart-legend { -fx-background-color: transparent; "
+            + "visibility: hidden; -fx-padding: 0px; "
+            + "-fx-border-width: 0px; -fx-max-width: 0px; "
+            + "-fx-max-height: 0px; -fx-opacity: 0; "
+            + "display: none; }"
+            + ".chart-legend-item { visibility: hidden; "
+            + "-fx-padding: 0px; -fx-opacity: 0; display: none; }";
+        roundDistributionChart.setStyle("-fx-background-color: #2d2d30;"
+            + " -fx-padding: 10; "
+            + barChartCss);
 
         container.getChildren().add(roundDistributionChart);
 
@@ -225,10 +233,10 @@ public class JobSpecificStatsPanel {
     private void updateRoundDistribution(Job job) {
         List<Application> applications = logic.getFilteredApplicationsByJob(job);
         int totalRounds = job.getJobRounds().jobRounds;
-        
+
         // Update the y-axis upper bound to match the total rounds
         yAxis.setUpperBound(Math.max(totalRounds, 1));
-        
+
         // Clear existing data
         roundDistributionChart.getData().clear();
 
@@ -244,7 +252,7 @@ public class JobSpecificStatsPanel {
 
         // Count applicants by round
         Map<Integer, Integer> roundCounts = new HashMap<>();
-        
+
         // Initialize all rounds with 0
         for (int i = 0; i <= totalRounds; i++) {
             roundCounts.put(i, 0);
@@ -259,17 +267,17 @@ public class JobSpecificStatsPanel {
         // Create series for the bar chart
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName(""); // Empty name to prevent legend issues
-        
+
         for (int i = 0; i <= totalRounds; i++) {
-            String roundLabel = i == 0 ? "Not Started" : 
-                              i == totalRounds ? "Completed" : 
-                              "Round " + i;
-            
+            String roundLabel = i == 0 ? "Not Started"
+                                : i == totalRounds ? "Completed"
+                                : "Round " + i;
+
             // Truncate round label if too long
             if (roundLabel.length() > 15) {
                 roundLabel = roundLabel.substring(0, 12) + "...";
             }
-                              
+
             XYChart.Data<String, Number> data = new XYChart.Data<>(roundLabel, roundCounts.get(i));
             series.getData().add(data);
         }
@@ -278,10 +286,10 @@ public class JobSpecificStatsPanel {
         series.setName(null);
         roundDistributionChart.setLegendVisible(false);
         roundDistributionChart.getData().add(series);
-        
+
         // Force layout refresh
         roundDistributionChart.layout();
-        
+
         // Apply CSS to remove symbols after adding data
         applyCssToChartNodes();
     }
@@ -339,23 +347,25 @@ public class JobSpecificStatsPanel {
             for (XYChart.Data<String, Number> data : series.getData()) {
                 if (data.getNode() != null) {
                     // Apply style directly to the node
-                    data.getNode().setStyle("-fx-background-color: white; -fx-background-insets: 0; -fx-background-radius: 0;");
+                    data.getNode().setStyle("-fx-background-color: white;"
+                        + "-fx-background-insets: 0;"
+                        + "-fx-background-radius: 0;");
                 }
             }
         }
-        
+
         // Hide any potential legend
         if (roundDistributionChart.lookup(".chart-legend") != null) {
             roundDistributionChart.lookup(".chart-legend").setVisible(false);
             roundDistributionChart.lookup(".chart-legend").setManaged(false);
             roundDistributionChart.lookup(".chart-legend").setOpacity(0);
         }
-        
+
         if (roundDistributionChart.lookup(".chart-legend-item") != null) {
             roundDistributionChart.lookup(".chart-legend-item").setVisible(false);
             roundDistributionChart.lookup(".chart-legend-item").setManaged(false);
         }
-        
+
         if (roundDistributionChart.lookup(".chart-legend-item-symbol") != null) {
             roundDistributionChart.lookup(".chart-legend-item-symbol").setVisible(false);
         }
