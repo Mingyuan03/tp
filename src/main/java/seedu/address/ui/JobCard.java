@@ -13,6 +13,7 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import seedu.address.model.application.Application;
 import seedu.address.model.job.Job;
+import seedu.address.model.skill.Skill;
 import seedu.address.ui.util.IconUtil;
 
 /**

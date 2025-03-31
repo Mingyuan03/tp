@@ -12,14 +12,13 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_SCHOOL_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_SCHOOL_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_SKILL_JAVA;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_SKILL_PYTHON;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javafx.collections.FXCollections;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ApplicationsManager;
 import seedu.address.model.application.Application;
@@ -32,37 +31,37 @@ import seedu.address.model.person.Person;
  * tests, synchronised with JSON file in {@code typicalPersonsAddressBook}.
  * Standardise Person and Job initialisation orders in {@code SampleDataUtil}
  * for clarity even if order matters not. Person Initialisation order: Name,
- * Phone, Email, Address, School, Degree[, Tags] Job Initialisation order:
- * JobTitle, JobRounds, JobSkills
+ * Phone, Email, Address, School, Degree[, Skills] Job Initialisation order:
+ * JobTitle, JobRounds[, Skills]
  */
 public class TypicalPersons {
 
         public static final Person ALICE = new PersonBuilder().withName("Alice Pauline").withPhone("94351253")
                         .withPhone("94351253").withPhone("94351253") // Duplicate Phones test robustness.
                         .withEmail("alice@example.com").withAddress("123, Jurong West Ave 6, #08-111").withSchool("NUS")
-                        .withDegree("Computer Science").withTags("friends").build();
+                        .withDegree("Computer Science").withSkills("friends").build();
         public static final Person BENSON = new PersonBuilder().withName("Benson Meier").withPhone("98765432")
                         .withEmail("johnd@example.com").withAddress("311, Clementi Ave 2, #02-25").withSchool("NTU")
                         .withDegree("Business Analytics").withDegree("Business Analytics") // Duplicate Degrees test
-                        .withTags("owesMoney", "friends").build();
+                        .withSkills("owesMoney", "friends").build();
         public static final Person CARL = new PersonBuilder().withName("Carl Kurz").withPhone("95352563")
                         .withEmail("heinz@example.com").withAddress("wall street").withSchool("SMU")
                         .withDegree("Mathematics")
-                        .build(); // Absent optional Tags tests robustness.
+                        .build(); // Absent optional Skills tests robustness.
         public static final Person DANIEL = new PersonBuilder().withName("Daniel Meier").withPhone("87652533")
                         .withEmail("cornelia@example.com").withAddress("10th street").withSchool("SIM")
                         .withDegree("Physics")
-                        .withTags("friends").build();
+                        .withSkills("friends").build();
         public static final Person ELLE = new PersonBuilder().withName("Elle Meyer").withPhone("9482224")
                         .withEmail("werner@example.com").withAddress("michegan ave").withSchool("SIT")
                         .withDegree("Accounting")
-                        .build(); // Absent optional Tags tests robustness.
+                        .build(); // Absent optional Skills tests robustness.
         public static final Person FIONA = new PersonBuilder().withName("Fiona Kunz").withPhone("9482427")
                         .withEmail("lydia@example.com").withAddress("little tokyo").withSchool("NTU")
-                        .withDegree("Civil Engineering").build(); // Absent optional Tags tests robustness.
+                        .withDegree("Civil Engineering").build(); // Absent optional Skills tests robustness.
         public static final Person GEORGE = new PersonBuilder().withName("George Best").withPhone("9482442")
                         .withEmail("anna@example.com").withAddress("4th street").withSchool("NUS")
-                        .withDegree("Computer Engineering").build(); // Absent optional Tags tests robustness.
+                        .withDegree("Computer Engineering").build(); // Absent optional Skills tests robustness.
 
         // Manually added
         public static final Person HOON = new PersonBuilder().withName("Hoon Meier").withSchool("NUS")
@@ -76,40 +75,40 @@ public class TypicalPersons {
         public static final Person AMY = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
                         .withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withSchool(VALID_SCHOOL_AMY)
                         .withSchool(VALID_SCHOOL_AMY) // Duplicate Schools test robustness.
-                        .withDegree(VALID_DEGREE_AMY).withTags(VALID_TAG_FRIEND).build();
+                        .withDegree(VALID_DEGREE_AMY).withSkills(VALID_SKILL_PYTHON).build();
         public static final Person BOB = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
                         .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withSchool(VALID_SCHOOL_BOB)
                         .withSchool(VALID_SCHOOL_BOB) // Duplicate Schools test robustness.
-                        .withDegree(VALID_DEGREE_BOB).withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
+                        .withDegree(VALID_DEGREE_BOB).withSkills(VALID_SKILL_JAVA, VALID_SKILL_PYTHON).build();
 
         public static final Job SOFTWARE_ENGINEER_GOOGLE = new JobBuilder().withJobTitle("Software Engineer")
                         .withJobRounds(5)
-                        .withJobSkills(FXCollections.observableArrayList("Java", "Spring Boot", "Microservices"))
+                        .withSkills("Java", "SpringBoot", "Microservices")
                         .build();
 
         public static final Job DATA_SCIENTIST_MICROSOFT = new JobBuilder().withJobTitle("Data Scientist")
                         .withJobRounds(4)
-                        .withJobSkills(FXCollections.observableArrayList("Python", "ML", "TensorFlow"))
+                        .withSkills("Python", "ML", "TensorFlow")
                         .build();
 
         public static final Job PRODUCT_MANAGER_APPLE = new JobBuilder().withJobTitle("Product Manager")
                         .withJobRounds(3)
-                        .withJobSkills(FXCollections.observableArrayList("Agile", "Roadmap Planning"))
+                        .withSkills("Agile", "Planning")
                         .build();
 
         public static final Job UX_DESIGNER_META = new JobBuilder().withJobTitle("UX Designer")
                         .withJobRounds(3)
-                        .withJobSkills(FXCollections.observableArrayList("Figma", "User Research", "Wire Framing"))
+                        .withSkills("Figma", "Research", "WireFraming")
                         .build();
 
         public static final Job DEVOPS_ENGINEER_AMAZON = new JobBuilder().withJobTitle("DevOps Engineer")
                         .withJobRounds(4)
-                        .withJobSkills(FXCollections.observableArrayList("AWS", "Kubernetes", "CI/CD"))
+                        .withSkills("AWS", "Kubernetes", "CICD")
                         .build();
 
         public static final Job FULLSTACK_DEVELOPER_NETFLIX = new JobBuilder().withJobTitle("Full Stack Developer")
                         .withJobRounds(4)
-                        .withJobSkills(FXCollections.observableArrayList("React", "Node.js", "MongoDB"))
+                        .withSkills("React", "NodeJS", "MongoDB")
                         .build();
 
         // Typical applications

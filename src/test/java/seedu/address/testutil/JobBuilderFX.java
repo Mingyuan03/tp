@@ -1,11 +1,15 @@
 package seedu.address.testutil;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import seedu.address.model.job.Job;
 import seedu.address.model.job.JobRounds;
-import seedu.address.model.job.JobSkills;
 import seedu.address.model.job.JobTitle;
+import seedu.address.model.skill.Skill;
+import seedu.address.model.util.SampleDataUtil;
 
 /**
  * A utility class to help with building Job objects for FX tests.
@@ -13,11 +17,11 @@ import seedu.address.model.job.JobTitle;
 public class JobBuilderFX {
     public static final String DEFAULT_TITLE = "Software Engineer";
     public static final int DEFAULT_ROUNDS = 3;
-    public static final ObservableList<String> DEFAULT_SKILLS = FXCollections.observableArrayList("Java", "Python");
+    public static final List<String> DEFAULT_SKILLS = List.of("Java", "Python");
 
     private JobTitle jobTitle;
     private JobRounds jobRounds;
-    private JobSkills jobSkills;
+    private Set<Skill> skills;
 
     /**
      * Creates a {@code JobBuilderFX} with default details.
@@ -25,7 +29,7 @@ public class JobBuilderFX {
     public JobBuilderFX() {
         jobTitle = new JobTitle(DEFAULT_TITLE);
         jobRounds = new JobRounds(DEFAULT_ROUNDS);
-        jobSkills = new JobSkills(DEFAULT_SKILLS);
+        skills = new HashSet<>(DEFAULT_SKILLS.stream().map(Skill::new).collect(Collectors.toSet()));
     }
 
     /**
@@ -45,10 +49,10 @@ public class JobBuilderFX {
     }
 
     /**
-     * Sets the {@code JobSkills} of the {@code Job} that we are building.
+     * Sets the {@code skills} of the {@code Job} that we are building.
      */
-    public JobBuilderFX withSkills(ObservableList<String> skills) {
-        this.jobSkills = new JobSkills(skills);
+    public JobBuilderFX withSkills(String... skills) {
+        this.skills = SampleDataUtil.getSkillSet(skills);
         return this;
     }
 
@@ -56,6 +60,6 @@ public class JobBuilderFX {
      * Builds a Job object with the current attributes.
      */
     public Job build() {
-        return new Job(jobTitle, jobRounds, jobSkills);
+        return new Job(jobTitle, jobRounds, skills);
     }
 }
