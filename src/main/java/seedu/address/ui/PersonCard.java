@@ -85,10 +85,16 @@ public class PersonCard extends UiPart<Region> {
         id.setText(displayedIndex
                 + ". ");
         name.setText(person.getName().fullName);
+        name.setWrapText(false);
+        name.setMaxWidth(200);
+        name.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
 
         // Phone with white icon and modern styling
         phoneBox.getChildren().add(0, IconUtil.createIcon(FontAwesomeIcon.PHONE, "white"));
         phone.setText(person.getPhone().value);
+        phone.setWrapText(false);
+        phone.setMaxWidth(150);
+        phone.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
         phoneBox.setStyle("-fx-background-color: rgba(62, 123, 145, 0.15);"
                 + " -fx-background-radius: 4;"
                 + " -fx-padding: 5 10 5 10;");
@@ -96,6 +102,9 @@ public class PersonCard extends UiPart<Region> {
         // Email with white icon and modern styling
         emailBox.getChildren().add(0, IconUtil.createIcon(FontAwesomeIcon.ENVELOPE, "white"));
         email.setText(person.getEmail().value);
+        email.setWrapText(false);
+        email.setMaxWidth(180);
+        email.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
         emailBox.setStyle("-fx-background-color: rgba(62, 123, 145, 0.15);"
                 + " -fx-background-radius: 4;"
                 + " -fx-padding: 5 10 5 10;");
@@ -103,6 +112,9 @@ public class PersonCard extends UiPart<Region> {
         // Address with white icon and modern styling
         addressBox.getChildren().add(0, IconUtil.createIcon(FontAwesomeIcon.HOME, "white"));
         address.setText(person.getAddress().value);
+        address.setWrapText(false);
+        address.setMaxWidth(200);
+        address.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
         addressBox.setStyle("-fx-background-color: rgba(62, 123, 145, 0.15);"
                 + " -fx-background-radius: 4;"
                 + " -fx-padding: 5 10 5 10;");
@@ -110,6 +122,9 @@ public class PersonCard extends UiPart<Region> {
         // Degree with white icons and modern styling
         degreeBox.getChildren().add(0, IconUtil.createIcon(FontAwesomeIcon.GRADUATION_CAP, "white"));
         degree.setText(person.getDegree().value);
+        degree.setWrapText(false);
+        degree.setMaxWidth(150);
+        degree.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
         degreeBox.getChildren().add(2, new Label("•")); // Add bullet point
         degreeBox.getChildren().add(3, IconUtil.createIcon(FontAwesomeIcon.UNIVERSITY, "white"));
         degreeBox.setStyle("-fx-background-color: rgba(249, 105, 14, 0.15);"
@@ -118,6 +133,9 @@ public class PersonCard extends UiPart<Region> {
 
         // School with white icon
         school.setText(person.getSchool().value);
+        school.setWrapText(false);
+        school.setMaxWidth(150);
+        school.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
 
         // Skills with white icon and modern styling
         skillsBox.getChildren().add(0, IconUtil.createIcon(FontAwesomeIcon.TAGS, "white"));
@@ -129,6 +147,9 @@ public class PersonCard extends UiPart<Region> {
         person.getTags().stream().sorted(Comparator.comparing(Tag::tagName))
                 .forEach(tag -> {
                     Label tagLabel = new Label(tag.tagName());
+                    tagLabel.setWrapText(false);
+                    tagLabel.setMaxWidth(100);
+                    tagLabel.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
                     tagLabel.setStyle(
                         "-fx-background-color: #3e7b91; "
                         + "-fx-text-fill: white; "
@@ -147,14 +168,28 @@ public class PersonCard extends UiPart<Region> {
         applicationsBox.setStyle("-fx-background-color: rgba(43, 43, 43, 0.7);"
                 + " -fx-background-radius: 4 4 0 0;"
                 + " -fx-padding: 5 10 5 10;");
+        
+        // Set max width on the apps FlowPane to prevent overflow
+        apps.setPrefWidth(350);
+        apps.setMaxWidth(350);
+        
         applications.stream().sorted(Comparator.comparing(Application::getApplicationStatus))
             .forEach(app -> {
                 String jobTitle = app.getJob().getJobTitle().toString();
+                
+                // Truncate long job titles directly in the string
+                if (jobTitle.length() > 20) {
+                    jobTitle = jobTitle.substring(0, 17) + "...";
+                }
+                
                 int currentRound = app.getApplicationStatus().applicationStatus;
                 int maxRound = app.getJob().getJobRounds().jobRounds;
 
                 // Create a stylish application label - removed company name
                 Label appLabel = new Label(jobTitle);
+                appLabel.setWrapText(false);
+                appLabel.setMaxWidth(150);
+                appLabel.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
                 appLabel.setStyle(
                     "-fx-background-color: #2d2d30; "
                     + "-fx-text-fill: white; "
@@ -169,6 +204,9 @@ public class PersonCard extends UiPart<Region> {
                         + currentRound
                         + "/"
                         + maxRound);
+                progressLabel.setWrapText(false);
+                progressLabel.setMaxWidth(150);
+                progressLabel.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
                 progressLabel.setStyle(
                     "-fx-text-fill: #f39c12; "
                     + "-fx-font-size: 11px; "
@@ -179,6 +217,8 @@ public class PersonCard extends UiPart<Region> {
 
                 // Create a VBox to hold both labels
                 VBox appBox = new VBox(3);
+                appBox.setMaxWidth(160);
+                appBox.setPrefWidth(160);
                 appBox.getChildren().addAll(appLabel, progressLabel);
                 appBox.setStyle("-fx-padding: 2;");
 

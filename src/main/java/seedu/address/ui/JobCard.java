@@ -62,6 +62,9 @@ public class JobCard extends UiPart<Region> {
         // Setup job header with CSS classes (styling in DarkTheme.css)
         id.setText(displayedIndex + ". ");
         jobTitle.setText(job.getJobTitle().jobTitle());
+        jobTitle.setWrapText(false);
+        jobTitle.setMaxWidth(200);
+        jobTitle.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
 
         // Add header icons
         // Job rounds with icon
@@ -125,39 +128,10 @@ public class JobCard extends UiPart<Region> {
         nameBox.getChildren().add(IconUtil.createIcon(FontAwesomeIcon.USER, "white"));
         Label nameLabel = new Label(application.getApplicant().getName().fullName);
         nameLabel.getStyleClass().add("mini-card-name");
+        nameLabel.setWrapText(false);
+        nameLabel.setMaxWidth(150);
+        nameLabel.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
         nameBox.getChildren().add(nameLabel);
-
-        // Address with icon
-        HBox addressBox = new HBox(5);
-        addressBox.getChildren().add(IconUtil.createIcon(FontAwesomeIcon.HOME, "white"));
-        Label addressLabel = new Label(application.getApplicant().getAddress().value);
-        addressLabel.getStyleClass().add("mini-card-address");
-        addressBox.getChildren().add(addressLabel);
-        addressBox.getStyleClass().add("mini-card-address-box");
-
-        // Skills section
-        VBox skillsSection = new VBox(5);
-        HBox skillsHeader = new HBox(5);
-        skillsHeader.getChildren().add(IconUtil.createIcon(FontAwesomeIcon.TAGS, "white"));
-        Label skillsLabel = new Label("Skills:");
-        skillsLabel.getStyleClass().add("skills-header-label");
-        skillsHeader.getChildren().add(skillsLabel);
-        skillsHeader.getStyleClass().add("skills-header");
-
-        FlowPane skillsPane = new FlowPane();
-        skillsPane.getStyleClass().add("skills-pane");
-        skillsPane.setHgap(5);
-        skillsPane.setVgap(5);
-        application.getApplicant().getTags().stream()
-                .map(Tag::tagName)
-                .map(tagName -> {
-                    Label label = new Label(tagName);
-                    label.getStyleClass().add("skill-tag");
-                    return label;
-                })
-                .forEach(label -> skillsPane.getChildren().add(label));
-
-        skillsSection.getChildren().addAll(skillsHeader, skillsPane);
 
         // Progress section
         HBox progressHeader = new HBox(5);
@@ -187,7 +161,7 @@ public class JobCard extends UiPart<Region> {
         statusLabel.getStyleClass().add("status-label");
 
         // Add all sections to the card
-        miniCard.getChildren().addAll(nameBox, addressBox, skillsSection, progressHeader, progressBar, statusLabel);
+        miniCard.getChildren().addAll(nameBox, progressHeader, progressBar, statusLabel);
 
         return miniCard;
     }

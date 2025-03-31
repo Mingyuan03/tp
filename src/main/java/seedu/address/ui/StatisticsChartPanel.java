@@ -111,22 +111,29 @@ public class StatisticsChartPanel {
         jobDistributionChart = new PieChart();
         jobDistributionChart.setMinHeight(250);
         jobDistributionChart.setPrefHeight(250);
+        
+        // Improve responsiveness of pie chart
+        jobDistributionChart.setLabelsVisible(false); // Hide default labels to prevent overlap
         jobDistributionChart.setLegendVisible(true);
         jobDistributionChart.setLegendSide(Side.RIGHT);
-        jobDistributionChart.setLabelsVisible(true);
-        jobDistributionChart.setStyle("-fx-background-color: #2d2d30; -fx-padding: 10;");
-
+        jobDistributionChart.setStartAngle(90);
+        jobDistributionChart.setClockwise(true);
+        
+        // Make the chart responsive to size changes
+        jobDistributionChart.prefWidthProperty().bind(container.widthProperty().subtract(40));
+        
         // Set chart text colors to white for better visibility
-        jobDistributionChart.setLabelLineLength(20);
-        jobDistributionChart.setLabelsVisible(true);
-
+        jobDistributionChart.setLabelLineLength(10); // Shorter lines
+        
         // Apply CSS to style the chart legends and labels
         String pieChartCss =
-            ".chart-pie-label { -fx-fill: white; }"
-            + ".chart-pie-label-line { -fx-stroke: white; }"
+            ".chart-pie-label { -fx-fill: white; visibility: hidden; }"
+            + ".chart-pie-label-line { -fx-stroke: white; visibility: hidden; }"
             + ".chart-legend { -fx-background-color: transparent; }"
-            + ".chart-legend-item { -fx-text-fill: white; }";
-        jobDistributionChart.setStyle(jobDistributionChart.getStyle() + pieChartCss);
+            + ".chart-legend-item { -fx-text-fill: white; }"
+            + ".chart-pie { -fx-border-width: 0; }"
+            + ".chart-content { -fx-padding: 0; }";
+        jobDistributionChart.setStyle("-fx-background-color: #2d2d30; -fx-padding: 10; " + pieChartCss);
 
         container.getChildren().add(jobDistributionChart);
 
@@ -187,15 +194,8 @@ public class StatisticsChartPanel {
             return;
         }
 
-        // Use default JavaFX chart colors for both slices and legend
-        // This approach uses JavaFX's built-in default colors which are applied to both
-        // the pie slices and legend items automatically
-
         // Clear any existing data
         jobDistributionChart.getData().clear();
-
-        // We'll use JavaFX's standard coloring which maintains consistency
-        // by applying the same colors to pie slices and legend items
 
         // Prepare the data with consistent order to get predictable colors
         List<Job> sortedJobs = jobs.stream()
@@ -216,6 +216,12 @@ public class StatisticsChartPanel {
             List<Application> applications = logic.getFilteredApplicationsByJob(job);
             int appCount = applications.size();
             String jobName = job.getJobTitle().jobTitle();
+            
+            // Truncate job name for legend display
+            if (jobName.length() > 15) {
+                jobName = jobName.substring(0, 12) + "...";
+            }
+            
             pieChartData.add(new PieChart.Data(jobName, appCount));
         }
 
@@ -227,10 +233,23 @@ public class StatisticsChartPanel {
         // Set the data - JavaFX will automatically apply default colors consistently to both slices and legend
         jobDistributionChart.setData(pieChartData);
 
-        // Improve the chart appearance
-        jobDistributionChart.setClockwise(true);
-        jobDistributionChart.setLabelsVisible(true);
-        jobDistributionChart.setStartAngle(90);
+        // Add interactive tooltips to each pie slice for better information display
+        for (PieChart.Data data : pieChartData) {
+            javafx.application.Platform.runLater(() -> {
+                if (data.getNode() != null) {
+                    // Add hover effect
+                    data.getNode().setOnMouseEntered(e -> 
+                        data.getNode().setStyle("-fx-border-color: white; -fx-border-width: 2;"));
+                    data.getNode().setOnMouseExited(e -> 
+                        data.getNode().setStyle("-fx-border-color: transparent;"));
+                    
+                    // Create tooltip with full job name and count
+                    javafx.scene.control.Tooltip tooltip = new javafx.scene.control.Tooltip(
+                        data.getName() + ": " + (int)data.getPieValue() + " applicant(s)");
+                    javafx.scene.control.Tooltip.install(data.getNode(), tooltip);
+                }
+            });
+        }
     }
 
     /**
@@ -266,6 +285,12 @@ public class StatisticsChartPanel {
                 if (school.contains("@")) {
                     school = "Unknown School";
                 }
+                
+                // Truncate school name if too long
+                if (school.length() > 20) {
+                    school = school.substring(0, 17) + "...";
+                }
+                
                 schoolCounts.put(school, schoolCounts.getOrDefault(school, 0) + 1);
             }
         }

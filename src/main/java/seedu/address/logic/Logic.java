@@ -41,6 +41,9 @@ public interface Logic {
     /** Returns an unmodifiable view of the filtered list of jobs */
     ObservableList<Job> getFilteredJobList();
 
+    /** Returns an unmodifiable view of the filtered list of applications */
+    ObservableList<Application> getFilteredApplicationList();
+
     /** Returns filtered list of applications for a job */
     List<Application> getApplicationsByJob(Job job);
 
@@ -95,4 +98,10 @@ public interface Logic {
      * Sets the current view state.
      */
     void setViewState(Model.ViewState viewState);
+
+    /**
+     * Gets the current view state.
+     * @return The current view state.
+     */
+    Model.ViewState getViewState();
 }

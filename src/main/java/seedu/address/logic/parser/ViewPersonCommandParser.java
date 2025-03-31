@@ -1,8 +1,8 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_APPLICATION_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_INDEX;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PERSON_INDEX;
 
 import java.util.stream.Stream;
 
@@ -22,9 +22,9 @@ public class ViewPersonCommandParser implements Parser<ViewPersonCommand> {
      */
     public ViewPersonCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_JOB_INDEX, PREFIX_PERSON_INDEX);
+                ArgumentTokenizer.tokenize(args, PREFIX_JOB_INDEX, PREFIX_APPLICATION_INDEX);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_JOB_INDEX, PREFIX_PERSON_INDEX)
+        if (!arePrefixesPresent(argMultimap, PREFIX_JOB_INDEX, PREFIX_APPLICATION_INDEX)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     ViewPersonCommand.MESSAGE_USAGE));
@@ -32,9 +32,9 @@ public class ViewPersonCommandParser implements Parser<ViewPersonCommand> {
 
         try {
             Index jobIndex = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_JOB_INDEX).get());
-            Index personIndex = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_PERSON_INDEX).get());
+            Index applicationIndex = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_APPLICATION_INDEX).get());
 
-            return new ViewPersonCommand(jobIndex, personIndex);
+            return new ViewPersonCommand(jobIndex, applicationIndex);
         } catch (ParseException pe) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewPersonCommand.MESSAGE_USAGE), pe);

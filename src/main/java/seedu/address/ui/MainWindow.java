@@ -1,6 +1,7 @@
 package seedu.address.ui;
 
 import java.util.logging.Logger;
+import java.util.List;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +19,8 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.job.Job;
+import seedu.address.model.person.Person;
+import seedu.address.model.application.Application;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -38,7 +41,6 @@ public class MainWindow extends UiPart<Stage> {
     private ResultDisplay resultDisplay;
     private StatusBarFooter statusBarFooter;
     private HelpWindow helpWindow;
-    private ViewStateIndicator viewStateIndicator;
     private CommandBox commandBox;
     private boolean isJobView = true;
     private int selectedJobIndex = -1; // -1 means no job selected
@@ -132,15 +134,6 @@ public class MainWindow extends UiPart<Stage> {
             statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
         }
 
-        // Initialize view state indicator
-        if (viewStateIndicator == null) {
-            viewStateIndicator = new ViewStateIndicator();
-            viewStateIndicatorPlaceholder.getChildren().add(viewStateIndicator.getRoot());
-        }
-
-        // Update the view state indicator
-        updateViewStateIndicator();
-
         // Initialize the appropriate view
         if (isJobView) {
             initJobView();
@@ -229,8 +222,6 @@ public class MainWindow extends UiPart<Stage> {
             initPersonView();
         }
 
-        // Update view state indicator
-        updateViewStateIndicator();
     }
 
     public PersonListPanel getPersonListPanel() {
@@ -251,6 +242,43 @@ public class MainWindow extends UiPart<Stage> {
         if (isJobView && jobListPanel != null) {
             // If we're in job view, refresh the job panel to show updated applications
             jobListPanel.refreshJobView();
+            
+            // Check if we're viewing person details for a potentially deleted or updated application
+            if (logic.getViewState() == Model.ViewState.PERSON_DETAIL_VIEW) {
+                Job currentJob = jobListPanel.getCurrentlyViewedJob();
+                Person currentPerson = jobListPanel.getCurrentlyViewedPerson();
+                
+                if (currentJob != null && currentPerson != null) {
+                    boolean applicationExists = false;
+                    Application currentApplication = null;
+                    List<Application> applications = logic.getFilteredApplicationsByJob(currentJob);
+                    
+                    if (applications != null) {
+                        for (Application app : applications) {
+                            if (app.getApplicant().equals(currentPerson)) {
+                                applicationExists = true;
+                                currentApplication = app;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (!applicationExists) {
+                        // If application no longer exists, switch to general statistics
+                        logger.info("Application was deleted, switching to general statistics view");
+                        logic.setViewState(Model.ViewState.JOB_VIEW);
+                        jobListPanel.showGeneralStatistics();
+                    } else {
+                        // If application still exists but might have been updated (e.g., advanced),
+                        // refresh the person details panel with the current application
+                        logger.info("Refreshing person details view with updated application data");
+                        jobListPanel.showPersonDetails(currentJob, applications.indexOf(currentApplication));
+                    }
+                }
+            }
+            
+            // Always refresh the sidepane which contains the statistics
+            jobListPanel.refreshSidepane();
         } else if (personListPanel != null) {
             // If we're in person view, recreate the person list panel
             personListPanelPlaceholder.getChildren().clear();
@@ -368,9 +396,6 @@ public class MainWindow extends UiPart<Stage> {
                 handleExit();
             }
 
-            // Update view state indicator after command execution
-            updateViewStateIndicator();
-
             return commandResult;
         } catch (CommandException | ParseException e) {
             logger.info("Invalid command: " + commandText);
@@ -462,18 +487,6 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Updates the view state indicator with the current view state.
-     */
-    private void updateViewStateIndicator() {
-        if (viewStateIndicator != null) {
-            // Use isJobView to determine the state
-            viewStateIndicator.updateViewState(isJobView
-                ? Model.ViewState.JOB_VIEW
-                : Model.ViewState.PERSON_VIEW);
-        }
-    }
-
-    /**
      * Displays statistics for a specific job.
      *
      * @param jobIndex the index of the job to view
@@ -489,7 +502,6 @@ public class MainWindow extends UiPart<Stage> {
 
             // Set the view state using the Logic interface
             logic.setViewState(Model.ViewState.JOB_DETAIL_VIEW);
-            updateViewStateIndicator();
 
             if (jobListPanel != null) {
                 // Tell the job list panel to show job-specific statistics
