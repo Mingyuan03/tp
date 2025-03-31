@@ -2,7 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_INDEX;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ROUNDS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_APPLICATION_STATUS;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,8 +26,8 @@ public class FindAppCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Filters the list to show only applications "
             + "with the specified status.\n"
             + "In job view: " + COMMAND_WORD + " " + PREFIX_JOB_INDEX + "JOB_INDEX (optional) "
-            + PREFIX_ROUNDS + "ROUNDS\n"
-            + "In person view: " + COMMAND_WORD + " " + PREFIX_ROUNDS + "ROUNDS\n"
+            + PREFIX_APPLICATION_STATUS + "ROUNDS\n"
+            + "In person view: " + COMMAND_WORD + " " + PREFIX_APPLICATION_STATUS + "ROUNDS\n"
             + "Example: " + COMMAND_WORD + " j/1 st/Accepted";
 
     public static final String MESSAGE_SUCCESS = "Filtered applications by status: %1$s";

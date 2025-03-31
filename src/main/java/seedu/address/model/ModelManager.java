@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.HashSet;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -436,6 +437,16 @@ public class ModelManager implements Model {
                 .filter(app -> Integer.toString(app.getApplicationStatus().applicationStatus)
                         .equals(applicationStatusFilter))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Application> getApplicationsByPersonAndJob(Person person, Job job) {
+        List<Application> matchingApplicationsByPerson = this.getApplicationsByPerson(person); // Check non-null person.
+        List<Application> matchingApplicationsByJob = this.getApplicationsByJob(job); // Check non-null job.
+        // Find intersection of both lists, which implicitly account for applicationStatusFilter already.
+        if (matchingApplicationsByPerson.size() < matchingApplicationsByJob.size()) {}
+        HashSet<Application> matchingApplications = new HashSet<>(matchingApplicationsByPerson);
+        return matchingApplicationsByPerson.stream().filter(matchingApplications::contains).collect(Collectors.toList());
     }
 
     @Override

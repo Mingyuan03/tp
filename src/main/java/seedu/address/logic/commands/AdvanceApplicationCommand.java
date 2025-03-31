@@ -3,7 +3,7 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PERSON_INDEX;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ROUNDS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_APPLICATION_STATUS;
 
 import java.util.List;
 
@@ -20,19 +20,16 @@ import seedu.address.model.person.Person;
  * Advances an application by a specified number of rounds.
  */
 public class AdvanceApplicationCommand extends Command {
-
-    public static final String COMMAND_WORD = "advanceapp";
-
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Advances an application by the specified number of rounds. "
+    public static final String COMMAND_WORD = "advapp";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Advances an application by the specified number of rounds. "
             + "Parameters: "
             + PREFIX_PERSON_INDEX + "PERSON_INDEX "
             + PREFIX_JOB_INDEX + "JOB_INDEX "
-            + PREFIX_ROUNDS + "ROUNDS\n"
+            + PREFIX_APPLICATION_STATUS + "ROUNDS\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_PERSON_INDEX + "1 "
             + PREFIX_JOB_INDEX + "2 "
-            + PREFIX_ROUNDS + "1";
+            + PREFIX_APPLICATION_STATUS + "1";
 
     public static final String MESSAGE_ADVANCE_APPLICATION_SUCCESS =
             "%1$s has completed %3$d/%4$d rounds for %2$s";
