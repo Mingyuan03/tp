@@ -303,5 +303,11 @@ public interface Model {
      * @return List of filtered applications for the person
      */
     List<Application> getFilteredApplicationsByPerson(Person person);
+
+    /**
+     * Gets the current view state.
+     * @return The current view state.
+     */
+    ViewState getViewState();
 }
 

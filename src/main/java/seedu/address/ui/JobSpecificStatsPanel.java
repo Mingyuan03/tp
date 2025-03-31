@@ -1,15 +1,14 @@
 package seedu.address.ui;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.geometry.Side;
-import javafx.scene.chart.PieChart;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
@@ -17,7 +16,6 @@ import javafx.scene.layout.VBox;
 import seedu.address.logic.Logic;
 import seedu.address.model.application.Application;
 import seedu.address.model.job.Job;
-import seedu.address.model.person.Person;
 import seedu.address.model.skill.Skill;
 
 /**
@@ -30,7 +28,8 @@ public class JobSpecificStatsPanel {
     private final VBox container;
     private Label jobTitleLabel;
     private Label applicantCountLabel;
-    private PieChart schoolDistributionChart;
+    private BarChart<String, Number> roundDistributionChart;
+    private NumberAxis yAxis;
     private FlowPane skillsSummaryPane;
 
     /**
@@ -82,7 +81,7 @@ public class JobSpecificStatsPanel {
 
         // Update statistics
         updateApplicantCount(job);
-        updateSchoolDistribution(job);
+        updateRoundDistribution(job);
         updateSkillsSummary(job);
     }
 
@@ -99,12 +98,18 @@ public class JobSpecificStatsPanel {
         // Add job title label
         jobTitleLabel = new Label("Job Title");
         jobTitleLabel.getStyleClass().add("job-stats-title");
+        jobTitleLabel.setWrapText(true);
+        jobTitleLabel.setMaxWidth(Double.MAX_VALUE);
+        jobTitleLabel.setMinHeight(60);
+        jobTitleLabel.setAlignment(javafx.geometry.Pos.CENTER);
+        jobTitleLabel.setStyle("-fx-background-color: linear-gradient(to right, #3a3a3a, #2a2a2a); "
+                + "-fx-text-fill: white; "
+                + "-fx-font-size: 22px; "
+                + "-fx-font-weight: bold; "
+                + "-fx-padding: 15; "
+                + "-fx-background-radius: 8; "
+                + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 5, 0, 0, 3);");
         container.getChildren().add(jobTitleLabel);
-
-        // Add a subtle scroll hint at the top
-        Label scrollHintLabel = new Label("Scroll for more stats ↓");
-        scrollHintLabel.getStyleClass().add("scroll-hint-label");
-        container.getChildren().add(scrollHintLabel);
 
         // Add summary panel with nice styling
         VBox summaryBox = new VBox(10);
@@ -127,32 +132,73 @@ public class JobSpecificStatsPanel {
         summaryBox.getChildren().add(applicantCountLabel);
         container.getChildren().add(summaryBox);
 
-        // Create school distribution chart
-        Label schoolChartTitle = new Label("Applicants by School");
-        schoolChartTitle.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 20 0 5 0;");
-        container.getChildren().add(schoolChartTitle);
+        // Create round distribution chart
+        Label roundChartTitle = new Label("Applicants by Round");
+        roundChartTitle.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 20 0 5 0;");
+        container.getChildren().add(roundChartTitle);
 
-        schoolDistributionChart = new PieChart();
-        schoolDistributionChart.setMinHeight(300);
-        schoolDistributionChart.setPrefHeight(300);
-        schoolDistributionChart.setLegendVisible(true);
-        schoolDistributionChart.setLegendSide(Side.RIGHT);
-        schoolDistributionChart.setLabelsVisible(true);
-        schoolDistributionChart.setStartAngle(90);
-        schoolDistributionChart.setClockwise(true);
+        CategoryAxis xAxis = new CategoryAxis();
+        xAxis.setLabel("Application Stage");
+        yAxis = new NumberAxis(0, 10, 1); // Will be adjusted dynamically
+        yAxis.setLabel("Number of Applicants");
+        roundDistributionChart = new BarChart<>(xAxis, yAxis);
+        roundDistributionChart.setMinHeight(300);
+        roundDistributionChart.setPrefHeight(300);
 
-        // Style the pie chart
-        String pieChartCss =
-            ".chart-pie-label { -fx-fill: white; }"
-            + ".chart-pie-label-line { -fx-stroke: white; }"
-            + ".chart-legend { -fx-background-color: transparent; }"
-            + ".chart-legend-item { -fx-text-fill: white; }";
-        schoolDistributionChart.setStyle("-fx-background-color: #2d2d30; -fx-padding: 10; " + pieChartCss);
+        // Completely disable the legend
+        roundDistributionChart.setLegendVisible(false);
 
-        container.getChildren().add(schoolDistributionChart);
+        // Set chart ID for CSS
+        roundDistributionChart.setId("roundDistributionChart");
+
+        roundDistributionChart.setAnimated(false);
+        roundDistributionChart.setCategoryGap(50); // Increase space between bars
+        roundDistributionChart.setBarGap(2);
+
+        // Add more space at the bottom of the chart for labels
+        roundDistributionChart.setPadding(new javafx.geometry.Insets(10, 10, 40, 10));
+
+        // Style the bar chart
+        String barChartCss =
+            ".chart-bar-label { -fx-fill: white; }"
+            + ".axis-label { -fx-text-fill: white; }"
+            + ".axis { -fx-tick-label-fill: white; }"
+            + ".chart-series-bar { -fx-bar-fill: white; }"
+            + ".chart-plot-background { -fx-background-color: #2d2d30; }"
+            + ".chart-vertical-grid-lines { -fx-stroke: transparent; }"
+            + ".chart-horizontal-grid-lines { -fx-stroke: transparent; }"
+            + ".chart-alternative-row-fill { -fx-fill: transparent; }"
+            + ".chart-alternative-column-fill { -fx-fill: transparent; }"
+            + ".chart-vertical-zero-line { -fx-stroke: transparent; }"
+            + ".chart-horizontal-zero-line { -fx-stroke: transparent; }"
+            + ".default-color0.chart-bar { -fx-background-radius: 0; }"
+            + ".chart-line-symbol, .chart-symbol "
+            + "{ -fx-background-color: transparent, transparent; "
+            + "-fx-background-radius: 0px; "
+            + "-fx-padding: 0px; }"
+            + ".chart-series-line { -fx-stroke: transparent; }"
+            + ".chart-legend-item-symbol { -fx-background-color: transparent; }"
+            + ".chart-plot-background > * { -fx-background-color: transparent; }"
+            + ".data0.chart-bar { -fx-bar-fill: white; }"
+            + ".series0.chart-bar { -fx-bar-fill: white; }"
+            + ".chart-legend { -fx-background-color: transparent; "
+            + "visibility: hidden; -fx-padding: 0px; "
+            + "-fx-border-width: 0px; -fx-max-width: 0px; "
+            + "-fx-max-height: 0px; -fx-opacity: 0; "
+            + "display: none; }"
+            + ".chart-legend-item { visibility: hidden; "
+            + "-fx-padding: 0px; -fx-opacity: 0; display: none; }";
+
+        // Apply only basic style properties directly
+        roundDistributionChart.setStyle("-fx-background-color: #2d2d30; -fx-padding: 10;");
+
+        // Add the chart to the container first
+        container.getChildren().add(roundDistributionChart);
+
+        // CSS styling will be applied via applyCssToChartNodes() after data is added
 
         // Add Skills Summary Section
-        Label skillsSummaryTitle = new Label("All Applicant Skills");
+        Label skillsSummaryTitle = new Label("Required Job Skills");
         skillsSummaryTitle.getStyleClass().add("skills-summary-title");
         container.getChildren().add(skillsSummaryTitle);
 
@@ -183,88 +229,161 @@ public class JobSpecificStatsPanel {
     }
 
     /**
-     * Updates the school distribution chart for the given job.
+     * Updates the round distribution chart for the given job.
      */
-    private void updateSchoolDistribution(Job job) {
+    private void updateRoundDistribution(Job job) {
         List<Application> applications = logic.getFilteredApplicationsByJob(job);
+        int totalRounds = job.getJobRounds().jobRounds;
 
-        // Create data for pie chart
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+        // Update the y-axis upper bound to match the total rounds
+        yAxis.setUpperBound(Math.max(totalRounds, 1));
+
+        // Clear existing data
+        roundDistributionChart.getData().clear();
 
         // If no applications, show default data
         if (applications == null || applications.isEmpty()) {
-            pieChartData.add(new PieChart.Data("No applicants", 1));
-            schoolDistributionChart.setData(pieChartData);
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("");
+            series.getData().add(new XYChart.Data<>("No applicants", 0));
+            roundDistributionChart.getData().add(series);
+            roundDistributionChart.setLegendVisible(false);
+
+            // Force layout refresh
+            roundDistributionChart.layout();
+
+            // Apply CSS to ensure legend is hidden
+            applyCssToChartNodes();
             return;
         }
 
-        // Count applicants by school
-        Map<String, Integer> schoolCounts = new HashMap<>();
+        // Count applicants by round
+        Map<Integer, Integer> roundCounts = new HashMap<>();
+
+        // Initialize all rounds with 0
+        for (int i = 0; i <= totalRounds; i++) {
+            roundCounts.put(i, 0);
+        }
+
+        // Count applicants in each round
         for (Application application : applications) {
-            Person person = application.getApplicant();
-            if (person != null && person.getSchool() != null) {
-                String school = person.getSchool().value;
-                // Clean up school name if needed
-                if (school.contains("@")) {
-                    school = "Unknown School";
-                }
-                schoolCounts.put(school, schoolCounts.getOrDefault(school, 0) + 1);
+            int round = application.getApplicationStatus().applicationStatus;
+            roundCounts.put(round, roundCounts.get(round) + 1);
+        }
+
+        // Create series for the bar chart
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName(""); // Empty name to prevent legend issues
+
+        for (int i = 0; i <= totalRounds; i++) {
+            String roundLabel = i == 0 ? "Not Started"
+                                : i == totalRounds ? "Completed"
+                                : "Round " + i;
+
+            // Truncate round label if too long
+            if (roundLabel.length() > 15) {
+                roundLabel = roundLabel.substring(0, 12) + "...";
             }
+
+            XYChart.Data<String, Number> data = new XYChart.Data<>(roundLabel, roundCounts.get(i));
+            series.getData().add(data);
         }
 
-        // Add data to pie chart
-        for (Map.Entry<String, Integer> entry : schoolCounts.entrySet()) {
-            pieChartData.add(new PieChart.Data(entry.getKey(), entry.getValue()));
-        }
+        // Force no legend
+        series.setName(null);
+        roundDistributionChart.setLegendVisible(false);
+        roundDistributionChart.getData().add(series);
 
-        // If no schools found
-        if (pieChartData.isEmpty()) {
-            pieChartData.add(new PieChart.Data("No school data", 1));
-        }
+        // Force layout refresh
+        roundDistributionChart.layout();
 
-        // Set the data
-        schoolDistributionChart.setData(pieChartData);
+        // Apply CSS to remove symbols after adding data
+        applyCssToChartNodes();
     }
 
     /**
      * Updates the skills summary for the given job.
      */
     private void updateSkillsSummary(Job job) {
-        List<Application> applications = logic.getFilteredApplicationsByJob(job);
         skillsSummaryPane.getChildren().clear();
 
-        // If no applications, show a message
-        if (applications == null || applications.isEmpty()) {
-            Label noSkillsLabel = new Label("No skills data available");
+        // Directly get skills from the job
+        Set<Skill> jobSkills = job.getSkills();
+
+        // If no skills found
+        if (jobSkills.isEmpty()) {
+            Label noSkillsLabel = new Label("No skills required for this job");
             noSkillsLabel.setStyle("-fx-text-fill: #aaaaaa; -fx-font-style: italic;");
             skillsSummaryPane.getChildren().add(noSkillsLabel);
             return;
         }
 
-        // Collect all unique skills from all applicants
-        Set<String> allSkills = new HashSet<>();
-        for (Application application : applications) {
-            Person person = application.getApplicant();
-            if (person != null) {
-                for (Skill skill : person.getSkills()) {
-                    allSkills.add(skill.skillName());
+        // Create a skill tag for each job skill
+        for (Skill skill : jobSkills) {
+            Label skillLabel = new Label(skill.skillName());
+            skillLabel.getStyleClass().add("skill-summary-tag");
+            skillLabel.setWrapText(false);
+            skillLabel.setMaxWidth(120);
+            skillLabel.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
+            skillsSummaryPane.getChildren().add(skillLabel);
+        }
+    }
+
+    /**
+     * Applies CSS to chart nodes to ensure no symbols are visible
+     */
+    private void applyCssToChartNodes() {
+        // Apply styles to chart bars
+        for (XYChart.Series<String, Number> series : roundDistributionChart.getData()) {
+            for (XYChart.Data<String, Number> data : series.getData()) {
+                if (data.getNode() != null) {
+                    // Apply style directly to the node
+                    data.getNode().setStyle("-fx-background-color: white;"
+                        + "-fx-background-insets: 0;"
+                        + "-fx-background-radius: 0;");
                 }
             }
         }
 
-        // If no skills found
-        if (allSkills.isEmpty()) {
-            Label noSkillsLabel = new Label("No skills data available");
-            noSkillsLabel.setStyle("-fx-text-fill: #aaaaaa; -fx-font-style: italic;");
-            skillsSummaryPane.getChildren().add(noSkillsLabel);
-            return;
+        // Hide any potential legend
+        if (roundDistributionChart.lookup(".chart-legend") != null) {
+            roundDistributionChart.lookup(".chart-legend").setVisible(false);
+            roundDistributionChart.lookup(".chart-legend").setManaged(false);
+            roundDistributionChart.lookup(".chart-legend").setOpacity(0);
         }
 
-        // Create a skill tag for each unique skill
-        for (String skill : allSkills) {
-            Label skillLabel = new Label(skill);
-            skillLabel.getStyleClass().add("skill-summary-tag");
-            skillsSummaryPane.getChildren().add(skillLabel);
+        if (roundDistributionChart.lookup(".chart-legend-item") != null) {
+            roundDistributionChart.lookup(".chart-legend-item").setVisible(false);
+            roundDistributionChart.lookup(".chart-legend-item").setManaged(false);
         }
+
+        if (roundDistributionChart.lookup(".chart-legend-item-symbol") != null) {
+            roundDistributionChart.lookup(".chart-legend-item-symbol").setVisible(false);
+        }
+
+        // Apply styles to other elements
+        roundDistributionChart.lookupAll(".chart-bar-label").forEach(node ->
+            node.setStyle("-fx-fill: white;"));
+
+        roundDistributionChart.lookupAll(".axis-label").forEach(node ->
+            node.setStyle("-fx-text-fill: white;"));
+
+        roundDistributionChart.lookupAll(".axis").forEach(node ->
+            node.setStyle("-fx-tick-label-fill: white;"));
+
+        roundDistributionChart.lookupAll(".chart-plot-background").forEach(node ->
+            node.setStyle("-fx-background-color: #2d2d30;"));
+
+        roundDistributionChart.lookupAll(".chart-vertical-grid-lines").forEach(node ->
+            node.setStyle("-fx-stroke: transparent;"));
+
+        roundDistributionChart.lookupAll(".chart-horizontal-grid-lines").forEach(node ->
+            node.setStyle("-fx-stroke: transparent;"));
+
+        roundDistributionChart.lookupAll(".chart-vertical-zero-line").forEach(node ->
+            node.setStyle("-fx-stroke: transparent;"));
+
+        roundDistributionChart.lookupAll(".chart-horizontal-zero-line").forEach(node ->
+            node.setStyle("-fx-stroke: transparent;"));
     }
 }

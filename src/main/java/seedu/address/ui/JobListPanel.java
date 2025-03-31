@@ -75,6 +75,14 @@ public class JobListPanel extends UiPart<Region> {
             refreshSidepane();
         });
 
+        // Add listener to application list to refresh UI when applications change
+        ObservableList<Application> applicationList = logic.getFilteredApplicationList();
+        applicationList.addListener((javafx.collections.ListChangeListener.Change<? extends Application> c) -> {
+            logger.info("Application list changed, refreshing UI components");
+            refreshJobView();
+            refreshSidepane();
+        });
+
         // Add listener to job selection to update sidepane content if needed in the future
         jobListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             logger.info("Job selection changed: " + (newValue != null ? newValue.getJobTitle().jobTitle() : "null"));
@@ -264,7 +272,7 @@ public class JobListPanel extends UiPart<Region> {
     /**
      * Refreshes the sidepane content to reflect updated data.
      */
-    private void refreshSidepane() {
+    public void refreshSidepane() {
         if (currentlyViewedJob != null && jobSpecificStatsPanel != null) {
             // If we're viewing a specific job, update its statistics
             jobSpecificStatsPanel.updateForJob(currentlyViewedJob);
@@ -340,5 +348,19 @@ public class JobListPanel extends UiPart<Region> {
 
     public List<Job> getJobList() {
         return jobListView.getItems();
+    }
+
+    /**
+     * Returns the currently viewed job.
+     */
+    public Job getCurrentlyViewedJob() {
+        return currentlyViewedJob;
+    }
+
+    /**
+     * Returns the currently viewed person.
+     */
+    public Person getCurrentlyViewedPerson() {
+        return currentlyViewedPerson;
     }
 }

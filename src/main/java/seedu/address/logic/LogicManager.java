@@ -73,6 +73,11 @@ public class LogicManager implements Logic {
     }
 
     @Override
+    public Model.ViewState getViewState() {
+        return model.getViewState();
+    }
+
+    @Override
     public ReadOnlyAddressBook getAddressBook() {
         return model.getAddressBook();
     }
@@ -115,6 +120,11 @@ public class LogicManager implements Logic {
     @Override
     public ObservableList<Job> getFilteredJobList() {
         return model.getFilteredJobList();
+    }
+
+    @Override
+    public ObservableList<Application> getFilteredApplicationList() {
+        return model.getFilteredApplicationList();
     }
 
     @Override

@@ -101,10 +101,10 @@ public class AddApplicationCommand extends Command {
     private boolean hasApp(List<Application> existingApplications, Job jobToApply) {
         for (Application existingApp : existingApplications) {
             if (existingApp.getJob().equals(jobToApply)) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     @Override

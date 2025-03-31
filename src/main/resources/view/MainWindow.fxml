@@ -33,7 +33,6 @@
               <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
             </Menu>
           </MenuBar>
-          <StackPane fx:id="viewStateIndicatorPlaceholder" HBox.hgrow="NEVER" prefWidth="150" maxWidth="150" minWidth="150" />
         </HBox>
 
         <StackPane VBox.vgrow="NEVER" fx:id="commandBoxPlaceholder" styleClass="pane-with-border">
