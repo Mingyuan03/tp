@@ -11,7 +11,6 @@ public class Job {
     private final JobTitle jobTitle;
     private final JobRounds jobRounds;
     private final JobSkills jobSkills;
-    private final JobType jobType;
 
     /**
      * Constructs a Job with the specified job title and properties.
@@ -19,14 +18,12 @@ public class Job {
      * @param jobTitle  The title of the job.
      * @param jobRounds The rounds of the job.
      * @param jobSkills The requisite skills for the job.
-     * @param jobType   The employment type of the job.
      */
-    public Job(JobTitle jobTitle, JobRounds jobRounds, JobSkills jobSkills, JobType jobType) {
-        requireAllNonNull(jobTitle, jobRounds, jobSkills, jobType);
+    public Job(JobTitle jobTitle, JobRounds jobRounds, JobSkills jobSkills) {
+        requireAllNonNull(jobTitle, jobRounds, jobSkills);
         this.jobTitle = jobTitle;
         this.jobRounds = jobRounds;
         this.jobSkills = jobSkills;
-        this.jobType = jobType;
     }
 
     /**
@@ -57,15 +54,6 @@ public class Job {
     }
 
     /**
-     * Returns the employment type of this job, be it intern, part-time or full-time.
-     *
-     * @return The employment type of the job.
-     */
-    public JobType getJobType() {
-        return this.jobType;
-    }
-
-    /**
      * Returns true if both jobs have the same title and company. This defines a
      * weaker notion of equality between two jobs.
      */
@@ -88,8 +76,7 @@ public class Job {
             return false;
         }
         return this.jobTitle.equals(otherJob.jobTitle) && this.jobRounds.equals(otherJob.jobRounds)
-                && this.jobSkills.equals(otherJob.jobSkills)
-                && this.jobType.getDisplayType().equals(otherJob.jobType.getDisplayType());
+                && this.jobSkills.equals(otherJob.jobSkills);
     }
 
     /**
@@ -99,6 +86,6 @@ public class Job {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(this.jobTitle, this.jobRounds, this.jobSkills, this.jobType);
+        return Objects.hash(this.jobTitle, this.jobRounds, this.jobSkills);
     }
 }

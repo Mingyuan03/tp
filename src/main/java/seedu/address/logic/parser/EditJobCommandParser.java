@@ -2,7 +2,6 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMPLOYMENT_TYPE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_ROUNDS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_SKILLS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_TITLE;
@@ -26,7 +25,7 @@ public class EditJobCommandParser implements Parser<EditJobCommand> {
     public EditJobCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_JOB_TITLE, PREFIX_JOB_ROUNDS,
-                PREFIX_JOB_SKILLS, PREFIX_EMPLOYMENT_TYPE);
+                PREFIX_JOB_SKILLS);
 
         Index index;
 
@@ -36,8 +35,7 @@ public class EditJobCommandParser implements Parser<EditJobCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditJobCommand.MESSAGE_USAGE), pe);
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_JOB_TITLE, PREFIX_JOB_ROUNDS, PREFIX_JOB_SKILLS,
-                PREFIX_EMPLOYMENT_TYPE);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_JOB_TITLE, PREFIX_JOB_ROUNDS, PREFIX_JOB_SKILLS);
 
         EditJobDescriptor editJobDescriptor = new EditJobDescriptor();
 
@@ -49,10 +47,6 @@ public class EditJobCommandParser implements Parser<EditJobCommand> {
         }
         if (argMultimap.getValue(PREFIX_JOB_SKILLS).isPresent()) {
             editJobDescriptor.setJobSkills(ParserUtil.parseJobSkills(argMultimap.getValue(PREFIX_JOB_SKILLS).get()));
-        }
-        if (argMultimap.getValue(PREFIX_EMPLOYMENT_TYPE).isPresent()) {
-            editJobDescriptor.setJobType(ParserUtil.parseJobType(
-                    argMultimap.getValue(PREFIX_EMPLOYMENT_TYPE).get()));
         }
 
         if (!editJobDescriptor.isAnyFieldEdited()) {
