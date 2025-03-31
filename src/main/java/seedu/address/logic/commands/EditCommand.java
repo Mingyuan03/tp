@@ -49,6 +49,8 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_WRONG_VIEW = "This command is only available in person view. "
+            + "Please switch to person view first using 'switchview' command.";
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
@@ -68,6 +70,12 @@ public class EditCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        // Check that we're in person view
+        if (model.isInJobView()) {
+            throw new CommandException(MESSAGE_WRONG_VIEW);
+        }
+
         List<Person> lastShownList = model.getFilteredPersonList();
 
         if (this.index.getZeroBased() >= lastShownList.size()) {
@@ -82,7 +90,6 @@ public class EditCommand extends Command {
         }
 
         model.setPerson(personToEdit, editedPerson);
-        model.resetFilteredPersonList();
         return CommandResult.withFeedback(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
     }
 

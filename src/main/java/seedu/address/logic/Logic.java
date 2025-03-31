@@ -2,6 +2,7 @@ package seedu.address.logic;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
@@ -43,8 +44,27 @@ public interface Logic {
     /** Returns filtered list of applications for a job */
     List<Application> getApplicationsByJob(Job job);
 
+    /** Returns filtered list of applications for a job that match current application filters */
+    List<Application> getFilteredApplicationsByJob(Job job);
+
     /** Returns filtered list of applications for a person */
     List<Application> getApplicationsByPerson(Person person);
+
+    /** Returns filtered list of applications for a person that match current application filters */
+    List<Application> getFilteredApplicationsByPerson(Person person);
+
+    /**
+     * Updates the filter of the filtered application list to filter by the given
+     * {@code predicate}.
+     *
+     * @throws NullPointerException if {@code predicate} is null.
+     */
+    void updateFilteredApplicationList(Predicate<Application> predicate);
+
+    /**
+     * Resets the filter of the filtered application list to show all applications
+     */
+    void resetFilteredApplicationList();
 
     /**
      * Returns the previous command relative to current pointer in the command history.
@@ -75,9 +95,4 @@ public interface Logic {
      * Sets the current view state.
      */
     void setViewState(Model.ViewState viewState);
-
-    /**
-     * Clears the application status filter and resets all filtered lists.
-     */
-    void clearStatusFilter();
 }

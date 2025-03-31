@@ -40,6 +40,8 @@ public class EditJobCommand extends Command {
     public static final String MESSAGE_EDIT_JOB_SUCCESS = "Edited Job: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_JOB = "This job already exists in the address book.";
+    public static final String MESSAGE_WRONG_VIEW = "This command is only available in job view. "
+            + "Please switch to job view first using 'switchview' command.";
 
     private final Index index;
     private final EditJobDescriptor editJobDescriptor;
@@ -59,6 +61,12 @@ public class EditJobCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        // Check that we're in job view
+        if (!model.isInJobView()) {
+            throw new CommandException(MESSAGE_WRONG_VIEW);
+        }
+
         List<Job> lastShownList = model.getFilteredJobList();
 
         if (this.index.getZeroBased() >= lastShownList.size()) {

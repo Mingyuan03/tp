@@ -80,7 +80,6 @@ public class MainWindow extends UiPart<Stage> {
         setAccelerators();
 
         // Setup keyboard shortcuts
-        setupKeyboardShortcuts();
 
         helpWindow = new HelpWindow();
     }
@@ -316,8 +315,8 @@ public class MainWindow extends UiPart<Stage> {
                 if (isJobView && trimmedCommand.equals("listjob")) {
                     // Reset to job view and clear all filters
                     logic.setViewState(Model.ViewState.JOB_VIEW);
-                    // Clear application status filter
-                    logic.clearStatusFilter();
+                    // Clear application filters
+                    logic.resetFilteredApplicationList();
                     // Clear detail panel
                     clearDetailPanel();
                     // Refresh job panel to show all jobs without filters
@@ -325,8 +324,8 @@ public class MainWindow extends UiPart<Stage> {
                 } else if (!isJobView && trimmedCommand.equals("list")) {
                     // Reset to person view and clear all filters
                     logic.setViewState(Model.ViewState.PERSON_VIEW);
-                    // Clear application status filter
-                    logic.clearStatusFilter();
+                    // Clear application filters
+                    logic.resetFilteredApplicationList();
                     // Recreate person list panel to refresh the view
                     if (personListPanel != null) {
                         personListPanelPlaceholder.getChildren().clear();
@@ -507,31 +506,6 @@ public class MainWindow extends UiPart<Stage> {
         }
     }
 
-    /**
-     * Handles keyboard shortcuts for the application.
-     */
-    public void setupKeyboardShortcuts() {
-        getRoot().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            if (event.isControlDown()) {
-                switch (event.getCode()) {
-                case H: // Ctrl+H for Help
-                    handleHelp();
-                    event.consume();
-                    break;
-                case V: // Ctrl+V for toggle View
-                    toggleJobView();
-                    event.consume();
-                    break;
-                case Q: // Ctrl+Q for Quit
-                    handleExit();
-                    event.consume();
-                    break;
-                default:
-                    break;
-                }
-            }
-        });
-    }
 
     /**
      * Clears the current view and returns to the general overview.

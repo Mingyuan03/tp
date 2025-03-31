@@ -175,7 +175,7 @@ public class JobSpecificStatsPanel {
      * Updates the applicant count for the given job.
      */
     private void updateApplicantCount(Job job) {
-        List<Application> applications = logic.getApplicationsByJob(job);
+        List<Application> applications = logic.getFilteredApplicationsByJob(job);
         int count = applications != null ? applications.size() : 0;
 
         // Update the label with a fun icon
@@ -186,7 +186,7 @@ public class JobSpecificStatsPanel {
      * Updates the school distribution chart for the given job.
      */
     private void updateSchoolDistribution(Job job) {
-        List<Application> applications = logic.getApplicationsByJob(job);
+        List<Application> applications = logic.getFilteredApplicationsByJob(job);
 
         // Create data for pie chart
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
@@ -230,7 +230,7 @@ public class JobSpecificStatsPanel {
      * Updates the skills summary for the given job.
      */
     private void updateSkillsSummary(Job job) {
-        List<Application> applications = logic.getApplicationsByJob(job);
+        List<Application> applications = logic.getFilteredApplicationsByJob(job);
         skillsSummaryPane.getChildren().clear();
 
         // If no applications, show a message
