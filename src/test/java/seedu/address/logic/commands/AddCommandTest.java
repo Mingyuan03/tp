@@ -126,6 +126,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public Model.ViewState getViewState() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void toggleJobView() {
             throw new AssertionError("This method should not be called.");
         }

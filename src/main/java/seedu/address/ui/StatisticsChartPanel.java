@@ -111,14 +111,19 @@ public class StatisticsChartPanel {
         jobDistributionChart = new PieChart();
         jobDistributionChart.setMinHeight(250);
         jobDistributionChart.setPrefHeight(250);
+
+        // Improve responsiveness of pie chart
+        jobDistributionChart.setLabelsVisible(false); // Hide default labels to prevent overlap
         jobDistributionChart.setLegendVisible(true);
         jobDistributionChart.setLegendSide(Side.RIGHT);
-        jobDistributionChart.setLabelsVisible(true);
-        jobDistributionChart.setStyle("-fx-background-color: #2d2d30; -fx-padding: 10;");
+        jobDistributionChart.setStartAngle(90);
+        jobDistributionChart.setClockwise(true);
+
+        // Make the chart responsive to size changes
+        jobDistributionChart.prefWidthProperty().bind(container.widthProperty().subtract(40));
 
         // Set chart text colors to white for better visibility
-        jobDistributionChart.setLabelLineLength(20);
-        jobDistributionChart.setLabelsVisible(true);
+        jobDistributionChart.setLabelLineLength(10); // Shorter lines
 
         // Apply CSS to style the chart legends and labels
         String pieChartCss =
@@ -126,9 +131,24 @@ public class StatisticsChartPanel {
             + ".chart-pie-label-line { -fx-stroke: white; }"
             + ".chart-legend { -fx-background-color: transparent; }"
             + ".chart-legend-item { -fx-text-fill: white; }";
-        jobDistributionChart.setStyle(jobDistributionChart.getStyle() + pieChartCss);
+
+        // Apply only the basic styling directly
+        jobDistributionChart.setStyle("-fx-background-color: #2d2d30; -fx-padding: 10;");
 
         container.getChildren().add(jobDistributionChart);
+
+        // Apply CSS to specific elements after adding to container
+        jobDistributionChart.lookupAll(".chart-pie-label").forEach(node ->
+            node.setStyle("-fx-fill: white;"));
+        jobDistributionChart.lookupAll(".chart-pie-label-line").forEach(node ->
+            node.setStyle("-fx-stroke: white;"));
+        jobDistributionChart.lookupAll(".chart-legend").forEach(node ->
+            node.setStyle("-fx-background-color: transparent;"));
+        jobDistributionChart.lookupAll(".chart-legend-item").forEach(node ->
+            node.setStyle("-fx-text-fill: white;"));
+
+        // Styles will be set on specific components as needed via CSS
+        // This avoids the CSS parsing error from combining selectors with direct styles
 
         // Create school distribution chart
         Label schoolChartTitle = new Label("Applicants by School");
@@ -161,9 +181,23 @@ public class StatisticsChartPanel {
             + ".axis-label { -fx-text-fill: white; }"
             + ".chart-vertical-grid-lines { -fx-stroke: #555555; }"
             + ".chart-horizontal-grid-lines { -fx-stroke: #555555; }";
-        schoolDistributionChart.setStyle(barChartCss);
+
+        // Apply only basic styling
+        schoolDistributionChart.setStyle("-fx-background-color: #2d2d30; -fx-padding: 10;");
 
         container.getChildren().add(schoolDistributionChart);
+
+        // Apply CSS to specific elements after adding to container
+        schoolDistributionChart.lookupAll(".chart-plot-background").forEach(node ->
+            node.setStyle("-fx-background-color: transparent;"));
+        schoolDistributionChart.lookupAll(".axis").forEach(node ->
+            node.setStyle("-fx-tick-label-fill: white;"));
+        schoolDistributionChart.lookupAll(".axis-label").forEach(node ->
+            node.setStyle("-fx-text-fill: white;"));
+        schoolDistributionChart.lookupAll(".chart-vertical-grid-lines").forEach(node ->
+            node.setStyle("-fx-stroke: #555555;"));
+        schoolDistributionChart.lookupAll(".chart-horizontal-grid-lines").forEach(node ->
+            node.setStyle("-fx-stroke: #555555;"));
 
         // Fill charts with initial data
         refresh();
@@ -187,15 +221,8 @@ public class StatisticsChartPanel {
             return;
         }
 
-        // Use default JavaFX chart colors for both slices and legend
-        // This approach uses JavaFX's built-in default colors which are applied to both
-        // the pie slices and legend items automatically
-
         // Clear any existing data
         jobDistributionChart.getData().clear();
-
-        // We'll use JavaFX's standard coloring which maintains consistency
-        // by applying the same colors to pie slices and legend items
 
         // Prepare the data with consistent order to get predictable colors
         List<Job> sortedJobs = jobs.stream()
@@ -216,6 +243,12 @@ public class StatisticsChartPanel {
             List<Application> applications = logic.getFilteredApplicationsByJob(job);
             int appCount = applications.size();
             String jobName = job.getJobTitle().jobTitle();
+
+            // Truncate job name for legend display
+            if (jobName.length() > 15) {
+                jobName = jobName.substring(0, 12) + "...";
+            }
+
             pieChartData.add(new PieChart.Data(jobName, appCount));
         }
 
@@ -227,10 +260,23 @@ public class StatisticsChartPanel {
         // Set the data - JavaFX will automatically apply default colors consistently to both slices and legend
         jobDistributionChart.setData(pieChartData);
 
-        // Improve the chart appearance
-        jobDistributionChart.setClockwise(true);
-        jobDistributionChart.setLabelsVisible(true);
-        jobDistributionChart.setStartAngle(90);
+        // Add interactive tooltips to each pie slice for better information display
+        for (PieChart.Data data : pieChartData) {
+            javafx.application.Platform.runLater(() -> {
+                if (data.getNode() != null) {
+                    // Add hover effect
+                    data.getNode().setOnMouseEntered(e ->
+                        data.getNode().setStyle("-fx-border-color: white; -fx-border-width: 2;"));
+                    data.getNode().setOnMouseExited(e ->
+                        data.getNode().setStyle("-fx-border-color: transparent;"));
+
+                    // Create tooltip with full job name and count
+                    javafx.scene.control.Tooltip tooltip = new javafx.scene.control.Tooltip(
+                        data.getName() + ": " + (int) data.getPieValue() + " applicant(s)");
+                    javafx.scene.control.Tooltip.install(data.getNode(), tooltip);
+                }
+            });
+        }
     }
 
     /**
@@ -266,6 +312,12 @@ public class StatisticsChartPanel {
                 if (school.contains("@")) {
                     school = "Unknown School";
                 }
+
+                // Truncate school name if too long
+                if (school.length() > 20) {
+                    school = school.substring(0, 17) + "...";
+                }
+
                 schoolCounts.put(school, schoolCounts.getOrDefault(school, 0) + 1);
             }
         }

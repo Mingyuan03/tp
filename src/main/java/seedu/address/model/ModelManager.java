@@ -323,6 +323,11 @@ public class ModelManager implements Model {
         this.currentViewState = viewState;
     }
 
+    @Override
+    public ViewState getViewState() {
+        return this.currentViewState;
+    }
+
     /**
      * Toggles between person view and job view.
      * If in any job view, switches to person view.
