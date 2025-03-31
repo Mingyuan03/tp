@@ -75,6 +75,14 @@ public class JobListPanel extends UiPart<Region> {
             refreshSidepane();
         });
 
+        // Add listener to application list to refresh UI when applications change
+        ObservableList<Application> applicationList = logic.getFilteredApplicationList();
+        applicationList.addListener((javafx.collections.ListChangeListener.Change<? extends Application> c) -> {
+            logger.info("Application list changed, refreshing UI components");
+            refreshJobView();
+            refreshSidepane();
+        });
+
         // Add listener to job selection to update sidepane content if needed in the future
         jobListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             logger.info("Job selection changed: " + (newValue != null ? newValue.getJobTitle().jobTitle() : "null"));
@@ -146,10 +154,10 @@ public class JobListPanel extends UiPart<Region> {
     }
 
     /**
-     * Shows person details for a specific person from a job.
+     * Displays the details of a person associated with a job.
      *
-     * @param job The job the person applied to
-     * @param applicationIndex The index of the application in the job's applications
+     * @param job The job the person is applying for
+     * @param applicationIndex The index of the application to display
      */
     public void showPersonDetails(Job job, int applicationIndex) {
         if (job == null) {
@@ -157,7 +165,7 @@ public class JobListPanel extends UiPart<Region> {
             return; //We use job to filter applicants first
         }
 
-        List<Application> applications = logic.getApplicationsByJob(job);
+        List<Application> applications = logic.getFilteredApplicationsByJob(job);
         if (applications == null || applicationIndex < 0 || applicationIndex >= applications.size()) {
             showGeneralStatistics();
             return;
@@ -204,63 +212,67 @@ public class JobListPanel extends UiPart<Region> {
     }
 
     /**
-     * Changes the sidepane content to a different panel.
-     * This is a placeholder for future extensibility.
+     * Sets the content type of the sidepane.
      *
-     * @param contentType The type of content to display
+     * @param contentType The type of content to show in the sidepane
      */
     public void setSidepaneContent(SidepaneContentType contentType) {
-        // This method would allow changing what's displayed in the sidepane
-        // For now, we only have statistics, but in the future this could display
-        // different types of content based on user selection or context
-
-        if (splitPane == null || splitPane.getItems().size() <= 1) {
-            logger.severe("Cannot set sidepane content - SplitPane not properly initialized!");
-            return;
-        }
-
+        // Based on the content type, show the appropriate panel
         switch (contentType) {
         case STATISTICS:
-            // Reset to general statistics
-            showGeneralStatistics();
+            // Initialize statistics panel if needed
+            if (statisticsPanel == null) {
+                statisticsPanel = new StatisticsChartPanel(logic);
+            }
+
+            // Set the statistics panel as the second item in the split pane
+            if (splitPane != null && splitPane.getItems().size() > 1) {
+                splitPane.getItems().set(1, statisticsPanel.getRoot());
+            }
             break;
 
         case JOB_DETAILS:
-            // We use the job-specific stats for this now
-            if (currentlyViewedJob != null) {
-                showJobSpecificStatistics(currentlyViewedJob);
+            // Initialize job specific stats panel if needed
+            if (jobSpecificStatsPanel == null) {
+                jobSpecificStatsPanel = new JobSpecificStatsPanel(logic);
+            }
+
+            // Set the job specific stats panel as the second item in the split pane
+            if (splitPane != null && splitPane.getItems().size() > 1) {
+                splitPane.getItems().set(1, jobSpecificStatsPanel.getRoot());
             }
             break;
 
         case PERSON_DETAILS:
-            if (currentlyViewedJob != null && currentlyViewedPerson != null) {
-                // We need to find the application to pass to showPersonDetails
-                List<Application> applications = logic.getApplicationsByJob(currentlyViewedJob);
-                for (int i = 0; i < applications.size(); i++) {
-                    Application app = applications.get(i);
-                    if (app.getApplicant().equals(currentlyViewedPerson)) {
-                        showPersonDetails(currentlyViewedJob, i);
-                        break;
-                    }
-                }
+            // Initialize person detail panel if needed
+            if (personDetailPanel == null) {
+                personDetailPanel = new PersonDetailPanel(logic);
+            }
+
+            // Set the person detail panel as the second item in the split pane
+            if (splitPane != null && splitPane.getItems().size() > 1) {
+                splitPane.getItems().set(1, personDetailPanel.getRoot());
             }
             break;
 
-        // Future content types would be added here as new cases
-
         default:
-            logger.warning("Unknown sidepane content type: " + contentType);
-            break;
-        }
+            // Default to statistics
+            // Initialize statistics panel if needed
+            if (statisticsPanel == null) {
+                statisticsPanel = new StatisticsChartPanel(logic);
+            }
 
-        // Make sure the sidepane is visible
-        setSidepaneVisible(true);
+            // Set the statistics panel as the second item in the split pane
+            if (splitPane != null && splitPane.getItems().size() > 1) {
+                splitPane.getItems().set(1, statisticsPanel.getRoot());
+            }
+        }
     }
 
     /**
-     * Refreshes the current sidepane content.
+     * Refreshes the sidepane content to reflect updated data.
      */
-    private void refreshSidepane() {
+    public void refreshSidepane() {
         if (currentlyViewedJob != null && jobSpecificStatsPanel != null) {
             // If we're viewing a specific job, update its statistics
             jobSpecificStatsPanel.updateForJob(currentlyViewedJob);
@@ -295,8 +307,14 @@ public class JobListPanel extends UiPart<Region> {
      */
     public void refreshJobView() {
         int size = jobListView.getItems().size();
-        if (size > 0) {
-            jobListView.refresh();
+        // Always refresh the view, even if the list is empty
+        jobListView.refresh();
+
+        // If the list is now empty, make sure to show the general statistics panel
+        // which will display "No applications yet" or similar messages
+        if (size == 0) {
+            logger.info("Job list is empty after filtering, showing general statistics");
+            showGeneralStatistics();
         }
     }
 
@@ -313,7 +331,7 @@ public class JobListPanel extends UiPart<Region> {
                 setText(null);
             } else {
                 // Use the filtered applications instead of all applications
-                List<Application> applications = logic.getApplicationsByJob(job);
+                List<Application> applications = logic.getFilteredApplicationsByJob(job);
                 setGraphic(new JobCard(job, applications, getIndex() + 1).getRoot());
             }
         }
@@ -330,5 +348,19 @@ public class JobListPanel extends UiPart<Region> {
 
     public List<Job> getJobList() {
         return jobListView.getItems();
+    }
+
+    /**
+     * Returns the currently viewed job.
+     */
+    public Job getCurrentlyViewedJob() {
+        return currentlyViewedJob;
+    }
+
+    /**
+     * Returns the currently viewed person.
+     */
+    public Person getCurrentlyViewedPerson() {
+        return currentlyViewedPerson;
     }
 }

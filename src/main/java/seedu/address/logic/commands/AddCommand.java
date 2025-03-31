@@ -7,7 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SCHOOL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SKILL;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -23,16 +23,18 @@ public class AddCommand extends Command {
     public static final String COMMAND_WORD = "add";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. " + "Parameters: "
-            + PREFIX_NAME + "CANDIDATE'S NAME " + PREFIX_PHONE + "CANDIDATE'S PHONE NUMBER " + PREFIX_EMAIL
-            + "CANDIDATE'S EMAIL " + PREFIX_ADDRESS + "CANDIDATE'S HOME ADDRESS " + PREFIX_SCHOOL
-            + "CANDIDATE'S ALMA MATER " + PREFIX_DEGREE + "CANDIDATE'S HIGHEST COMPLETED EDUCATION " + "[" + PREFIX_TAG
-            + "TAG]...\n" + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + "John Doe " + PREFIX_PHONE + "98765432 "
+            + PREFIX_NAME + "NAME " + PREFIX_PHONE + "PHONE_NUMBER " + PREFIX_EMAIL
+            + "EMAIL " + PREFIX_ADDRESS + "HOME_ADDRESS " + PREFIX_SCHOOL
+            + "SCHOOL " + PREFIX_DEGREE + "DEGREE " + "[" + PREFIX_SKILL
+            + "SKILL]...\n" + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + "John Doe " + PREFIX_PHONE + "98765432 "
             + PREFIX_EMAIL + "johnd@example.com " + PREFIX_ADDRESS + "444, Jurong West Ave 1, #12-082 " + PREFIX_SCHOOL
-            + "NUS " + PREFIX_DEGREE + "Computer Science " + PREFIX_TAG + "friends " + PREFIX_TAG
-            + "extra tag on owing money";
+            + "NUS " + PREFIX_DEGREE + "Computer Science " + PREFIX_SKILL + "Java " + PREFIX_SKILL
+            + "PYTHON";
 
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
+    public static final String MESSAGE_WRONG_VIEW = "This command is only available in person view. "
+            + "Please switch to person view first using 'switchview' command.";
 
     private final Person toAdd;
 
@@ -47,6 +49,11 @@ public class AddCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        // Check that we're in person view
+        if (model.isInJobView()) {
+            throw new CommandException(MESSAGE_WRONG_VIEW);
+        }
 
         if (model.hasPerson(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);

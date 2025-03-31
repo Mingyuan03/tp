@@ -55,6 +55,9 @@ public class LogicManagerTest {
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
         StorageManager storage = new StorageManager(addressBookStorage, applicationsManagerStorage, userPrefsStorage);
         logic = new LogicManager(model, storage);
+
+        // Set the model's view state to PERSON_VIEW for the test commands to work
+        model.setViewState(Model.ViewState.PERSON_VIEW);
     }
 
     @Test
@@ -136,6 +139,8 @@ public class LogicManagerTest {
     private void assertCommandFailure(String inputCommand, Class<? extends Throwable> expectedException,
             String expectedMessage) {
         Model expectedModel = new ModelManager(model.getAddressBook(), model.getApplicationsManager(), new UserPrefs());
+        // Set view state to match the actual model
+        expectedModel.setViewState(model.getCurrentViewState());
         assertCommandFailure(inputCommand, expectedException, expectedMessage, expectedModel);
     }
 
@@ -185,9 +190,11 @@ public class LogicManagerTest {
         // Triggers the saveAddressBook method by executing an add command
         String addCommand = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
                 + SCHOOL_DESC_AMY + DEGREE_DESC_AMY;
-        Person expectedPerson = new PersonBuilder(AMY).withTags().build();
+        Person expectedPerson = new PersonBuilder(AMY).withSkills().build();
         ModelManager expectedModel = new ModelManager();
         expectedModel.addPerson(expectedPerson);
+        // Set view state to match the actual model
+        expectedModel.setViewState(model.getCurrentViewState());
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
     }
 }

@@ -10,7 +10,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.School;
-import seedu.address.model.tag.Tag;
+import seedu.address.model.skill.Skill;
 import seedu.address.model.util.SampleDataUtil;
 
 /**
@@ -31,7 +31,7 @@ public class PersonBuilder {
     private Address address;
     private School school;
     private Degree degree;
-    private Set<Tag> tags;
+    private Set<Skill> skills;
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
@@ -43,7 +43,7 @@ public class PersonBuilder {
         address = new Address(DEFAULT_ADDRESS);
         school = new School(DEFAULT_SCHOOL);
         degree = new Degree(DEFAULT_DEGREE);
-        tags = new HashSet<>();
+        skills = new HashSet<>();
     }
 
     /**
@@ -56,7 +56,7 @@ public class PersonBuilder {
         address = personToCopy.getAddress();
         school = personToCopy.getSchool();
         degree = personToCopy.getDegree();
-        tags = new HashSet<>(personToCopy.getTags());
+        skills = new HashSet<>(personToCopy.getSkills());
     }
 
     /**
@@ -111,15 +111,15 @@ public class PersonBuilder {
     }
 
     /**
-     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the
+     * Parses the {@code skills} into a {@code Set<Skill>} and set it to the
      * {@code Person} that we are building.
      */
-    public PersonBuilder withTags(String... tags) {
-        this.tags = SampleDataUtil.getTagSet(tags);
+    public PersonBuilder withSkills(String... skills) {
+        this.skills = SampleDataUtil.getSkillSet(skills);
         return this;
     }
 
     public Person build() {
-        return new Person(name, phone, email, address, school, degree, tags);
+        return new Person(name, phone, email, address, school, degree, skills);
     }
 }

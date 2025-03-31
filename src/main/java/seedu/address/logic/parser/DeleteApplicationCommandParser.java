@@ -1,8 +1,8 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_APPLICATION_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_INDEX;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PERSON_INDEX;
 
 import java.util.stream.Stream;
 
@@ -21,20 +21,20 @@ public class DeleteApplicationCommandParser implements Parser<DeleteApplicationC
      * @throws ParseException if the user input does not conform the expected format
      */
     public DeleteApplicationCommand parse(String args) throws ParseException {
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_PERSON_INDEX, PREFIX_JOB_INDEX);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_JOB_INDEX, PREFIX_APPLICATION_INDEX);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_PERSON_INDEX, PREFIX_JOB_INDEX)
+        if (!arePrefixesPresent(argMultimap, PREFIX_JOB_INDEX, PREFIX_APPLICATION_INDEX)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteApplicationCommand.MESSAGE_USAGE));
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_PERSON_INDEX, PREFIX_JOB_INDEX);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_JOB_INDEX, PREFIX_APPLICATION_INDEX);
 
         try {
-            Index personIndex = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_PERSON_INDEX).get());
             Index jobIndex = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_JOB_INDEX).get());
-            return new DeleteApplicationCommand(personIndex, jobIndex);
+            Index applicationIndex = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_APPLICATION_INDEX).get());
+            return new DeleteApplicationCommand(jobIndex, applicationIndex);
         } catch (ParseException pe) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteApplicationCommand.MESSAGE_USAGE), pe);

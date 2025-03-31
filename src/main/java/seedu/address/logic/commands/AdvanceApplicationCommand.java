@@ -1,9 +1,11 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_APPLICATION_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PERSON_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_APPLICATION_STATUS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ROUNDS;
 
 import java.util.List;
 
@@ -14,7 +16,6 @@ import seedu.address.model.Model;
 import seedu.address.model.application.Application;
 import seedu.address.model.application.exceptions.InvalidApplicationStatusException;
 import seedu.address.model.job.Job;
-import seedu.address.model.person.Person;
 
 /**
  * Advances an application by a specified number of rounds.
@@ -23,13 +24,15 @@ public class AdvanceApplicationCommand extends Command {
     public static final String COMMAND_WORD = "advapp";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Advances an application by the specified number of rounds. "
             + "Parameters: "
-            + PREFIX_PERSON_INDEX + "PERSON_INDEX "
             + PREFIX_JOB_INDEX + "JOB_INDEX "
+            + PREFIX_APPLICATION_INDEX + "APPLICATION_INDEX "
+            + PREFIX_ROUNDS + "ROUNDS\n"
             + PREFIX_APPLICATION_STATUS + "ROUNDS\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_PERSON_INDEX + "1 "
             + PREFIX_JOB_INDEX + "2 "
             + PREFIX_APPLICATION_STATUS + "1";
+            + PREFIX_APPLICATION_INDEX + "1 "
+            + PREFIX_ROUNDS + "1";
 
     public static final String MESSAGE_ADVANCE_APPLICATION_SUCCESS =
             "%1$s has completed %3$d/%4$d rounds for %2$s";
@@ -38,25 +41,25 @@ public class AdvanceApplicationCommand extends Command {
     public static final String MESSAGE_INVALID_ROUNDS =
             "Number of rounds must be a positive integer";
     public static final String MESSAGE_APPLICATION_NOT_FOUND =
-            "No application found for this person and job";
-    public static final String MESSAGE_PERSON_INVALID_INDEX =
-            "Person index is invalid";
+            "No application found at the specified index";
     public static final String MESSAGE_JOB_INVALID_INDEX =
             "Job index is invalid";
+    public static final String MESSAGE_APPLICATION_INVALID_INDEX =
+            "Application index is invalid";
 
-    private final Index personIndex;
     private final Index jobIndex;
+    private final Index applicationIndex;
     private final int rounds;
 
     /**
-     * Creates an AdvanceApplicationCommand to advance the application for the specified person and job
-     * by the specified number of rounds.
+     * Creates an AdvanceApplicationCommand to advance the application for the specified job
+     * at the specified application index by the specified number of rounds.
      */
-    public AdvanceApplicationCommand(Index personIndex, Index jobIndex, int rounds) {
-        requireNonNull(personIndex);
+    public AdvanceApplicationCommand(Index jobIndex, Index applicationIndex, int rounds) {
         requireNonNull(jobIndex);
-        this.personIndex = personIndex;
+        requireNonNull(applicationIndex);
         this.jobIndex = jobIndex;
+        this.applicationIndex = applicationIndex;
         this.rounds = rounds;
     }
 
@@ -68,40 +71,28 @@ public class AdvanceApplicationCommand extends Command {
             throw new CommandException(MESSAGE_INVALID_ROUNDS);
         }
 
-        List<Person> lastShownPersonList = model.getFilteredPersonList();
         List<Job> lastShownJobList = model.getFilteredJobList();
-
-        if (personIndex.getZeroBased() >= lastShownPersonList.size()) {
-            throw new CommandException(MESSAGE_PERSON_INVALID_INDEX);
-        }
 
         if (jobIndex.getZeroBased() >= lastShownJobList.size()) {
             throw new CommandException(MESSAGE_JOB_INVALID_INDEX);
         }
 
-        Person person = lastShownPersonList.get(personIndex.getZeroBased());
         Job job = lastShownJobList.get(jobIndex.getZeroBased());
 
-        // Find the application for this person and job
-        List<Application> personApplications = model.getApplicationsByPerson(person);
-        Application targetApplication = null;
+        // Get applications for this job
+        List<Application> jobApplications = model.getFilteredApplicationsByJob(job);
 
-        for (Application app : personApplications) {
-            if (app.getJob().equals(job)) {
-                targetApplication = app;
-                break;
-            }
+        if (applicationIndex.getZeroBased() >= jobApplications.size()) {
+            throw new CommandException(MESSAGE_APPLICATION_INVALID_INDEX);
         }
 
-        if (targetApplication == null) {
-            throw new CommandException(MESSAGE_APPLICATION_NOT_FOUND);
-        }
+        Application targetApplication = jobApplications.get(applicationIndex.getZeroBased());
 
         try {
             Application advancedApplication = model.advanceApplication(targetApplication, rounds);
 
             String successMessage = String.format(MESSAGE_ADVANCE_APPLICATION_SUCCESS,
-                    person.getName(), job.getJobTitle(),
+                    advancedApplication.getApplicant().getName(), job.getJobTitle(),
                     advancedApplication.getApplicationStatus().applicationStatus,
                     job.getJobRounds().jobRounds);
 
@@ -125,16 +116,16 @@ public class AdvanceApplicationCommand extends Command {
             return false;
         }
 
-        return personIndex.equals(otherAdvanceApplicationCommand.personIndex)
-                && jobIndex.equals(otherAdvanceApplicationCommand.jobIndex)
+        return jobIndex.equals(otherAdvanceApplicationCommand.jobIndex)
+                && applicationIndex.equals(otherAdvanceApplicationCommand.applicationIndex)
                 && rounds == otherAdvanceApplicationCommand.rounds;
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("personIndex", personIndex)
                 .add("jobIndex", jobIndex)
+                .add("applicationIndex", applicationIndex)
                 .add("rounds", rounds)
                 .toString();
     }

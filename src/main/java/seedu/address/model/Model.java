@@ -227,6 +227,11 @@ public interface Model {
     void updateFilteredApplicationList(Predicate<Application> predicate);
 
     /**
+     * Resets the filter of the filtered application list to show all applications
+     */
+    void resetFilteredApplicationList();
+
+    /**
      * View states for the application.
      */
     enum ViewState {
@@ -266,6 +271,8 @@ public interface Model {
     }
 
     /**
+     * Gets a list of applications for a specific job.
+     *
      * Sets a global application status filter.
      * @param status The application status to filter by, or null to clear the filter
      */
@@ -292,17 +299,43 @@ public interface Model {
      * Gets a list of applications for a specific job, respecting any active status filters.
      * If no status filter is active, returns all applications for the job.
      * @param job The job to get applications for
-     * @return List of applications for the job, filtered by status if applicable
+     * @return List of applications for the job
      */
     List<Application> getApplicationsByJob(Job job);
 
     /**
+     * Gets a filtered list of applications for a specific job,
+     * taking into account current application filters.
+     *
+     * @param job The job to get filtered applications for
+     * @return List of filtered applications for the job
+     */
+    List<Application> getFilteredApplicationsByJob(Job job);
+
+    /**
+     * Gets a list of applications for a specific person.
+     *
      * Gets a list of applications for a specific person, respecting any active status filters.
      * If no status filter is active, returns all applications for the person.
      * @param person The person to get applications for
-     * @return List of applications for the person, filtered by status if applicable
+     * @return List of applications for the person
      */
     List<Application> getApplicationsByPerson(Person person);
+
+    /**
+     * Gets a filtered list of applications for a specific person,
+     * taking into account current application filters.
+     *
+     * @param person The person to get filtered applications for
+     * @return List of filtered applications for the person
+     */
+    List<Application> getFilteredApplicationsByPerson(Person person);
+
+    /**
+     * Gets the current view state.
+     * @return The current view state.
+     */
+    ViewState getViewState();
 
     /**
      * Gets a list of applications for a specific person, respecting any active status filters.

@@ -12,7 +12,7 @@
     {
       "jobTitle": "Software Engineer",
       "jobRounds": 4,
-      "jobSkills": ["Java", "Spring Boot", "Microservices"]
+      "skills": ["Java", "Spring Boot", "Microservices"]
     }
   ]
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
@@ -72,6 +73,11 @@ public class LogicManager implements Logic {
     }
 
     @Override
+    public Model.ViewState getViewState() {
+        return model.getViewState();
+    }
+
+    @Override
     public ReadOnlyAddressBook getAddressBook() {
         return model.getAddressBook();
     }
@@ -87,13 +93,38 @@ public class LogicManager implements Logic {
     }
 
     @Override
+    public List<Application> getFilteredApplicationsByJob(Job job) {
+        return model.getFilteredApplicationsByJob(job);
+    }
+
+    @Override
     public List<Application> getApplicationsByPerson(Person person) {
         return model.getApplicationsByPerson(person);
     }
 
     @Override
+    public List<Application> getFilteredApplicationsByPerson(Person person) {
+        return model.getFilteredApplicationsByPerson(person);
+    }
+
+    @Override
+    public void updateFilteredApplicationList(Predicate<Application> predicate) {
+        model.updateFilteredApplicationList(predicate);
+    }
+
+    @Override
+    public void resetFilteredApplicationList() {
+        model.resetFilteredApplicationList();
+    }
+
+    @Override
     public ObservableList<Job> getFilteredJobList() {
         return model.getFilteredJobList();
+    }
+
+    @Override
+    public ObservableList<Application> getFilteredApplicationList() {
+        return model.getFilteredApplicationList();
     }
 
     @Override
@@ -119,10 +150,5 @@ public class LogicManager implements Logic {
     @Override
     public void setGuiSettings(GuiSettings guiSettings) {
         model.setGuiSettings(guiSettings);
-    }
-
-    @Override
-    public void clearStatusFilter() {
-        model.clearStatusFilter();
     }
 }

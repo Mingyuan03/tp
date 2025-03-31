@@ -7,7 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SCHOOL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SKILL;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -29,7 +29,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.School;
-import seedu.address.model.tag.Tag;
+import seedu.address.model.skill.Skill;
 
 /**
  * Edits the details of an existing person in the address book.
@@ -43,12 +43,14 @@ public class EditCommand extends Command {
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: INDEX (must be a positive integer) " + "[" + PREFIX_NAME + "NAME] " + "[" + PREFIX_SCHOOL
             + "SCHOOL] " + "[" + PREFIX_DEGREE + "DEGREE] " + "[" + PREFIX_PHONE + "PHONE] " + "[" + PREFIX_EMAIL
-            + "EMAIL] " + "[" + PREFIX_ADDRESS + "ADDRESS] " + "[" + PREFIX_TAG + "TAG]...\n" + "Example: "
+            + "EMAIL] " + "[" + PREFIX_ADDRESS + "ADDRESS] " + "[" + PREFIX_SKILL + "SKILL]...\n" + "Example: "
             + COMMAND_WORD + " 1 " + PREFIX_PHONE + "91234567 " + PREFIX_EMAIL + "johndoe@example.com";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_WRONG_VIEW = "This command is only available in person view. "
+            + "Please switch to person view first using 'switchview' command.";
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
@@ -68,6 +70,12 @@ public class EditCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        // Check that we're in person view
+        if (model.isInJobView()) {
+            throw new CommandException(MESSAGE_WRONG_VIEW);
+        }
+
         List<Person> lastShownList = model.getFilteredPersonList();
 
         if (this.index.getZeroBased() >= lastShownList.size()) {
@@ -82,7 +90,6 @@ public class EditCommand extends Command {
         }
 
         model.setPerson(personToEdit, editedPerson);
-        model.resetFilteredPersonList();
         return CommandResult.withFeedback(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
     }
 
@@ -99,10 +106,10 @@ public class EditCommand extends Command {
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         School updatedSchool = editPersonDescriptor.getSchool().orElse(personToEdit.getSchool());
         Degree updatedDegree = editPersonDescriptor.getDegree().orElse(personToEdit.getDegree());
-        Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
+        Set<Skill> updatedSkills = editPersonDescriptor.getSkills().orElse(personToEdit.getSkills());
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedSchool, updatedDegree,
-                updatedTags);
+                updatedSkills);
     }
 
     @Override
@@ -131,13 +138,13 @@ public class EditCommand extends Command {
         private Email email;
         private Address address;
         private School school;
-        private Set<Tag> tags;
+        private Set<Skill> skills;
 
         public EditPersonDescriptor() {
         }
 
         /**
-         * Copy constructor. A defensive copy of {@code tags} is used internally.
+         * Copy constructor. A defensive copy of {@code EditPersonDescriptor} is used internally.
          */
         public EditPersonDescriptor(EditPersonDescriptor toCopy) {
             setName(toCopy.name);
@@ -146,15 +153,15 @@ public class EditCommand extends Command {
             setEmail(toCopy.email);
             setAddress(toCopy.address);
             setSchool(toCopy.school);
-            setTags(toCopy.tags);
+            setSkills(toCopy.skills);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(this.name, this.phone, this.email, this.address, this.tags, this.school,
-                    this.degree);
+            return CollectionUtil.isAnyNonNull(this.name, this.phone, this.email, this.address,
+                    this.skills, this.school, this.degree);
         }
 
         public void setName(Name newName) {
@@ -206,20 +213,20 @@ public class EditCommand extends Command {
         }
 
         /**
-         * Sets {@code tags} to this object's {@code tags}. A defensive copy of
-         * {@code tags} is used internally.
+         * Sets {@code skills} to this object's {@code skills}. A defensive copy of
+         * {@code skills} is used internally.
          */
-        public void setTags(Set<Tag> tags) {
-            this.tags = (tags != null) ? new HashSet<>(tags) : null;
+        public void setSkills(Set<Skill> skills) {
+            this.skills = (skills != null) ? new HashSet<>(skills) : null;
         }
 
         /**
-         * Returns an unmodifiable tag set, which throws
+         * Returns an unmodifiable skill set, which throws
          * {@code UnsupportedOperationException} if modification is attempted. Returns
-         * {@code Optional#empty()} if {@code tags} is null.
+         * {@code Optional#empty()} if {@code skills} is null.
          */
-        public Optional<Set<Tag>> getTags() {
-            return (this.tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
+        public Optional<Set<Skill>> getSkills() {
+            return (this.skills != null) ? Optional.of(Collections.unmodifiableSet(skills)) : Optional.empty();
         }
 
         @Override
@@ -233,13 +240,13 @@ public class EditCommand extends Command {
                     && Objects.equals(this.address, otherEditPersonDescriptor.address)
                     && Objects.equals(this.school, otherEditPersonDescriptor.school)
                     && Objects.equals(this.degree, otherEditPersonDescriptor.degree)
-                    && Objects.equals(this.tags, otherEditPersonDescriptor.tags);
+                    && Objects.equals(this.skills, otherEditPersonDescriptor.skills);
         }
 
         @Override
         public String toString() {
             return new ToStringBuilder(this).add("name", this.name).add("school", this.school).add("email", this.email)
-                    .add("address", this.address).add("tags", this.tags).add("degree", this.degree)
+                    .add("address", this.address).add("skills", this.skills).add("degree", this.degree)
                     .add("phone", this.phone).toString();
         }
     }

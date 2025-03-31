@@ -8,7 +8,7 @@
       "address": "123, Jurong West Ave 6, #08-111",
       "school": "NUS",
       "degree": "Computer Science",
-      "tags": ["friends"]
+      "skills": ["friends"]
     },
     {
       "name": "Benson Meier",
@@ -17,7 +17,7 @@
       "address": "311, Clementi Ave 2, #02-25",
       "school": "NTU",
       "degree": "Business Analytics",
-      "tags": ["owesMoney", "friends"]
+      "skills": ["owesMoney", "friends"]
     },
     {
       "name": "Carl Kurz",
@@ -26,7 +26,7 @@
       "address": "wall street",
       "school": "SMU",
       "degree": "Mathematics",
-      "tags": []
+      "skills": []
     },
     {
       "name": "Daniel Meier",
@@ -35,7 +35,7 @@
       "address": "10th street",
       "school": "SIM",
       "degree": "Physics",
-      "tags": ["friends"]
+      "skills": ["friends"]
     },
     {
       "name": "Elle Meyer",
@@ -44,7 +44,7 @@
       "address": "michegan ave",
       "school": "SIT",
       "degree": "Accounting",
-      "tags": []
+      "skills": []
     },
     {
       "name": "Fiona Kunz",
@@ -53,7 +53,7 @@
       "address": "little tokyo",
       "school": "NTU",
       "degree": "Civil Engineering",
-      "tags": []
+      "skills": []
     },
     {
       "name": "George Best",
@@ -62,39 +62,39 @@
       "address": "4th street",
       "school": "NUS",
       "degree": "Computer Engineering",
-      "tags": []
+      "skills": []
     }
   ],
   "jobs": [
     {
       "jobTitle": "Software Engineer",
       "jobRounds": 5,
-      "jobSkills": ["Java", "Spring Boot", "Microservices"]
+      "skills": ["Java", "SpringBoot", "Microservices"]
     },
     {
       "jobTitle": "Data Scientist",
       "jobRounds": 4,
-      "jobSkills": ["Python", "ML", "TensorFlow"]
+      "skills": ["Python", "ML", "TensorFlow"]
     },
     {
       "jobTitle": "Product Manager",
       "jobRounds": 3,
-      "jobSkills": ["Agile", "Roadmap Planning"]
+      "skills": ["Agile", "Planning"]
     },
     {
       "jobTitle": "UX Designer",
       "jobRounds": 3,
-      "jobSkills": ["Figma", "User Research", "Wire Framing"]
+      "skills": ["Figma", "Research", "WireFraming"]
     },
     {
       "jobTitle": "DevOps Engineer",
       "jobRounds": 4,
-      "jobSkills": ["AWS", "Kubernetes", "CI/CD"]
+      "skills": ["AWS", "Kubernetes", "CICD"]
     },
     {
       "jobTitle": "Full Stack Developer",
       "jobRounds": 4,
-      "jobSkills": ["React", "Node.js", "MongoDB"]
+      "skills": ["React", "NodeJS", "MongoDB"]
     }
   ]
 }

@@ -10,8 +10,10 @@ import static seedu.address.testutil.TypicalPersons.ALICE;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.Predicate;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.ObservableList;
@@ -30,20 +32,37 @@ import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandTest {
 
+    private Model model;
+    private Model expectedModel;
+
+    @BeforeEach
+    public void setUp() {
+        model = new ModelStubAcceptingPersonAdded();
+        expectedModel = new ModelStubAcceptingPersonAdded();
+        // Set the view state to PERSON_VIEW since AddCommand can only be executed in person view
+        model.setViewState(Model.ViewState.PERSON_VIEW);
+        expectedModel.setViewState(Model.ViewState.PERSON_VIEW);
+    }
+
     @Test
     public void constructor_nullPerson_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new AddCommand(null));
     }
 
     @Test
-    public void execute_personAcceptedByModel_addSuccessful() throws Exception {
+    public void execute_personAcceptedByModel_addSuccessful() throws CommandException {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
         Person validPerson = new PersonBuilder().build();
 
+        // Set view state to PERSON_VIEW
+        modelStub.setViewState(Model.ViewState.PERSON_VIEW);
+
+        // Execute the command
         CommandResult commandResult = new AddCommand(validPerson).execute(modelStub);
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)),
-                commandResult.getFeedbackToUser());
+        // Verify the result directly
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS,
+            Messages.format(validPerson)), commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
     }
 
@@ -51,9 +70,9 @@ public class AddCommandTest {
     public void execute_duplicatePerson_throwsCommandException() {
         Person validPerson = new PersonBuilder().build();
         AddCommand addCommand = new AddCommand(validPerson);
-        ModelStub modelStub = new ModelStubWithPerson(validPerson);
+        model.addPerson(validPerson);
 
-        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(modelStub));
+        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(model));
     }
 
     @Test
@@ -97,32 +116,17 @@ public class AddCommandTest {
         }
 
         @Override
-        public void clearStatusFilter() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void setApplicationStatusFilter(String status) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public String getApplicationStatusFilter() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void applyStatusFilter() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public void setViewState(Model.ViewState viewState) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
         public Model.ViewState getCurrentViewState() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Model.ViewState getViewState() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -135,7 +139,6 @@ public class AddCommandTest {
         public boolean isInJobView() {
             throw new AssertionError("This method should not be called.");
         }
-
 
         @Override
         public ReadOnlyUserPrefs getUserPrefs() {
@@ -288,12 +291,22 @@ public class AddCommandTest {
         }
 
         @Override
-        public ObservableList<Application> getApplicationsByJob(Job job) {
+        public List<Application> getApplicationsByJob(Job job) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public ObservableList<Application> getApplicationsByPerson(Person person) {
+        public List<Application> getFilteredApplicationsByJob(Job job) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public List<Application> getApplicationsByPerson(Person person) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public List<Application> getFilteredApplicationsByPerson(Person person) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -332,6 +345,11 @@ public class AddCommandTest {
         public void updateFilteredApplicationList(Predicate<Application> predicate) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public void resetFilteredApplicationList() {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
 
@@ -340,6 +358,7 @@ public class AddCommandTest {
      */
     private class ModelStubWithPerson extends ModelStub {
         private final Person person;
+        private Model.ViewState viewState = Model.ViewState.PERSON_VIEW;
 
         ModelStubWithPerson(Person person) {
             requireNonNull(person);
@@ -351,6 +370,23 @@ public class AddCommandTest {
             requireNonNull(person);
             return this.person.isSamePerson(person);
         }
+
+        @Override
+        public void setViewState(Model.ViewState viewState) {
+            this.viewState = viewState;
+        }
+
+        @Override
+        public Model.ViewState getCurrentViewState() {
+            return viewState;
+        }
+
+        @Override
+        public boolean isInJobView() {
+            return viewState == Model.ViewState.JOB_VIEW
+                || viewState == Model.ViewState.JOB_DETAIL_VIEW
+                || viewState == Model.ViewState.PERSON_DETAIL_VIEW;
+        }
     }
 
     /**
@@ -358,6 +394,7 @@ public class AddCommandTest {
      */
     private class ModelStubAcceptingPersonAdded extends ModelStub {
         final ArrayList<Person> personsAdded = new ArrayList<>();
+        private Model.ViewState viewState = Model.ViewState.PERSON_VIEW;
 
         @Override
         public boolean hasPerson(Person person) {
@@ -374,6 +411,23 @@ public class AddCommandTest {
         @Override
         public ReadOnlyAddressBook getAddressBook() {
             return new AddressBook();
+        }
+
+        @Override
+        public void setViewState(Model.ViewState viewState) {
+            this.viewState = viewState;
+        }
+
+        @Override
+        public Model.ViewState getCurrentViewState() {
+            return viewState;
+        }
+
+        @Override
+        public boolean isInJobView() {
+            return viewState == Model.ViewState.JOB_VIEW
+                || viewState == Model.ViewState.JOB_DETAIL_VIEW
+                || viewState == Model.ViewState.PERSON_DETAIL_VIEW;
         }
     }
 
