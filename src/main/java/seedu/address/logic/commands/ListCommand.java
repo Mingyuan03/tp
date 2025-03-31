@@ -1,7 +1,6 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
@@ -26,7 +25,7 @@ public class ListCommand extends Command {
             throw new CommandException(MESSAGE_WRONG_VIEW);
         }
         
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        model.resetFilteredPersonList();
         return CommandResult.withFeedback(MESSAGE_SUCCESS);
     }
 }

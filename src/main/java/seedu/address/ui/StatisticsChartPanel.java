@@ -3,6 +3,7 @@ package seedu.address.ui;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +16,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.Logic;
 import seedu.address.model.application.Application;
 import seedu.address.model.job.Job;
@@ -31,6 +33,7 @@ public class StatisticsChartPanel {
     private BarChart<String, Number> schoolDistributionChart;
     private Label totalApplicationsLabel;
     private Label totalApplicantsLabel;
+    private static final Logger logger = LogsCenter.getLogger(StatisticsChartPanel.class);
 
     /**
      * Creates a {@code StatisticsChartPanel} with the given {@code Logic}.
@@ -182,6 +185,7 @@ public class StatisticsChartPanel {
 
         // Add some default data if no real data is available
         if (jobs.isEmpty()) {
+            logger.info("No jobs found for pie chart display");
             pieChartData.add(new PieChart.Data("No jobs", 1));
             jobDistributionChart.setData(pieChartData);
             return;
@@ -200,20 +204,20 @@ public class StatisticsChartPanel {
         // Prepare the data with consistent order to get predictable colors
         List<Job> sortedJobs = jobs.stream()
             .filter(job -> {
-                List<Application> applications = logic.getApplicationsByJob(job);
+                List<Application> applications = logic.getFilteredApplicationsByJob(job);
                 return applications != null && !applications.isEmpty();
             })
             .sorted((job1, job2) -> {
                 // Sort by number of applications (descending)
-                List<Application> apps1 = logic.getApplicationsByJob(job1);
-                List<Application> apps2 = logic.getApplicationsByJob(job2);
+                List<Application> apps1 = logic.getFilteredApplicationsByJob(job1);
+                List<Application> apps2 = logic.getFilteredApplicationsByJob(job2);
                 return Integer.compare(apps2.size(), apps1.size());
             })
             .toList();
 
         // Add data in a consistent order
         for (Job job : sortedJobs) {
-            List<Application> applications = logic.getApplicationsByJob(job);
+            List<Application> applications = logic.getFilteredApplicationsByJob(job);
             int appCount = applications.size();
             String jobName = job.getJobTitle().jobTitle();
             pieChartData.add(new PieChart.Data(jobName, appCount));
@@ -246,7 +250,7 @@ public class StatisticsChartPanel {
         // Collect all unique persons from applications
         for (Job job : jobs) {
             // Use filtered applications to respect status filter
-            List<Application> applications = logic.getApplicationsByJob(job);
+            List<Application> applications = logic.getFilteredApplicationsByJob(job);
             if (applications != null) {
                 for (Application app : applications) {
                     Person person = app.getApplicant();
@@ -329,7 +333,7 @@ public class StatisticsChartPanel {
 
         for (Job job : jobs) {
             // Use filtered applications to respect status filter
-            List<Application> applications = logic.getApplicationsByJob(job);
+            List<Application> applications = logic.getFilteredApplicationsByJob(job);
             if (applications != null) {
                 totalApplications += applications.size();
 

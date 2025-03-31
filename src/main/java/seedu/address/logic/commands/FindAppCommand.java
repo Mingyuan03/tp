@@ -104,11 +104,39 @@ public class FindAppCommand extends Command {
             // Update application list to show only these filtered applications
             model.updateFilteredApplicationList(app -> filteredJobApps.contains(app));
         } else {
-            // No job index specified, apply the status filter to all applications
+            // No job index specified, filter all applications by status first
+            // Get the jobs that have applications with the specified status
+            List<Job> jobsWithMatchingApplications = model.getFilteredJobList().stream()
+                    .filter(job -> {
+                        List<Application> jobApps = model.getApplicationsByJob(job);
+                        return jobApps.stream().anyMatch(statusPredicate);
+                    })
+                    .toList();
+            
+            // Update job list to show only jobs with matching applications
+            model.updateFilteredJobList(job -> jobsWithMatchingApplications.contains(job));
+            
+            // Update application list to show only applications with the specified status
             model.updateFilteredApplicationList(statusPredicate);
         }
 
-        return CommandResult.withRefreshApplications(String.format(MESSAGE_SUCCESS, status));
+        // Check if there are any results after filtering
+        boolean hasResults = !model.getFilteredApplicationList().isEmpty();
+        
+        if (!hasResults) {
+            // When no applications match the filter status, we should show no jobs at all
+            // This will make the job panel appear empty with "no jobs found" message
+            
+            // Update job list to an empty list by using a predicate that matches nothing
+            model.updateFilteredJobList(job -> false);
+            
+            // Still use withRefreshJobView to ensure the UI updates correctly
+            return CommandResult.withRefreshJobView(String.format(MESSAGE_NO_MATCHES, status));
+        }
+        
+        // Use withRefreshJobView to ensure both clearView and refreshJobView are set to true
+        // This ensures that the general statistics panel is shown and all charts are updated
+        return CommandResult.withRefreshJobView(String.format(MESSAGE_SUCCESS, status));
     }
 
     @Override

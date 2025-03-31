@@ -3,9 +3,12 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalPersons.getTypicalApplicationsManager;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.ApplicationsManager;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -19,7 +22,7 @@ public class SwitchViewCommandTest {
             new UserPrefs());
 
     @Test
-    public void execute_switchesFromPersonToJobView_success() {
+    public void execute_switchesFromPersonToJobView_success() throws CommandException {
         // Set initial view state to person view
         model.setViewState(Model.ViewState.PERSON_VIEW);
 
@@ -35,7 +38,7 @@ public class SwitchViewCommandTest {
     }
 
     @Test
-    public void execute_switchesFromJobToPersonView_success() {
+    public void execute_switchesFromJobToPersonView_success() throws CommandException {
         // Set initial view state to job view
         model.setViewState(Model.ViewState.JOB_VIEW);
 
@@ -51,7 +54,7 @@ public class SwitchViewCommandTest {
     }
 
     @Test
-    public void execute_switchesFromJobDetailToPersonView_success() {
+    public void execute_switchesFromJobDetailToPersonView_success() throws CommandException {
         // Set initial view state to job detail view
         model.setViewState(Model.ViewState.JOB_DETAIL_VIEW);
 
@@ -67,7 +70,7 @@ public class SwitchViewCommandTest {
     }
 
     @Test
-    public void execute_switchesFromPersonDetailToPersonView_success() {
+    public void execute_switchesFromPersonDetailToPersonView_success() throws CommandException {
         // Set initial view state to person detail view
         model.setViewState(Model.ViewState.PERSON_DETAIL_VIEW);
 

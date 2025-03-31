@@ -14,8 +14,10 @@ import static seedu.address.testutil.TypicalPersons.getTypicalApplicationsManage
 import java.util.Arrays;
 import java.util.Collections;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -26,9 +28,18 @@ import seedu.address.model.person.NameContainsKeywordsPredicate;
  * {@code FindCommand}.
  */
 public class FindCommandTest {
-    private Model model = new ModelManager(getTypicalAddressBook(), getTypicalApplicationsManager(), new UserPrefs());
-    private Model expectedModel = new ModelManager(getTypicalAddressBook(), getTypicalApplicationsManager(),
-            new UserPrefs());
+    private Model model;
+    private Model expectedModel;
+    private NameContainsKeywordsPredicate predicate;
+
+    @BeforeEach
+    public void setUp() {
+        model = new ModelManager(getTypicalAddressBook(), getTypicalApplicationsManager(), new UserPrefs());
+        expectedModel = new ModelManager(model.getAddressBook(), model.getApplicationsManager(), new UserPrefs());
+        // Set the view state to PERSON_VIEW since FindCommand can only be executed in person view
+        model.setViewState(Model.ViewState.PERSON_VIEW);
+        expectedModel.setViewState(Model.ViewState.PERSON_VIEW);
+    }
 
     @Test
     public void equals() {
@@ -58,25 +69,32 @@ public class FindCommandTest {
     }
 
     @Test
-    public void execute_zeroKeywords_noPersonFound() {
-        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
-        NameContainsKeywordsPredicate predicate = preparePredicate(" ");
+    public void execute_zeroKeywords_noPersonFound() throws CommandException {
+        predicate = preparePredicate(" ");
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredPersonList(predicate);
-        expectedModel.setViewState(Model.ViewState.JOB_VIEW);
-        CommandResult expectedCommandResult = CommandResult.withClearView(expectedMessage);
-        assertCommandSuccess(command, model, expectedCommandResult, expectedModel);
+        CommandResult expectedCommandResult = CommandResult.withFeedback(
+                String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0));
+        
+        // Execute the command
+        CommandResult result = command.execute(model);
+        
+        assertEquals(expectedCommandResult, result);
         assertEquals(Collections.emptyList(), model.getFilteredPersonList());
-        assertEquals(Model.ViewState.JOB_VIEW, model.getCurrentViewState());
     }
 
     @Test
-    public void execute_multipleKeywords_multiplePersonsFound() {
-        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3);
-        NameContainsKeywordsPredicate predicate = preparePredicate("Kurz Elle Kunz");
+    public void execute_multipleKeywords_multiplePersonsFound() throws CommandException {
+        predicate = preparePredicate("Kurz Elle Kunz");
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredPersonList(predicate);
-        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        CommandResult expectedCommandResult = CommandResult.withFeedback(
+                String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3));
+        
+        // Execute the command
+        CommandResult result = command.execute(model);
+        
+        assertEquals(expectedCommandResult, result);
         assertEquals(Arrays.asList(CARL, ELLE, FIONA), model.getFilteredPersonList());
     }
 

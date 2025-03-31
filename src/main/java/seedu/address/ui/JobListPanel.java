@@ -299,8 +299,14 @@ public class JobListPanel extends UiPart<Region> {
      */
     public void refreshJobView() {
         int size = jobListView.getItems().size();
-        if (size > 0) {
-            jobListView.refresh();
+        // Always refresh the view, even if the list is empty
+        jobListView.refresh();
+        
+        // If the list is now empty, make sure to show the general statistics panel
+        // which will display "No applications yet" or similar messages
+        if (size == 0) {
+            logger.info("Job list is empty after filtering, showing general statistics");
+            showGeneralStatistics();
         }
     }
 
