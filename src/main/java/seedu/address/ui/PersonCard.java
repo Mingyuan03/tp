@@ -157,7 +157,7 @@ public class PersonCard extends UiPart<Region> {
                     );
                     skills.getChildren().add(skillLabel);
                 });
-        skills.setStyle("-fx-spacing: 5;"
+        skills.setStyle("-fx-spacing: 10;"
                 + " -fx-alignment: center-left;");
 
         // Add applications with Balenciaga-inspired styling - remove company name
@@ -221,7 +221,7 @@ public class PersonCard extends UiPart<Region> {
 
                 apps.getChildren().add(appBox);
             });
-        apps.setStyle("-fx-spacing: 5;"
+        apps.setStyle("-fx-spacing: 10;"
                 + " -fx-alignment: center-left;");
 
         // Style the entire card
