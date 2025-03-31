@@ -126,16 +126,29 @@ public class StatisticsChartPanel {
         jobDistributionChart.setLabelLineLength(10); // Shorter lines
 
         // Apply CSS to style the chart legends and labels
-        String pieChartCss =
-            ".chart-pie-label { -fx-fill: white; visibility: hidden; }"
-            + ".chart-pie-label-line { -fx-stroke: white; visibility: hidden; }"
+        String pieChartCss = 
+            ".chart-pie-label { -fx-fill: white; }"
+            + ".chart-pie-label-line { -fx-stroke: white; }"
             + ".chart-legend { -fx-background-color: transparent; }"
-            + ".chart-legend-item { -fx-text-fill: white; }"
-            + ".chart-pie { -fx-border-width: 0; }"
-            + ".chart-content { -fx-padding: 0; }";
-        jobDistributionChart.setStyle("-fx-background-color: #2d2d30; -fx-padding: 10; " + pieChartCss);
-
+            + ".chart-legend-item { -fx-text-fill: white; }";
+        
+        // Apply only the basic styling directly    
+        jobDistributionChart.setStyle("-fx-background-color: #2d2d30; -fx-padding: 10;");
+        
         container.getChildren().add(jobDistributionChart);
+        
+        // Apply CSS to specific elements after adding to container
+        jobDistributionChart.lookupAll(".chart-pie-label").forEach(node -> 
+            node.setStyle("-fx-fill: white;"));
+        jobDistributionChart.lookupAll(".chart-pie-label-line").forEach(node -> 
+            node.setStyle("-fx-stroke: white;"));
+        jobDistributionChart.lookupAll(".chart-legend").forEach(node -> 
+            node.setStyle("-fx-background-color: transparent;"));
+        jobDistributionChart.lookupAll(".chart-legend-item").forEach(node -> 
+            node.setStyle("-fx-text-fill: white;"));
+            
+        // Styles will be set on specific components as needed via CSS
+        // This avoids the CSS parsing error from combining selectors with direct styles
 
         // Create school distribution chart
         Label schoolChartTitle = new Label("Applicants by School");
@@ -168,9 +181,23 @@ public class StatisticsChartPanel {
             + ".axis-label { -fx-text-fill: white; }"
             + ".chart-vertical-grid-lines { -fx-stroke: #555555; }"
             + ".chart-horizontal-grid-lines { -fx-stroke: #555555; }";
-        schoolDistributionChart.setStyle(barChartCss);
-
+        
+        // Apply only basic styling
+        schoolDistributionChart.setStyle("-fx-background-color: #2d2d30; -fx-padding: 10;");
+        
         container.getChildren().add(schoolDistributionChart);
+        
+        // Apply CSS to specific elements after adding to container
+        schoolDistributionChart.lookupAll(".chart-plot-background").forEach(node -> 
+            node.setStyle("-fx-background-color: transparent;"));
+        schoolDistributionChart.lookupAll(".axis").forEach(node -> 
+            node.setStyle("-fx-tick-label-fill: white;"));
+        schoolDistributionChart.lookupAll(".axis-label").forEach(node -> 
+            node.setStyle("-fx-text-fill: white;"));
+        schoolDistributionChart.lookupAll(".chart-vertical-grid-lines").forEach(node -> 
+            node.setStyle("-fx-stroke: #555555;"));
+        schoolDistributionChart.lookupAll(".chart-horizontal-grid-lines").forEach(node -> 
+            node.setStyle("-fx-stroke: #555555;"));
 
         // Fill charts with initial data
         refresh();
