@@ -1,7 +1,6 @@
 package seedu.address.ui;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -17,7 +16,6 @@ import javafx.scene.layout.VBox;
 import seedu.address.logic.Logic;
 import seedu.address.model.application.Application;
 import seedu.address.model.job.Job;
-import seedu.address.model.person.Person;
 import seedu.address.model.skill.Skill;
 
 /**
@@ -190,13 +188,13 @@ public class JobSpecificStatsPanel {
             + "display: none; }"
             + ".chart-legend-item { visibility: hidden; "
             + "-fx-padding: 0px; -fx-opacity: 0; display: none; }";
-        
+
         // Apply only basic style properties directly
         roundDistributionChart.setStyle("-fx-background-color: #2d2d30; -fx-padding: 10;");
-        
+
         // Add the chart to the container first
         container.getChildren().add(roundDistributionChart);
-        
+
         // CSS styling will be applied via applyCssToChartNodes() after data is added
 
         // Add Skills Summary Section
@@ -250,6 +248,12 @@ public class JobSpecificStatsPanel {
             series.getData().add(new XYChart.Data<>("No applicants", 0));
             roundDistributionChart.getData().add(series);
             roundDistributionChart.setLegendVisible(false);
+
+            // Force layout refresh
+            roundDistributionChart.layout();
+
+            // Apply CSS to ensure legend is hidden
+            applyCssToChartNodes();
             return;
         }
 
@@ -302,10 +306,10 @@ public class JobSpecificStatsPanel {
      */
     private void updateSkillsSummary(Job job) {
         skillsSummaryPane.getChildren().clear();
-        
+
         // Directly get skills from the job
         Set<Skill> jobSkills = job.getSkills();
-        
+
         // If no skills found
         if (jobSkills.isEmpty()) {
             Label noSkillsLabel = new Label("No skills required for this job");
@@ -313,7 +317,7 @@ public class JobSpecificStatsPanel {
             skillsSummaryPane.getChildren().add(noSkillsLabel);
             return;
         }
-        
+
         // Create a skill tag for each job skill
         for (Skill skill : jobSkills) {
             Label skillLabel = new Label(skill.skillName());
@@ -356,30 +360,30 @@ public class JobSpecificStatsPanel {
         if (roundDistributionChart.lookup(".chart-legend-item-symbol") != null) {
             roundDistributionChart.lookup(".chart-legend-item-symbol").setVisible(false);
         }
-        
+
         // Apply styles to other elements
-        roundDistributionChart.lookupAll(".chart-bar-label").forEach(node -> 
+        roundDistributionChart.lookupAll(".chart-bar-label").forEach(node ->
             node.setStyle("-fx-fill: white;"));
-        
-        roundDistributionChart.lookupAll(".axis-label").forEach(node -> 
+
+        roundDistributionChart.lookupAll(".axis-label").forEach(node ->
             node.setStyle("-fx-text-fill: white;"));
-        
-        roundDistributionChart.lookupAll(".axis").forEach(node -> 
+
+        roundDistributionChart.lookupAll(".axis").forEach(node ->
             node.setStyle("-fx-tick-label-fill: white;"));
-        
-        roundDistributionChart.lookupAll(".chart-plot-background").forEach(node -> 
+
+        roundDistributionChart.lookupAll(".chart-plot-background").forEach(node ->
             node.setStyle("-fx-background-color: #2d2d30;"));
-        
-        roundDistributionChart.lookupAll(".chart-vertical-grid-lines").forEach(node -> 
+
+        roundDistributionChart.lookupAll(".chart-vertical-grid-lines").forEach(node ->
             node.setStyle("-fx-stroke: transparent;"));
-        
-        roundDistributionChart.lookupAll(".chart-horizontal-grid-lines").forEach(node -> 
+
+        roundDistributionChart.lookupAll(".chart-horizontal-grid-lines").forEach(node ->
             node.setStyle("-fx-stroke: transparent;"));
-        
-        roundDistributionChart.lookupAll(".chart-vertical-zero-line").forEach(node -> 
+
+        roundDistributionChart.lookupAll(".chart-vertical-zero-line").forEach(node ->
             node.setStyle("-fx-stroke: transparent;"));
-        
-        roundDistributionChart.lookupAll(".chart-horizontal-zero-line").forEach(node -> 
+
+        roundDistributionChart.lookupAll(".chart-horizontal-zero-line").forEach(node ->
             node.setStyle("-fx-stroke: transparent;"));
     }
 }

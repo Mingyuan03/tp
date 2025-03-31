@@ -71,9 +71,9 @@ public class SampleDataUtil {
                                                                 "Research", "Framing")),
                                 new Job(new JobTitle("DevOps Engineer"), new JobRounds(4),
                                                 getSkillSet("AWS", "Kubernetes",
-                                                                "CICD")),
+                                                                "CI/CD")),
                                 new Job(new JobTitle("Full Stack Developer"), new JobRounds(4),
-                                        getSkillSet("React", "Nodejs", "MongoDB"))
+                                        getSkillSet("React", "Node.js", "MongoDB"))
                 };
         }
 
