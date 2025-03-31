@@ -95,12 +95,12 @@ public class FindAppCommand extends Command {
 
             // Get all applications for this job
             List<Application> jobApplications = model.getApplicationsByJob(jobToFilter);
-            
+
             // Filter these applications by the status predicate
             List<Application> filteredJobApps = jobApplications.stream()
                     .filter(app -> statusPredicate.test(app))
                     .toList();
-            
+
             // Update application list to show only these filtered applications
             model.updateFilteredApplicationList(app -> filteredJobApps.contains(app));
         } else {
@@ -112,28 +112,28 @@ public class FindAppCommand extends Command {
                         return jobApps.stream().anyMatch(statusPredicate);
                     })
                     .toList();
-            
+
             // Update job list to show only jobs with matching applications
             model.updateFilteredJobList(job -> jobsWithMatchingApplications.contains(job));
-            
+
             // Update application list to show only applications with the specified status
             model.updateFilteredApplicationList(statusPredicate);
         }
 
         // Check if there are any results after filtering
         boolean hasResults = !model.getFilteredApplicationList().isEmpty();
-        
+
         if (!hasResults) {
             // When no applications match the filter status, we should show no jobs at all
             // This will make the job panel appear empty with "no jobs found" message
-            
+
             // Update job list to an empty list by using a predicate that matches nothing
             model.updateFilteredJobList(job -> false);
-            
+
             // Still use withRefreshJobView to ensure the UI updates correctly
             return CommandResult.withRefreshJobView(String.format(MESSAGE_NO_MATCHES, status));
         }
-        
+
         // Use withRefreshJobView to ensure both clearView and refreshJobView are set to true
         // This ensures that the general statistics panel is shown and all charts are updated
         return CommandResult.withRefreshJobView(String.format(MESSAGE_SUCCESS, status));

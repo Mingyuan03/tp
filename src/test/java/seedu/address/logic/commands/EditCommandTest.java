@@ -9,7 +9,6 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
@@ -23,8 +22,6 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.AddressBook;
-import seedu.address.model.ApplicationsManager;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -62,7 +59,7 @@ public class EditCommandTest {
 
         // Execute command directly
         CommandResult result = editCommand.execute(model);
-        
+
         // Verify result
         assertEquals(CommandResult.withFeedback(expectedMessage), result);
         assertEquals(expectedModel, model);
@@ -87,7 +84,7 @@ public class EditCommandTest {
 
         // Execute command directly
         CommandResult result = editCommand.execute(model);
-        
+
         // Verify result
         assertEquals(CommandResult.withFeedback(expectedMessage), result);
         assertEquals(expectedModel, model);
@@ -102,7 +99,7 @@ public class EditCommandTest {
 
         // Execute command directly
         CommandResult result = editCommand.execute(model);
-        
+
         // Verify result
         assertEquals(CommandResult.withFeedback(expectedMessage), result);
         assertEquals(expectedModel, model);
@@ -124,7 +121,7 @@ public class EditCommandTest {
 
         // Execute command directly
         CommandResult result = editCommand.execute(model);
-        
+
         // Verify result
         assertEquals(CommandResult.withFeedback(expectedMessage), result);
         assertEquals(expectedModel, model);

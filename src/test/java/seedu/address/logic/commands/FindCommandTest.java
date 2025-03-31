@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalPersons.CARL;
 import static seedu.address.testutil.TypicalPersons.ELLE;
 import static seedu.address.testutil.TypicalPersons.FIONA;
@@ -75,10 +74,10 @@ public class FindCommandTest {
         expectedModel.updateFilteredPersonList(predicate);
         CommandResult expectedCommandResult = CommandResult.withFeedback(
                 String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0));
-        
+
         // Execute the command
         CommandResult result = command.execute(model);
-        
+
         assertEquals(expectedCommandResult, result);
         assertEquals(Collections.emptyList(), model.getFilteredPersonList());
     }
@@ -90,10 +89,10 @@ public class FindCommandTest {
         expectedModel.updateFilteredPersonList(predicate);
         CommandResult expectedCommandResult = CommandResult.withFeedback(
                 String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3));
-        
+
         // Execute the command
         CommandResult result = command.execute(model);
-        
+
         assertEquals(expectedCommandResult, result);
         assertEquals(Arrays.asList(CARL, ELLE, FIONA), model.getFilteredPersonList());
     }

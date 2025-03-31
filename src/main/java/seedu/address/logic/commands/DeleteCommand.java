@@ -37,12 +37,12 @@ public class DeleteCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        
+
         // Check that we're in person view
         if (model.isInJobView()) {
             throw new CommandException(MESSAGE_WRONG_VIEW);
         }
-        
+
         List<Person> lastShownList = model.getFilteredPersonList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {

@@ -70,12 +70,12 @@ public class EditCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        
+
         // Check that we're in person view
         if (model.isInJobView()) {
             throw new CommandException(MESSAGE_WRONG_VIEW);
         }
-        
+
         List<Person> lastShownList = model.getFilteredPersonList();
 
         if (this.index.getZeroBased() >= lastShownList.size()) {

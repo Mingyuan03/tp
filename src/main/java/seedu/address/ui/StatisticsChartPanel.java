@@ -3,7 +3,6 @@ package seedu.address.ui;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,7 +15,6 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.Logic;
 import seedu.address.model.application.Application;
 import seedu.address.model.job.Job;
@@ -33,7 +31,6 @@ public class StatisticsChartPanel {
     private BarChart<String, Number> schoolDistributionChart;
     private Label totalApplicationsLabel;
     private Label totalApplicantsLabel;
-    private static final Logger logger = LogsCenter.getLogger(StatisticsChartPanel.class);
 
     /**
      * Creates a {@code StatisticsChartPanel} with the given {@code Logic}.
@@ -185,7 +182,6 @@ public class StatisticsChartPanel {
 
         // Add some default data if no real data is available
         if (jobs.isEmpty()) {
-            logger.info("No jobs found for pie chart display");
             pieChartData.add(new PieChart.Data("No jobs", 1));
             jobDistributionChart.setData(pieChartData);
             return;

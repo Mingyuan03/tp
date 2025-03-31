@@ -56,12 +56,13 @@ public class AddCommandTest {
 
         // Set view state to PERSON_VIEW
         modelStub.setViewState(Model.ViewState.PERSON_VIEW);
-        
+
         // Execute the command
         CommandResult commandResult = new AddCommand(validPerson).execute(modelStub);
 
         // Verify the result directly
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)), commandResult.getFeedbackToUser());
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS,
+            Messages.format(validPerson)), commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
     }
 
@@ -358,7 +359,7 @@ public class AddCommandTest {
             requireNonNull(person);
             return this.person.isSamePerson(person);
         }
-        
+
         @Override
         public void setViewState(Model.ViewState viewState) {
             this.viewState = viewState;
@@ -371,7 +372,7 @@ public class AddCommandTest {
 
         @Override
         public boolean isInJobView() {
-            return viewState == Model.ViewState.JOB_VIEW 
+            return viewState == Model.ViewState.JOB_VIEW
                 || viewState == Model.ViewState.JOB_DETAIL_VIEW
                 || viewState == Model.ViewState.PERSON_DETAIL_VIEW;
         }
@@ -400,7 +401,7 @@ public class AddCommandTest {
         public ReadOnlyAddressBook getAddressBook() {
             return new AddressBook();
         }
-        
+
         @Override
         public void setViewState(Model.ViewState viewState) {
             this.viewState = viewState;
@@ -413,7 +414,7 @@ public class AddCommandTest {
 
         @Override
         public boolean isInJobView() {
-            return viewState == Model.ViewState.JOB_VIEW 
+            return viewState == Model.ViewState.JOB_VIEW
                 || viewState == Model.ViewState.JOB_DETAIL_VIEW
                 || viewState == Model.ViewState.PERSON_DETAIL_VIEW;
         }

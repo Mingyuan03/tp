@@ -30,15 +30,16 @@ public class FindCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        
+
         // Check that we're in person view
         if (model.isInJobView()) {
             throw new CommandException("This command is only available in person view. "
                 + "Please switch to person view first using 'switchview' command.");
         }
-        
+
         model.updateFilteredPersonList(this.predicate);
-        return CommandResult.withFeedback(String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
+        return CommandResult.withFeedback(String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW,
+            model.getFilteredPersonList().size()));
     }
 
     @Override

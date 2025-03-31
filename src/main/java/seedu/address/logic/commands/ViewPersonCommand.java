@@ -52,12 +52,12 @@ public class ViewPersonCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        
+
         // Check that we're in job view
         if (!model.isInJobView()) {
             throw new CommandException(MESSAGE_NOT_IN_JOB_VIEW);
         }
-        
+
         List<Job> jobs = model.getFilteredJobList();
 
         // Validate the job index

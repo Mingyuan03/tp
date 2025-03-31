@@ -62,12 +62,12 @@ public class EditJobCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        
+
         // Check that we're in job view
         if (!model.isInJobView()) {
             throw new CommandException(MESSAGE_WRONG_VIEW);
         }
-        
+
         List<Job> lastShownList = model.getFilteredJobList();
 
         if (this.index.getZeroBased() >= lastShownList.size()) {

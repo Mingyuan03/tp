@@ -55,7 +55,7 @@ public class LogicManagerTest {
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
         StorageManager storage = new StorageManager(addressBookStorage, applicationsManagerStorage, userPrefsStorage);
         logic = new LogicManager(model, storage);
-        
+
         // Set the model's view state to PERSON_VIEW for the test commands to work
         model.setViewState(Model.ViewState.PERSON_VIEW);
     }

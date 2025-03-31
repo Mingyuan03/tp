@@ -19,12 +19,12 @@ public class ListJobCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        
+
         // Check that we're in job view
         if (!model.isInJobView()) {
             throw new CommandException(MESSAGE_WRONG_VIEW);
         }
-        
+
         model.resetFilteredJobList();
         // Reset application filters instead of applying a predicate
         model.resetFilteredApplicationList();

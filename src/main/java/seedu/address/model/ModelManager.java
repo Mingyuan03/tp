@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.application.Application;
@@ -348,7 +347,7 @@ public class ModelManager implements Model {
         requireNonNull(job);
         // Get all applications for the job
         List<Application> allJobApplications = applicationsManager.getApplicationsByJob(job);
-        
+
         // Filter using the current application filters by testing against the filtered list
         return allJobApplications.stream()
                 .filter(app -> filteredApplications.getFilteredList().contains(app))
@@ -366,7 +365,7 @@ public class ModelManager implements Model {
         requireNonNull(person);
         // Get all applications for the person
         List<Application> allPersonApplications = applicationsManager.getApplicationsByPerson(person);
-        
+
         // Filter using the current application filters by testing against the filtered list
         return allPersonApplications.stream()
                 .filter(app -> filteredApplications.getFilteredList().contains(app))

@@ -165,7 +165,7 @@ public class JobListPanel extends UiPart<Region> {
 
         Application application = applications.get(applicationIndex);
         Person person = application.getApplicant();
-            
+
         if (person == null) { //Check if person is null
             showGeneralStatistics();
             return;
@@ -216,44 +216,44 @@ public class JobListPanel extends UiPart<Region> {
             if (statisticsPanel == null) {
                 statisticsPanel = new StatisticsChartPanel(logic);
             }
-            
+
             // Set the statistics panel as the second item in the split pane
             if (splitPane != null && splitPane.getItems().size() > 1) {
                 splitPane.getItems().set(1, statisticsPanel.getRoot());
             }
             break;
-            
+
         case JOB_DETAILS:
             // Initialize job specific stats panel if needed
             if (jobSpecificStatsPanel == null) {
                 jobSpecificStatsPanel = new JobSpecificStatsPanel(logic);
             }
-            
+
             // Set the job specific stats panel as the second item in the split pane
             if (splitPane != null && splitPane.getItems().size() > 1) {
                 splitPane.getItems().set(1, jobSpecificStatsPanel.getRoot());
             }
             break;
-            
+
         case PERSON_DETAILS:
             // Initialize person detail panel if needed
             if (personDetailPanel == null) {
                 personDetailPanel = new PersonDetailPanel(logic);
             }
-            
+
             // Set the person detail panel as the second item in the split pane
             if (splitPane != null && splitPane.getItems().size() > 1) {
                 splitPane.getItems().set(1, personDetailPanel.getRoot());
             }
             break;
-            
+
         default:
             // Default to statistics
             // Initialize statistics panel if needed
             if (statisticsPanel == null) {
                 statisticsPanel = new StatisticsChartPanel(logic);
             }
-            
+
             // Set the statistics panel as the second item in the split pane
             if (splitPane != null && splitPane.getItems().size() > 1) {
                 splitPane.getItems().set(1, statisticsPanel.getRoot());
@@ -301,7 +301,7 @@ public class JobListPanel extends UiPart<Region> {
         int size = jobListView.getItems().size();
         // Always refresh the view, even if the list is empty
         jobListView.refresh();
-        
+
         // If the list is now empty, make sure to show the general statistics panel
         // which will display "No applications yet" or similar messages
         if (size == 0) {

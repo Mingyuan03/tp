@@ -27,7 +27,7 @@ public class ListCommandTest {
     public void setUp() {
         model = new ModelManager(getTypicalAddressBook(), getTypicalApplicationsManager(), new UserPrefs());
         expectedModel = new ModelManager(model.getAddressBook(), model.getApplicationsManager(), new UserPrefs());
-        
+
         // Set the view state to PERSON_VIEW since ListCommand can only be executed in person view
         model.setViewState(Model.ViewState.PERSON_VIEW);
         expectedModel.setViewState(Model.ViewState.PERSON_VIEW);
@@ -37,13 +37,13 @@ public class ListCommandTest {
     public void execute_listIsNotFiltered_showsSameList() throws CommandException {
         // Verify starting in PERSON_VIEW
         assertEquals(Model.ViewState.PERSON_VIEW, model.getCurrentViewState());
-        
+
         ListCommand listCommand = new ListCommand();
         CommandResult result = listCommand.execute(model);
-        
+
         assertEquals(CommandResult.withFeedback(ListCommand.MESSAGE_SUCCESS), result);
         assertEquals(expectedModel, model);
-        
+
         // Verify still in PERSON_VIEW after command execution
         assertEquals(Model.ViewState.PERSON_VIEW, model.getCurrentViewState());
     }
@@ -52,13 +52,13 @@ public class ListCommandTest {
     public void execute_listIsFiltered_showsEverything() throws CommandException {
         // Verify starting in PERSON_VIEW
         assertEquals(Model.ViewState.PERSON_VIEW, model.getCurrentViewState());
-        
+
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
         ListCommand listCommand = new ListCommand();
         CommandResult result = listCommand.execute(model);
-        
+
         assertEquals(CommandResult.withFeedback(ListCommand.MESSAGE_SUCCESS), result);
-        
+
         // Verify still in PERSON_VIEW after command execution
         assertEquals(Model.ViewState.PERSON_VIEW, model.getCurrentViewState());
     }

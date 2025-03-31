@@ -1,5 +1,6 @@
 package seedu.address.logic.commands;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalPersons.getTypicalApplicationsManager;
@@ -15,7 +16,6 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PersonBuilder;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Contains integration tests (interaction with the Model) for
@@ -43,10 +43,12 @@ public class AddCommandIntegrationTest {
         // Execute the command
         AddCommand addCommand = new AddCommand(validPerson);
         CommandResult result = addCommand.execute(model);
-        
+
         // Verify the result directly
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)), result.getFeedbackToUser());
-        assertEquals(expectedModel.getAddressBook().getPersonList(), model.getAddressBook().getPersonList());
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS,
+            Messages.format(validPerson)), result.getFeedbackToUser());
+        assertEquals(expectedModel.getAddressBook().getPersonList(),
+            model.getAddressBook().getPersonList());
     }
 
     @Test
