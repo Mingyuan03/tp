@@ -26,8 +26,8 @@ public class AdvanceApplicationCommand extends Command {
             + "exists 2 ways to to enter inputs for advancing an application.\nThe first way has these parameters: "
             + PREFIX_JOB_INDEX + "JOB INDEX IN JOB VIEW "
             + PREFIX_APPLICATION_INDEX + "APPLICATION INDEX BY JOB IN JOB VIEW\nThe second way has these parameters: "
-            + PREFIX_PERSON_INDEX + "PERSON INDEX IN PERSON VIEW " + PREFIX_JOB_INDEX + "JOB INDEX IN JOB VIEW "
-            + "Example for 1st way: " + COMMAND_WORD + " " + PREFIX_JOB_INDEX + "1 " + PREFIX_APPLICATION_INDEX + "2"
+            + PREFIX_PERSON_INDEX + "PERSON INDEX IN PERSON VIEW " + PREFIX_JOB_INDEX + "JOB INDEX IN JOB VIEW\n"
+            + "Example for 1st way: " + COMMAND_WORD + " " + PREFIX_JOB_INDEX + "1 " + PREFIX_APPLICATION_INDEX + "2\n"
             + "Example for 2nd way: " + COMMAND_WORD + " " + PREFIX_PERSON_INDEX + "1 " + PREFIX_JOB_INDEX + "2\n";
     public static final String MESSAGE_SUCCESS =
             "Application advanced as follows:\nInitial application advanced: {%1$s}\nNumber of rounds advanced: 1";

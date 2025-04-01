@@ -17,9 +17,9 @@ import seedu.address.logic.parser.exceptions.ParseException;
  */
 public class AdvanceApplicationCommandParser implements Parser<AdvanceApplicationCommand> {
     /**
-     * Parses the given {@code String} of arguments in the context of the AdvanceApplicationCommand
-     * and returns an AdvanceApplicationCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
+     * Parses the given {@code String} of arguments in the context of the {@code AdvanceApplicationCommand}
+     * and returns an {@code AdvanceApplicationCommand} object for execution.
+     * @throws ParseException If the user input does not conform the expected format.
      */
     public AdvanceApplicationCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(
