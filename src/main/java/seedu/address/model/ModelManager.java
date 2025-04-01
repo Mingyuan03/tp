@@ -4,8 +4,8 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -310,8 +310,8 @@ public class ModelManager implements Model {
     @Override
     public boolean isInJobView() {
         return currentViewState == ViewState.JOB_VIEW
-            || currentViewState == ViewState.JOB_DETAIL_VIEW
-            || currentViewState == ViewState.PERSON_DETAIL_VIEW;
+                || currentViewState == ViewState.JOB_DETAIL_VIEW
+                || currentViewState == ViewState.PERSON_DETAIL_VIEW;
     }
 
     @Override
@@ -354,7 +354,8 @@ public class ModelManager implements Model {
         // Get all applications for the job
         List<Application> allJobApplications = applicationsManager.getApplicationsByJob(job);
 
-        // Filter using the current application filters by testing against the filtered list
+        // Filter using the current application filters by testing against the filtered
+        // list
         return allJobApplications.stream()
                 .filter(app -> filteredApplications.getFilteredList().contains(app))
                 .collect(Collectors.toList());
@@ -372,26 +373,17 @@ public class ModelManager implements Model {
         // Get all applications for the person
         List<Application> allPersonApplications = applicationsManager.getApplicationsByPerson(person);
 
-        // Filter using the current application filters by testing against the filtered list
+        // Filter using the current application filters by testing against the filtered
+        // list
         return allPersonApplications.stream()
                 .filter(app -> filteredApplications.getFilteredList().contains(app))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Application> getApplicationsByPersonAndJob(Person person, Job job) {
-        List<Application> matchingApplicationsByPerson = this.getApplicationsByPerson(person); // Check non-null person.
-        List<Application> matchingApplicationsByJob = this.getApplicationsByJob(job); // Check non-null job.
-        // Find intersection of both lists. Iterate over the smaller list and check in larger set analogue of list.
-        if (matchingApplicationsByPerson.size() < matchingApplicationsByJob.size()) {
-            HashSet<Application> jobApplicationsSet = new HashSet<>(matchingApplicationsByJob);
-            return matchingApplicationsByPerson.stream()
-                    .filter(jobApplicationsSet::contains).collect(Collectors.toList());
-        } else {
-            HashSet<Application> personApplicationsSet = new HashSet<>(matchingApplicationsByPerson);
-            return matchingApplicationsByJob.stream()
-                    .filter(personApplicationsSet::contains).collect(Collectors.toList());
-        }
+    public Optional<Application> getApplicationByPersonAndJob(Person person, Job job) {
+        requireAllNonNull(person, job);
+        return applicationsManager.getApplicationByPersonAndJob(person, job);
     }
 
     @Override
