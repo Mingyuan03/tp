@@ -2,7 +2,7 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_ONE;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalPersons.getTypicalApplicationsManager;
 
@@ -53,7 +53,7 @@ public class ListCommandTest {
         // Verify starting in PERSON_VIEW
         assertEquals(Model.ViewState.PERSON_VIEW, model.getCurrentViewState());
 
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+        showPersonAtIndex(model, INDEX_ONE);
         ListCommand listCommand = new ListCommand();
         CommandResult result = listCommand.execute(model);
 

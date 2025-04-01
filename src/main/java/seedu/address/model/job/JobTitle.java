@@ -57,6 +57,7 @@ public record JobTitle(String jobTitle) {
         if (other == this) {
             return true;
         }
+        // instanceof handles nulls.
         if (!(other instanceof JobTitle otherJobTitle)) {
             return false;
         }

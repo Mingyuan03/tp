@@ -5,6 +5,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -269,7 +270,7 @@ public class ModelManager implements Model {
 
     @Override
     public void deleteApplication(Application target) {
-        applicationsManager.removeApplication(target);
+        applicationsManager.deleteApplication(target);
     }
 
     @Override
@@ -309,8 +310,8 @@ public class ModelManager implements Model {
     @Override
     public boolean isInJobView() {
         return currentViewState == ViewState.JOB_VIEW
-            || currentViewState == ViewState.JOB_DETAIL_VIEW
-            || currentViewState == ViewState.PERSON_DETAIL_VIEW;
+                || currentViewState == ViewState.JOB_DETAIL_VIEW
+                || currentViewState == ViewState.PERSON_DETAIL_VIEW;
     }
 
     @Override
@@ -353,7 +354,8 @@ public class ModelManager implements Model {
         // Get all applications for the job
         List<Application> allJobApplications = applicationsManager.getApplicationsByJob(job);
 
-        // Filter using the current application filters by testing against the filtered list
+        // Filter using the current application filters by testing against the filtered
+        // list
         return allJobApplications.stream()
                 .filter(app -> filteredApplications.getFilteredList().contains(app))
                 .collect(Collectors.toList());
@@ -371,10 +373,17 @@ public class ModelManager implements Model {
         // Get all applications for the person
         List<Application> allPersonApplications = applicationsManager.getApplicationsByPerson(person);
 
-        // Filter using the current application filters by testing against the filtered list
+        // Filter using the current application filters by testing against the filtered
+        // list
         return allPersonApplications.stream()
                 .filter(app -> filteredApplications.getFilteredList().contains(app))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Application> getApplicationByPersonAndJob(Person person, Job job) {
+        requireAllNonNull(person, job);
+        return applicationsManager.getApplicationByPersonAndJob(person, job);
     }
 
     @Override
@@ -382,13 +391,10 @@ public class ModelManager implements Model {
         if (other == this) {
             return true;
         }
-
         // instanceof handles nulls
-        if (!(other instanceof ModelManager)) {
+        if (!(other instanceof ModelManager otherModelManager)) {
             return false;
         }
-
-        ModelManager otherModelManager = (ModelManager) other;
         return addressBook.equals(otherModelManager.addressBook)
                 && applicationsManager.equals(otherModelManager.applicationsManager)
                 && userPrefs.equals(otherModelManager.userPrefs)
@@ -396,5 +402,4 @@ public class ModelManager implements Model {
                 && filteredJobs.equals(otherModelManager.filteredJobs)
                 && filteredApplications.equals(otherModelManager.filteredApplications);
     }
-
 }

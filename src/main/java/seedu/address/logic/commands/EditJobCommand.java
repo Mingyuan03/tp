@@ -198,7 +198,6 @@ public class EditJobCommand extends Command {
             return new ToStringBuilder(this).add("job title", this.jobTitle)
                     .add("job rounds", this.jobRounds)
                     .add("job skills", this.skills).toString();
-
         }
     }
 }

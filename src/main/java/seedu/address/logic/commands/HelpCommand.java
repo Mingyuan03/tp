@@ -18,4 +18,13 @@ public class HelpCommand extends Command {
     public CommandResult execute(Model model) {
         return CommandResult.withHelp(SHOWING_HELP_MESSAGE);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+        // instanceof handles nulls. Simplify if-else as all HelpCommand instances lack state thus they are equal.
+        return other instanceof HelpCommand;
+    }
 }

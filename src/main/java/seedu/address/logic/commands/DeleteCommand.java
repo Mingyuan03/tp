@@ -57,6 +57,9 @@ public class DeleteCommand extends Command {
 
     @Override
     public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
         if (!(other instanceof DeleteCommand otherDeleteCommand)) {
             return false;
         }

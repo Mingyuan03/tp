@@ -1,107 +1,107 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_APPLICATION_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_INDEX;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ROUNDS;
 
 import java.util.List;
 
+import javafx.collections.ObservableList;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.application.Application;
-import seedu.address.model.application.exceptions.InvalidApplicationStatusException;
 import seedu.address.model.job.Job;
 
 /**
- * Advances an application by a specified number of rounds.
+ * Advances the {@code ApplicationStatus} of an {@code Application} by 1 round.
  */
 public class AdvanceApplicationCommand extends Command {
-
-    public static final String COMMAND_WORD = "advanceapp";
-
+    public static final String COMMAND_WORD = "advapp";
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Advances an application by the specified number of rounds. "
-            + "Parameters: "
-            + PREFIX_JOB_INDEX + "JOB_INDEX "
-            + PREFIX_APPLICATION_INDEX + "APPLICATION_INDEX "
-            + PREFIX_ROUNDS + "ROUNDS\n"
+            + ": Advances an application in the address book."
+            + "\nParameters: "
+            + PREFIX_JOB_INDEX + "<JOB_INDEX> "
+            + PREFIX_APPLICATION_INDEX + "<APPLICATION_INDEX>\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_JOB_INDEX + "2 "
-            + PREFIX_APPLICATION_INDEX + "1 "
-            + PREFIX_ROUNDS + "1";
-
-    public static final String MESSAGE_ADVANCE_APPLICATION_SUCCESS =
-            "%1$s has completed %3$d/%4$d rounds for %2$s";
-    public static final String MESSAGE_EXCEED_ROUNDS =
-            "Cannot advance application beyond the maximum number of rounds for this job";
-    public static final String MESSAGE_INVALID_ROUNDS =
-            "Number of rounds must be a positive integer";
-    public static final String MESSAGE_APPLICATION_NOT_FOUND =
-            "No application found at the specified index";
-    public static final String MESSAGE_JOB_INVALID_INDEX =
-            "Job index is invalid";
-    public static final String MESSAGE_APPLICATION_INVALID_INDEX =
-            "Application index is invalid";
+            + PREFIX_JOB_INDEX + "1 "
+            + PREFIX_APPLICATION_INDEX + "2";
+    public static final String MESSAGE_SUCCESS = "Application advanced as follows:"
+            + "\nInitial application advanced: {%1$s}" + "\nNumber of rounds advanced: 1";
+    public static final String MESSAGE_EXCEED_ROUNDS = "This application is already"
+            + " at the last round and cannot be "
+            + "advanced in the address book. Try using " + DeleteApplicationCommand.COMMAND_WORD
+            + " to delete the application instead!";
+    public static final String MESSAGE_INVALID_PERSON = "This person does not exist in the address book. "
+            + "Try using " + AddCommand.COMMAND_WORD + " to add a person first, then use "
+            + AddApplicationCommand.COMMAND_WORD + " to add an application!";
+    public static final String MESSAGE_INVALID_JOB = "This job does not exist in the address book. "
+            + "Try using " + AddJobCommand.COMMAND_WORD + " to add a job first, then use "
+            + AddApplicationCommand.COMMAND_WORD + " to add an application!";
+    public static final String MESSAGE_INVALID_APPLICATION = "This application does not exist in the address book. "
+            + "Try using " + AddApplicationCommand.COMMAND_WORD + " to add an application first!";
+    public static final String MESSAGE_WRONG_VIEW = "This command is only available in job view. "
+            + "Please switch to job view first using 'switchview' command.";
 
     private final Index jobIndex;
-    private final Index applicationIndex;
-    private final int rounds;
+    private Index applicationByJobIndex = null;
+    private Application applicationToAdvance = null;
 
     /**
-     * Creates an AdvanceApplicationCommand to advance the application for the specified job
-     * at the specified application index by the specified number of rounds.
+     * Creates an AdvanceApplicationCommand to advance the application for the
+     * specified job
+     * at the specified application index.
      */
-    public AdvanceApplicationCommand(Index jobIndex, Index applicationIndex, int rounds) {
-        requireNonNull(jobIndex);
-        requireNonNull(applicationIndex);
+    public AdvanceApplicationCommand(Index jobIndex, Index otherIndex) {
+        requireAllNonNull(jobIndex, otherIndex);
+
         this.jobIndex = jobIndex;
-        this.applicationIndex = applicationIndex;
-        this.rounds = rounds;
+        this.applicationByJobIndex = otherIndex;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        if (rounds <= 0) {
-            throw new CommandException(MESSAGE_INVALID_ROUNDS);
+        // Check that we're in job view
+        if (!model.isInJobView()) {
+            throw new CommandException(MESSAGE_WRONG_VIEW);
         }
 
-        List<Job> lastShownJobList = model.getFilteredJobList();
+        ObservableList<Job> lastShownJobList = model.getFilteredJobList();
 
-        if (jobIndex.getZeroBased() >= lastShownJobList.size()) {
-            throw new CommandException(MESSAGE_JOB_INVALID_INDEX);
+        // 1st guard condition below: Invalid job index.
+        if (this.jobIndex.getZeroBased() >= lastShownJobList.size() || this.jobIndex.getZeroBased() < 0) {
+            throw new CommandException(MESSAGE_INVALID_JOB);
         }
 
-        Job job = lastShownJobList.get(jobIndex.getZeroBased());
+        Job matchingJob = lastShownJobList.get(jobIndex.getZeroBased());
 
-        // Get applications for this job
-        List<Application> jobApplications = model.getFilteredApplicationsByJob(job);
+        // Get applications for this job.
+        List<Application> jobApplications = model.getFilteredApplicationsByJob(matchingJob);
 
-        if (applicationIndex.getZeroBased() >= jobApplications.size()) {
-            throw new CommandException(MESSAGE_APPLICATION_INVALID_INDEX);
+        // 2nd guard condition below: Invalid application by job index.
+        if (this.applicationByJobIndex.getZeroBased() >= jobApplications.size()
+                || this.applicationByJobIndex.getZeroBased() < 0) {
+            throw new CommandException(MESSAGE_INVALID_APPLICATION);
         }
 
-        Application targetApplication = jobApplications.get(applicationIndex.getZeroBased());
+        this.applicationToAdvance = jobApplications.get(this.applicationByJobIndex.getZeroBased());
 
-        try {
-            Application advancedApplication = model.advanceApplication(targetApplication, rounds);
-
-            String successMessage = String.format(MESSAGE_ADVANCE_APPLICATION_SUCCESS,
-                    advancedApplication.getApplicant().getName(), job.getJobTitle(),
-                    advancedApplication.getApplicationStatus().applicationStatus,
-                    job.getJobRounds().jobRounds);
-
-            // Return a CommandResult that signals applications need to be refreshed
-            return CommandResult.withRefreshApplications(successMessage);
-        } catch (InvalidApplicationStatusException e) {
+        // 3rd guard condition below: Application is at its final round.
+        if (this.applicationToAdvance.getApplicationStatus().applicationStatus >= this.applicationToAdvance.getJob()
+                .getJobRounds().jobRounds) {
             throw new CommandException(MESSAGE_EXCEED_ROUNDS);
-        } catch (IllegalArgumentException e) {
-            throw new CommandException(MESSAGE_INVALID_ROUNDS);
         }
+
+        // Apply main logic of advancing valid existing application in model.
+        this.applicationToAdvance = model.advanceApplication(this.applicationToAdvance, 1);
+
+        String successMessage = String.format(MESSAGE_SUCCESS, this.applicationToAdvance);
+
+        return CommandResult.withRefreshApplications(successMessage);
     }
 
     @Override
@@ -115,17 +115,14 @@ public class AdvanceApplicationCommand extends Command {
             return false;
         }
 
-        return jobIndex.equals(otherAdvanceApplicationCommand.jobIndex)
-                && applicationIndex.equals(otherAdvanceApplicationCommand.applicationIndex)
-                && rounds == otherAdvanceApplicationCommand.rounds;
+        return this.jobIndex.equals(otherAdvanceApplicationCommand.jobIndex)
+                && this.applicationByJobIndex.equals(otherAdvanceApplicationCommand.applicationByJobIndex)
+                && this.applicationToAdvance.equals(otherAdvanceApplicationCommand.applicationToAdvance);
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .add("jobIndex", jobIndex)
-                .add("applicationIndex", applicationIndex)
-                .add("rounds", rounds)
+        return new ToStringBuilder(this).add("Initial application advanced", this.applicationToAdvance)
                 .toString();
     }
 }

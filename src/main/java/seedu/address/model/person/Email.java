@@ -61,14 +61,11 @@ public class Email {
         if (other == this) {
             return true;
         }
-
         // instanceof handles nulls
-        if (!(other instanceof Email)) {
+        if (!(other instanceof Email otherEmail)) {
             return false;
         }
-
-        Email otherEmail = (Email) other;
-        return value.equals(otherEmail.value);
+        return this.value.equals(otherEmail.value);
     }
 
     @Override

@@ -55,6 +55,9 @@ public class FindJobCommand extends Command {
 
     @Override
     public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
         if (!(other instanceof FindJobCommand otherFindJobCommand)) {
             return false;
         }

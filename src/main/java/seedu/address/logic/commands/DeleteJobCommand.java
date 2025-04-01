@@ -22,7 +22,7 @@ public class DeleteJobCommand extends Command {
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_DELETE_JOB_SUCESS = "Deleted Job: %1$s";
+    public static final String MESSAGE_DELETE_JOB_SUCCESS = "Deleted Job: %1$s";
 
     public static final String MESSAGE_INVALID_JOB = "This Job does not exist in the address book";
     public static final String MESSAGE_WRONG_VIEW = "This command is only available in job view. "
@@ -56,11 +56,14 @@ public class DeleteJobCommand extends Command {
         }
 
         model.deleteJob(jobToDelete);
-        return CommandResult.withFeedback(String.format(MESSAGE_DELETE_JOB_SUCESS, Messages.format(jobToDelete)));
+        return CommandResult.withFeedback(String.format(MESSAGE_DELETE_JOB_SUCCESS, Messages.format(jobToDelete)));
     }
 
     @Override
     public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
         if (!(other instanceof DeleteJobCommand otherDeleteJobCommand)) {
             return false;
         }

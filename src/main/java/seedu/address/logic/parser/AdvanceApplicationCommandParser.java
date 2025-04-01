@@ -3,7 +3,6 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_APPLICATION_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_INDEX;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ROUNDS;
 
 import java.util.stream.Stream;
 
@@ -12,39 +11,40 @@ import seedu.address.logic.commands.AdvanceApplicationCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
- * Parses input arguments and creates a new AdvanceApplicationCommand object
+ * Parses input arguments and creates a new {@code AdvanceApplicationCommand}
+ * object.
  */
 public class AdvanceApplicationCommandParser implements Parser<AdvanceApplicationCommand> {
-
     /**
-     * Parses the given {@code String} of arguments in the context of the AdvanceApplicationCommand
-     * and returns an AdvanceApplicationCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
+     * Parses the given {@code String} of arguments in the context of the
+     * {@code AdvanceApplicationCommand}
+     * and returns an {@code AdvanceApplicationCommand} object for execution.
+     *
+     * @throws ParseException If the user input does not conform the expected
+     *                        format.
      */
     public AdvanceApplicationCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(
-                args, PREFIX_JOB_INDEX, PREFIX_APPLICATION_INDEX, PREFIX_ROUNDS);
+                args, PREFIX_JOB_INDEX, PREFIX_APPLICATION_INDEX);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_JOB_INDEX, PREFIX_APPLICATION_INDEX, PREFIX_ROUNDS)
+        // 1st guard condition below: empty job index or application index or trailing
+        // whitespace exists before 1st valid prefix
+        if (!arePrefixesPresent(argMultimap, PREFIX_JOB_INDEX, PREFIX_APPLICATION_INDEX)
                 || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, AdvanceApplicationCommand.MESSAGE_USAGE));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    AdvanceApplicationCommand.MESSAGE_USAGE));
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_JOB_INDEX, PREFIX_APPLICATION_INDEX, PREFIX_ROUNDS);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_JOB_INDEX, PREFIX_APPLICATION_INDEX);
 
         try {
             Index jobIndex = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_JOB_INDEX).get());
-            Index applicationIndex = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_APPLICATION_INDEX).get());
-            int rounds = Integer.parseInt(argMultimap.getValue(PREFIX_ROUNDS).get());
+            Index appByJobIndex = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_APPLICATION_INDEX).get());
 
-            return new AdvanceApplicationCommand(jobIndex, applicationIndex, rounds);
+            return new AdvanceApplicationCommand(jobIndex, appByJobIndex);
         } catch (ParseException pe) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, AdvanceApplicationCommand.MESSAGE_USAGE), pe);
-        } catch (NumberFormatException e) {
-            throw new ParseException(
-                    String.format("Rounds must be a valid integer.\n%s", AdvanceApplicationCommand.MESSAGE_USAGE));
         }
     }
 

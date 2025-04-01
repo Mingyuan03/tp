@@ -1,9 +1,11 @@
 package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
@@ -102,8 +104,8 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
      * Removes {@code key} from this {@code ApplicationsManager}. {@code key} must
      * exist in the applications manager.
      */
-    public void removeApplication(Application key) {
-        applications.remove(key);
+    public void deleteApplication(Application key) {
+        applications.delete(key);
     }
 
     /**
@@ -157,7 +159,7 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
 
         // Find and remove all applications for this person
         List<Application> toRemove = getApplicationsByPerson(person);
-        toRemove.forEach(this::removeApplication);
+        toRemove.forEach(this::deleteApplication);
     }
 
     /**
@@ -170,7 +172,7 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
 
         // Find and remove all applications for this job
         List<Application> toRemove = getApplicationsByJob(job);
-        toRemove.forEach(this::removeApplication);
+        toRemove.forEach(this::deleteApplication);
     }
 
     /**
@@ -182,7 +184,10 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
     public List<Application> getApplicationsByPerson(Person person) {
         requireNonNull(person);
 
-        return applications.asUnmodifiableObservableList().stream().filter(app -> app.getApplicant().equals(person))
+        return applications
+                .asUnmodifiableObservableList()
+                .stream()
+                .filter(app -> app.getApplicant().isSamePerson(person))
                 .collect(Collectors.toList());
     }
 
@@ -195,8 +200,29 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
     public List<Application> getApplicationsByJob(Job job) {
         requireNonNull(job);
 
-        return applications.asUnmodifiableObservableList().stream().filter(app -> app.getJob().equals(job))
+        return applications.asUnmodifiableObservableList().stream().filter(app -> app.getJob().isSameJob(job))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Gets an application associated with a specific person and job.
+     *
+     * @param person The person whose application to retrieve
+     * @param job    The job whose application to retrieve
+     * @return Optional containing the application if it exists, empty otherwise
+     */
+    public Optional<Application> getApplicationByPersonAndJob(Person person, Job job) {
+        requireAllNonNull(person, job);
+
+        List<Application> candidateApplications = getApplicationsByPerson(person);
+
+        for (Application app : candidateApplications) {
+            if (app.getJob().isSameJob(job)) {
+                return Optional.of(app);
+            }
+        }
+
+        return Optional.empty();
     }
 
     /**

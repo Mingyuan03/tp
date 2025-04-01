@@ -21,12 +21,7 @@ public class SwitchViewCommand extends Command {
         if (other == this) {
             return true;
         }
-
-        // instanceof handles nulls
-        if (!(other instanceof SwitchViewCommand)) {
-            return false;
-        }
-
-        return true; // All SwitchViewCommand instances are equal since they have no state
+        // instanceof handles nulls. Simplify if-else as all SwitchViewCommand instances lack state thus they are equal.
+        return other instanceof SwitchViewCommand;
     }
 }

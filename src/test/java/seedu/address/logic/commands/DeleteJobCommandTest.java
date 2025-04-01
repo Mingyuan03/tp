@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_ONE;
+import static seedu.address.testutil.TypicalIndexes.INDEX_TWO;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalPersons.getTypicalApplicationsManager;
 
@@ -25,10 +25,10 @@ public class DeleteJobCommandTest {
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
-        Job jobtoDelete = model.getFilteredJobList().get(INDEX_FIRST_PERSON.getZeroBased());
-        DeleteJobCommand deleteJobCommand = new DeleteJobCommand(INDEX_FIRST_PERSON);
+        Job jobtoDelete = model.getFilteredJobList().get(INDEX_ONE.getZeroBased());
+        DeleteJobCommand deleteJobCommand = new DeleteJobCommand(INDEX_ONE);
 
-        String expectedMessage = String.format(DeleteJobCommand.MESSAGE_DELETE_JOB_SUCESS,
+        String expectedMessage = String.format(DeleteJobCommand.MESSAGE_DELETE_JOB_SUCCESS,
                 Messages.format(jobtoDelete));
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(),
@@ -48,14 +48,14 @@ public class DeleteJobCommandTest {
 
     @Test
     public void equals() {
-        DeleteJobCommand deleteJobFirstCommand = new DeleteJobCommand(INDEX_FIRST_PERSON);
-        DeleteJobCommand deleteJobSecondCommand = new DeleteJobCommand(INDEX_SECOND_PERSON);
+        DeleteJobCommand deleteJobFirstCommand = new DeleteJobCommand(INDEX_ONE);
+        DeleteJobCommand deleteJobSecondCommand = new DeleteJobCommand(INDEX_TWO);
 
         // same object -> returns true
         assertTrue(deleteJobFirstCommand.equals(deleteJobFirstCommand));
 
         // same values -> returns true
-        DeleteJobCommand deleteJobFirstCommandCopy = new DeleteJobCommand(INDEX_FIRST_PERSON);
+        DeleteJobCommand deleteJobFirstCommandCopy = new DeleteJobCommand(INDEX_ONE);
         assertTrue(deleteJobFirstCommand.equals(deleteJobFirstCommandCopy));
 
         // different types -> returns false

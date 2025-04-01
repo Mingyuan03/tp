@@ -47,14 +47,11 @@ public class Address {
         if (other == this) {
             return true;
         }
-
         // instanceof handles nulls
-        if (!(other instanceof Address)) {
+        if (!(other instanceof Address otherAddress)) {
             return false;
         }
-
-        Address otherAddress = (Address) other;
-        return value.equals(otherAddress.value);
+        return this.value.equals(otherAddress.value);
     }
 
     @Override
