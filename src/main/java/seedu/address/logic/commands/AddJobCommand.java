@@ -41,8 +41,7 @@ public class AddJobCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-
-        // Check that we're in job view
+        // 1st guard condition below: Person view is not intended for adding a new job.
         if (!model.isInJobView()) {
             throw new CommandException(MESSAGE_WRONG_VIEW);
         }

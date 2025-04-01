@@ -18,13 +18,14 @@ import seedu.address.model.job.Job;
 import seedu.address.model.person.Person;
 
 /**
- * Adds an {@code application} to the address book.
+ * Adds an {@code application} to the address book. {@code AddApplicationCommand} needs only single dispatch as
+ * {@code applicationByJobIndex} doesn't exist for new applications.
  */
 public class AddApplicationCommand extends Command {
     public static final String COMMAND_WORD = "addapp";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an application to the model manager.\n"
-            + "Parameters: " + PREFIX_PERSON_INDEX + " PERSON INDEX IN PERSON VIEW "
-            + PREFIX_JOB_INDEX + " JOB INDEX IN JOB VIEW\n"
+            + "Parameters: " + PREFIX_PERSON_INDEX + "PERSON INDEX IN PERSON VIEW "
+            + PREFIX_JOB_INDEX + "JOB INDEX IN JOB VIEW\n"
             + "Example: " + COMMAND_WORD + " " + PREFIX_PERSON_INDEX + "1 " + PREFIX_JOB_INDEX + "2";
     public static final String MESSAGE_SUCCESS = "New application added as follows:\nApplication added: {%1$s}";
     public static final String MESSAGE_DUPLICATE_APPLICATION = "This application already exists in the address book "
