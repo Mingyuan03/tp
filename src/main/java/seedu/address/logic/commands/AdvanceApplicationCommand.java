@@ -43,7 +43,7 @@ public class AdvanceApplicationCommand extends Command {
     public static final String MESSAGE_INVALID_APPLICATION = "This application does not exist in the address book. "
             + "Try using " + AddApplicationCommand.COMMAND_WORD + " to add an application first!";
     public static final String MESSAGE_WRONG_VIEW = "This command is only available in job view. "
-            + "Please switch to job view first using 'switchview' command.";
+            + "Please switch to job view first using " + SwitchViewCommand.COMMAND_WORD;
 
     private final Index jobIndex;
     private Index applicationByJobIndex = null;

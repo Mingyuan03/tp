@@ -12,7 +12,12 @@ public class HelpCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Shows program usage instructions.\n"
             + "Example: " + COMMAND_WORD;
 
-    public static final String SHOWING_HELP_MESSAGE = "Opened help window.";
+    public static final String SHOWING_HELP_MESSAGE = """
+            FOR PERSON-SPECIFIC COMMANDS
+            FOR JOB-SPECIFIC COMMANDS
+            FOR APPLICATION-SPECIFIC COMMANDS
+            FOR VIEW-SPECIFIC COMMANDS
+            MISCELLANEOUS COMMANDS""";
 
     @Override
     public CommandResult execute(Model model) {
