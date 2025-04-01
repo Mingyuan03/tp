@@ -1,8 +1,8 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_APPLICATION_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_INDEX;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ROUNDS;
 
 import java.util.stream.Stream;
 
@@ -22,15 +22,15 @@ public class FindAppCommandParser implements Parser<FindAppCommand> {
      */
     public FindAppCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(
-                args, PREFIX_JOB_INDEX, PREFIX_ROUNDS);
+                args, PREFIX_JOB_INDEX, PREFIX_APPLICATION_STATUS);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_ROUNDS)
-                || argMultimap.getPreamble().length() != 0) {
+        if (!arePrefixesPresent(argMultimap, PREFIX_APPLICATION_STATUS)
+                || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindAppCommand.MESSAGE_USAGE));
         }
 
-        String rounds = argMultimap.getValue(PREFIX_ROUNDS).get();
+        String rounds = argMultimap.getValue(PREFIX_APPLICATION_STATUS).get();
 
         // If job index is present, parse it
         if (arePrefixesPresent(argMultimap, PREFIX_JOB_INDEX)) {

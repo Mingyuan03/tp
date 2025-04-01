@@ -20,4 +20,13 @@ public class ClearCommand extends Command {
         model.setAddressBook(new AddressBook());
         return CommandResult.withClearView(MESSAGE_SUCCESS);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+        // instanceof handles nulls. Simplify if-else as all ClearCommand instances lack state thus they are equal.
+        return other instanceof ClearCommand;
+    }
 }

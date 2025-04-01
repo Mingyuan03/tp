@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.HashSet;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -269,7 +270,7 @@ public class ModelManager implements Model {
 
     @Override
     public void deleteApplication(Application target) {
-        applicationsManager.removeApplication(target);
+        applicationsManager.deleteApplication(target);
     }
 
     @Override
@@ -378,17 +379,30 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public List<Application> getApplicationsByPersonAndJob(Person person, Job job) {
+        List<Application> matchingApplicationsByPerson = this.getApplicationsByPerson(person); // Check non-null person.
+        List<Application> matchingApplicationsByJob = this.getApplicationsByJob(job); // Check non-null job.
+        // Find intersection of both lists. Iterate over the smaller list and check in larger set analogue of list.
+        if (matchingApplicationsByPerson.size() < matchingApplicationsByJob.size()) {
+            HashSet<Application> jobApplicationsSet = new HashSet<>(matchingApplicationsByJob);
+            return matchingApplicationsByPerson.stream()
+                    .filter(jobApplicationsSet::contains).collect(Collectors.toList());
+        } else {
+            HashSet<Application> personApplicationsSet = new HashSet<>(matchingApplicationsByPerson);
+            return matchingApplicationsByJob.stream()
+                    .filter(personApplicationsSet::contains).collect(Collectors.toList());
+        }
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
         }
-
         // instanceof handles nulls
-        if (!(other instanceof ModelManager)) {
+        if (!(other instanceof ModelManager otherModelManager)) {
             return false;
         }
-
-        ModelManager otherModelManager = (ModelManager) other;
         return addressBook.equals(otherModelManager.addressBook)
                 && applicationsManager.equals(otherModelManager.applicationsManager)
                 && userPrefs.equals(otherModelManager.userPrefs)
@@ -396,5 +410,4 @@ public class ModelManager implements Model {
                 && filteredJobs.equals(otherModelManager.filteredJobs)
                 && filteredApplications.equals(otherModelManager.filteredApplications);
     }
-
 }

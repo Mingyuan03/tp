@@ -129,9 +129,8 @@ public class ParserUtil {
      * @param jobTitle Raw jobTitle by user.
      * @return trimmed remark without leading and trailing whitespaces for more
      *         efficient processing.
-     * @throws ParseException if the given {@code jobTitle} is invalid.
      */
-    public static JobTitle parseJobTitle(String jobTitle) throws ParseException {
+    public static JobTitle parseJobTitle(String jobTitle) {
         jobTitle = jobTitle.trim();
         requireNonNull(jobTitle);
         return new JobTitle(jobTitle);
@@ -144,9 +143,8 @@ public class ParserUtil {
      * @param jobRounds Raw jobRounds String by user.
      * @return trimmed remark without leading and trailing whitespaces for more
      *         efficient processing.
-     * @throws ParseException if the given {@code jobRounds} is invalid.
      */
-    public static JobRounds parseJobRounds(String jobRounds) throws ParseException {
+    public static JobRounds parseJobRounds(String jobRounds) {
         jobRounds = jobRounds.trim();
         requireNonNull(jobRounds);
         int jobRoundsCount = Integer.parseInt(jobRounds);

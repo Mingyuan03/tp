@@ -95,13 +95,11 @@ public class ViewPersonCommand extends Command {
         if (other == this) {
             return true;
         }
-
-        if (!(other instanceof ViewPersonCommand)) {
+        // instanceof handles nulls.
+        if (!(other instanceof ViewPersonCommand otherViewPersonCommand)) {
             return false;
         }
-
-        ViewPersonCommand otherCommand = (ViewPersonCommand) other;
-        return jobIndex.equals(otherCommand.jobIndex)
-                && applicationIndex.equals(otherCommand.applicationIndex);
+        return this.jobIndex.equals(otherViewPersonCommand.jobIndex)
+                && this.applicationIndex.equals(otherViewPersonCommand.applicationIndex);
     }
 }

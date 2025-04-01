@@ -271,8 +271,8 @@ public interface Model {
     }
 
     /**
-     * Gets a list of applications for a specific job.
-     *
+     * Gets a list of applications for a specific job, respecting any active status filters.
+     * If no status filter is active, returns all applications for the job.
      * @param job The job to get applications for
      * @return List of applications for the job
      */
@@ -289,7 +289,8 @@ public interface Model {
 
     /**
      * Gets a list of applications for a specific person.
-     *
+     * Gets a list of applications for a specific person, respecting any active status filters.
+     * If no status filter is active, returns all applications for the person.
      * @param person The person to get applications for
      * @return List of applications for the person
      */
@@ -309,5 +310,14 @@ public interface Model {
      * @return The current view state.
      */
     ViewState getViewState();
+
+    /**
+     * Gets a list of applications for a specific person, respecting any active status filters.
+     * If no status filter is active, returns all applications for the person.
+     * @param person The person to get applications for
+     * @param job The job to get applications for
+     * @return List of applications for the person and job
+     */
+    List<Application> getApplicationsByPersonAndJob(Person person, Job job);
 }
 

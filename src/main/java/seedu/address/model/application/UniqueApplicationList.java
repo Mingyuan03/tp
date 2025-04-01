@@ -67,7 +67,7 @@ public class UniqueApplicationList implements Iterable<Application> {
      * Removes the equivalent application from the list. The application must exist
      * in the list.
      */
-    public void remove(Application toRemove) {
+    public void delete(Application toRemove) {
         requireNonNull(toRemove);
         if (!internalList.remove(toRemove)) {
             throw new ApplicationNotFoundException();

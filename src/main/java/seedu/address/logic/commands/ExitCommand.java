@@ -16,4 +16,12 @@ public class ExitCommand extends Command {
         return CommandResult.withExit(MESSAGE_EXIT_ACKNOWLEDGEMENT);
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+        // instanceof handles nulls. Simplify if-else as all ExitCommand instances lack state thus they are equal.
+        return other instanceof ExitCommand;
+    }
 }

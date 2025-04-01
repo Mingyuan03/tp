@@ -41,12 +41,11 @@ public class AddJobCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-
-        // Check that we're in job view
+        // 1st guard condition below: Person view is not intended for adding a new job.
         if (!model.isInJobView()) {
             throw new CommandException(MESSAGE_WRONG_VIEW);
         }
-
+        // 2nd guard condition below: Preexisting valid job. Code below traces to Job::isSameJob.
         if (model.hasJob(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_JOB);
         }

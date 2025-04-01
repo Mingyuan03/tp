@@ -30,4 +30,13 @@ public class ListJobCommand extends Command {
         model.resetFilteredApplicationList();
         return CommandResult.withRefreshJobView(MESSAGE_SUCCESS);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+        // instanceof handles nulls. Simplify if-else as all ListJobCommand instances lack state thus they are equal.
+        return other instanceof ListJobCommand;
+    }
 }

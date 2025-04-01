@@ -28,4 +28,13 @@ public class ListCommand extends Command {
         model.resetFilteredPersonList();
         return CommandResult.withFeedback(MESSAGE_SUCCESS);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+        // instanceof handles nulls. Simplify if-else as all ListCommand instances lack state thus they are equal.
+        return other instanceof ListCommand;
+    }
 }

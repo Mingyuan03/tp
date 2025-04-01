@@ -103,10 +103,10 @@ public class Application {
         if (other == this) {
             return true;
         }
-        if (!(other instanceof Application)) {
+        // instanceof handles nulls.
+        if (!(other instanceof Application otherApplication)) {
             return false;
         }
-        Application otherApplication = (Application) other;
         return applicant.equals(otherApplication.applicant) && job.equals(otherApplication.job)
                 && applicationStatus.equals(otherApplication.applicationStatus);
     }

@@ -26,7 +26,7 @@ public class UniqueJobList implements Iterable<Job> {
      */
     public boolean contains(Job toCheck) {
         requireNonNull(toCheck);
-        return this.internalList.stream().anyMatch(toCheck::equals);
+        return this.internalList.stream().anyMatch(toCheck::isSameJob);
     }
 
     /**
