@@ -33,7 +33,8 @@ public class FindAppCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Filtered applications by status: %1$s";
     public static final String MESSAGE_NO_MATCHES = "No applications found with status: %1$s";
     public static final String MESSAGE_JOB_NOT_FOUND = "The specified job index is invalid";
-    public static final String MESSAGE_WRONG_VIEW = "This command can only be used in job view";
+    public static final String MESSAGE_WRONG_VIEW = "This command is only available in job view. "
+            + "Please switch to job view first using 'switchview' command.";
 
     private static final Logger logger = LogsCenter.getLogger(FindAppCommand.class);
 
@@ -70,7 +71,7 @@ public class FindAppCommand extends Command {
 
         // Check if we need to reset the view
         if (model.getCurrentViewState() == Model.ViewState.JOB_DETAIL_VIEW
-            || model.getCurrentViewState() == Model.ViewState.PERSON_DETAIL_VIEW) {
+                || model.getCurrentViewState() == Model.ViewState.PERSON_DETAIL_VIEW) {
             model.setViewState(Model.ViewState.JOB_VIEW);
             logger.info("Reset to JOB_VIEW from detail view");
         }
@@ -133,8 +134,10 @@ public class FindAppCommand extends Command {
             return CommandResult.withRefreshJobView(String.format(MESSAGE_NO_MATCHES, status));
         }
 
-        // Use withRefreshJobView to ensure both clearView and refreshJobView are set to true
-        // This ensures that the general statistics panel is shown and all charts are updated
+        // Use withRefreshJobView to ensure both clearView and refreshJobView are set to
+        // true
+        // This ensures that the general statistics panel is shown and all charts are
+        // updated
         return CommandResult.withRefreshJobView(String.format(MESSAGE_SUCCESS, status));
     }
 
