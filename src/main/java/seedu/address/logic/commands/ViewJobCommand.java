@@ -20,10 +20,8 @@ public class ViewJobCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Viewing job: %s";
     public static final String MESSAGE_SUCCESS_NO_APPLICATIONS = "Viewing job: %s (No applications yet)";
-    public static final String MESSAGE_INVALID_JOB_INDEX = "The job index provided is invalid";
     public static final String MESSAGE_NOT_IN_JOB_VIEW = "This command is only available in job-related views. "
             + "Please switch to job view first using 'switchview' command.";
-    public static final String MESSAGE_NO_APPLICATIONS = "This job has no applications yet.";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Views the detailed information of a job. "
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
@@ -71,8 +69,12 @@ public class ViewJobCommand extends Command {
 
     @Override
     public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof ViewJobCommand // instanceof handles nulls
-                && targetIndex.equals(((ViewJobCommand) other).targetIndex)); // state check
+        if (other == this) {
+            return true;
+        }
+        if (!(other instanceof ViewJobCommand otherViewJobCommand)) {
+            return false;
+        }
+        return this.targetIndex.equals(otherViewJobCommand.targetIndex); // state check
     }
 }

@@ -92,8 +92,8 @@ public class EditCommandTest {
 
     @Test
     public void execute_noFieldSpecifiedUnfilteredList_success() throws CommandException {
-        EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, new EditPersonDescriptor());
-        Person editedPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        EditCommand editCommand = new EditCommand(INDEX_ONE, new EditPersonDescriptor());
+        Person editedPerson = model.getFilteredPersonList().get(INDEX_ONE.getZeroBased());
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
 
@@ -110,7 +110,7 @@ public class EditCommandTest {
         showPersonAtIndex(model, INDEX_ONE);
         showPersonAtIndex(expectedModel, INDEX_ONE);
 
-        Person personInFilteredList = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person personInFilteredList = model.getFilteredPersonList().get(INDEX_ONE.getZeroBased());
         Person editedPerson = new PersonBuilder(personInFilteredList).withName(VALID_NAME_BOB).build();
         EditCommand editCommand = new EditCommand(INDEX_ONE,
                 new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build());

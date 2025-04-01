@@ -1,8 +1,8 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_APPLICATION_STATUS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_INDEX;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,15 +27,9 @@ public class FindAppCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Filters the list to show only applications "
             + "with the specified status in job view.\n"
-            + "Parameters: " + PREFIX_JOB_INDEX + "JOB_INDEX (optional) "
-            + PREFIX_ROUNDS + "ROUNDS\n"
-            + "Example: " + COMMAND_WORD + " j/1 r/2";
-            + "with the specified status.\n"
-            + "In job view: " + COMMAND_WORD + " " + PREFIX_JOB_INDEX + "JOB_INDEX (optional) "
+            + "Parameters: " + PREFIX_JOB_INDEX + " OPTIONAL JOB INDEX IN JOB VIEW "
             + PREFIX_APPLICATION_STATUS + "ROUNDS\n"
-            + "In person view: " + COMMAND_WORD + " " + PREFIX_APPLICATION_STATUS + "ROUNDS\n"
-            + "Example: " + COMMAND_WORD + " j/1 st/Accepted";
-
+            + "Example: " + COMMAND_WORD + PREFIX_JOB_INDEX + " 1 " + PREFIX_APPLICATION_STATUS + " 2";
     public static final String MESSAGE_SUCCESS = "Filtered applications by status: %1$s";
     public static final String MESSAGE_NO_MATCHES = "No applications found with status: %1$s";
     public static final String MESSAGE_JOB_NOT_FOUND = "The specified job index is invalid";
@@ -103,11 +97,11 @@ public class FindAppCommand extends Command {
 
             // Filter these applications by the status predicate
             List<Application> filteredJobApps = jobApplications.stream()
-                    .filter(app -> statusPredicate.test(app))
+                    .filter(statusPredicate::test)
                     .toList();
 
             // Update application list to show only these filtered applications
-            model.updateFilteredApplicationList(app -> filteredJobApps.contains(app));
+            model.updateFilteredApplicationList(filteredJobApps::contains);
         } else {
             // No job index specified, filter all applications by status first
             // Get the jobs that have applications with the specified status
@@ -119,7 +113,7 @@ public class FindAppCommand extends Command {
                     .toList();
 
             // Update job list to show only jobs with matching applications
-            model.updateFilteredJobList(job -> jobsWithMatchingApplications.contains(job));
+            model.updateFilteredJobList(jobsWithMatchingApplications::contains);
 
             // Update application list to show only applications with the specified status
             model.updateFilteredApplicationList(statusPredicate);
@@ -149,13 +143,11 @@ public class FindAppCommand extends Command {
         if (other == this) {
             return true;
         }
-
-        if (!(other instanceof FindAppCommand)) {
+        // instanceof handles nulls.
+        if (!(other instanceof FindAppCommand otherCommand)) {
             return false;
         }
-
-        FindAppCommand otherCommand = (FindAppCommand) other;
-        return status.equals(otherCommand.status)
-                && jobIndex.equals(otherCommand.jobIndex);
+        return this.status.equals(otherCommand.status)
+                && this.jobIndex.equals(otherCommand.jobIndex);
     }
 }

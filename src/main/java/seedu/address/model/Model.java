@@ -271,31 +271,6 @@ public interface Model {
     }
 
     /**
-     * Gets a list of applications for a specific job.
-     *
-     * Sets a global application status filter.
-     * @param status The application status to filter by, or null to clear the filter
-     */
-    void setApplicationStatusFilter(String status);
-
-    /**
-     * Gets the current application status filter.
-     * @return The current status filter, or null if no filter is set
-     */
-    String getApplicationStatusFilter();
-
-    /**
-     * Applies the current status filter to both job and person views.
-     * This updates the filtered job, person, and application lists.
-     */
-    void applyStatusFilter();
-
-    /**
-     * Clears the application status filter and resets all filtered lists.
-     */
-    void clearStatusFilter();
-
-    /**
      * Gets a list of applications for a specific job, respecting any active status filters.
      * If no status filter is active, returns all applications for the job.
      * @param job The job to get applications for
@@ -314,7 +289,6 @@ public interface Model {
 
     /**
      * Gets a list of applications for a specific person.
-     *
      * Gets a list of applications for a specific person, respecting any active status filters.
      * If no status filter is active, returns all applications for the person.
      * @param person The person to get applications for

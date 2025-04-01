@@ -29,8 +29,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_SKILL;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.testutil.TypicalIndexes.INDEX_ONE;
-import static seedu.address.testutil.TypicalIndexes.INDEX_TWO;
 import static seedu.address.testutil.TypicalIndexes.INDEX_THREE;
+import static seedu.address.testutil.TypicalIndexes.INDEX_TWO;
 
 import org.junit.jupiter.api.Test;
 
@@ -105,13 +105,9 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_allFieldsSpecified_success() {
-        Index targetIndex = INDEX_SECOND_PERSON;
+        Index targetIndex = INDEX_TWO;
         String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + SKILL_DESC_JAVA
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NAME_DESC_AMY + SKILL_DESC_PYTHON;
-        Index targetIndex = INDEX_TWO;
-        String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + TAG_DESC_HUSBAND
-                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NAME_DESC_AMY + TAG_DESC_FRIEND;
-
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
                 .withSkills(VALID_SKILL_JAVA, VALID_SKILL_PYTHON).build();
@@ -199,11 +195,8 @@ public class EditCommandParserTest {
     }
 
     @Test
-    public void parse_resetTags_success() {
-        Index targetIndex = INDEX_THREE;
-        String userInput = targetIndex.getOneBased() + TAG_EMPTY;
     public void parse_resetSkills_success() {
-        Index targetIndex = INDEX_THIRD_PERSON;
+        Index targetIndex = INDEX_THREE;
         String userInput = targetIndex.getOneBased() + SKILL_EMPTY;
 
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withSkills().build();

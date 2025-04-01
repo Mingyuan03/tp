@@ -231,6 +231,9 @@ public class EditCommand extends Command {
 
         @Override
         public boolean equals(Object other) {
+            if (other == this) {
+                return true;
+            }
             if (!(other instanceof EditPersonDescriptor otherEditPersonDescriptor)) {
                 return false;
             }

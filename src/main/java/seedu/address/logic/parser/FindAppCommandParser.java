@@ -1,8 +1,8 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_APPLICATION_STATUS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_INDEX;
 
 import java.util.stream.Stream;
 
@@ -25,7 +25,7 @@ public class FindAppCommandParser implements Parser<FindAppCommand> {
                 args, PREFIX_JOB_INDEX, PREFIX_APPLICATION_STATUS);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_APPLICATION_STATUS)
-                || argMultimap.getPreamble().length() != 0) {
+                || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindAppCommand.MESSAGE_USAGE));
         }

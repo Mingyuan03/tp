@@ -23,7 +23,6 @@ public class ApplicationStatus implements Comparable<ApplicationStatus> {
      * @param applicationStatus A valid application status.
      */
     public ApplicationStatus(int applicationStatus) {
-        requireNonNull(applicationStatus);
         checkArgument(isValidApplicationStatus(applicationStatus), MESSAGE_CONSTRAINTS);
         this.applicationStatus = applicationStatus;
     }
@@ -80,11 +79,11 @@ public class ApplicationStatus implements Comparable<ApplicationStatus> {
         if (other == this) {
             return true;
         }
-        if (!(other instanceof ApplicationStatus)) {
+        // instanceof handles nulls.
+        if (!(other instanceof ApplicationStatus otherApplicationStatus)) {
             return false;
         }
-        ApplicationStatus otherApplicationStatus = (ApplicationStatus) other;
-        return applicationStatus == otherApplicationStatus.applicationStatus;
+        return this.applicationStatus == otherApplicationStatus.applicationStatus;
     }
 
     /**

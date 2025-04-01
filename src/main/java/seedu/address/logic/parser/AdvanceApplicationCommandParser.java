@@ -3,9 +3,6 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_APPLICATION_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_INDEX;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ROUNDS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PERSON_INDEX;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_APPLICATION_STATUS;
 
 import java.util.stream.Stream;
 
@@ -25,26 +22,17 @@ public class AdvanceApplicationCommandParser implements Parser<AdvanceApplicatio
      */
     public AdvanceApplicationCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(
-                args, PREFIX_PERSON_INDEX, PREFIX_JOB_INDEX, PREFIX_APPLICATION_STATUS);
-                args, PREFIX_JOB_INDEX, PREFIX_APPLICATION_INDEX, PREFIX_ROUNDS);
-
-        if (!arePrefixesPresent(argMultimap, PREFIX_PERSON_INDEX, PREFIX_JOB_INDEX, PREFIX_APPLICATION_STATUS)
-        if (!arePrefixesPresent(argMultimap, PREFIX_JOB_INDEX, PREFIX_APPLICATION_INDEX, PREFIX_ROUNDS)
+                args, PREFIX_JOB_INDEX, PREFIX_APPLICATION_INDEX);
+        if (!arePrefixesPresent(argMultimap, PREFIX_JOB_INDEX, PREFIX_APPLICATION_INDEX)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, AdvanceApplicationCommand.MESSAGE_USAGE));
         }
-
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_JOB_INDEX, PREFIX_APPLICATION_INDEX, PREFIX_ROUNDS);
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_PERSON_INDEX, PREFIX_JOB_INDEX, PREFIX_APPLICATION_STATUS);
-
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_JOB_INDEX, PREFIX_APPLICATION_INDEX);
         try {
             Index jobIndex = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_JOB_INDEX).get());
             Index applicationIndex = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_APPLICATION_INDEX).get());
-            int rounds = Integer.parseInt(argMultimap.getValue(PREFIX_ROUNDS).get());
-            int rounds = Integer.parseInt(argMultimap.getValue(PREFIX_APPLICATION_STATUS).get());
-
-            return new AdvanceApplicationCommand(jobIndex, applicationIndex, rounds);
+            return new AdvanceApplicationCommand(jobIndex, applicationIndex);
         } catch (ParseException pe) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, AdvanceApplicationCommand.MESSAGE_USAGE), pe);

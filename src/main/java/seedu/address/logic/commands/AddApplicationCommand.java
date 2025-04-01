@@ -1,11 +1,13 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PERSON_INDEX;
 
 import java.util.List;
 
+import javafx.collections.ObservableList;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -16,37 +18,29 @@ import seedu.address.model.job.Job;
 import seedu.address.model.person.Person;
 
 /**
- * Adds an application with a person applying for a job.
+ * Adds an {@code application} to the address book.
  */
 public class AddApplicationCommand extends Command {
-
     public static final String COMMAND_WORD = "addapp";
-
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Creates a new application with a person applying for a job. "
-            + "Parameters: "
-            + PREFIX_PERSON_INDEX + "PERSON_INDEX "
-            + PREFIX_JOB_INDEX + "JOB_INDEX\n"
-            + "Example: " + COMMAND_WORD + " "
-            + PREFIX_PERSON_INDEX + "1 "
-            + PREFIX_JOB_INDEX + "2";
-
-    public static final String MESSAGE_SUCCESS = "New application created: "
-            + "%1$s has applied for %2$s (0 rounds completed)";
-    public static final String MESSAGE_DUPLICATE_APPLICATION = "This application already exists";
-    public static final String MESSAGE_PERSON_INVALID_INDEX = "Person index is invalid";
-    public static final String MESSAGE_JOB_INVALID_INDEX = "Job index is invalid";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an application to the model manager.\n"
+            + "Parameters: " + PREFIX_PERSON_INDEX + " PERSON INDEX IN PERSON VIEW "
+            + PREFIX_JOB_INDEX + " JOB INDEX IN JOB VIEW\n"
+            + "Example: " + COMMAND_WORD + " " + PREFIX_PERSON_INDEX + "1 " + PREFIX_JOB_INDEX + "2";
+    public static final String MESSAGE_SUCCESS = "New application added as follows:\nApplication added: {%1$s}";
+    public static final String MESSAGE_DUPLICATE_APPLICATION = "This application already exists in the address book "
+            + "Try using AdvanceApplicationCommand instead!";
+    public static final String MESSAGE_INVALID_PERSON = "This application's person does not exist in the address book";
+    public static final String MESSAGE_INVALID_JOB = "This application's job does not exist in the address book";
 
     private final Index personIndex;
     private final Index jobIndex;
+    private Application applicationToAdd = null;
 
     /**
-     * Creates an AddApplicationCommand to add an application for the person at the specified index
-     * to the job at the specified index.
+     * Creates an {@code AddApplicationCommand} to add the specified {@code application}.
      */
     public AddApplicationCommand(Index personIndex, Index jobIndex) {
-        requireNonNull(personIndex);
-        requireNonNull(jobIndex);
+        requireAllNonNull(personIndex, jobIndex);
         this.personIndex = personIndex;
         this.jobIndex = jobIndex;
     }
@@ -54,41 +48,27 @@ public class AddApplicationCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-
-        List<Person> lastShownPersonList = model.getFilteredPersonList();
-        List<Job> lastShownJobList = model.getFilteredJobList();
-
-        if (personIndex.getZeroBased() >= lastShownPersonList.size()) {
-            throw new CommandException(MESSAGE_PERSON_INVALID_INDEX);
+        ObservableList<Person> lastShownPersonList = model.getFilteredPersonList();
+        ObservableList<Job> lastShownJobList = model.getFilteredJobList();
+        // 1st guard condition below: Invalid person index.
+        if (this.personIndex.getZeroBased() >= lastShownPersonList.size() || this.personIndex.getZeroBased() < 0) {
+            throw new CommandException(MESSAGE_INVALID_PERSON);
         }
-
-        if (jobIndex.getZeroBased() >= lastShownJobList.size()) {
-            throw new CommandException(MESSAGE_JOB_INVALID_INDEX);
+        Person matchingPerson = lastShownPersonList.get(personIndex.getZeroBased());
+        // 2nd guard condition below: Invalid job index.
+        if (this.jobIndex.getZeroBased() >= lastShownJobList.size() || this.jobIndex.getZeroBased() < 0) {
+            throw new CommandException(MESSAGE_INVALID_JOB);
         }
-
-        Person personToApply = lastShownPersonList.get(personIndex.getZeroBased());
-        Job jobToApplyFor = lastShownJobList.get(jobIndex.getZeroBased());
-
-        // Check if an application with the same person and job already exists (regardless of status)
-        List<Application> existingPersonApplications = model.getApplicationsByPerson(personToApply);
-        for (Application existingApp : existingPersonApplications) {
-            if (existingApp.getJob().equals(jobToApplyFor)) {
-                throw new CommandException(MESSAGE_DUPLICATE_APPLICATION);
-            }
-        }
-
-        // Create a new application with initial status of 0 (applied but no rounds completed)
-        Application application = new Application(personToApply, jobToApplyFor, new ApplicationStatus(0));
-
-        if (model.hasApplication(application)) {
+        Job matchingJob = lastShownJobList.get(this.jobIndex.getZeroBased());
+        // 3rd guard condition below: Duplicate existing application.
+        List<Application> matchingApplications = model.getApplicationsByPersonAndJob(matchingPerson, matchingJob);
+        if (!matchingApplications.isEmpty()) {
             throw new CommandException(MESSAGE_DUPLICATE_APPLICATION);
         }
-
-        model.addApplication(application);
-
-        String successMessage = String.format(MESSAGE_SUCCESS,
-                personToApply.getName(), jobToApplyFor.getJobTitle());
-
+        // Finally apply main logic of adding new valid application to model.
+        this.applicationToAdd = new Application(matchingPerson, matchingJob, new ApplicationStatus(0));
+        model.addApplication(this.applicationToAdd);
+        String successMessage = String.format(MESSAGE_SUCCESS, this.applicationToAdd);
         // Return a CommandResult that signals applications need to be refreshed
         return CommandResult.withRefreshApplications(successMessage);
     }
@@ -98,21 +78,17 @@ public class AddApplicationCommand extends Command {
         if (other == this) {
             return true;
         }
-
         // instanceof handles nulls
         if (!(other instanceof AddApplicationCommand otherAddApplicationCommand)) {
             return false;
         }
-
-        return personIndex.equals(otherAddApplicationCommand.personIndex)
-                && jobIndex.equals(otherAddApplicationCommand.jobIndex);
+        return this.personIndex.equals(otherAddApplicationCommand.personIndex)
+                && this.jobIndex.equals(otherAddApplicationCommand.jobIndex)
+                && this.applicationToAdd.equals(otherAddApplicationCommand.applicationToAdd);
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .add("personIndex", personIndex)
-                .add("jobIndex", jobIndex)
-                .toString();
+        return new ToStringBuilder(this).add("Application added", this.applicationToAdd).toString();
     }
 }

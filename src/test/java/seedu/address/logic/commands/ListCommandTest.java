@@ -49,13 +49,11 @@ public class ListCommandTest {
     }
 
     @Test
-    public void execute_listIsFiltered_showsEverything() {
-        showPersonAtIndex(model, INDEX_ONE);
     public void execute_listIsFiltered_showsEverything() throws CommandException {
         // Verify starting in PERSON_VIEW
         assertEquals(Model.ViewState.PERSON_VIEW, model.getCurrentViewState());
 
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+        showPersonAtIndex(model, INDEX_ONE);
         ListCommand listCommand = new ListCommand();
         CommandResult result = listCommand.execute(model);
 

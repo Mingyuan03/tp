@@ -28,7 +28,7 @@ public class DeleteJobCommandTest {
         Job jobtoDelete = model.getFilteredJobList().get(INDEX_ONE.getZeroBased());
         DeleteJobCommand deleteJobCommand = new DeleteJobCommand(INDEX_ONE);
 
-        String expectedMessage = String.format(DeleteJobCommand.MESSAGE_DELETE_JOB_SUCESS,
+        String expectedMessage = String.format(DeleteJobCommand.MESSAGE_DELETE_JOB_SUCCESS,
                 Messages.format(jobtoDelete));
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(),

@@ -102,8 +102,8 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
      * Removes {@code key} from this {@code ApplicationsManager}. {@code key} must
      * exist in the applications manager.
      */
-    public void removeApplication(Application key) {
-        applications.remove(key);
+    public void deleteApplication(Application key) {
+        applications.delete(key);
     }
 
     /**
@@ -157,7 +157,7 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
 
         // Find and remove all applications for this person
         List<Application> toRemove = getApplicationsByPerson(person);
-        toRemove.forEach(this::removeApplication);
+        toRemove.forEach(this::deleteApplication);
     }
 
     /**
@@ -170,7 +170,7 @@ public class ApplicationsManager implements ReadOnlyApplicationsManager {
 
         // Find and remove all applications for this job
         List<Application> toRemove = getApplicationsByJob(job);
-        toRemove.forEach(this::removeApplication);
+        toRemove.forEach(this::deleteApplication);
     }
 
     /**

@@ -21,7 +21,6 @@ public class AddApplicationCommandParser implements Parser<AddApplicationCommand
      */
     public AddApplicationCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_PERSON_INDEX, PREFIX_JOB_INDEX);
-
         if (!arePrefixesPresent(argMultimap, PREFIX_PERSON_INDEX, PREFIX_JOB_INDEX)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(
