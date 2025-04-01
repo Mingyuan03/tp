@@ -22,7 +22,7 @@ import seedu.address.model.person.Person;
  */
 public class AdvanceApplicationCommand extends Command {
     public static final String COMMAND_WORD = "advapp";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Advances an application in the model manager.\nThere "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Advances an application in the address book.\nThere "
             + "exists 2 ways to to enter inputs for advancing an application.\nThe first way has these parameters: "
             + PREFIX_JOB_INDEX + "JOB INDEX IN JOB VIEW "
             + PREFIX_APPLICATION_INDEX + "APPLICATION INDEX BY JOB IN JOB VIEW\nThe second way has these parameters: "
@@ -32,13 +32,16 @@ public class AdvanceApplicationCommand extends Command {
     public static final String MESSAGE_SUCCESS =
             "Application advanced as follows:\nInitial application advanced: {%1$s}\nNumber of rounds advanced: 1";
     public static final String MESSAGE_EXCEED_ROUNDS = "This application is already at the last round and cannot be "
-            + "advanced in the address book. Try using DeleteApplicationCommand to delete the application instead!";
+            + "advanced in the address book. Try using " + DeleteApplicationCommand.COMMAND_WORD
+            + " to delete the application instead!";
     public static final String MESSAGE_INVALID_PERSON = "This person does not exist in the address book. "
-            + "Try using AddCommand to add a person first, then use AddApplicationCommand to add an application!";
+            + "Try using " + AddCommand.COMMAND_WORD + " to add a person first, then use "
+            + AddApplicationCommand.COMMAND_WORD + " to add an application!";
     public static final String MESSAGE_INVALID_JOB = "This job does not exist in the address book. "
-            + "Try using AddJobCommand to add a job first, then use AddApplicationCommand to add an application!";
+            + "Try using " + AddJobCommand.COMMAND_WORD + " to add a job first, then use "
+            + AddApplicationCommand.COMMAND_WORD + " to add an application!";
     public static final String MESSAGE_INVALID_APPLICATION = "This application does not exist in the address book. "
-            + "Try using AddApplicationCommand to add an application first!";
+            + "Try using " + AddApplicationCommand.COMMAND_WORD + " to add an application first!";
 
     private Index personIndex = null;
     private final Index jobIndex;
@@ -82,7 +85,7 @@ public class AdvanceApplicationCommand extends Command {
         } else {
             ObservableList<Person> lastShownPersonList = model.getFilteredPersonList();
             // 1st guard condition (continued) below: Invalid person index.
-            if (this.personIndex.getZeroBased() >= lastShownJobList.size() || this.personIndex.getZeroBased() < 0) {
+            if (this.personIndex.getZeroBased() >= lastShownPersonList.size() || this.personIndex.getZeroBased() < 0) {
                 throw new CommandException(MESSAGE_INVALID_PERSON);
             }
             Person matchingPerson = lastShownPersonList.get(this.personIndex.getZeroBased());

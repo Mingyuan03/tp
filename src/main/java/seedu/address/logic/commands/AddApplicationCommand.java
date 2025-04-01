@@ -23,13 +23,13 @@ import seedu.address.model.person.Person;
  */
 public class AddApplicationCommand extends Command {
     public static final String COMMAND_WORD = "addapp";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an application to the model manager.\n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an application to the address book.\n"
             + "Parameters: " + PREFIX_PERSON_INDEX + "PERSON INDEX IN PERSON VIEW "
             + PREFIX_JOB_INDEX + "JOB INDEX IN JOB VIEW\n"
             + "Example: " + COMMAND_WORD + " " + PREFIX_PERSON_INDEX + "1 " + PREFIX_JOB_INDEX + "2";
     public static final String MESSAGE_SUCCESS = "New application added as follows:\nApplication added: {%1$s}";
     public static final String MESSAGE_DUPLICATE_APPLICATION = "This application already exists in the address book "
-            + "Try using AdvanceApplicationCommand instead!";
+            + "Try using " + DeleteApplicationCommand.COMMAND_WORD + " instead!";
     public static final String MESSAGE_INVALID_PERSON = "This application's person does not exist in the address book";
     public static final String MESSAGE_INVALID_JOB = "This application's job does not exist in the address book";
 

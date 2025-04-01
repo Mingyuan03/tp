@@ -22,7 +22,7 @@ import seedu.address.model.person.Person;
  */
 public class DeleteApplicationCommand extends Command {
     public static final String COMMAND_WORD = "delapp";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Deletes an application from the model manager.\nThere "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Deletes an application from the address book.\nThere "
             + "exists 2 ways to enter inputs for deleting an application.\nThe first way has these parameters: "
             + PREFIX_JOB_INDEX + "JOB INDEX IN JOB VIEW "
             + PREFIX_APPLICATION_INDEX + "APPLICATION INDEX BY JOB IN JOB VIEW\nThe second way has these parameters: "
@@ -31,10 +31,13 @@ public class DeleteApplicationCommand extends Command {
             + "Example for 2nd way: " + COMMAND_WORD + " " + PREFIX_PERSON_INDEX + "1 " + PREFIX_JOB_INDEX + "2\n";
     public static final String MESSAGE_SUCCESS = "Deleted application as follows:\nApplication deleted: {%1$s}";
     public static final String MESSAGE_INVALID_PERSON = "This person does not exist in the address book. "
-            + "Try using AddCommand to add a person first, then use AddApplicationCommand to add an application!";
-    public static final String MESSAGE_INVALID_JOB = "This application's job does not exist in the address book.";
+            + "Try using " + AddCommand.COMMAND_WORD + " to add a person first, then use "
+            + AddApplicationCommand.COMMAND_WORD + " to add an application!";
+    public static final String MESSAGE_INVALID_JOB = "This job does not exist in the address book. "
+            + "Try using " + AddJobCommand.COMMAND_WORD + " to add a job first, then use "
+            + AddApplicationCommand.COMMAND_WORD + " to add an application!";
     public static final String MESSAGE_INVALID_APPLICATION = "This application does not exist in the address book. "
-            + "Try using AddApplicationCommand to add an application first!";
+            + "Try using " + AddApplicationCommand.COMMAND_WORD + " to add an application first!";
 
     private Index personIndex = null;
     private final Index jobIndex;
@@ -78,7 +81,7 @@ public class DeleteApplicationCommand extends Command {
         } else {
             ObservableList<Person> lastShownPersonList = model.getFilteredPersonList();
             // 1st guard condition (continued) below: Invalid person index.
-            if (this.personIndex.getZeroBased() >= lastShownJobList.size() || this.personIndex.getZeroBased() < 0) {
+            if (this.personIndex.getZeroBased() >= lastShownPersonList.size() || this.personIndex.getZeroBased() < 0) {
                 throw new CommandException(MESSAGE_INVALID_PERSON);
             }
             Person matchingPerson = lastShownPersonList.get(this.personIndex.getZeroBased());
