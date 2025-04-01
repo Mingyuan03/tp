@@ -29,9 +29,9 @@ public class AdvanceApplicationCommandParser implements Parser<AdvanceApplicatio
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     AdvanceApplicationCommand.MESSAGE_USAGE));
         }
-        // 2nd guard condition below: both or none of application index and person index present
-        if (!arePrefixesPresent(argMultimap, PREFIX_PERSON_INDEX, PREFIX_APPLICATION_INDEX)
-                || arePrefixesPresent(argMultimap, PREFIX_JOB_INDEX, PREFIX_APPLICATION_INDEX)) {
+        // 2nd guard condition below: exactly one of (application index, person index) must be present
+        if (arePrefixesPresent(argMultimap, PREFIX_PERSON_INDEX)
+            == arePrefixesPresent(argMultimap, PREFIX_APPLICATION_INDEX)) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     AdvanceApplicationCommand.MESSAGE_USAGE));
         }
