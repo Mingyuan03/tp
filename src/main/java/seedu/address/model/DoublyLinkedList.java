@@ -2,162 +2,90 @@ package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
 
 /**
  * Custom DoublyLinkedList (DLL) to keep track of past user inputs
+ * Implementation uses ArrayList for efficient access
  */
 public class DoublyLinkedList {
+    private ArrayList<String> commands;
+    private int currIndex; // Index representing current position
 
     /**
-     * Node serves as inner class to store the user inputs as individual objects
-     */
-    class Node {
-        private String data;
-        private Node prev;
-        private Node next;
-
-        public Node(String data) {
-            requireNonNull(data);
-            this.data = data;
-            this.prev = null;
-            this.next = null;
-        }
-
-        @Override
-        public boolean equals(Object other) {
-            if (other == this) {
-                return true;
-            }
-
-            if (!(other instanceof Node)) {
-                return false;
-            }
-
-            Node otherNode = (Node) other;
-
-            // Check only the data contained within the node to prevent infinite loops
-            return data.equals(otherNode.data);
-        }
-
-        @Override
-        public int hashCode() {
-            return data.hashCode();
-        }
-    }
-
-    private Node head;
-    private Node tail;
-    private Node curr; // Pseudo pointer to current position in the DLL
-    private int size;
-
-    /**
-     * Creates a DDL with a dummy tail node.
+     * Creates a new command history tracker
      */
     public DoublyLinkedList() {
-        this.head = null;
-        // Dummy tail node
-        this.tail = new Node("");
-        this.curr = this.tail;
-        this.size = 0;
+        this.commands = new ArrayList<>();
+        this.currIndex = -1; // No current position when empty
     }
 
     /**
-     * Adds a new node to the end of the DLL
+     * Adds a new command to the history
      *
      * @param command command string that user had input
      */
     public void add(String command) {
-        Node temp = new Node(command);
-        // If empty DDL, set head as new node
-        if (head == null) {
-            head = temp;
-            head.next = tail;
-            tail.prev = head;
-            curr = tail;
-            size = 1;
-        } else {
-            Node dummy = tail.prev;
-            // Set link between temp and tail
-            tail.prev = temp;
-            temp.next = tail;
-            // Set link between temp and tail.prev
-            temp.prev = dummy;
-            dummy.next = temp;
-            size += 1;
-        }
+        requireNonNull(command);
+        commands.add(command);
+        reset(); // Reset curr to point to the "end" position
     }
 
     /**
-     * Resets the current pointer to point to the tail of the DDL
+     * Resets the current pointer to point to the position after the last command
+     * This matches the original behavior where reset pointed to the dummy tail
      */
     public void reset() {
-        curr = tail;
+        currIndex = commands.size();
     }
 
     /**
-     * Moves current pointer to point to the previous node
+     * Moves current pointer to point to the previous command
      */
     public void moveBack() {
-        // Decrement only if current pointer is not at the head
-        if (curr.prev != null) {
-            curr = curr.prev;
+        // Decrement only if not at the beginning
+        if (currIndex > 0) {
+            currIndex--;
         }
     }
 
     /**
-     * Moves current pointer to point to the next node
+     * Moves current pointer to point to the next command
      */
     public void moveForward() {
-        // Increment only if current pointer is not at the tail
-        if (curr.next != null) {
-            curr = curr.next;
+        // Increment only if not past the end
+        if (currIndex < commands.size()) {
+            currIndex++;
         }
     }
 
+    /**
+     * Gets the command at current position
+     * Returns empty string if at the "tail" position (past the end)
+     */
     public String getCommand() {
-        return curr.data;
+        // Return empty string if at the virtual "tail" position
+        if (currIndex == commands.size() || commands.isEmpty()) {
+            return "";
+        }
+        return commands.get(currIndex);
     }
-
 
     @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
         }
-
         if (!(other instanceof DoublyLinkedList)) {
             return false;
         }
-
         DoublyLinkedList otherDoublyLinkedList = (DoublyLinkedList) other;
 
-        if (this.size != otherDoublyLinkedList.size) {
-            return false;
-        }
-
-        Node tempA = this.head;
-        Node tempB = otherDoublyLinkedList.head;
-
-        // Check each node to ensure equality in data and order
-        while (tempA != null) {
-            if (!tempA.equals(tempB)) {
-                return false;
-            }
-            tempA = tempA.next;
-            tempB = tempB.next;
-        }
-        return true;
+        return this.commands.equals(otherDoublyLinkedList.commands);
     }
 
     @Override
     public int hashCode() {
-        int hash = 1;
-        Node temp = this.head;
-        while (temp != null) {
-            // To ensure that order is taken into consideration for hash
-            hash = 37 * hash + temp.data.hashCode();
-            temp = temp.next;
-        }
-        return hash;
+        return commands.hashCode();
     }
 }
