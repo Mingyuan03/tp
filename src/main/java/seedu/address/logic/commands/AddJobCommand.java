@@ -45,7 +45,7 @@ public class AddJobCommand extends Command {
         if (!model.isInJobView()) {
             throw new CommandException(MESSAGE_WRONG_VIEW);
         }
-
+        // 2nd guard condition below: Preexisting valid job. Code below traces to Job::isSameJob.
         if (model.hasJob(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_JOB);
         }

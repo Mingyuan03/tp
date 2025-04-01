@@ -85,7 +85,9 @@ public class AddApplicationCommand extends Command {
         }
         return this.personIndex.equals(otherAddApplicationCommand.personIndex)
                 && this.jobIndex.equals(otherAddApplicationCommand.jobIndex)
-                && this.applicationToAdd.equals(otherAddApplicationCommand.applicationToAdd);
+                && (this.applicationToAdd != null)
+                ? this.applicationToAdd.equals(otherAddApplicationCommand.applicationToAdd)
+                : (this.applicationToAdd == null && otherAddApplicationCommand.applicationToAdd == null);
     }
 
     @Override
