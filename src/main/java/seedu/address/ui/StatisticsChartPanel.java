@@ -13,6 +13,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import seedu.address.logic.Logic;
@@ -27,6 +28,7 @@ public class StatisticsChartPanel {
 
     private final Logic logic;
     private final VBox chartContainer;
+    private final ScrollPane scrollPane;
     private PieChart jobDistributionChart;
     private BarChart<String, Number> schoolDistributionChart;
     private Label totalApplicationsLabel;
@@ -38,13 +40,28 @@ public class StatisticsChartPanel {
     public StatisticsChartPanel(Logic logic) {
         this.logic = logic;
         this.chartContainer = createStatisticsContainer();
+        this.scrollPane = createScrollPane();
     }
 
     /**
      * Returns the root container for this panel.
      */
-    public VBox getRoot() {
-        return chartContainer;
+    public ScrollPane getRoot() {
+        return scrollPane;
+    }
+
+    /**
+     * Creates a ScrollPane to wrap the content container.
+     */
+    private ScrollPane createScrollPane() {
+        ScrollPane scrollPane = new ScrollPane(chartContainer);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(false);
+        scrollPane.setStyle("-fx-background-color: #2d2d30; -fx-background: #2d2d30;");
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setPannable(true);
+        return scrollPane;
     }
 
     /**
@@ -125,13 +142,6 @@ public class StatisticsChartPanel {
         // Set chart text colors to white for better visibility
         jobDistributionChart.setLabelLineLength(10); // Shorter lines
 
-        // Apply CSS to style the chart legends and labels
-        String pieChartCss =
-            ".chart-pie-label { -fx-fill: white; }"
-            + ".chart-pie-label-line { -fx-stroke: white; }"
-            + ".chart-legend { -fx-background-color: transparent; }"
-            + ".chart-legend-item { -fx-text-fill: white; }";
-
         // Apply only the basic styling directly
         jobDistributionChart.setStyle("-fx-background-color: #2d2d30; -fx-padding: 10;");
 
@@ -173,14 +183,6 @@ public class StatisticsChartPanel {
         schoolDistributionChart.setLegendVisible(false);
         schoolDistributionChart.setAnimated(false); // Disable animations for better updates
 
-        // Apply CSS to style the bar chart
-        String barChartCss =
-            ".chart { -fx-background-color: #2d2d30; -fx-padding: 10; }"
-            + ".chart-plot-background { -fx-background-color: transparent; }"
-            + ".axis { -fx-tick-label-fill: white; }"
-            + ".axis-label { -fx-text-fill: white; }"
-            + ".chart-vertical-grid-lines { -fx-stroke: #555555; }"
-            + ".chart-horizontal-grid-lines { -fx-stroke: #555555; }";
 
         // Apply only basic styling
         schoolDistributionChart.setStyle("-fx-background-color: #2d2d30; -fx-padding: 10;");
@@ -245,7 +247,7 @@ public class StatisticsChartPanel {
             String jobName = job.getJobTitle().jobTitle();
 
             // Truncate job name for legend display
-            if (jobName.length() > 15) {
+            if (jobName.length() > 25) {
                 jobName = jobName.substring(0, 12) + "...";
             }
 

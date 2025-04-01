@@ -1362,3 +1362,21 @@
 .stats-scroll-pane > .corner {
     -fx-background-color: #2d2d30;
 }
+
+.app-title {
+    -fx-font-size: 28pt;
+    -fx-font-family: "Segoe UI";
+    -fx-font-weight: bold;
+    -fx-text-fill: linear-gradient(to right, #ffffff, #66ccff);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 6, 0.0, 0, 2);
+    -fx-opacity: 1.0;
+    -fx-padding: 5px;
+    -fx-letter-spacing: 1px;
+}
+
+.title-bar {
+    -fx-background-color: linear-gradient(to bottom, #252529, #1d1d1d);
+    -fx-border-width: 0 0 2 0;
+    -fx-border-color: #3e7b91;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 10, 0.0, 0, 4);
+}
