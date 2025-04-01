@@ -5,7 +5,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PERSON_INDEX;
 
-import java.util.List;
+import java.util.Optional;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.index.Index;
@@ -49,28 +49,36 @@ public class AddApplicationCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
         ObservableList<Person> lastShownPersonList = model.getFilteredPersonList();
         ObservableList<Job> lastShownJobList = model.getFilteredJobList();
+
         // 1st guard condition below: Invalid person index.
         if (this.personIndex.getZeroBased() >= lastShownPersonList.size() || this.personIndex.getZeroBased() < 0) {
             throw new CommandException(MESSAGE_INVALID_PERSON);
         }
         Person matchingPerson = lastShownPersonList.get(personIndex.getZeroBased());
+
         // 2nd guard condition below: Invalid job index.
         if (this.jobIndex.getZeroBased() >= lastShownJobList.size() || this.jobIndex.getZeroBased() < 0) {
             throw new CommandException(MESSAGE_INVALID_JOB);
         }
         Job matchingJob = lastShownJobList.get(this.jobIndex.getZeroBased());
+
         // 3rd guard condition below: Duplicate existing application.
-        List<Application> matchingApplications = model.getApplicationsByPersonAndJob(matchingPerson, matchingJob);
-        if (!matchingApplications.isEmpty()) {
+
+        Optional<Application> matchingApplication = model.getApplicationByPersonAndJob(matchingPerson, matchingJob);
+
+        if (matchingApplication.isPresent()) {
             throw new CommandException(MESSAGE_DUPLICATE_APPLICATION);
         }
+
         // Finally apply main logic of adding new valid application to model.
         this.applicationToAdd = new Application(matchingPerson, matchingJob, new ApplicationStatus(0));
         model.addApplication(this.applicationToAdd);
+
         String successMessage = String.format(MESSAGE_SUCCESS, this.applicationToAdd);
-        // Return a CommandResult that signals applications need to be refreshed
+
         return CommandResult.withRefreshApplications(successMessage);
     }
 

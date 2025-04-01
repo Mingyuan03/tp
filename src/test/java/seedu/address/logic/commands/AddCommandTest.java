@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +40,8 @@ public class AddCommandTest {
     public void setUp() {
         model = new ModelStubAcceptingPersonAdded();
         expectedModel = new ModelStubAcceptingPersonAdded();
-        // Set the view state to PERSON_VIEW since AddCommand can only be executed in person view
+        // Set the view state to PERSON_VIEW since AddCommand can only be executed in
+        // person view
         model.setViewState(Model.ViewState.PERSON_VIEW);
         expectedModel.setViewState(Model.ViewState.PERSON_VIEW);
     }
@@ -62,7 +64,7 @@ public class AddCommandTest {
 
         // Verify the result directly
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS,
-            Messages.format(validPerson)), commandResult.getFeedbackToUser());
+                Messages.format(validPerson)), commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
     }
 
@@ -311,7 +313,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public ObservableList<Application> getApplicationsByPersonAndJob(Person person, Job job) {
+        public Optional<Application> getApplicationByPersonAndJob(Person person, Job job) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -319,7 +321,6 @@ public class AddCommandTest {
         public void updateFilteredJobList(Predicate<Job> predicate) {
             throw new AssertionError("This method should not be called.");
         }
-
 
         @Override
         public void resetFilteredJobList() {
@@ -352,7 +353,6 @@ public class AddCommandTest {
         }
     }
 
-
     /**
      * A Model stub that contains a single person.
      */
@@ -384,8 +384,8 @@ public class AddCommandTest {
         @Override
         public boolean isInJobView() {
             return viewState == Model.ViewState.JOB_VIEW
-                || viewState == Model.ViewState.JOB_DETAIL_VIEW
-                || viewState == Model.ViewState.PERSON_DETAIL_VIEW;
+                    || viewState == Model.ViewState.JOB_DETAIL_VIEW
+                    || viewState == Model.ViewState.PERSON_DETAIL_VIEW;
         }
     }
 
@@ -426,8 +426,8 @@ public class AddCommandTest {
         @Override
         public boolean isInJobView() {
             return viewState == Model.ViewState.JOB_VIEW
-                || viewState == Model.ViewState.JOB_DETAIL_VIEW
-                || viewState == Model.ViewState.PERSON_DETAIL_VIEW;
+                    || viewState == Model.ViewState.JOB_DETAIL_VIEW
+                    || viewState == Model.ViewState.PERSON_DETAIL_VIEW;
         }
     }
 

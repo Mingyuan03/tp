@@ -3,7 +3,6 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_APPLICATION_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_INDEX;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PERSON_INDEX;
 
 import java.util.stream.Stream;
 
@@ -12,41 +11,37 @@ import seedu.address.logic.commands.AdvanceApplicationCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
- * Parses input arguments and creates a new {@code AdvanceApplicationCommand} object, enabling multiple dispatch by
- * parsing exactly 1 of (jobIndex, applicationIndex) or (personIndex, jobIndex), but not both or neither.
+ * Parses input arguments and creates a new {@code AdvanceApplicationCommand}
+ * object.
  */
 public class AdvanceApplicationCommandParser implements Parser<AdvanceApplicationCommand> {
     /**
-     * Parses the given {@code String} of arguments in the context of the {@code AdvanceApplicationCommand}
+     * Parses the given {@code String} of arguments in the context of the
+     * {@code AdvanceApplicationCommand}
      * and returns an {@code AdvanceApplicationCommand} object for execution.
-     * @throws ParseException If the user input does not conform the expected format.
+     *
+     * @throws ParseException If the user input does not conform the expected
+     *                        format.
      */
     public AdvanceApplicationCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(
-                args, PREFIX_PERSON_INDEX, PREFIX_JOB_INDEX, PREFIX_APPLICATION_INDEX);
-        // 1st guard condition below: empty job index or trailing whitespace exists before 1st valid prefix
-        if (!arePrefixesPresent(argMultimap, PREFIX_JOB_INDEX) || !argMultimap.getPreamble().isEmpty()) {
+                args, PREFIX_JOB_INDEX, PREFIX_APPLICATION_INDEX);
+
+        // 1st guard condition below: empty job index or application index or trailing
+        // whitespace exists before 1st valid prefix
+        if (!arePrefixesPresent(argMultimap, PREFIX_JOB_INDEX, PREFIX_APPLICATION_INDEX)
+                || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     AdvanceApplicationCommand.MESSAGE_USAGE));
         }
-        // 2nd guard condition below: exactly one of (application index, person index) must be present
-        if (arePrefixesPresent(argMultimap, PREFIX_PERSON_INDEX)
-            == arePrefixesPresent(argMultimap, PREFIX_APPLICATION_INDEX)) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    AdvanceApplicationCommand.MESSAGE_USAGE));
-        }
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_PERSON_INDEX, PREFIX_JOB_INDEX, PREFIX_APPLICATION_INDEX);
+
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_JOB_INDEX, PREFIX_APPLICATION_INDEX);
+
         try {
             Index jobIndex = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_JOB_INDEX).get());
-            if (arePrefixesPresent(argMultimap, PREFIX_APPLICATION_INDEX)) {
-                // Parsing by (jobIndex, applicationIndex). Boolean isOnlyJobView set to true.
-                Index appByJobIndex = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_APPLICATION_INDEX).get());
-                return new AdvanceApplicationCommand(jobIndex, appByJobIndex, true);
-            } else {
-                // Parsing by (personIndex, jobIndex). Boolean isOnlyJobView set to false.
-                Index personIndex = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_PERSON_INDEX).get());
-                return new AdvanceApplicationCommand(jobIndex, personIndex, false);
-            }
+            Index appByJobIndex = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_APPLICATION_INDEX).get());
+
+            return new AdvanceApplicationCommand(jobIndex, appByJobIndex);
         } catch (ParseException pe) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, AdvanceApplicationCommand.MESSAGE_USAGE), pe);

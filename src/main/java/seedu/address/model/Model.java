@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
@@ -312,12 +313,11 @@ public interface Model {
     ViewState getViewState();
 
     /**
-     * Gets a list of applications for a specific person, respecting any active status filters.
-     * If no status filter is active, returns all applications for the person.
-     * @param person The person to get applications for
-     * @param job The job to get applications for
-     * @return List of applications for the person and job
+     * Gets the application for a specific person and job combination.
+     * @param person The person to get the application for
+     * @param job The job to get the application for
+     * @return Optional containing the application if found, empty Optional otherwise
      */
-    List<Application> getApplicationsByPersonAndJob(Person person, Job job);
+    Optional<Application> getApplicationByPersonAndJob(Person person, Job job);
 }
 
