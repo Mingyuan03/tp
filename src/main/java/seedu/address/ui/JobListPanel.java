@@ -82,14 +82,6 @@ public class JobListPanel extends UiPart<Region> {
             refreshJobView();
             refreshSidepane();
         });
-
-        // Add listener to job selection to update sidepane content if needed in the future
-        jobListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            logger.info("Job selection changed: " + (newValue != null ? newValue.getJobTitle().jobTitle() : "null"));
-            // In the future, this could update the sidepane content based on the selected job
-            // For now, we'll just refresh the statistics
-            refreshSidepane();
-        });
     }
 
     /**
