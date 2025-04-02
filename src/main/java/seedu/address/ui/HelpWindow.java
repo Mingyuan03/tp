@@ -22,7 +22,7 @@ import seedu.address.logic.commands.HelpCommand;
  */
 public class HelpWindow extends UiPart<Stage> {
 
-    public static final String USERGUIDE_URL = "https://se-education.org/addressbook-level3/UserGuide.html";
+    public static final String USERGUIDE_URL = "https://ay2425s2-cs2103t-t08-4.github.io/tp/UserGuide.html";
     //public static final String HELP_MESSAGE = "Refer to the user guide: " + USERGUIDE_URL;
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
@@ -49,7 +49,10 @@ public class HelpWindow extends UiPart<Stage> {
         root.initModality(Modality.APPLICATION_MODAL);
         this.userGuideLink.setText(USERGUIDE_URL);
         this.helpMessage.setText(HelpCommand.SHOWING_HELP_MESSAGE);
-        this.userGuideLink.setOnAction(event -> openUserGuide());
+        this.userGuideLink.setOnAction(event -> {
+            copyUrl();
+            openUserGuide();
+        });
     }
 
     /**

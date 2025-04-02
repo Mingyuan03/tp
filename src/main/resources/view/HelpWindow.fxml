@@ -22,7 +22,10 @@
         <URL value="@HelpWindow.css" />
       </stylesheets>
 
-      <VBox alignment="CENTER_LEFT" spacing="10" fx:id="helpMessageContainer">
+      <VBox alignment="CENTER" spacing="10" fx:id="helpMessageContainer"
+            maxWidth="Infinity" maxHeight="Infinity" prefWidth="400" prefHeight="500"
+            stylesheets="@HelpWindow.css" styleClass="help-window"
+            xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
         <opaqueInsets>
           <Insets bottom="10.0" left="5.0" right="10.0" top="5.0"/>
         </opaqueInsets>
