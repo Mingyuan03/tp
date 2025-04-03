@@ -295,7 +295,22 @@ _{Explain here how the data archiving feature will be implemented}_
 * Prefer lightweight, standalone solutions over complex enterprise HR systems
 * Work for SMEs with budget and infrastructure constraints
 
-**Value proposition**: manage applicants faster and clearer than a typical mouse/GUI driven app, allowing for clearer view of an applicant's timeline in their job application
+**Value proposition**:
+
+TalentMatch enables HR recruiters to manage the full recruitment lifecycle more efficiently than typical mouse/GUI driven applications by:
+
+- Managing applicants, jobs, and applications with a streamlined command-line interface that's faster than traditional GUI applications
+- Providing specialized views for different recruiting scenarios (Person View, Job View, Application View)
+- Supporting multi-dimensional search capabilities across skills, application status, and other candidate attributes
+- Enabling efficient tracking of candidates through interview rounds with performance feedback
+- Maintaining clear relationships between applicants and the positions they've applied for
+- Offering command history functionality to speed up repetitive tasks
+- Providing visual indicators of application progress through status tracking
+- Allowing focused management of internship applications with appropriate attributes
+- Supporting skill-based matching between candidates and job requirements
+- Enabling view-specific commands that improve recruiter workflow efficiency
+
+These features combine to provide HR recruiters with a comprehensive tool for managing the entire recruitment process from job creation to final candidate selection.
 
 
 ### User stories
@@ -307,14 +322,32 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | Hiring manager   | delete a person        | remove his/her entry once their application is rejected       |
 | `* * *`  | Hiring manager   | view all applicants as a list| view a summary of their applications                                   |
 | `* * *`  | Hiring manager   | find an applicant by details | locate details of an applicant without having to go through the entire list |
+| `* * *`  | HR recruiter     | search applications by job and person | quickly locate specific applications without browsing through all records |
+| `* * *`  | HR recruiter     | have a separate view for jobs | focus on job-specific data when needed |
+| `* * *`  | HR recruiter     | search by application status | identify applications at specific stages in the recruitment process |
+| `* * *`  | HR recruiter     | search across multiple fields simultaneously | find candidates that match complex criteria |
+| `* * *`  | HR recruiter     | view the applications for each person | see all positions a candidate has applied for at once |
 | `* *`    | Hiring manager   | filter applicants            | simplify my search for those who are more suitable for this role       |
 | `* *`    | Recruiter        | create an application to link people with roles applied | keep track of the applicants for a specific role |
 | `* *`    | HR recruiter     | create role openings  | eventually assign them to applicants and search open roles |
 | `* *`    | HR recruiter     | see the role(s) a candidate is applying for | more quickly evaluate if their qualifications align or if such roles are currently available |
 | `* *`    | Recruiter        | see an applicant's education background | ensure legitimacy of their application |
+| `* *`    | HR recruiter     | find candidates and jobs by skills | match people to positions based on skill requirements |
+| `* *`    | HR recruiter     | access my command history | reuse or modify previous commands without retyping them |
+| `* *`    | HR recruiter     | track a candidate's progress via interview rounds | record performance feedback and interview dates for each stage |
+| `* *`    | HR recruiter     | specify required skills for job postings | clearly communicate position requirements to potential applicants |
+| `* *`    | HR recruiter     | edit job fields after creation | update job details as requirements change |
+| `* *`    | HR recruiter     | see a visual progress indicator for applications | quickly gauge where each application stands in the process |
+| `* *`    | HR recruiter     | view applicants from the job view | see all candidates for a specific position at once |
+| `* *`    | HR recruiter     | use view-specific commands | have a more intuitive workflow depending on my current context |
+| `* *`    | HR recruiter     | have datetime support for applications | schedule and track interview appointments |
+| `* *`    | HR recruiter     | clearly distinguish between applications | avoid confusion when dealing with multiple applications |
+| `* *`    | HR recruiter     | focus on internship applications | manage the specific needs of intern recruitment |
 | `*`      | Hiring manager   | sort applicants        | view the top most suitable applicants for the role I'm hiring                 |
-
-*{More to be added}*
+| `*`      | HR recruiter     | have a more user-friendly help command | quickly learn how to use the system |
+| `*`      | HR recruiter     | preview applicants for a job | get a quick overview without changing views |
+| `*`      | HR recruiter     | make JobView the primary view | streamline my workflow as I primarily work with job openings |
+| `*`      | HR recruiter     | have applications follow standard behaviors | ensure consistent interaction patterns throughout the system |
 
 ### Use cases
 
@@ -346,12 +379,96 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   * *a2. TalentMatch prompts HR to continue where he/she left off
   Use case resumes at step 3.
 
+**Use case: Add a job opening**
+
+**MSS**
+
+1. HR requests to add a job opening
+2. TalentMatch prompts for details of the job (title, rounds, required skills)
+3. HR fills in the job details
+4. TalentMatch requests HR to confirm the details
+5. HR confirms the details
+6. TalentMatch adds the job to the system
+  Use case ends.
+
+**Extensions**
+
+* 3a. HR provides invalid job details (missing required fields).
+  * 3a1. TalentMatch shows an error message.
+  * 3a2. HR corrects the details.
+  Use case resumes at step 4.
+
+* 4a. HR decides to change details.
+  * 4a1. HR cancels confirmation.
+  Use case resumes at step 3.
+
+* 4b. TalentMatch finds an existing job with identical details.
+  * 4b1. TalentMatch informs HR of the duplicate.
+  * 4b2. HR modifies details to make them unique.
+  Use case resumes at step 4.
+
+**Use case: Create an application**
+
+**MSS**
+
+1. HR requests to create an application
+2. TalentMatch prompts for the person and job to link
+3. HR selects the person and job
+4. TalentMatch requests HR to confirm the application details
+5. HR confirms the details
+6. TalentMatch creates the application linking the person and job
+  Use case ends.
+
+**Extensions**
+
+* 3a. The person doesn't exist in the system.
+  * 3a1. HR adds the person first.
+  Use case resumes at step 3.
+
+* 3b. The job doesn't exist in the system.
+  * 3b1. HR adds the job first.
+  Use case resumes at step 3.
+
+* 4a. TalentMatch detects an existing application for the same person and job.
+  * 4a1. TalentMatch informs HR of the duplicate.
+  Use case ends.
+
 **Use case: List all applicants**
 
 **MSS**
 
 1. HR requests to list all applicants
 2. TalentMatch shows a list of applicants
+
+  Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+**Use case: List all jobs**
+
+**MSS**
+
+1. HR requests to list all jobs
+2. TalentMatch shows a list of job openings
+
+  Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+**Use case: List all applications**
+
+**MSS**
+
+1. HR requests to list all applications
+2. TalentMatch shows a list of applications with linked person and job information
 
   Use case ends.
 
@@ -384,6 +501,62 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 2.
 
+**Use case: Delete a job**
+
+**MSS**
+
+1. HR requests to list jobs
+2. TalentMatch shows a list of jobs
+3. HR requests to delete a specific job in the list
+4. TalentMatch checks for applications linked to the job
+5. TalentMatch deletes the job
+
+  Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+  * 3a1. TalentMatch shows an error message.
+
+  Use case resumes at step 2.
+
+* 4a. The job has linked applications.
+  * 4a1. TalentMatch warns HR about linked applications that will also be deleted.
+  * 4a2. HR confirms the deletion.
+  * 4a3. TalentMatch deletes the job and all linked applications.
+
+  Use case ends.
+
+* 4a2a. HR cancels the deletion.
+
+  Use case ends.
+
+**Use case: Delete an application**
+
+**MSS**
+
+1. HR requests to list applications
+2. TalentMatch shows a list of applications
+3. HR requests to delete a specific application in the list
+4. TalentMatch deletes the application
+
+  Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+  * 3a1. TalentMatch shows an error message.
+
+  Use case resumes at step 2.
+
 **Use case: Find an applicant**
 
 **MSS**
@@ -404,7 +577,92 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   * 2a1. TalentMatch goes back to original page
    Use case ends.
 
-*{More to be added}*
+**Use case: Find a job by skills**
+
+**MSS**
+
+1. HR requests to find jobs by specific skills
+2. TalentMatch shows a list of jobs requiring those skills
+
+  Use case ends.
+
+**Extensions**
+
+* 2a. TalentMatch finds no matching jobs.
+  * 2a1. TalentMatch informs HR that no jobs match the specified skills.
+
+  Use case ends.
+
+**Use case: Search applications by status**
+
+**MSS**
+
+1. HR requests to search applications by status (e.g., pending, interviewed, rejected)
+2. TalentMatch shows a list of applications with the specified status
+
+  Use case ends.
+
+**Extensions**
+
+* 1a. HR provides an invalid status.
+  * 1a1. TalentMatch shows an error message with valid status options.
+  * 1a2. HR corrects the status.
+
+  Use case resumes at step 2.
+
+* 2a. No applications with the specified status exist.
+  * 2a1. TalentMatch informs HR that no applications match the specified status.
+
+  Use case ends.
+
+**Use case: Update application status**
+
+**MSS**
+
+1. HR requests to list applications
+2. TalentMatch shows a list of applications
+3. HR selects an application to update
+4. TalentMatch prompts for the new status
+5. HR provides the new status
+6. TalentMatch updates the application status
+
+  Use case ends.
+
+**Extensions**
+
+* 3a. The given index is invalid.
+  * 3a1. TalentMatch shows an error message.
+
+  Use case resumes at step 2.
+
+* 5a. HR provides an invalid status.
+  * 5a1. TalentMatch shows an error message with valid status options.
+  * 5a2. HR corrects the status.
+
+  Use case resumes at step 6.
+
+**Use case: View applicants for a job**
+
+**MSS**
+
+1. HR requests to list jobs
+2. TalentMatch shows a list of jobs
+3. HR selects a job to view applicants for
+4. TalentMatch displays all applicants who have applied for the selected job
+
+  Use case ends.
+
+**Extensions**
+
+* 3a. The given index is invalid.
+  * 3a1. TalentMatch shows an error message.
+
+  Use case resumes at step 2.
+
+* 4a. No applications exist for the selected job.
+  * 4a1. TalentMatch informs HR that no applications exist for this job.
+
+  Use case ends.
 
 ### Non-Functional Requirements
 
