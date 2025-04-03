@@ -1,6 +1,7 @@
 package seedu.address.ui;
 
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
@@ -14,6 +15,7 @@ import seedu.address.logic.Logic;
 import seedu.address.model.application.Application;
 import seedu.address.model.job.Job;
 import seedu.address.model.person.Person;
+import seedu.address.model.skill.Skill;
 
 /**
  * Panel containing the list of jobs with a sidepane for additional information.
@@ -80,14 +82,6 @@ public class JobListPanel extends UiPart<Region> {
         applicationList.addListener((javafx.collections.ListChangeListener.Change<? extends Application> c) -> {
             logger.info("Application list changed, refreshing UI components");
             refreshJobView();
-            refreshSidepane();
-        });
-
-        // Add listener to job selection to update sidepane content if needed in the future
-        jobListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            logger.info("Job selection changed: " + (newValue != null ? newValue.getJobTitle().jobTitle() : "null"));
-            // In the future, this could update the sidepane content based on the selected job
-            // For now, we'll just refresh the statistics
             refreshSidepane();
         });
     }
@@ -273,9 +267,74 @@ public class JobListPanel extends UiPart<Region> {
      * Refreshes the sidepane content to reflect updated data.
      */
     public void refreshSidepane() {
-        if (currentlyViewedJob != null && jobSpecificStatsPanel != null) {
-            // If we're viewing a specific job, update its statistics
-            jobSpecificStatsPanel.updateForJob(currentlyViewedJob);
+        // If we're currently viewing a specific job, get the fresh job object from the model
+        if (currentlyViewedJob != null) {
+            Job updatedJob = null;
+
+            // Find the job in the current job list by index
+            int jobIndex = -1;
+            for (int i = 0; i < jobListView.getItems().size(); i++) {
+                if (jobListView.getItems().get(i).getJobTitle().equals(currentlyViewedJob.getJobTitle())) {
+                    jobIndex = i;
+                    break;
+                }
+            }
+
+            // If found, get the updated job
+            if (jobIndex >= 0) {
+                updatedJob = jobListView.getItems().get(jobIndex);
+            } else {
+                // As a fallback, try to find a job with similar properties
+                // This handles cases where the job title might have changed
+                for (Job job : jobListView.getItems()) {
+                    // Check for overlapping skills as a heuristic
+                    Set<Skill> currentSkills = currentlyViewedJob.getSkills();
+                    Set<Skill> jobSkills = job.getSkills();
+                    boolean hasCommonSkills = false;
+
+                    for (Skill skill : currentSkills) {
+                        if (jobSkills.contains(skill)) {
+                            hasCommonSkills = true;
+                            break;
+                        }
+                    }
+
+                    if (hasCommonSkills) {
+                        updatedJob = job;
+                        break;
+                    }
+                }
+            }
+
+            // Update the reference if we found the updated job
+            if (updatedJob != null) {
+                currentlyViewedJob = updatedJob;
+            }
+        }
+
+        // Refresh the appropriate panel based on what's currently being displayed
+        if (currentlyViewedJob != null) {
+            if (currentlyViewedPerson != null && personDetailPanel != null) {
+                // If we're viewing a person's details, refresh that view
+                Application currentApplication = null;
+                List<Application> applications = logic.getFilteredApplicationsByJob(currentlyViewedJob);
+
+                if (applications != null) {
+                    for (Application app : applications) {
+                        if (app.getApplicant().equals(currentlyViewedPerson)) {
+                            currentApplication = app;
+                            break;
+                        }
+                    }
+                }
+
+                if (currentApplication != null) {
+                    personDetailPanel.updateForPerson(currentlyViewedPerson, currentlyViewedJob, currentApplication);
+                }
+            } else if (jobSpecificStatsPanel != null) {
+                // If we're viewing job statistics, refresh that view
+                jobSpecificStatsPanel.updateForJob(currentlyViewedJob);
+            }
         } else if (statisticsPanel != null) {
             // Otherwise refresh the general statistics
             statisticsPanel.refresh();

@@ -4,10 +4,11 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
  * Represents the max number of interview rounds in a {@Code Job}, serving as an upper limit for {@Code Application}.
- * Guarantees: immutable, is natural number (>0) always.
+ * Guarantees: immutable, is natural number (>0) and <= 10 always.
  */
 public class JobRounds {
-    public static final String MESSAGE_CONSTRAINTS = "Job rounds should be a positive integer";
+    public static final String MESSAGE_CONSTRAINTS = "Job rounds should be a positive integer not exceeding 10";
+    public static final int MAX_ROUNDS = 10;
     public final int jobRounds; // Primitive int eliminates necessity of this being a normal class.
 
     /**
@@ -27,7 +28,7 @@ public class JobRounds {
      * @return True if the given integer is a valid number of job rounds.
      */
     public static boolean isValidJobRounds(int test) {
-        return test > 0;
+        return test > 0 && test <= MAX_ROUNDS;
     }
 
     /**

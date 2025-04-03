@@ -4,9 +4,9 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_ROUNDS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOB_TITLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SKILL;
+import static seedu.address.logic.parser.ParserUtil.arePrefixesPresent;
 
 import java.util.Set;
-import java.util.stream.Stream;
 
 import seedu.address.logic.commands.AddJobCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -41,14 +41,6 @@ public class AddJobCommandParser implements Parser<AddJobCommand> {
 
         Job job = new Job(title, jobRounds, skillList);
         return new AddJobCommand(job);
-    }
-
-    /**
-     * Returns true if none of the prefixes contains empty {@code Optional} values
-     * in the given {@code ArgumentMultimap}.
-     */
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 
 }
