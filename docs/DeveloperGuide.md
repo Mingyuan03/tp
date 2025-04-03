@@ -13,7 +13,19 @@
 
 ## **Acknowledgements**
 
-_{ list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well }_
+### Base Project
+* TalentMatch is a brownfield project built upon the foundation provided by [AddressBook Level-3](https://se-education.org/addressbook-level3/).
+* The base code, user guide, and developer guides were adapted from the original AB3 project.
+
+### AI Assistance Tools
+During the development of this application, the following AI tools were utilized:
+* **Cursor** (running Claude Sonnet 3.7) - Assisted with JavaFX UI component development and styling
+* **GitHub Copilot** - Provided code completion and suggestions throughout the application
+
+These AI tools primarily contributed to:
+* UI components development in JavaFX
+* Styling and design improvements
+* Code auto-completion across the application
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -275,11 +287,13 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* Has a need to manage a significant number of applicants
-* Prefer desktop apps over other types
-* Can type fast
-* Prefers typing to mouse interactions
-* Is reasonably comfortable using CLI apps
+* TalentMatch is specifically tailored for recruitment professionals in Small-Medium Enterprises (SMEs) who:
+* Manage multiple university candidate pipelines simultaneously
+* Need to efficiently track skills, availability, and application statuses
+* Value speed and efficiency in their workflow
+* Are comfortable with typing-based interfaces
+* Prefer lightweight, standalone solutions over complex enterprise HR systems
+* Work for SMEs with budget and infrastructure constraints
 
 **Value proposition**: manage applicants faster and clearer than a typical mouse/GUI driven app, allowing for clearer view of an applicant's timeline in their job application
 
@@ -467,3 +481,39 @@ testers are expected to do more *exploratory* testing.
    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
 1. _{ more test cases …​ }_
+
+--------------------------------------------------------------------------------------------------------------------
+
+## **Appendix: Planned Enhancements**
+
+**Team Size: 4**
+
+1. **Improve duplicate person and job detection:**
+   Currently, duplicate detection only uses the `Person.name` and `Job.jobTitle` fields for comparison in the `Person` and `Job` classes respectively, which can inconvenience users wanting to add multiple contacts with the same name. It also results in issues like multiple people being able to be added to the address book with different names but the same contact details, which may not reflect a real-world scenario faithfully. We plan to extend duplicate detection to become more robust, comparing multiple fields (such as names, phone numbers, emails etc.), only considering a contact duplicate if multiple fields match. This logic is non-trivial.
+
+2. **Fix multiple window display issue:**
+   When using multiple screens, if users move the application to a secondary screen, and later switch to using only the primary screen, the GUI opens off-screen. We plan to implement logic to detect and remedy this scenario by ensuring the application window always appears within the bounds of available screens, eliminating the need for users to manually delete the `preferences.json` file.
+
+3. **Improve Help Window functionality:**
+   Currently, if a user minimizes the Help Window and then runs the `help` command (or uses the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window remains minimized, and no new Help Window appears. We plan to modify the Help Window functionality to either restore the minimized window or allow creation of a new window when the help command is invoked.
+
+4. **Implement intelligent case sensitivity handling:**
+   Currently, the application has rigid case sensitivity rules that don't always align with user expectations. We plan to improve this by:
+   - Making non-critical fields (like descriptive text) case-insensitive for better usability
+   - Maintaining case sensitivity where it provides important distinctions (e.g., usernames, passwords)
+   - Adding warning prompts when users attempt actions that might create confusion due to case similarity
+   - Providing users with options to resolve potential conflicts caused by case differences
+   - Offering clearer feedback about case requirements for different fields
+   This approach will reduce friction while allowing users to make informed decisions about potential ambiguities.
+
+5. **Enhance viewport management:**
+   Parts of the application may be cut off at smaller window sizes, including the default size at first startup. We plan to improve dynamic UI resizing to properly handle different window sizes and ensure all UI elements remain accessible.
+
+6. **Improve message display formatting:**
+   Some success and error messages are too long and become hard to read in the current interface. We plan to implement better message formatting with line breaks, improved layout, and possibly expandable/collapsible message areas for detailed information.
+
+7. **Improve data recovery for corrupted storage files:**
+   Currently, when storage files (`applicationsmanager.json` and `addressbook.json`) are detected to have corruption or incorrect formatting, the application wipes all data and starts with a clean slate, resulting in complete data loss even from minor formatting errors. We plan to implement a more robust data recovery mechanism that attempts to salvage uncorrupted portions of the files, creates automatic backups before wiping data, and provides users with options to restore from previous states rather than immediately discarding all data.
+
+8. **Improve command parsing robustness:**
+   The current command parsing is sensitive to case and strict validation rules, causing unexpected errors when these rules aren't followed. We plan to make the command parser more robust by implementing flexible case handling, improved error detection, and more intuitive validation with better feedback to users.
