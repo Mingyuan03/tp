@@ -77,11 +77,11 @@ Shows a message explaning how to access the help page.
 
 Format: `help`
 
-### Switching views : `switchview`
+### Switching views : `switch`
 
 Switches the view of GUI from a persons list to a jobs list
 
-Format: `switchview
+Format: `switch
 `
 ### Adding a person/job/application
 
@@ -232,35 +232,37 @@ Examples:
 
 ### Deleting a person/job/application
 
-#### Deleting a person: `delete`
+#### Deleting a person: `del`
 
 Deletes the specified person from TalentMatch.
 
-Format: `delete INDEX`
+Format: `del INDEX`
 
 * Deletes the person at the specified `INDEX`.
 * The index refers to the index number shown in the displayed person list.
 * The index **must be a positive integer** 1, 2, 3, …​
+* This command is only available in person view.
 
 Examples:
-* `list` followed by `delete 2` deletes the 2nd person in TalentMatch.
-* `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+* `list` followed by `del 2` deletes the 2nd person in TalentMatch.
+* `find Betsy` followed by `del 1` deletes the 1st person in the results of the `find` command.
 
 ---
 
-#### Deleting a job: `deletejob`
+#### Deleting a job: `deljob`
 
 Deletes the specified job from TalentMatch.
 
-Format: `deletejob INDEX`
+Format: `deljob INDEX`
 
 * Deletes the job at the specified `INDEX`.
 * The index refers to the index number shown in the displayed job list.
 * The index **must be a positive integer** 1, 2, 3, …​
+* This command is only available in job view.
 
 Examples:
-* `listjob` followed by `deletejob 2` deletes the 2nd job in TalentMatch.
-* `findjob Software Engineering` followed by `delete 1` deletes the 1st job in the results of the `find` command.
+* `listjob` followed by `deljob 2` deletes the 2nd job in TalentMatch.
+* `findjob Software Engineering` followed by `deljob 1` deletes the 1st job in the results of the `find` command.
 
 ---
 
@@ -268,25 +270,58 @@ Examples:
 
 Deletes the specified application from TalentMatch.
 
-Format: `delapp p/PHONE_NUMBER jt/JOB_TITLE`
+Format: `delapp j/JOB_INDEX a/APPLICATION_INDEX`
 
-* Deletes the application with the specified `PHONE_NUMBER` and `JOB_TITLE`.
+* Deletes the application at the specified `APPLICATION_INDEX` for the job at the specified `JOB_INDEX`.
+* Both indices refer to the index numbers shown in the respective displayed lists.
+* Both indices **must be positive integers** 1, 2, 3, …​
+* This command is only available in job view.
 
 Examples:
-* `delapp p/98765432 jt/Software Engineering` deletes the application linked to applicant with phone 98765432
-applying for Software Engineering role.
+* `delapp j/1 a/2` deletes the 2nd application for the 1st job.
 
-### Advancing applications: `advapp`
+### Advancing applications: `adv`
 
 Advances an application to the next round of interviews
 
-Format: `advapp p/PHONE_NUMBER jt/JOB_TITLE [as/ROUNDS]`
+Format: `adv j/JOB_INDEX a/APPLICATION_INDEX`
 
-* Advances the specified application by the specified ROUNDS
-* Default rounds would be 1
+* Advances the application at the specified `APPLICATION_INDEX` for the job at the specified `JOB_INDEX` by one round.
+* Both indices refer to the index numbers shown in the respective displayed lists.
+* Both indices **must be positive integers** 1, 2, 3, …​
+* This command is only available in job view.
 
 Examples:
-* `advapp p/98765432 jt/Software Engineering as/2`
+* `adv j/1 a/2` advances the 2nd application for the 1st job by one round.
+
+### Viewing job details: `viewjob`
+
+Displays detailed information about a specific job.
+
+Format: `viewjob INDEX`
+
+* Shows detailed information of the job at the specified `INDEX`.
+* The index refers to the index number shown in the displayed job list.
+* The index **must be a positive integer** 1, 2, 3, …​
+* This command is only available in job view.
+
+Examples:
+* `listjob` followed by `viewjob 2` displays detailed information of the 2nd job in TalentMatch.
+
+### Viewing person details from job application: `viewperson`
+
+Shows detailed information about a person from a specific job application.
+
+Format: `viewperson j/JOB_INDEX a/APPLICATION_INDEX`
+
+* Shows detailed information of the person associated with the application at the specified `APPLICATION_INDEX` for the job at the specified `JOB_INDEX`.
+* Both indices refer to the index numbers shown in the respective displayed lists.
+* Both indices **must be positive integers** 1, 2, 3, …​
+* This command is only available in job view.
+
+Examples:
+* `viewjob 1` followed by `viewperson j/1 a/2` displays detailed information of the person associated with the 2nd application for the 1st job.
+
 ### Clearing all entries : `clear`
 
 Clears all person entries from TalentMatch.
@@ -340,18 +375,20 @@ Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 **Add**    | `add n/NAME s/SCHOOL d/DEGREE p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho s/NUS d/Physics p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
 **AddJob** | `addjob jt/JOB_TITLE jr/INTERVIEW_ROUNDS js/JOB_SKILLS ja/JOB_ADDRESS em/JOB_TYPE` <br> e.g., `addjob jt/Software Engineering jr/3 js/Python React ja/1 Fusionopolis Place, Galaxis, Singapore 138522 em/Intern`
-**AddApp** | `addapp p/PHONE_NUMBER jt/JOB_TITLE [as/APPLICATION_STATUS]` <br> e.g., `addapp p/98765432 jt/Software Engineering as/3`
-**AdvApp** | `advapp p/PHONE_NUMBER jt/JOB_TITLE [as/ROUNDS]` <br> e.g., `advapp p/98765432 jt/Software Engineering as/2`
+**AddApp** | `addapp p/PERSON_INDEX j/JOB_INDEX` <br> e.g., `addapp p/1 j/2`
+**AdvApp** | `adv j/JOB_INDEX a/APPLICATION_INDEX` <br> e.g., `adv j/1 a/2`
 **Clear**  | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**DeleteJob** | `deletejob INDEX` <br> e.g., `deletejob 3`
-**DeleteApp** | `delapp p/PHONE_NUMBER jt/JOB_TITLE` <br> e.g., `delapp p/98765432 jt/Software Engineering`
+**Delete** | `del INDEX`<br> e.g., `del 3`
+**DeleteJob** | `deljob INDEX` <br> e.g., `deljob 3`
+**DeleteApp** | `delapp j/JOB_INDEX a/APPLICATION_INDEX` <br> e.g., `delapp j/1 a/2`
 **Edit**   | `edit INDEX [n/NAME] [s/SCHOOL] [d/DEGREE] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **EditJob** | `editjob INDEX [jt/JOB_TITLE] [jr/INTERVIEW_ROUNDS] [js/JOB_SKILLS] [ja/JOB_ADDRESS] [em/JOB_TYPE]` <br> e.g., `editjob 7 jt/Software Engineering jr/3 [js/Python React ja/1 Fusionopolis Place, Galaxis, Singapore 138522 em/Intern`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **FindJob** | `findjob KEYWORD [MORE_KEYWORDS]`<br> e.g., `findjob Software Engineering`
-**FindApp** | `findapp p/PHONE_NUMBER jt/JOB_TITLE` <br> e.g., `findapp p/98765432 jt/Software Engineering`
+**FindApp** | `findapp as/APPLICATION_STATUS j/JOB_INDEX` <br> e.g., `findapp as/2 j/1`
 **List**   | `list`
 **ListJobs** | `listjob`
 **Help**   | `help`
-**SwitchView** | `switchview`
+**switch** | `switch`
+**ViewJob** | `viewjob INDEX` <br> e.g., `viewjob 3`
+**ViewPerson** | `viewperson j/JOB_INDEX a/APPLICATION_INDEX` <br> e.g., `viewperson j/1 a/2`

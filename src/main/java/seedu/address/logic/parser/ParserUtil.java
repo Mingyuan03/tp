@@ -104,14 +104,17 @@ public class ParserUtil {
     }
 
     /**
-     * @param remark Raw remark by user.
-     * @return trimmed remark without leading and trailing whitespaces for more
+     * @param school Raw school by user.
+     * @return trimmed school without leading and trailing whitespaces for more
      *         efficient processing.
      */
-    public static School parseRemark(String remark) {
-        requireNonNull(remark);
-        String trimmedRemark = remark.trim(); // School yet has format constraints.
-        return new School(trimmedRemark);
+    public static School parseSchool(String school) throws ParseException {
+        requireNonNull(school);
+        String trimmedSchool = school.trim();
+        if (!School.isValidSchool(trimmedSchool)) {
+            throw new ParseException(School.MESSAGE_CONSTRAINTS);
+        }
+        return new School(trimmedSchool);
     }
 
     /**
@@ -119,9 +122,12 @@ public class ParserUtil {
      * @return trimmed remark without leading and trailing whitespaces for more
      *         efficient processing.
      */
-    public static Degree parseDegree(String degree) {
+    public static Degree parseDegree(String degree) throws ParseException {
         requireNonNull(degree);
-        String trimmedDegree = degree.trim(); // School yet has format constraints.
+        String trimmedDegree = degree.trim();
+        if (!Degree.isValidDegree(trimmedDegree)) {
+            throw new ParseException(Degree.MESSAGE_CONSTRAINTS);
+        }
         return new Degree(trimmedDegree);
     }
 
@@ -130,9 +136,12 @@ public class ParserUtil {
      * @return trimmed remark without leading and trailing whitespaces for more
      *         efficient processing.
      */
-    public static JobTitle parseJobTitle(String jobTitle) {
+    public static JobTitle parseJobTitle(String jobTitle) throws ParseException {
         jobTitle = jobTitle.trim();
         requireNonNull(jobTitle);
+        if (!JobTitle.isValidJobTitle(jobTitle)) {
+            throw new ParseException(JobTitle.MESSAGE_CONSTRAINTS);
+        }
         return new JobTitle(jobTitle);
     }
 
