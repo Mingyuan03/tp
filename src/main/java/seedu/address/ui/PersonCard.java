@@ -155,9 +155,20 @@ public class PersonCard extends UiPart<Region> {
                         + "-fx-font-size: 11px; "
                         + "-fx-font-weight: bold;"
                     );
-                    skills.getChildren().add(skillLabel);
+
+                    // Limit width and add ellipsis for long skill names
+                    skillLabel.setMaxWidth(120);
+                    skillLabel.setMinWidth(20);
+                    skillLabel.setWrapText(false);
+                    skillLabel.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
+
+                    // Create a wrapper with margins to add space around each skill
+                    HBox wrapper = new HBox(skillLabel);
+                    wrapper.setStyle("-fx-padding: 2 4 2 4;");
+
+                    skills.getChildren().add(wrapper);
                 });
-        skills.setStyle("-fx-spacing: 10;"
+        skills.setStyle("-fx-spacing: 8;"
                 + " -fx-alignment: center-left;");
 
         // Add applications with Balenciaga-inspired styling - remove company name

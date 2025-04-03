@@ -298,7 +298,7 @@ public class JobSpecificStatsPanel {
         series.setName(""); // Empty name to prevent legend issues
 
         for (int i = 0; i <= totalRounds; i++) {
-            String roundLabel = i == 0 ? "Not Started"
+            String roundLabel = i == 0 ? "Applied"
                                 : i == totalRounds ? "Offered"
                                 : "Round " + i;
 
