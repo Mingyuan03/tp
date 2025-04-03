@@ -114,17 +114,34 @@ Examples:
 #### Adding an application: `addapp`
 Adds an application to TalentMatch
 
-Format: `addapp p/PHONE_NUMBER jt/JOB_TITLE [as/APPLICATION_STATUS]`
+Format: `addapp ip/PERSON_INDEX ij/JOB_INDEX`
 
 <box type="tip" seamless>
 
-**Tip:**
-* The default application status is 0
-* The specified phone number and job title must exist in TalentMatch
+**Tips:**
+* All applications start from the 0th round each time.
+* The person index can be obtained by switching to person view in TalentMatch.
+* The job index can be obtained by switching to job view in TalentMatch.
 </box>
 
-Examples:
-* `addapp p/98765432 jt/Software Engineering as/3`
+<box type="warning" seamless>
+
+**Constraints:**
+* Person and job indices must be valid positive integers existing in the respective views.
+TalentMatch flags it out with this exception message:
+    * ```Invalid command format!
+      addapp: Adds an application to the address book.
+      Parameters: ip/PERSON INDEX IN PERSON VIEW ij/JOB INDEX IN JOB VIEW
+      Example: addapp ip/1 ij/2```
+* No existing applications must be present.
+TalentMatch flags duplicate applications for the same applicant and job out with this exception message:
+    * `This application already exists in the address book Try using delapp instead!`
+</box>
+
+Example of a successful command alongside graphical depiction:
+* `addapp ip/1 ij/4`
+* ![img_1.png](img_1.png)
+
 
 ### Listing all persons/jobs
 
@@ -219,16 +236,31 @@ Examples:
 
 #### Locating application: `findapp`
 
-Finds application whose details contain both keywords.
+Finds application by job index and application status in job view.
 
-Format: `findapp p/PHONE_NUMBER jt/JOB_TITLE`
+Format: `findapp ij/JOB INDEX as/APPLICATION STATUS`
 
-* The search is case-insensitive. e.g `software` will match `Software`
-* Only full words will be matched e.g. `Engi` will not match `Engineer`
-* Matching application will be found, else return a NOT_FOUND_MESSAGE
+<box type="tip" seamless>
 
-Examples:
-* `findapp p/98765432 jt/Software Engineering` returns `Software Engineering`
+**Tip:**
+* Both the job index and application status can be retrieved from the job view alone.
+* The application status is mandatory but the job index is optional. Specify one for a more general search!
+* </box>
+
+<box type="warning" seamless>
+
+**Constraints:**
+* Job indices and application status must be valid positive integers existing in the respective views.
+TalentMatch flags it out with this exception message:
+    * ```Invalid command format!
+      findapp: Filters the list to show only applications with the specified status in job view.
+      Parameters: ij/ OPTIONAL JOB INDEX IN JOB VIEW as/ROUNDS
+      Example: findappij/ 1 as/ 2```
+* The desired application must already exist in TalentMatch. TalentMatch cannot find a non-existent application!
+</box>
+Example of a successful command alongside graphical depiction:
+* `findapp as/2`
+* ![img_6.png](img_6.png)
 
 ### Deleting a person/job/application
 
@@ -268,26 +300,74 @@ Examples:
 
 Deletes the specified application from TalentMatch.
 
-Format: `delapp p/PHONE_NUMBER jt/JOB_TITLE`
+Format: `delapp ij/JOB_INDEX ia/APPLICATION_BY_JOB_INDEX`
 
-* Deletes the application with the specified `PHONE_NUMBER` and `JOB_TITLE`.
+* Deletes the application with the specified job index and the application index in the corresponding `JobCard` in job view.
 
-Examples:
-* `delapp p/98765432 jt/Software Engineering` deletes the application linked to applicant with phone 98765432
-applying for Software Engineering role.
+<box type="tip" seamless>
+**Tip:**
+* Both the job and application-by-job indices can be obtained from the job view alone.
+</box>
+
+<box type="warning" seamless>
+
+**Constraints:** 
+* HR recruiters must toggle to the job view, if not already in this view, to delete an application.
+TalentMatch flags it out with this exception message:
+    * `This command is only available in job view. Please switch to job view first using 'switchview' command.`
+* Job and application-by-job indices must be valid positive integers existing in job view.
+TalentMatch flags it out with this exception message:
+    * ```Invalid command format!
+      delapp: Deletes an application from the address book.
+      Parameters: ij/<JOB_INDEX> ia/<APPLICATION_INDEX>
+      Example: delapp ij/1 ia/2```
+* A unique existing application must be present. 
+TalentMatch flags deleting non-existent out applications with this exception message:
+    * `This application does not exist in the address book. Try using addapp to add an application first!`
+</box>
+
+Example of a successful command alongside graphical depiction:
+* `delapp ip/1 ij/4`
+* ![img_4.png](img_4.png)
 
 ### Advancing applications: `advapp`
 
-Advances an application to the next round of interviews
+Advances an application to the next round of interview
+
+<box type="tip" seamless>
+* All applications are advanced by exactly 1 round each time.
+* HR recruiters should exercise discretion in advancing an application as it signifies that the applicant has not only
+gone for the round, but also passed it! Therefore, an applicant who has reached the final round of an application will
+be deemed to have received a job offer. Congratulations!
+* HR recruiters should exercise discretion in advancing an application of any applicant who has reached the final round
+of another application, as this would otherwise imply the applicant has more than 1 offers for this company!
+</box>
+
+<box type="warning" seamless>
+
+**Constraints:**
+* HR recruiters must toggle to the job view, if not already in this view, to advance an application.
+TalentMatch flags it out with this exception message:
+    * `This command is only available in job view. Please switch to job view first using 'switchview' command.`
+* Job and application-by-job indices must be valid positive integers existing in job view.
+TalentMatch flags it out with this exception message:
+    * ```Invalid command format!
+      advapp: Advances an application in the address book.
+      Parameters: ij/<JOB_INDEX> ia/<APPLICATION_INDEX>
+      Example: advapp ij/1 ia/2```
+* A unique existing application must be present.
+TalentMatch flags advancing non-existent applications out with this exception message:
+    * `This application does not exist in the address book. Try using addapp to add an application first!`
+</box>
 
 Format: `advapp p/PHONE_NUMBER jt/JOB_TITLE [as/ROUNDS]`
 
 * Advances the specified application by the specified ROUNDS
 * Default rounds would be 1
 
-Examples:
-* `advapp p/98765432 jt/Software Engineering as/2`
-### Clearing all entries : `clear`
+Example of a successful command alongside graphical depiction:
+* `advapp ip/1 ij/4`
+* ![img_5.png](img_5.png)
 
 Clears all person entries from TalentMatch.
 
@@ -340,12 +420,12 @@ Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 **Add**    | `add n/NAME s/SCHOOL d/DEGREE p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho s/NUS d/Physics p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
 **AddJob** | `addjob jt/JOB_TITLE jr/INTERVIEW_ROUNDS js/JOB_SKILLS ja/JOB_ADDRESS em/JOB_TYPE` <br> e.g., `addjob jt/Software Engineering jr/3 js/Python React ja/1 Fusionopolis Place, Galaxis, Singapore 138522 em/Intern`
-**AddApp** | `addapp p/PHONE_NUMBER jt/JOB_TITLE [as/APPLICATION_STATUS]` <br> e.g., `addapp p/98765432 jt/Software Engineering as/3`
-**AdvApp** | `advapp p/PHONE_NUMBER jt/JOB_TITLE [as/ROUNDS]` <br> e.g., `advapp p/98765432 jt/Software Engineering as/2`
+**AddApp** | `addapp ip/PHONE_INDEX ij/JOB_INDEX ` <br> e.g., `addapp ip/1 ij/1`
+**AdvApp** | `advapp ij/JOB_INDEX ia/APPLICANT_BY_JOB_INDEX ` <br> e.g., `advapp ij/1 ia/1`
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **DeleteJob** | `deletejob INDEX` <br> e.g., `deletejob 3`
-**DeleteApp** | `delapp p/PHONE_NUMBER jt/JOB_TITLE` <br> e.g., `delapp p/98765432 jt/Software Engineering`
+**DeleteApp** | `delapp ij/JOB_INDEX ia/APPLICANT_BY_JOB_INDEX ` <br> e.g., `delapp ij/1 ia/1`
 **Edit**   | `edit INDEX [n/NAME] [s/SCHOOL] [d/DEGREE] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **EditJob** | `editjob INDEX [jt/JOB_TITLE] [jr/INTERVIEW_ROUNDS] [js/JOB_SKILLS] [ja/JOB_ADDRESS] [em/JOB_TYPE]` <br> e.g., `editjob 7 jt/Software Engineering jr/3 [js/Python React ja/1 Fusionopolis Place, Galaxis, Singapore 138522 em/Intern`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
