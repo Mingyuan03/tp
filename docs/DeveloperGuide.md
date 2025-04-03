@@ -13,7 +13,19 @@
 
 ## **Acknowledgements**
 
-_{ list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well }_
+### Base Project
+* TalentMatch is a brownfield project built upon the foundation provided by [AddressBook Level-3](https://se-education.org/addressbook-level3/).
+* The base code, user guide, and developer guides were adapted from the original AB3 project.
+
+### AI Assistance Tools
+During the development of this application, the following AI tools were utilized:
+* **Cursor** (running Claude Sonnet 3.7) - Assisted with JavaFX UI component development and styling
+* **GitHub Copilot** - Provided code completion and suggestions throughout the application
+
+These AI tools primarily contributed to:
+* UI components development in JavaFX
+* Styling and design improvements
+* Code auto-completion across the application
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -50,7 +62,7 @@ The bulk of the app's work is done by the following four components:
 
 **How the architecture components interact with each other**
 
-The *Sequence Diagram* below shows how the components interact with each other for the scenario where the user issues the command `delete 1`.
+The *Sequence Diagram* below shows how the components interact with each other for the scenario where the user issues the command `del 1`.
 
 <puml src="diagrams/ArchitectureSequenceDiagram.puml" width="574" />
 
@@ -90,7 +102,7 @@ Here's a (partial) class diagram of the `Logic` component:
 
 <puml src="diagrams/LogicClassDiagram.puml" width="550"/>
 
-The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("delete 1")` API call as an example.
+The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("del 1")` API call as an example.
 
 <puml src="diagrams/DeleteSequenceDiagram.puml" alt="Interactions Inside the Logic Component for the `delete 1` Command" />
 
@@ -101,7 +113,7 @@ The sequence diagram below illustrates the interactions within the `Logic` compo
 
 How the `Logic` component works:
 
-1. When `Logic` is called upon to execute a command, it is passed to an `TalentMatchParser` object which in turn creates a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
+1. When `Logic` is called upon to execute a command, it is passed to an `AddressBookParser` object which in turn creates a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
 1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteCommand`) which is executed by the `LogicManager`.
 1. The command can communicate with the `Model` when it is executed (e.g. to delete a person).<br>
    Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take several interactions (between the command object and the `Model`) to achieve.
@@ -112,7 +124,7 @@ Here are the other classes in `Logic` (omitted from the class diagram above) tha
 <puml src="diagrams/ParserClasses.puml" width="600"/>
 
 How the parsing works:
-* When called upon to parse a user command, the `TalentMatchParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `TalentMatchParser` returns back as a `Command` object.
+* When called upon to parse a user command, the `AddressBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `TalentMatchParser` returns back as a `Command` object.
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
 ### Model component
@@ -123,14 +135,14 @@ How the parsing works:
 
 The `Model` component,
 
-* stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
-* stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object), all `Job` objects (which are contained in a `UniqueJobList` object) and all `Application` objects (which are contained in a `UniqueApplicationList`).
+* stores the currently 'selected' `Person`, `Job`, `Application` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * stores a `UserPref` object that represents the user's preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
 <box type="info" seamless>
 
-**Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `TalentMatch`, which `Person` references. This allows `TalentMatch` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
+**Note:** An alternative (arguably, a more OOP) model is given below. It has a `Skill` list in the `TalentMatch`, which `Person` references. This allows `TalentMatch` to only require one `Skill` object per unique skill, instead of each `Person` needing their own `Skill` objects.<br>
 
 <puml src="diagrams/BetterModelClassDiagram.puml" width="450" />
 
@@ -144,8 +156,8 @@ The `Model` component,
 <puml src="diagrams/StorageClassDiagram.puml" width="550" />
 
 The `Storage` component,
-* can save both address book data and user preference data in JSON format, and read them back into corresponding objects.
-* inherits from both `TalentMatchStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
+* can save both address book data, applications manager data and user preference data in JSON format, and read them back into corresponding objects.
+* inherits from both `AddressBookStorage`, `ApplicationsManagerStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
 * depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`)
 
 ### Common classes
@@ -275,13 +287,30 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* Has a need to manage a significant number of applicants
-* Prefer desktop apps over other types
-* Can type fast
-* Prefers typing to mouse interactions
-* Is reasonably comfortable using CLI apps
+* TalentMatch is specifically tailored for recruitment professionals in Small-Medium Enterprises (SMEs) who:
+* Manage multiple university candidate pipelines simultaneously
+* Need to efficiently track skills, availability, and application statuses
+* Value speed and efficiency in their workflow
+* Are comfortable with typing-based interfaces
+* Prefer lightweight, standalone solutions over complex enterprise HR systems
+* Work for SMEs with budget and infrastructure constraints
 
-**Value proposition**: manage applicants faster and clearer than a typical mouse/GUI driven app, allowing for clearer view of an applicant's timeline in their job application
+**Value proposition**:
+
+TalentMatch enables HR recruiters to manage the full recruitment lifecycle more efficiently than typical mouse/GUI driven applications by:
+
+- Managing applicants, jobs, and applications with a streamlined command-line interface that's faster than traditional GUI applications
+- Providing specialized views for different recruiting scenarios (Person View, Job View, Application View)
+- Supporting multi-dimensional search capabilities across skills, application status, and other candidate attributes
+- Enabling efficient tracking of candidates through interview rounds with performance feedback
+- Maintaining clear relationships between applicants and the positions they've applied for
+- Offering command history functionality to speed up repetitive tasks
+- Providing visual indicators of application progress through status tracking
+- Allowing focused management of internship applications with appropriate attributes
+- Supporting skill-based matching between candidates and job requirements
+- Enabling view-specific commands that improve recruiter workflow efficiency
+
+These features combine to provide HR recruiters with a comprehensive tool for managing the entire recruitment process from job creation to final candidate selection.
 
 
 ### User stories
@@ -293,14 +322,32 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | Hiring manager   | delete a person        | remove his/her entry once their application is rejected       |
 | `* * *`  | Hiring manager   | view all applicants as a list| view a summary of their applications                                   |
 | `* * *`  | Hiring manager   | find an applicant by details | locate details of an applicant without having to go through the entire list |
+| `* * *`  | HR recruiter     | search applications by job and person | quickly locate specific applications without browsing through all records |
+| `* * *`  | HR recruiter     | have a separate view for jobs | focus on job-specific data when needed |
+| `* * *`  | HR recruiter     | search by application status | identify applications at specific stages in the recruitment process |
+| `* * *`  | HR recruiter     | search across multiple fields simultaneously | find candidates that match complex criteria |
+| `* * *`  | HR recruiter     | view the applications for each person | see all positions a candidate has applied for at once |
 | `* *`    | Hiring manager   | filter applicants            | simplify my search for those who are more suitable for this role       |
 | `* *`    | Recruiter        | create an application to link people with roles applied | keep track of the applicants for a specific role |
 | `* *`    | HR recruiter     | create role openings  | eventually assign them to applicants and search open roles |
 | `* *`    | HR recruiter     | see the role(s) a candidate is applying for | more quickly evaluate if their qualifications align or if such roles are currently available |
 | `* *`    | Recruiter        | see an applicant's education background | ensure legitimacy of their application |
+| `* *`    | HR recruiter     | find candidates and jobs by skills | match people to positions based on skill requirements |
+| `* *`    | HR recruiter     | access my command history | reuse or modify previous commands without retyping them |
+| `* *`    | HR recruiter     | track a candidate's progress via interview rounds | record performance feedback and interview dates for each stage |
+| `* *`    | HR recruiter     | specify required skills for job postings | clearly communicate position requirements to potential applicants |
+| `* *`    | HR recruiter     | edit job fields after creation | update job details as requirements change |
+| `* *`    | HR recruiter     | see a visual progress indicator for applications | quickly gauge where each application stands in the process |
+| `* *`    | HR recruiter     | view applicants from the job view | see all candidates for a specific position at once |
+| `* *`    | HR recruiter     | use view-specific commands | have a more intuitive workflow depending on my current context |
+| `* *`    | HR recruiter     | have datetime support for applications | schedule and track interview appointments |
+| `* *`    | HR recruiter     | clearly distinguish between applications | avoid confusion when dealing with multiple applications |
+| `* *`    | HR recruiter     | focus on internship applications | manage the specific needs of intern recruitment |
 | `*`      | Hiring manager   | sort applicants        | view the top most suitable applicants for the role I'm hiring                 |
-
-*{More to be added}*
+| `*`      | HR recruiter     | have a more user-friendly help command | quickly learn how to use the system |
+| `*`      | HR recruiter     | preview applicants for a job | get a quick overview without changing views |
+| `*`      | HR recruiter     | make JobView the primary view | streamline my workflow as I primarily work with job openings |
+| `*`      | HR recruiter     | have applications follow standard behaviors | ensure consistent interaction patterns throughout the system |
 
 ### Use cases
 
@@ -332,12 +379,96 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   * *a2. TalentMatch prompts HR to continue where he/she left off
   Use case resumes at step 3.
 
+**Use case: Add a job opening**
+
+**MSS**
+
+1. HR requests to add a job opening
+2. TalentMatch prompts for details of the job (title, rounds, required skills)
+3. HR fills in the job details
+4. TalentMatch requests HR to confirm the details
+5. HR confirms the details
+6. TalentMatch adds the job to the system
+  Use case ends.
+
+**Extensions**
+
+* 3a. HR provides invalid job details (missing required fields).
+  * 3a1. TalentMatch shows an error message.
+  * 3a2. HR corrects the details.
+  Use case resumes at step 4.
+
+* 4a. HR decides to change details.
+  * 4a1. HR cancels confirmation.
+  Use case resumes at step 3.
+
+* 4b. TalentMatch finds an existing job with identical details.
+  * 4b1. TalentMatch informs HR of the duplicate.
+  * 4b2. HR modifies details to make them unique.
+  Use case resumes at step 4.
+
+**Use case: Create an application**
+
+**MSS**
+
+1. HR requests to create an application
+2. TalentMatch prompts for the person and job to link
+3. HR selects the person and job
+4. TalentMatch requests HR to confirm the application details
+5. HR confirms the details
+6. TalentMatch creates the application linking the person and job
+  Use case ends.
+
+**Extensions**
+
+* 3a. The person doesn't exist in the system.
+  * 3a1. HR adds the person first.
+  Use case resumes at step 3.
+
+* 3b. The job doesn't exist in the system.
+  * 3b1. HR adds the job first.
+  Use case resumes at step 3.
+
+* 4a. TalentMatch detects an existing application for the same person and job.
+  * 4a1. TalentMatch informs HR of the duplicate.
+  Use case ends.
+
 **Use case: List all applicants**
 
 **MSS**
 
 1. HR requests to list all applicants
 2. TalentMatch shows a list of applicants
+
+  Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+**Use case: List all jobs**
+
+**MSS**
+
+1. HR requests to list all jobs
+2. TalentMatch shows a list of job openings
+
+  Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+**Use case: List all applications**
+
+**MSS**
+
+1. HR requests to list all applications
+2. TalentMatch shows a list of applications with linked person and job information
 
   Use case ends.
 
@@ -370,6 +501,62 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 2.
 
+**Use case: Delete a job**
+
+**MSS**
+
+1. HR requests to list jobs
+2. TalentMatch shows a list of jobs
+3. HR requests to delete a specific job in the list
+4. TalentMatch checks for applications linked to the job
+5. TalentMatch deletes the job
+
+  Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+  * 3a1. TalentMatch shows an error message.
+
+  Use case resumes at step 2.
+
+* 4a. The job has linked applications.
+  * 4a1. TalentMatch warns HR about linked applications that will also be deleted.
+  * 4a2. HR confirms the deletion.
+  * 4a3. TalentMatch deletes the job and all linked applications.
+
+  Use case ends.
+
+* 4a2a. HR cancels the deletion.
+
+  Use case ends.
+
+**Use case: Delete an application**
+
+**MSS**
+
+1. HR requests to list applications
+2. TalentMatch shows a list of applications
+3. HR requests to delete a specific application in the list
+4. TalentMatch deletes the application
+
+  Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+  * 3a1. TalentMatch shows an error message.
+
+  Use case resumes at step 2.
+
 **Use case: Find an applicant**
 
 **MSS**
@@ -390,7 +577,92 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   * 2a1. TalentMatch goes back to original page
    Use case ends.
 
-*{More to be added}*
+**Use case: Find a job by skills**
+
+**MSS**
+
+1. HR requests to find jobs by specific skills
+2. TalentMatch shows a list of jobs requiring those skills
+
+  Use case ends.
+
+**Extensions**
+
+* 2a. TalentMatch finds no matching jobs.
+  * 2a1. TalentMatch informs HR that no jobs match the specified skills.
+
+  Use case ends.
+
+**Use case: Search applications by status**
+
+**MSS**
+
+1. HR requests to search applications by status (e.g., pending, interviewed, rejected)
+2. TalentMatch shows a list of applications with the specified status
+
+  Use case ends.
+
+**Extensions**
+
+* 1a. HR provides an invalid status.
+  * 1a1. TalentMatch shows an error message with valid status options.
+  * 1a2. HR corrects the status.
+
+  Use case resumes at step 2.
+
+* 2a. No applications with the specified status exist.
+  * 2a1. TalentMatch informs HR that no applications match the specified status.
+
+  Use case ends.
+
+**Use case: Update application status**
+
+**MSS**
+
+1. HR requests to list applications
+2. TalentMatch shows a list of applications
+3. HR selects an application to update
+4. TalentMatch prompts for the new status
+5. HR provides the new status
+6. TalentMatch updates the application status
+
+  Use case ends.
+
+**Extensions**
+
+* 3a. The given index is invalid.
+  * 3a1. TalentMatch shows an error message.
+
+  Use case resumes at step 2.
+
+* 5a. HR provides an invalid status.
+  * 5a1. TalentMatch shows an error message with valid status options.
+  * 5a2. HR corrects the status.
+
+  Use case resumes at step 6.
+
+**Use case: View applicants for a job**
+
+**MSS**
+
+1. HR requests to list jobs
+2. TalentMatch shows a list of jobs
+3. HR selects a job to view applicants for
+4. TalentMatch displays all applicants who have applied for the selected job
+
+  Use case ends.
+
+**Extensions**
+
+* 3a. The given index is invalid.
+  * 3a1. TalentMatch shows an error message.
+
+  Use case resumes at step 2.
+
+* 4a. No applications exist for the selected job.
+  * 4a1. TalentMatch informs HR that no applications exist for this job.
+
+  Use case ends.
 
 ### Non-Functional Requirements
 
@@ -411,9 +683,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Glossary
 
-* **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Hiring Manager/HR**: Main user of TalentMatch, someone who manages the application timeline of applicants
-* **Applicants**: Someone who is applying for a job opening
+* **Mainstream OS**: Windows, Linux, MacOS
+* **HR Recruiter**: Main user of TalentMatch, someone who manages the application timeline of applicants
+* **Applicant**: A prospective university student who is applying for a job opening.
 
 ## **Appendix: Instructions for manual testing**
 
@@ -432,11 +704,11 @@ testers are expected to do more *exploratory* testing.
 
    1. Download the jar file and copy into an empty folder
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size is adjustable.
 
 1. Saving window preferences
 
-   1. Resize the window to an optimum size. Move the window to a different location. Close the window.
+   1. Resize the window to an optimum height and width. Move the window to a different location. Close the window.
 
    1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
@@ -458,12 +730,44 @@ testers are expected to do more *exploratory* testing.
    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
 
-1. _{ more test cases …​ }_
-
 ### Saving data
 
 1. Dealing with missing/corrupted data files
 
    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
-1. _{ more test cases …​ }_
+--------------------------------------------------------------------------------------------------------------------
+
+## **Appendix: Planned Enhancements**
+
+**Team Size: 4**
+
+1. **Improve duplicate person and job detection:**
+   Currently, duplicate detection only uses the `Person.name` and `Job.jobTitle` fields for comparison in the `Person` and `Job` classes respectively, which can inconvenience users wanting to add multiple contacts with the same name. It also results in issues like multiple people being able to be added to the address book with different names but the same contact details, which may not reflect a real-world scenario faithfully. We plan to extend duplicate detection to become more robust, comparing multiple fields (such as names, phone numbers, emails etc.), only considering a contact duplicate if multiple fields match. This logic is non-trivial.
+
+2. **Fix multiple window display issue:**
+   When using multiple screens, if users move the application to a secondary screen, and later switch to using only the primary screen, the GUI opens off-screen. We plan to implement logic to detect and remedy this scenario by ensuring the application window always appears within the bounds of available screens, eliminating the need for users to manually delete the `preferences.json` file.
+
+3. **Improve Help Window functionality:**
+   Currently, if a user minimizes the Help Window and then runs the `help` command (or uses the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window remains minimized, and no new Help Window appears. We plan to modify the Help Window functionality to either restore the minimized window or allow creation of a new window when the help command is invoked.
+
+4. **Implement intelligent case sensitivity handling:**
+   Currently, the application has rigid case sensitivity rules that don't always align with user expectations. We plan to improve this by:
+   - Making non-critical fields (like descriptive text) case-insensitive for better usability
+   - Maintaining case sensitivity where it provides important distinctions (e.g., usernames, passwords)
+   - Adding warning prompts when users attempt actions that might create confusion due to case similarity
+   - Providing users with options to resolve potential conflicts caused by case differences
+   - Offering clearer feedback about case requirements for different fields
+   This approach will reduce friction while allowing users to make informed decisions about potential ambiguities.
+
+5. **Enhance viewport management:**
+   Parts of the application may be cut off at smaller window sizes, including the default size at first startup. We plan to improve dynamic UI resizing to properly handle different window sizes and ensure all UI elements remain accessible.
+
+6. **Improve message display formatting:**
+   Some success and error messages are too long and become hard to read in the current interface. We plan to implement better message formatting with line breaks, improved layout, and possibly expandable/collapsible message areas for detailed information.
+
+7. **Improve data recovery for corrupted storage files:**
+   Currently, when storage files (`applicationsmanager.json` and `addressbook.json`) are detected to have corruption or incorrect formatting, the application wipes all data and starts with a clean slate, resulting in complete data loss even from minor formatting errors. We plan to implement a more robust data recovery mechanism that attempts to salvage uncorrupted portions of the files, creates automatic backups before wiping data, and provides users with options to restore from previous states rather than immediately discarding all data.
+
+8. **Improve command parsing robustness:**
+   The current command parsing is sensitive to case and strict validation rules, causing unexpected errors when these rules aren't followed. We plan to make the command parser more robust by implementing flexible case handling, improved error detection, and more intuitive validation with better feedback to users.
