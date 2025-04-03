@@ -10,7 +10,7 @@ package "Model" {
     class ApplicationsManager
     class "ReadOnlyAddressBook" as ROAddressBook <<interface>>
     class "ReadOnlyApplicationsManager" as ROApplicationsManager <<interface>>
-    
+
     ' Person components
     class UniquePersonList
     class Person
@@ -20,38 +20,38 @@ package "Model" {
     class Address
     class School
     class Degree
-    
+
     ' Job components
     class UniqueJobList
     class Job
     class JobTitle
     class JobRounds
-    
+
     ' Application components
     class UniqueApplicationList
     class Application
     class ApplicationStatus
-    
+
     ' Shared components
     class "Set<Skill>" as SkillSet
     class Skill
-    
+
     ' Interfaces
     AddressBook .up.|> ROAddressBook
     ApplicationsManager .up.|> ROApplicationsManager
-    
+
     ' AddressBook relationships
     AddressBook *-right-> "1" UniquePersonList
     AddressBook *-right-> "1" UniqueJobList
-    
+
     ' ApplicationsManager relationships
     ApplicationsManager *-right-> "1" UniqueApplicationList
-    
+
     ' List to entity relationships
     UniquePersonList -right-> "*" Person
     UniqueJobList -right-> "*" Job
     UniqueApplicationList -right-> "*" Application
-    
+
     ' Person composition
     Person *--> Name
     Person *--> Phone
@@ -60,17 +60,17 @@ package "Model" {
     Person *--> School
     Person *--> Degree
     Person *--> "1" SkillSet
-    
+
     ' Job composition
     Job *--> JobTitle
     Job *--> JobRounds
     Job *--> "1" SkillSet
-    
+
     ' Application relationships
     Application *--> "1" Person
     Application *--> "1" Job
     Application *--> ApplicationStatus
-    
+
     ' SkillSet composition
     SkillSet *--> "*" Skill
 }

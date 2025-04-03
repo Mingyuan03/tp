@@ -281,7 +281,7 @@ _{Explain here how the data archiving feature will be implemented}_
 * Prefers typing to mouse interactions
 * Is reasonably comfortable using CLI apps
 
-**Value proposition**: 
+**Value proposition**:
 
 TalentMatch enables HR recruiters to manage the full recruitment lifecycle more efficiently than typical mouse/GUI driven applications by:
 
@@ -507,18 +507,18 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3a. The given index is invalid.
   * 3a1. TalentMatch shows an error message.
-  
+
   Use case resumes at step 2.
 
 * 4a. The job has linked applications.
   * 4a1. TalentMatch warns HR about linked applications that will also be deleted.
   * 4a2. HR confirms the deletion.
   * 4a3. TalentMatch deletes the job and all linked applications.
-  
+
   Use case ends.
 
 * 4a2a. HR cancels the deletion.
-  
+
   Use case ends.
 
 **Use case: Delete an application**
@@ -540,7 +540,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3a. The given index is invalid.
   * 3a1. TalentMatch shows an error message.
-  
+
   Use case resumes at step 2.
 
 **Use case: Find an applicant**
@@ -576,7 +576,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 2a. TalentMatch finds no matching jobs.
   * 2a1. TalentMatch informs HR that no jobs match the specified skills.
-  
+
   Use case ends.
 
 **Use case: Search applications by status**
@@ -593,12 +593,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 1a. HR provides an invalid status.
   * 1a1. TalentMatch shows an error message with valid status options.
   * 1a2. HR corrects the status.
-  
+
   Use case resumes at step 2.
 
 * 2a. No applications with the specified status exist.
   * 2a1. TalentMatch informs HR that no applications match the specified status.
-  
+
   Use case ends.
 
 **Use case: Update application status**
@@ -618,13 +618,13 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3a. The given index is invalid.
   * 3a1. TalentMatch shows an error message.
-  
+
   Use case resumes at step 2.
 
 * 5a. HR provides an invalid status.
   * 5a1. TalentMatch shows an error message with valid status options.
   * 5a2. HR corrects the status.
-  
+
   Use case resumes at step 6.
 
 **Use case: View applicants for a job**
@@ -642,12 +642,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3a. The given index is invalid.
   * 3a1. TalentMatch shows an error message.
-  
+
   Use case resumes at step 2.
 
 * 4a. No applications exist for the selected job.
   * 4a1. TalentMatch informs HR that no applications exist for this job.
-  
+
   Use case ends.
 
 ### Non-Functional Requirements

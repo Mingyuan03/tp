@@ -13,7 +13,7 @@ package "Parser Classes" as ParserClasses {
     Class ArgumentTokenizer
     Class ParserUtil
     Class Prefix
-    
+
     ' Command Parser Classes
     Class AddCommandParser
     Class EditCommandParser
@@ -34,14 +34,14 @@ package "Parser Classes" as ParserClasses {
 package "Command Classes" as CommandClasses {
     Class "{abstract}\nCommand" as Command
     Class CommandResult
-    
+
     ' Person Commands
     Class AddCommand
     Class EditCommand
     Class DeleteCommand
     Class FindCommand
     Class ListCommand
-    
+
     ' Job Commands
     Class AddJobCommand
     Class EditJobCommand
@@ -49,14 +49,14 @@ package "Command Classes" as CommandClasses {
     Class FindJobCommand
     Class ListJobCommand
     Class ViewJobCommand
-    
+
     ' Application Commands
     Class AddApplicationCommand
     Class DeleteApplicationCommand
     Class AdvanceApplicationCommand
     Class FindAppCommand
     Class ViewPersonCommand
-    
+
     ' Generic Commands
     Class SwitchViewCommand
     Class ClearCommand
