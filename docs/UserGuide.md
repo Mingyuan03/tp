@@ -538,8 +538,17 @@ It is strongly recommended to:
 
 ## Known issues
 
-1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+### UI Issues
+1. **Multiple Window Usage:** When using multiple screens, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
+2. **Minimising the Help Window:** If you minimize the Help Window and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+3. **Text Truncation in Display:** Long text entries may be truncated with "..." when the application window isn't wide enough. You may not be able to see the complete information for some fields.
+4. **Viewport Issues:** Parts of the application may be cut off at smaller window sizes, including the default size at first startup.
+5. **Oversized Messages:** Some success and error messages may be too long to read easily in the current application.
+
+### Data Storage Issues
+6. **Storage File Synchronization:** The application generates two storage files: applicationsmanager.json and addressbook.json. Both files contain information related to persons and jobs. If you make changes to persons or jobs in one file, you MUST replicate these changes in the other file. Failure to synchronize these files will result in data mismatches when the application loads, leading to undefined application behavior.
+7. **Command Syntax Sensitivity:** Any non-adherence to the case sensitivity and input validation rules given in the command descriptions may cause unexpected errors. You should read through and follow these case sensitivity and input validation rules carefully.
+8. **Multiple Instance Conflict:** Running multiple instances of the application simultaneously can corrupt your data files. You should only run one instance of TalentMatch at a time. Close any existing instance before opening a new one.
 
 --------------------------------------------------------------------------------------------------------------------
 
