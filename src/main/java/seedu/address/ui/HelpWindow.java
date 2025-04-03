@@ -12,7 +12,6 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.HelpCommand;
@@ -44,14 +43,10 @@ public class HelpWindow extends UiPart<Stage> {
      */
     public HelpWindow(Stage root, String message) {
         super(FXML, root);
-        // Set modality to block interaction with main window so that end-users must peruse the help content to manually
-        // close it before continuing their interaction with main window.
-        root.initModality(Modality.APPLICATION_MODAL);
         this.userGuideLink.setText(USERGUIDE_URL);
         this.helpMessage.setText(message); // Display specific help message, defaulting to all messages.
         this.userGuideLink.setOnAction(event -> {
             copyUrl();
-            openUserGuide();
         });
     }
 
