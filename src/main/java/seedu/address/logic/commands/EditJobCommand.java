@@ -18,6 +18,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.application.Application;
 import seedu.address.model.job.Job;
 import seedu.address.model.job.JobRounds;
 import seedu.address.model.job.JobTitle;
@@ -43,6 +44,8 @@ public class EditJobCommand extends Command {
     public static final String MESSAGE_DUPLICATE_JOB = "This job already exists in the address book.";
     public static final String MESSAGE_WRONG_VIEW = "This command is only available in job view. "
             + "Please switch to job view first using 'switchview' command.";
+    public static final String MESSAGE_INVALID_APPLICATION_STATUS = "Some applicants are already at an "
+            + "application stage higher than the number of rounds in the edited job.";
 
     private final Index index;
     private final EditJobDescriptor editJobDescriptor;
@@ -79,6 +82,13 @@ public class EditJobCommand extends Command {
 
         if (!jobToEdit.isSameJob(editedJob) && model.hasJob(editedJob)) {
             throw new CommandException(MESSAGE_DUPLICATE_JOB);
+        }
+
+        List<Application> existingApplications = model.getApplicationsByJob(jobToEdit);
+        for (Application app : existingApplications) {
+            if (app.getApplicationStatus().applicationStatus > editedJob.getJobRounds().jobRounds) {
+                throw new CommandException(MESSAGE_INVALID_APPLICATION_STATUS);
+            }
         }
 
         model.setJob(jobToEdit, editedJob);

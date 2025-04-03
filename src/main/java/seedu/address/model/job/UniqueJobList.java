@@ -53,7 +53,7 @@ public class UniqueJobList implements Iterable<Job> {
             throw new JobNotFoundException();
         }
 
-        if (!target.equals(editedJob) && contains(editedJob)) {
+        if (!target.isSameJob(editedJob) && contains(editedJob)) {
             throw new DuplicateJobException();
         }
 
@@ -128,7 +128,7 @@ public class UniqueJobList implements Iterable<Job> {
     private boolean areJobsUnique(List<Job> jobs) {
         for (int i = 0; i < jobs.size() - 1; i++) {
             for (int j = i + 1; j < jobs.size(); j++) {
-                if (jobs.get(i).equals(jobs.get(j))) {
+                if (jobs.get(i).isSameJob(jobs.get(j))) {
                     return false;
                 }
             }
