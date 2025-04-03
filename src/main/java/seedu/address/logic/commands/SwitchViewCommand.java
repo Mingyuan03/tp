@@ -6,7 +6,7 @@ import seedu.address.model.Model;
  * Switches the view between person and job.
  */
 public class SwitchViewCommand extends Command {
-    public static final String COMMAND_WORD = "switchview";
+    public static final String COMMAND_WORD = "switch";
 
     @Override
     public CommandResult execute(Model model) {
@@ -21,7 +21,8 @@ public class SwitchViewCommand extends Command {
         if (other == this) {
             return true;
         }
-        // instanceof handles nulls. Simplify if-else as all SwitchViewCommand instances lack state thus they are equal.
+        // instanceof handles nulls. Simplify if-else as all SwitchViewCommand instances
+        // lack state thus they are equal.
         return other instanceof SwitchViewCommand;
     }
 }
