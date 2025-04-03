@@ -166,9 +166,15 @@ public class PersonCard extends UiPart<Region> {
                 + " -fx-background-radius: 4 4 0 0;"
                 + " -fx-padding: 5 10 5 10;");
 
-        // Set max width on the apps FlowPane to prevent overflow
-        apps.setPrefWidth(350);
-        apps.setMaxWidth(350);
+        // Make applicationsBox take full width
+        applicationsBox.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(applicationsBox, javafx.scene.layout.Priority.ALWAYS);
+
+        // Set properties on the apps FlowPane
+        apps.setMaxWidth(Double.MAX_VALUE); // Allow expanding to full width
+        apps.setHgap(10);
+        apps.setVgap(8);
+        apps.setPrefWrapLength(Double.MAX_VALUE); // Use all available width for wrapping
 
         applications.stream().sorted(Comparator.comparing(Application::getApplicationStatus))
             .forEach(app -> {
@@ -182,47 +188,44 @@ public class PersonCard extends UiPart<Region> {
                 int currentRound = app.getApplicationStatus().applicationStatus;
                 int maxRound = app.getJob().getJobRounds().jobRounds;
 
-                // Create a stylish application label - removed company name
-                Label appLabel = new Label(jobTitle);
-                appLabel.setWrapText(false);
-                appLabel.setMaxWidth(150);
-                appLabel.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
-                appLabel.setStyle(
+                // Create a VBox for each application card (vertical layout)
+                VBox appCard = new VBox();
+                appCard.setSpacing(3);
+                // Set to a percentage of parent width for better distribution
+                appCard.setPrefWidth(160);
+                appCard.setMaxWidth(160);
+                appCard.setStyle(
                     "-fx-background-color: #2d2d30; "
-                    + "-fx-text-fill: white; "
                     + "-fx-padding: 5 10 5 10; "
                     + "-fx-background-radius: 4; "
-                    + "-fx-font-weight: bold; "
                     + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 2, 0, 0, 1);"
                 );
 
-                // Create a progress indicator
-                Label progressLabel = new Label("Round: "
-                        + currentRound
-                        + "/"
-                        + maxRound);
+                // Job title
+                Label appLabel = new Label(jobTitle);
+                appLabel.setWrapText(false);
+                appLabel.setMaxWidth(145);
+                appLabel.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
+                appLabel.setStyle(
+                    "-fx-text-fill: white; "
+                    + "-fx-font-weight: bold;"
+                );
+
+                // Progress indicator - show as round X/Y
+                Label progressLabel = new Label("Round: " + currentRound + "/" + maxRound);
                 progressLabel.setWrapText(false);
-                progressLabel.setMaxWidth(150);
-                progressLabel.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
                 progressLabel.setStyle(
                     "-fx-text-fill: #f39c12; "
                     + "-fx-font-size: 11px; "
-                    + "-fx-padding: 2 8 2 8; "
+                    + "-fx-padding: 2 6 2 6; "
                     + "-fx-background-color: rgba(243, 156, 18, 0.15); "
                     + "-fx-background-radius: 10;"
                 );
 
-                // Create a VBox to hold both labels
-                VBox appBox = new VBox(3);
-                appBox.setMaxWidth(160);
-                appBox.setPrefWidth(160);
-                appBox.getChildren().addAll(appLabel, progressLabel);
-                appBox.setStyle("-fx-padding: 2;");
-
-                apps.getChildren().add(appBox);
+                appCard.getChildren().addAll(appLabel, progressLabel);
+                apps.getChildren().add(appCard);
             });
-        apps.setStyle("-fx-spacing: 10;"
-                + " -fx-alignment: center-left;");
+        apps.setStyle("-fx-alignment: center-left;");
 
         // Style the entire card
         cardPane.setStyle(

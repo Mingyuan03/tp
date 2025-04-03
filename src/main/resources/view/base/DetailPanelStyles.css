@@ -1,0 +1,236 @@
+/* Detail Panel Styles - Person Detail Panel and Job Specific Stats Panel */
+
+/* Person Detail Panel */
+.person-detail-container {
+    -fx-background-color: #2d2d30;
+    -fx-padding: 20;
+    -fx-spacing: 16;
+}
+
+.person-detail-title {
+    -fx-text-fill: white;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.person-detail-name {
+    -fx-text-fill: linear-gradient(to right, #ff9966, #ff5e62);
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 5 0 10 0;
+}
+
+.person-detail-info-box {
+    -fx-background-color: linear-gradient(to bottom right, #3a3a3a, #2a2a2a);
+    -fx-padding: 15;
+    -fx-background-radius: 8;
+    -fx-spacing: 8;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 5);
+}
+
+.person-detail-info-title {
+    -fx-text-fill: #66ccff;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 5 0;
+}
+
+.person-detail-job-title {
+    -fx-text-fill: #4facfe;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.person-detail-app-status {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+
+.person-detail-label {
+    -fx-text-fill: #aaaaaa;
+    -fx-font-size: 14px;
+}
+
+.person-detail-value {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+
+.person-detail-tags-container {
+    -fx-spacing: 8;
+    -fx-padding: 8 0 8 0;
+    -fx-alignment: center-left;
+    -fx-wrap-text: true;
+}
+
+.person-detail-tag {
+    -fx-background-color: #3e7b91;
+    -fx-text-fill: white;
+    -fx-padding: 7 12 7 12;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: linear-gradient(to bottom, #444444, #333333);
+    -fx-border-width: 1.5;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.25), 3, 0, 0, 1);
+    -fx-margin: 4;
+}
+
+/* Sidebar Styling */
+.sidebar-container {
+    -fx-min-width: 350px;
+    -fx-pref-width: 350px;
+    -fx-max-width: 450px;
+    -fx-background-color: derive(#1d1d1d, 10%);
+    -fx-border-color: derive(#1d1d1d, 30%);
+    -fx-border-width: 0 0 0 1;
+}
+
+.sidebar-header {
+    -fx-background-color: #252529;
+    -fx-padding: 12 10 12 10;
+    -fx-border-color: #444;
+    -fx-border-width: 0 0 1 0;
+}
+
+.sidebar-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e7e7e7;
+}
+
+.sidebar-content {
+    -fx-background-color: #2A2E33;
+    -fx-padding: 10;
+}
+
+.sidebar-section-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e7e7e7;
+    -fx-padding: 5 0 5 0;
+}
+
+.sidebar-icon {
+    -fx-fill: #e7e7e7;
+}
+
+/* Job Stats Panel Styling */
+.job-stats-title {
+    -fx-text-fill: linear-gradient(to right, #ffffff, #bbbbbb);
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 3, 0, 0, 1);
+    -fx-padding: 0 0 10 0;
+    -fx-border-color: transparent transparent #3e7b91 transparent;
+    -fx-border-width: 0 0 2 0;
+}
+
+/* Skills Summary Styling */
+.skills-summary-container {
+    -fx-background-color: linear-gradient(to bottom right, #3a3a3a, #2a2a2a);
+    -fx-padding: 15;
+    -fx-background-radius: 8;
+    -fx-spacing: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 5);
+}
+
+.skills-summary-title {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 5 0;
+}
+
+.skills-summary-pane {
+    -fx-hgap: 8;
+    -fx-vgap: 8;
+    -fx-padding: 5;
+}
+
+.skill-summary-tag {
+    -fx-background-color: #3e7b91;
+    -fx-text-fill: white;
+    -fx-padding: 5 10 5 10;
+    -fx-background-radius: 5;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 3, 0, 0, 1);
+}
+
+.statistics-container {
+    -fx-background-color: #2d2d30;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-padding: 15;
+}
+
+/* Scroll hint */
+.scroll-hint-label {
+    -fx-text-fill: #777777;
+    -fx-font-size: 12px;
+    -fx-font-style: italic;
+    -fx-padding: 2 0 10 0;
+    -fx-alignment: center-right;
+    -fx-opacity: 0.8;
+}
+
+/* Job Stats ScrollPane Styling */
+.stats-scroll-pane {
+    -fx-background-color: #2d2d30;
+    -fx-background: #2d2d30;
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+}
+
+.stats-scroll-pane > .viewport {
+    -fx-background-color: #2d2d30;
+}
+
+.stats-scroll-pane .scroll-bar:vertical,
+.stats-scroll-pane .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-padding: 0;
+}
+
+.stats-scroll-pane .scroll-bar:vertical .track,
+.stats-scroll-pane .scroll-bar:horizontal .track {
+    -fx-opacity: 0;
+    -fx-background-color: transparent;
+}
+
+.stats-scroll-pane .scroll-bar:vertical .thumb,
+.stats-scroll-pane .scroll-bar:horizontal .thumb {
+    -fx-opacity: 0;
+    -fx-background-color: transparent;
+}
+
+.stats-scroll-pane .increment-button,
+.stats-scroll-pane .decrement-button {
+    -fx-opacity: 0;
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.stats-scroll-pane > .corner {
+    -fx-background-color: #2d2d30;
+}
+
+/* Chart related styles for the detail panels */
+.no-data-label {
+    -fx-text-fill: #e7e7e7;
+    -fx-font-size: 14pt;
+    -fx-font-style: italic;
+    -fx-alignment: center;
+}
+
+/* Chart section title styling */
+.chart-section-title {
+    -fx-font-size: 16pt;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e7e7e7;
+    -fx-padding: 15 0 10 0;
+}

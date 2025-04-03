@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
@@ -36,6 +38,12 @@ public class EditJobCommand extends Command {
             + "by the index number used in the displayed job list. "
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: " + BRIEF_MESSAGE_USAGE;
+            + "Existing values will be overwritten by the input values. Must provide at least 1 field.\n"
+            + "Parameters: INDEX (must be a positive integer) " + "[" + PREFIX_JOB_TITLE + "JOB_TITLE] "
+            + "[" + PREFIX_JOB_ROUNDS + "NUMBER_OF_ROUNDS (1-" + JobRounds.MAX_ROUNDS + ")] "
+            + "[" + PREFIX_SKILL + "SKILLS]\n"
+            + "Example: " + COMMAND_WORD + " 2 " + PREFIX_JOB_ROUNDS + "4";
+
     public static final String MESSAGE_EDIT_JOB_SUCCESS = "Edited Job: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_JOB = "This job already exists in the address book.";
@@ -46,7 +54,7 @@ public class EditJobCommand extends Command {
 
     private final Index index;
     private final EditJobDescriptor editJobDescriptor;
-
+    private final Logger logger = LogsCenter.getLogger(EditJobCommand.class);
     /**
      * @param index             of the person in the filtered person list to edit
      * @param editJobDescriptor details to edit the person with
@@ -84,13 +92,15 @@ public class EditJobCommand extends Command {
         List<Application> existingApplications = model.getApplicationsByJob(jobToEdit);
         for (Application app : existingApplications) {
             if (app.getApplicationStatus().applicationStatus > editedJob.getJobRounds().jobRounds) {
+                logger.info("Application status is greater than job rounds");
                 throw new CommandException(MESSAGE_INVALID_APPLICATION_STATUS);
             }
         }
 
         model.setJob(jobToEdit, editedJob);
         model.resetFilteredJobList();
-        return CommandResult.withFeedback(String.format(MESSAGE_EDIT_JOB_SUCCESS, Messages.format(editedJob)));
+        return CommandResult.withRefreshApplications(
+            String.format(MESSAGE_EDIT_JOB_SUCCESS, Messages.format(editedJob)));
     }
 
     /**
