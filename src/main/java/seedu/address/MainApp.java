@@ -15,7 +15,7 @@ import seedu.address.commons.util.ConfigUtil;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.Logic;
 import seedu.address.logic.LogicManager;
-import seedu.address.model.AddressBook;
+import seedu.address.model.ApplicationsManager;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyAddressBook;
@@ -93,25 +93,33 @@ public class MainApp extends Application {
             if (addressBookOptional.isEmpty()) {
                 logger.info("Creating a new data file " + storage.getAddressBookFilePath()
                         + " populated with a sample AddressBook.");
+                initialAddressBookData = SampleDataUtil.getSampleAddressBook();
+                initialApplicationsManagerData = SampleDataUtil.getSampleApplicationsManager();
+            } else {
+                initialAddressBookData = addressBookOptional.get();
+                // load applications manager
+                try {
+                    applicationsManagerOptional = storage.readApplicationsManager();
+                    if (applicationsManagerOptional.isEmpty()) {
+                        logger.info("Creating a new data file " + storage.getApplicationsManagerFilePath()
+                                + " populated with an empty ApplicationsManager.");
+                        initialApplicationsManagerData = new ApplicationsManager();
+                    } else {
+                        initialApplicationsManagerData = applicationsManagerOptional.get();
+                    }
+                } catch (DataLoadingException e) {
+                    logger.warning("Data file at " + storage.getApplicationsManagerFilePath() + " could not be loaded."
+                            + " Will be starting with an empty ApplicationsManager.");
+                    initialApplicationsManagerData = new ApplicationsManager();
+                }
             }
-            initialAddressBookData = addressBookOptional.orElseGet(SampleDataUtil::getSampleAddressBook);
         } catch (DataLoadingException e) {
-            logger.warning("Data file at " + storage.getAddressBookFilePath() + " could not be loaded."
-                    + " Will be starting with an empty AddressBook.");
-            initialAddressBookData = new AddressBook();
-        }
+            // address book loading failed, use sample data for both application manager and
+            // address book
 
-        try {
-            applicationsManagerOptional = storage.readApplicationsManager();
-            if (applicationsManagerOptional.isEmpty()) {
-                logger.info("Creating a new data file " + storage.getApplicationsManagerFilePath()
-                        + " populated with a sample ApplicationsManager.");
-            }
-            initialApplicationsManagerData = applicationsManagerOptional
-                    .orElseGet(SampleDataUtil::getSampleApplicationsManager);
-        } catch (DataLoadingException e) {
-            logger.warning("Data file at " + storage.getApplicationsManagerFilePath() + " could not be loaded."
-                    + " Will be starting with an empty ApplicationsManager.");
+            logger.warning("Data file at " + storage.getAddressBookFilePath() + " could not be loaded."
+                    + " Will be starting with an some sample data.");
+            initialAddressBookData = SampleDataUtil.getSampleAddressBook();
             initialApplicationsManagerData = SampleDataUtil.getSampleApplicationsManager();
         }
 
