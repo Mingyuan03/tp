@@ -44,8 +44,8 @@ public class EditJobCommand extends Command {
     public static final String MESSAGE_DUPLICATE_JOB = "This job already exists in the address book.";
     public static final String MESSAGE_WRONG_VIEW = "This command is only available in job view. "
             + "Please switch to job view first using 'switchview' command.";
-    public static final String MESSAGE_INVALID_APPLICATION_STATUS = "Some applicants are already at an application stage "
-            + "higher than the number of rounds in the edited job.";
+    public static final String MESSAGE_INVALID_APPLICATION_STATUS = "Some applicants are already at an "
+            + "application stage higher than the number of rounds in the edited job.";
 
     private final Index index;
     private final EditJobDescriptor editJobDescriptor;
