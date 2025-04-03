@@ -20,8 +20,8 @@ public class AddJobCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a job to the model manager.\n" + "Parameters: "
             + PREFIX_JOB_TITLE + "JOB_TITLE "
-            + PREFIX_JOB_ROUNDS + "NUMBER_OF_ROUNDS "
-            + PREFIX_SKILL + "SKILLS \n"
+            + PREFIX_JOB_ROUNDS + "NUMBER_OF_ROUNDS ["
+            + PREFIX_SKILL + "SKILLS]\n"
             + "Example: " + COMMAND_WORD + " " + PREFIX_JOB_TITLE + "Software Engineering " + PREFIX_JOB_ROUNDS + "3 ["
             + PREFIX_SKILL + "Python]";
 

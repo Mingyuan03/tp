@@ -1,6 +1,7 @@
 package seedu.address.model.person;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
  * Represents a Person's degree in the address book.
@@ -8,7 +9,10 @@ import static java.util.Objects.requireNonNull;
  */
 public class Degree {
 
-    public static final String MESSAGE_CONSTRAINTS = "Degree can take any values, and it should not be blank";
+    public static final String MESSAGE_CONSTRAINTS = "Degree should only contain alphanumeric "
+            + "characters and spaces, and it should not be blank";
+
+    public static final String VALIDATION_REGEX = "\\p{Alnum}[\\p{Alnum} ]*";
 
     public final String value;
 
@@ -19,7 +23,15 @@ public class Degree {
      */
     public Degree(String degree) {
         requireNonNull(degree);
+        checkArgument(isValidDegree(degree), MESSAGE_CONSTRAINTS);
         this.value = degree;
+    }
+
+    /**
+     * Returns true if a given string is a valid degree.
+     */
+    public static boolean isValidDegree(String test) {
+        return test.matches(VALIDATION_REGEX);
     }
 
     @Override
