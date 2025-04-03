@@ -7,7 +7,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Guarantees: immutable, is natural number (>0) and <= 10 always.
  */
 public class JobRounds {
-    public static final String MESSAGE_CONSTRAINTS = "Job rounds should be a positive integer not exceeding 10";
+    public static final String MESSAGE_CONSTRAINTS = "Job rounds should be a positive integer between 1-10 (inclusive)";
     public static final int MAX_ROUNDS = 10;
     public final int jobRounds; // Primitive int eliminates necessity of this being a normal class.
 

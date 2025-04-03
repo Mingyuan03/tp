@@ -22,8 +22,6 @@ public class DeleteJobCommand extends Command {
             + "Parameters: " + BRIEF_MESSAGE_USAGE + "\nExample: " + COMMAND_WORD + " 1";
     public static final String MESSAGE_DELETE_JOB_SUCCESS = "Deleted Job: %1$s";
     public static final String MESSAGE_INVALID_JOB = "This Job does not exist in the address book";
-    public static final String MESSAGE_WRONG_VIEW = "This command is only available in job view. "
-            + "Please switch to job view first using 'switchview' command.";
 
     private final Index targetIndex;
 
@@ -37,7 +35,7 @@ public class DeleteJobCommand extends Command {
 
         // Check that we're in job view
         if (!model.isInJobView()) {
-            throw new CommandException(MESSAGE_WRONG_VIEW);
+            throw new CommandException(Messages.MESSAGE_NOT_IN_JOB_VIEW);
         }
 
         List<Job> lastShownList = model.getFilteredJobList();

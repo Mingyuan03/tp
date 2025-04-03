@@ -319,5 +319,11 @@ public interface Model {
      * @return Optional containing the application if found, empty Optional otherwise
      */
     Optional<Application> getApplicationByPersonAndJob(Person person, Job job);
+
+    /**
+     * Reapplies any active job filters based on current application filters.
+     * This ensures that jobs without matching applications are filtered out properly.
+     */
+    void reapplyJobFilters();
 }
 

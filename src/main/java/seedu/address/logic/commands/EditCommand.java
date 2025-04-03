@@ -72,7 +72,7 @@ public class EditCommand extends Command {
 
         // Check that we're in person view
         if (model.isInJobView()) {
-            throw new CommandException(MESSAGE_WRONG_VIEW);
+            throw new CommandException(Messages.MESSAGE_NOT_IN_PERSON_VIEW);
         }
 
         List<Person> lastShownList = model.getFilteredPersonList();

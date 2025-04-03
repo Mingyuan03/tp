@@ -92,7 +92,18 @@ public class PersonDetailPanel {
                 String skillText = skill.skillName();
                 Label skillLabel = new Label(skillText);
                 skillLabel.getStyleClass().add("person-detail-tag");
-                skillsContainer.getChildren().add(skillLabel);
+
+                // Limit width and add ellipsis for long skill names
+                skillLabel.setMaxWidth(150);
+                skillLabel.setMinWidth(30);
+                skillLabel.setWrapText(false);
+                skillLabel.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
+
+                // Create a wrapper HBox with padding to add spacing around each skill
+                HBox wrapper = new HBox(skillLabel);
+                wrapper.setStyle("-fx-padding: 3 5 3 5;");
+
+                skillsContainer.getChildren().add(wrapper);
             });
         }
 
@@ -232,8 +243,8 @@ public class PersonDetailPanel {
         skillsContainer.getStyleClass().add("person-detail-tags-container");
         skillsContainer.setPrefWrapLength(350);
         skillsContainer.setMinHeight(80);
-        skillsContainer.setHgap(8);
-        skillsContainer.setVgap(10);
+        skillsContainer.setHgap(15);
+        skillsContainer.setVgap(12);
 
         skillsBox.getChildren().add(skillsContainer);
         container.getChildren().add(skillsBox);

@@ -39,7 +39,7 @@ public class EditJobCommand extends Command {
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: " + BRIEF_MESSAGE_USAGE
             + "Existing values will be overwritten by the input values. Must provide at least 1 field.\n"
-            + "Parameters: INDEX (must be a positive integer) " + "[" + PREFIX_JOB_TITLE + "JOB_TITLE] "
+            + "Parameters: INDEX (must be a positive integer > 0) " + "[" + PREFIX_JOB_TITLE + "JOB_TITLE] "
             + "[" + PREFIX_JOB_ROUNDS + "NUMBER_OF_ROUNDS (1-" + JobRounds.MAX_ROUNDS + ")] "
             + "[" + PREFIX_SKILL + "SKILL]...\n"
             + "Example: " + COMMAND_WORD + " 2 " + PREFIX_JOB_ROUNDS + "4";
@@ -47,8 +47,6 @@ public class EditJobCommand extends Command {
     public static final String MESSAGE_EDIT_JOB_SUCCESS = "Edited Job: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_JOB = "This job already exists in the address book.";
-    public static final String MESSAGE_WRONG_VIEW = "This command is only available in job view. "
-            + "Please switch to job view first using 'switchview' command.";
     public static final String MESSAGE_INVALID_APPLICATION_STATUS = "Some applicants are already at an "
             + "application stage higher than the number of rounds in the edited job.";
 
@@ -73,7 +71,7 @@ public class EditJobCommand extends Command {
 
         // Check that we're in job view
         if (!model.isInJobView()) {
-            throw new CommandException(MESSAGE_WRONG_VIEW);
+            throw new CommandException(Messages.MESSAGE_NOT_IN_JOB_VIEW);
         }
 
         List<Job> lastShownList = model.getFilteredJobList();

@@ -21,8 +21,6 @@ public class ViewJobCommand extends Command {
             + "Parameters: " + BRIEF_MESSAGE_USAGE + "\nExample: " + COMMAND_WORD + " 1";
     public static final String MESSAGE_SUCCESS = "Viewing job: %s";
     public static final String MESSAGE_SUCCESS_NO_APPLICATIONS = "Viewing job: %s (No applications yet)";
-    public static final String MESSAGE_NOT_IN_JOB_VIEW = "This command is only available in job-related views. "
-            + "Please switch to job view first using " + SwitchViewCommand.COMMAND_WORD + " command.";
 
     private final Index targetIndex;
 
@@ -36,7 +34,7 @@ public class ViewJobCommand extends Command {
 
         // Check that we're in job view
         if (!model.isInJobView()) {
-            throw new CommandException(MESSAGE_NOT_IN_JOB_VIEW);
+            throw new CommandException(Messages.MESSAGE_NOT_IN_JOB_VIEW);
         }
 
         List<Job> lastShownList = model.getFilteredJobList();

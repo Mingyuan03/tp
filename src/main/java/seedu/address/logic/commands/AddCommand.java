@@ -31,8 +31,6 @@ public class AddCommand extends Command {
             + PREFIX_SCHOOL + "NUS " + PREFIX_DEGREE + "CS " + PREFIX_SKILL + "Java " + PREFIX_SKILL + "PYTHON";
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
-    public static final String MESSAGE_WRONG_VIEW = "This command is only available in person view. "
-            + "Please switch to person view first using " + SwitchViewCommand.COMMAND_WORD + " command.";
 
     private final Person toAdd;
 
@@ -50,7 +48,7 @@ public class AddCommand extends Command {
 
         // Check that we're in person view
         if (model.isInJobView()) {
-            throw new CommandException(MESSAGE_WRONG_VIEW);
+            throw new CommandException(Messages.MESSAGE_NOT_IN_PERSON_VIEW);
         }
 
         if (model.hasPerson(toAdd)) {
