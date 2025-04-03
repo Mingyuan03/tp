@@ -10,6 +10,7 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.job.Job;
+import seedu.address.model.job.JobRounds;
 
 /**
  * Adds a Job to the address book.
@@ -20,7 +21,7 @@ public class AddJobCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a job to the model manager.\n" + "Parameters: "
             + PREFIX_JOB_TITLE + "JOB_TITLE "
-            + PREFIX_JOB_ROUNDS + "NUMBER_OF_ROUNDS ["
+            + PREFIX_JOB_ROUNDS + "NUMBER_OF_ROUNDS (must be between 1 and " + JobRounds.MAX_ROUNDS + ") ["
             + PREFIX_SKILL + "SKILLS]\n"
             + "Example: " + COMMAND_WORD + " " + PREFIX_JOB_TITLE + "Software Engineering " + PREFIX_JOB_ROUNDS + "3 ["
             + PREFIX_SKILL + "Python]";

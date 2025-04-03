@@ -261,24 +261,6 @@ public class StatisticsChartPanel {
 
         // Set the data - JavaFX will automatically apply default colors consistently to both slices and legend
         jobDistributionChart.setData(pieChartData);
-
-        // Add interactive tooltips to each pie slice for better information display
-        for (PieChart.Data data : pieChartData) {
-            javafx.application.Platform.runLater(() -> {
-                if (data.getNode() != null) {
-                    // Add hover effect
-                    data.getNode().setOnMouseEntered(e ->
-                        data.getNode().setStyle("-fx-border-color: white; -fx-border-width: 2;"));
-                    data.getNode().setOnMouseExited(e ->
-                        data.getNode().setStyle("-fx-border-color: transparent;"));
-
-                    // Create tooltip with full job name and count
-                    javafx.scene.control.Tooltip tooltip = new javafx.scene.control.Tooltip(
-                        data.getName() + ": " + (int) data.getPieValue() + " applicant(s)");
-                    javafx.scene.control.Tooltip.install(data.getNode(), tooltip);
-                }
-            });
-        }
     }
 
     /**

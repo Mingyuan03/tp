@@ -1,0 +1,163 @@
+/* Base Theme - Common styling elements */
+
+.background {
+    -fx-background-color: derive(#1d1d1d, 20%);
+    background-color: #383838; /* Used in the default.html file */
+}
+
+/* Text and labels */
+.label {
+    -fx-font-size: 11pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: #555555;
+    -fx-opacity: 0.9;
+}
+
+.label-bright {
+    -fx-font-size: 11pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: white;
+    -fx-opacity: 1;
+}
+
+.label-header {
+    -fx-font-size: 32pt;
+    -fx-font-family: "Segoe UI Light";
+    -fx-text-fill: white;
+    -fx-opacity: 1;
+}
+
+/* Basic containers */
+.stack-pane {
+     -fx-background-color: derive(#1d1d1d, 20%);
+}
+
+.pane-with-border {
+     -fx-background-color: derive(#1d1d1d, 20%);
+     -fx-border-color: derive(#1d1d1d, 10%);
+     -fx-border-top-width: 1px;
+}
+
+/* Split pane */
+.split-pane:horizontal .split-pane-divider {
+    -fx-background-color: derive(#1d1d1d, 20%);
+    -fx-border-color: transparent transparent transparent #4d4d4d;
+}
+
+.split-pane {
+    -fx-border-radius: 1;
+    -fx-border-width: 1;
+    -fx-background-color: derive(#1d1d1d, 20%);
+}
+
+/* Scrollbar styling */
+.scroll-bar {
+    -fx-background-color: derive(#1d1d1d, 20%);
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: derive(#1d1d1d, 50%);
+    -fx-background-insets: 3;
+}
+
+.scroll-bar .increment-button, .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 0 0;
+}
+
+.scroll-bar .increment-arrow, .scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+}
+
+.scroll-bar:vertical .increment-arrow, .scroll-bar:vertical .decrement-arrow {
+    -fx-padding: 1 8 1 8;
+}
+
+.scroll-bar:horizontal .increment-arrow, .scroll-bar:horizontal .decrement-arrow {
+    -fx-padding: 8 1 8 1;
+}
+
+/* Status bar */
+.status-bar {
+    -fx-background-color: derive(#1d1d1d, 30%);
+    -fx-padding: 5;
+    -fx-border-top-width: 1px;
+    -fx-border-color: derive(#1d1d1d, 40%);
+    -fx-border-radius: 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0, 0, 0);
+    -fx-alignment: center-left;
+    -fx-pref-height: 25px;
+    -fx-min-height: 25px;
+    -fx-max-height: 25px;
+}
+
+.status-bar .label {
+    -fx-font-family: "Segoe UI Light";
+    -fx-text-fill: white;
+    -fx-padding: 4px;
+    -fx-pref-height: 30px;
+}
+
+.status-bar-with-border {
+    -fx-background-color: derive(#1d1d1d, 30%);
+    -fx-border-color: derive(#1d1d1d, 25%);
+    -fx-border-width: 1px;
+}
+
+.status-bar-with-border .label {
+    -fx-text-fill: white;
+}
+
+/* Grid Pane */
+.grid-pane {
+    -fx-background-color: derive(#1d1d1d, 30%);
+    -fx-border-color: derive(#1d1d1d, 30%);
+    -fx-border-width: 1px;
+}
+
+.grid-pane .stack-pane {
+    -fx-background-color: derive(#1d1d1d, 30%);
+}
+
+/* Menu styling */
+.context-menu {
+    -fx-background-color: derive(#1d1d1d, 50%);
+}
+
+.context-menu .label {
+    -fx-text-fill: white;
+}
+
+.menu-bar {
+    -fx-background-color: derive(#1d1d1d, 20%);
+}
+
+.menu-bar .label {
+    -fx-font-size: 14pt;
+    -fx-font-family: "Segoe UI Light";
+    -fx-text-fill: white;
+    -fx-opacity: 0.9;
+}
+
+.menu .left-container {
+    -fx-background-color: black;
+}
+
+/* App title and title bar */
+.app-title {
+    -fx-font-size: 28pt;
+    -fx-font-family: "Segoe UI";
+    -fx-font-weight: bold;
+    -fx-text-fill: linear-gradient(to right, #ffffff, #66ccff);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 6, 0.0, 0, 2);
+    -fx-opacity: 1.0;
+    -fx-padding: 5px;
+    -fx-letter-spacing: 1px;
+}
+
+.title-bar {
+    -fx-background-color: linear-gradient(to bottom, #252529, #1d1d1d);
+    -fx-border-width: 0 0 2 0;
+    -fx-border-color: #3e7b91;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 10, 0.0, 0, 4);
+}
