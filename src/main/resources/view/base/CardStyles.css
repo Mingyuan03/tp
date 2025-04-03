@@ -1,0 +1,342 @@
+/* Card Styles - Person Cards and Job Cards */
+
+/* General tag styling */
+#tags {
+    -fx-hgap: 7;
+    -fx-vgap: 5;
+}
+
+#tags .label {
+    -fx-text-fill: white;
+    -fx-background-color: #3e7b91;
+    -fx-padding: 3 8 3 8;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 2, 0, 0, 1);
+}
+
+/* Application styling */
+#apps {
+    -fx-hgap: 7;
+    -fx-vgap: 7;
+}
+
+#apps .label {
+    -fx-text-fill: white;
+    -fx-padding: 5;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 12px;
+    -fx-alignment: center-left;
+    -fx-wrap-text: true;
+    -fx-max-width: 250px;
+}
+
+/* Icons */
+.glyph-icon {
+    -fx-text-fill: -fx-primary-color;
+}
+
+.phone-icon {
+    -glyph-size: 16px;
+    -fx-fill: #2196F3; /* blue */
+}
+
+.address-icon {
+    -glyph-size: 16px;
+    -fx-fill: #4CAF50; /* green */
+}
+
+.email-icon {
+    -glyph-size: 16px;
+    -fx-fill: #FF9800; /* orange */
+}
+
+.remark-icon {
+    -glyph-size: 16px;
+    -fx-fill: #9C27B0; /* purple */
+}
+
+.skills-icon {
+    -glyph-size: 16px;
+    -fx-fill: #F44336; /* red */
+}
+
+.applications-icon {
+    -glyph-size: 16px;
+    -fx-fill: #8e44ad; /* purple */
+}
+
+/* JobCard Styles */
+.job-card {
+    -fx-background-color: linear-gradient(to bottom, #303030, #252525);
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 5);
+}
+
+.job-card-id {
+    -fx-text-fill: #f39c12;
+}
+
+.job-card-title {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.job-header-container {
+    -fx-background-color: rgba(43, 43, 43, 0.7);
+    -fx-background-radius: 4;
+    -fx-padding: 12 15 12 15;
+}
+
+.job-rounds-box {
+    -fx-background-color: rgba(62, 123, 145, 0.15);
+    -fx-background-radius: 4;
+    -fx-padding: 5 10 5 10;
+}
+
+.job-rounds-label {
+    -fx-text-fill: white;
+}
+
+.applications-box {
+    -fx-background-color: rgba(249, 105, 14, 0.15);
+    -fx-background-radius: 4;
+    -fx-padding: 5 10 5 10;
+}
+
+.applications-label {
+    -fx-text-fill: white;
+}
+
+.applications-badge {
+    -fx-background-color: #3e7b91;
+    -fx-background-radius: 50%;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 3 7 3 7;
+    -fx-font-size: 10pt;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 3, 0, 0, 1);
+}
+
+.applicants-container {
+    -fx-background-color: rgba(43, 43, 43, 0.5);
+    -fx-padding: 15;
+    -fx-background-radius: 4;
+    -fx-hgap: 15;
+    -fx-vgap: 15;
+}
+
+.no-applicants-label {
+    -fx-font-style: italic;
+    -fx-text-fill: #aaaaaa;
+    -fx-padding: 15;
+    -fx-font-size: 14px;
+    -fx-alignment: center;
+}
+
+/* Mini cards */
+.mini-card {
+    -fx-background-color: #333336;
+    -fx-border-color: #3e7b91;
+    -fx-border-width: 0 0 0 3;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 12;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 3, 0, 0, 1);
+}
+
+.mini-card-index {
+    -fx-background-color: #3e7b91;
+    -fx-text-fill: white;
+    -fx-padding: 2 6 2 6;
+    -fx-background-radius: 3;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 2, 0, 0, 1);
+    -fx-alignment: center;
+}
+
+.mini-card-name {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.mini-card-address {
+    -fx-font-size: 12px;
+    -fx-text-fill: #bdc3c7;
+}
+
+.mini-card-address-box {
+    -fx-background-color: rgba(62, 123, 145, 0.15);
+    -fx-background-radius: 4;
+    -fx-padding: 5 10 5 10;
+    -fx-margin: 5 0 5 0;
+}
+
+.skills-header {
+    -fx-background-color: rgba(43, 43, 43, 0.7);
+    -fx-background-radius: 4 4 0 0;
+    -fx-padding: 5 10 5 10;
+}
+
+.skills-header-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.skills-pane {
+    -fx-spacing: 5;
+    -fx-alignment: center-left;
+    -fx-padding: 5 0 5 10;
+}
+
+.skill-tag {
+    -fx-background-color: #3e7b91;
+    -fx-text-fill: white;
+    -fx-padding: 3 8 3 8;
+    -fx-background-radius: 3;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 2, 0, 0, 1);
+}
+
+.progress-header {
+    -fx-background-color: rgba(43, 43, 43, 0.7);
+    -fx-background-radius: 4 4 0 0;
+    -fx-padding: 5 10 5 10;
+}
+
+.progress-header-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.status-label {
+    -fx-text-fill: white;
+    -fx-font-size: 11px;
+    -fx-padding: 3 8 3 8;
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-background-radius: 10;
+    -fx-alignment: center-right;
+}
+
+/* View State Indicator styles */
+.view-state-container {
+    -fx-background-color: derive(#1d1d1d, 30%);
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 3, 0, 0, 0);
+}
+
+.view-state-label-prefix {
+    -fx-font-family: "Segoe UI Light";
+    -fx-text-fill: white;
+    -fx-opacity: 0.7;
+    -fx-font-size: 11px;
+}
+
+.view-state-label {
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: white;
+    -fx-font-size: 11px;
+}
+
+.person-view-state {
+    -fx-background-color: derive(#2C5364, 20%);
+}
+
+.job-view-state {
+    -fx-background-color: derive(#4b6cb7, 20%);
+}
+
+.person-detail-view-state {
+    -fx-background-color: linear-gradient(to right, derive(#2C5364, 40%), derive(#0F2027, 40%));
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 5, 0, 0, 0);
+    -fx-border-width: 0 0 0 2;
+    -fx-border-color: #3e7b91;
+}
+
+.job-detail-view-state {
+    -fx-background-color: derive(#4b6cb7, 40%);
+}
+
+/* Other Mini Person Card Styling */
+.mini-person-card {
+    -fx-background-color: #424242;
+    -fx-background-radius: 5;
+    -fx-border-color: #616161;
+    -fx-border-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 3, 0, 0, 1);
+    -fx-min-width: 150;
+    -fx-max-width: 150;
+    -fx-min-height: 80;
+}
+
+.mini-cell-name-label {
+    -fx-font-size: 11pt;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.mini-cell-school-label {
+    -fx-font-size: 9pt;
+    -fx-text-fill: #b3b3b3;
+}
+
+.mini-skills-pane {
+    -fx-hgap: 3;
+    -fx-vgap: 3;
+    -fx-padding: 2 0 0 0;
+}
+
+.skill-label-small {
+    -fx-background-color: #3e7b91;
+    -fx-background-radius: 3;
+    -fx-padding: 1 4 1 4;
+    -fx-font-size: 8pt;
+    -fx-text-fill: white;
+}
+
+.more-applications-label {
+    -fx-background-color: #424242;
+    -fx-background-radius: 5;
+    -fx-border-color: #616161;
+    -fx-border-radius: 5;
+    -fx-padding: 5 10 5 10;
+    -fx-font-style: italic;
+    -fx-text-fill: #b3b3b3;
+}
+
+.no-applications-label {
+    -fx-font-style: italic;
+    -fx-text-fill: #888888;
+    -fx-padding: 5;
+}
+
+/* Mini status and progress */
+.mini-status-label {
+    -fx-font-size: 10pt;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+}
+
+.mini-progress-info {
+    -fx-alignment: center;
+    -fx-min-width: 160;
+    -fx-padding: 5 0 0 0;
+}
+
+.progress-label {
+    -fx-font-size: 11pt;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e7e7e7;
+}

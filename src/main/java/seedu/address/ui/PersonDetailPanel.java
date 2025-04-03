@@ -2,6 +2,7 @@ package seedu.address.ui;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -17,6 +18,7 @@ public class PersonDetailPanel {
 
     private final Logic logic;
     private final VBox container;
+    private final ScrollPane scrollPane;
     private Label nameLabel;
     private Label phoneLabel;
     private Label emailLabel;
@@ -34,13 +36,28 @@ public class PersonDetailPanel {
     public PersonDetailPanel(Logic logic) {
         this.logic = logic;
         this.container = createContainer();
+        this.scrollPane = createScrollPane();
     }
 
     /**
      * Returns the root container for this panel.
      */
-    public VBox getRoot() {
-        return container;
+    public ScrollPane getRoot() {
+        return scrollPane;
+    }
+
+    /**
+     * Creates a ScrollPane to wrap the content container.
+     */
+    private ScrollPane createScrollPane() {
+        ScrollPane scrollPane = new ScrollPane(container);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(false);
+        scrollPane.setStyle("-fx-background-color: #2d2d30; -fx-background: #2d2d30;");
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setPannable(true);
+        return scrollPane;
     }
 
     /**

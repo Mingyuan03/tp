@@ -1,0 +1,193 @@
+/* Chart Styles - Charts and Statistics Panels */
+
+/* General chart styling */
+.chart {
+    -fx-padding: 10;
+    -fx-background-color: transparent;
+}
+
+.chart-title {
+    -fx-text-fill: #e7e7e7;
+    -fx-font-size: 14pt;
+    -fx-font-weight: bold;
+}
+
+.chart-legend {
+    -fx-background-color: transparent;
+}
+
+.chart-legend-item {
+    -fx-text-fill: #e7e7e7;
+}
+
+/* Pie Chart Styling */
+.pie-chart {
+    -fx-background-color: transparent;
+}
+
+.pie-chart .chart-content {
+    -fx-padding: 10;
+}
+
+.pie-chart .chart-pie {
+    -fx-border-color: #2d2d30;
+    -fx-border-width: 1;
+}
+
+.pie-chart .data0.chart-pie { -fx-pie-color: #3e7b91; }
+.pie-chart .data1.chart-pie { -fx-pie-color: #f39c12; }
+.pie-chart .data2.chart-pie { -fx-pie-color: #e74c3c; }
+.pie-chart .data3.chart-pie { -fx-pie-color: #2ecc71; }
+.pie-chart .data4.chart-pie { -fx-pie-color: #9b59b6; }
+.pie-chart .data5.chart-pie { -fx-pie-color: #1abc9c; }
+.pie-chart .data6.chart-pie { -fx-pie-color: #d35400; }
+.pie-chart .data7.chart-pie { -fx-pie-color: #95a5a6; }
+
+.pie-chart .chart-pie-label {
+    -fx-fill: #e7e7e7;
+    -fx-font-size: 10pt;
+}
+
+/* Force pie colors to be bright */
+.default-color0.chart-pie { -fx-pie-color: #3e7b91; }
+.default-color1.chart-pie { -fx-pie-color: #f39c12; }
+.default-color2.chart-pie { -fx-pie-color: #e74c3c; }
+.default-color3.chart-pie { -fx-pie-color: #2ecc71; }
+.default-color4.chart-pie { -fx-pie-color: #9b59b6; }
+
+/* Bar Chart Styling */
+.bar-chart {
+    -fx-background-color: transparent;
+    -fx-legend-visible: true;
+}
+
+.bar-chart .chart-content {
+    -fx-padding: 10;
+}
+
+.bar-chart .axis {
+    -fx-tick-label-fill: #e7e7e7;
+    -fx-tick-length: 10;
+    -fx-minor-tick-length: 5;
+    -fx-tick-label-font-size: 9pt;
+}
+
+.bar-chart .axis-label {
+    -fx-text-fill: #e7e7e7;
+    -fx-font-size: 10pt;
+}
+
+.bar-chart .chart-bar {
+    -fx-bar-fill: #3e7b91;
+    -fx-background-radius: 3;
+}
+
+.bar-chart .series0.chart-bar { -fx-bar-fill: #3e7b91; }
+.bar-chart .series1.chart-bar { -fx-bar-fill: #f39c12; }
+.bar-chart .series2.chart-bar { -fx-bar-fill: #e74c3c; }
+
+.bar-chart .chart-plot-background {
+    -fx-background-color: #2d2d30;
+}
+
+.bar-chart .chart-vertical-grid-lines {
+    -fx-stroke: transparent;
+}
+
+.bar-chart .chart-horizontal-grid-lines {
+    -fx-stroke: transparent;
+}
+
+/* Make bar chart bars more visible */
+.chart-bar {
+    -fx-bar-fill: #3e7b91;
+    -fx-background-color: #3e7b91;
+    -fx-background-radius: 3;
+    -fx-border-color: transparent;
+}
+
+.default-color0.chart-bar { -fx-bar-fill: #3e7b91; }
+.default-color1.chart-bar { -fx-bar-fill: #f39c12; }
+.default-color2.chart-bar { -fx-bar-fill: #e74c3c; }
+
+/* Make axis labels visible */
+.axis {
+    -fx-tick-label-fill: #e7e7e7;
+    -fx-font-size: 10px;
+}
+
+.axis-label {
+    -fx-text-fill: #e7e7e7;
+}
+
+/* Chart size customization - make charts more visible */
+.pie-chart, .bar-chart {
+    -fx-min-height: 250px;
+    -fx-pref-height: 250px;
+    -fx-background-color: #2d2d30;
+    -fx-padding: 10;
+    -fx-legend-visible: true;
+    -fx-legend-side: RIGHT;
+    -fx-border-color: #444;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+}
+
+/* CRITICAL: This ensures the chart content is rendered */
+.chart-content {
+    -fx-padding: 10px;
+    -fx-background-color: #2d2d30;
+}
+
+/* Make chart plot area visible */
+.chart-plot-background {
+    -fx-background-color: #2d2d30;
+}
+
+/* Rounds Distribution Bar Chart Styling */
+.rounds-distribution-chart {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+}
+
+.rounds-distribution-chart .chart-content {
+    -fx-padding: 10;
+    -fx-background-color: transparent;
+}
+
+.rounds-distribution-chart .chart-title {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+
+.rounds-distribution-chart .axis {
+    -fx-tick-label-fill: white;
+    -fx-tick-length: 10;
+    -fx-font-size: 12px;
+}
+
+.rounds-distribution-chart .axis-label {
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+}
+
+.rounds-distribution-chart .chart-bar {
+    -fx-background-radius: 5;
+    -fx-background-color: linear-gradient(to top, #3e7b91, #66a5bc);
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 5, 0, 0, 0);
+}
+
+.rounds-distribution-chart .chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.rounds-distribution-chart .chart-vertical-grid-lines {
+    -fx-stroke: #3a3a3a;
+    -fx-stroke-width: 1;
+}
+
+.rounds-distribution-chart .chart-horizontal-grid-lines {
+    -fx-stroke: #3a3a3a;
+    -fx-stroke-width: 1;
+}
