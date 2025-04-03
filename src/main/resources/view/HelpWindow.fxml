@@ -23,7 +23,7 @@
       </stylesheets>
 
       <VBox alignment="CENTER" spacing="10" fx:id="helpMessageContainer"
-            maxWidth="Infinity" maxHeight="Infinity" prefWidth="400" prefHeight="500"
+            maxWidth="Infinity" maxHeight="Infinity" prefWidth="750" prefHeight="650"
             stylesheets="@HelpWindow.css" styleClass="help-window"
             xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
         <opaqueInsets>

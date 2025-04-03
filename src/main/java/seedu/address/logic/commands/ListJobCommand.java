@@ -14,7 +14,7 @@ public class ListJobCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Listed all jobs";
     public static final String MESSAGE_WRONG_VIEW = "This command is only available in job view. "
-            + "Please switch to job view first using 'switchview' command.";
+            + "Please switch to job view first using " + SwitchViewCommand.COMMAND_WORD + " command.";
 
     @Override
     public CommandResult execute(Model model) throws CommandException {

@@ -42,13 +42,13 @@ public class HelpWindow extends UiPart<Stage> {
      *
      * @param root Stage to use as the root of the HelpWindow.
      */
-    public HelpWindow(Stage root) {
+    public HelpWindow(Stage root, String message) {
         super(FXML, root);
         // Set modality to block interaction with main window so that end-users must peruse the help content to manually
         // close it before continuing their interaction with main window.
         root.initModality(Modality.APPLICATION_MODAL);
         this.userGuideLink.setText(USERGUIDE_URL);
-        this.helpMessage.setText(HelpCommand.SHOWING_HELP_MESSAGE);
+        this.helpMessage.setText(message); // Display specific help message, defaulting to all messages.
         this.userGuideLink.setOnAction(event -> {
             copyUrl();
             openUserGuide();
@@ -59,7 +59,7 @@ public class HelpWindow extends UiPart<Stage> {
      * Creates a new HelpWindow.
      */
     public HelpWindow() {
-        this(new Stage());
+        this(new Stage(), HelpCommand.getGeneralHelpMessage());
     }
 
     /**

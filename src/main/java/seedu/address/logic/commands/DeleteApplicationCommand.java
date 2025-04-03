@@ -20,15 +20,14 @@ import seedu.address.model.job.Job;
  */
 public class DeleteApplicationCommand extends Command {
     public static final String COMMAND_WORD = "delapp";
+    public static final String BRIEF_MESSAGE_USAGE =
+            "[" + PREFIX_JOB_INDEX + "JOB_INDEX] "
+            + "[" + PREFIX_APPLICATION_INDEX + "APPLICATION_INDEX]";
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes an application from the address book."
-            + "\nParameters: "
-            + PREFIX_JOB_INDEX + "<JOB_INDEX> " + PREFIX_APPLICATION_INDEX + "<APPLICATION_INDEX>\n"
-            + "Example: " + COMMAND_WORD + " " + PREFIX_JOB_INDEX + "1 " + PREFIX_APPLICATION_INDEX + "2\n";
+            + "\nParameters: " + BRIEF_MESSAGE_USAGE
+            + "\nExample: " + COMMAND_WORD + " " + PREFIX_JOB_INDEX + "1 " + PREFIX_APPLICATION_INDEX + "2";
     public static final String MESSAGE_SUCCESS = "Deleted application as follows:\nApplication deleted: {%1$s}";
-    public static final String MESSAGE_INVALID_PERSON = "This person does not exist in the address book. "
-            + "Try using " + AddCommand.COMMAND_WORD + " to add a person first, then use "
-            + AddApplicationCommand.COMMAND_WORD + " to add an application!";
     public static final String MESSAGE_INVALID_JOB = "This job does not exist in the address book. "
             + "Try using " + AddJobCommand.COMMAND_WORD + " to add a job first, then use "
             + AddApplicationCommand.COMMAND_WORD + " to add an application!";
@@ -38,7 +37,7 @@ public class DeleteApplicationCommand extends Command {
             + "Please switch to job view first using 'switchview' command.";
 
     private final Index jobIndex;
-    private Index applicationByJobIndex = null;
+    private final Index applicationByJobIndex;
     private Application applicationToDelete = null;
 
     /**

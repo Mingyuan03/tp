@@ -15,14 +15,12 @@ import seedu.address.model.job.Job;
  * Adds a Job to the address book.
  */
 public class AddJobCommand extends Command {
-
     public static final String COMMAND_WORD = "addjob";
-
+    public static final String BRIEF_MESSAGE_USAGE =
+            "[" + PREFIX_JOB_TITLE + "JOB_TITLE] "
+            + "[" + PREFIX_JOB_ROUNDS + "NUMBER_OF_ROUNDS_OF_INTERVIEWS] " + "[" + PREFIX_SKILL + "SKILLS]";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a job to the model manager. " + "Parameters: "
-            + PREFIX_JOB_TITLE + "JOB_TITLE "
-            + PREFIX_JOB_ROUNDS + "NUMBER_OF_ROUNDS_OF_INTERVIEWS "
-            + PREFIX_SKILL + "SKILLS ";
-
+            + BRIEF_MESSAGE_USAGE;
     public static final String MESSAGE_SUCCESS = "New job added: %1$s";
     public static final String MESSAGE_DUPLICATE_JOB = "This job already exists in the address book";
     public static final String MESSAGE_WRONG_VIEW = "This command is only available in job view. "

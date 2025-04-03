@@ -15,16 +15,14 @@ import seedu.address.model.job.Job;
  * Displays detailed information about a specific job.
  */
 public class ViewJobCommand extends Command {
-
     public static final String COMMAND_WORD = "viewjob";
-
+    public static final String BRIEF_MESSAGE_USAGE = "INDEX (must be a positive integer)";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Views the detailed information of a job. "
+            + "Parameters: " + BRIEF_MESSAGE_USAGE + "\nExample: " + COMMAND_WORD + " 1";
     public static final String MESSAGE_SUCCESS = "Viewing job: %s";
     public static final String MESSAGE_SUCCESS_NO_APPLICATIONS = "Viewing job: %s (No applications yet)";
     public static final String MESSAGE_NOT_IN_JOB_VIEW = "This command is only available in job-related views. "
-            + "Please switch to job view first using 'switchview' command.";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Views the detailed information of a job. "
-            + "Parameters: INDEX (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " 1";
+            + "Please switch to job view first using " + SwitchViewCommand.COMMAND_WORD + " command.";
 
     private final Index targetIndex;
 
