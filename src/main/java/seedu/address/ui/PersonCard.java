@@ -165,7 +165,7 @@ public class PersonCard extends UiPart<Region> {
         applicationsBox.setStyle("-fx-background-color: rgba(43, 43, 43, 0.7);"
                 + " -fx-background-radius: 4 4 0 0;"
                 + " -fx-padding: 5 10 5 10;");
-                
+
         // Make applicationsBox take full width
         applicationsBox.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(applicationsBox, javafx.scene.layout.Priority.ALWAYS);
@@ -200,7 +200,7 @@ public class PersonCard extends UiPart<Region> {
                     + "-fx-background-radius: 4; "
                     + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 2, 0, 0, 1);"
                 );
-                
+
                 // Job title
                 Label appLabel = new Label(jobTitle);
                 appLabel.setWrapText(false);
@@ -210,7 +210,7 @@ public class PersonCard extends UiPart<Region> {
                     "-fx-text-fill: white; "
                     + "-fx-font-weight: bold;"
                 );
-                
+
                 // Progress indicator - show as round X/Y
                 Label progressLabel = new Label("Round: " + currentRound + "/" + maxRound);
                 progressLabel.setWrapText(false);
@@ -221,7 +221,7 @@ public class PersonCard extends UiPart<Region> {
                     + "-fx-background-color: rgba(243, 156, 18, 0.15); "
                     + "-fx-background-radius: 10;"
                 );
-                
+
                 appCard.getChildren().addAll(appLabel, progressLabel);
                 apps.getChildren().add(appCard);
             });

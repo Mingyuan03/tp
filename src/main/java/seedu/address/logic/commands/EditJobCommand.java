@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
@@ -19,9 +21,6 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.application.Application;
-import java.util.logging.Logger;
-import seedu.address.commons.core.LogsCenter;
-
 import seedu.address.model.job.Job;
 import seedu.address.model.job.JobRounds;
 import seedu.address.model.job.JobTitle;
@@ -97,7 +96,8 @@ public class EditJobCommand extends Command {
 
         model.setJob(jobToEdit, editedJob);
         model.resetFilteredJobList();
-        return CommandResult.withRefreshApplications(String.format(MESSAGE_EDIT_JOB_SUCCESS, Messages.format(editedJob)));
+        return CommandResult.withRefreshApplications(
+            String.format(MESSAGE_EDIT_JOB_SUCCESS, Messages.format(editedJob)));
     }
 
     /**

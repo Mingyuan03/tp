@@ -237,18 +237,18 @@ public class JobSpecificStatsPanel {
 
         // Update the y-axis
         yAxis.setAutoRanging(false);
-        
+
         // Calculate appropriate upper bound based on max count and total rounds
         int maxCount = 0;
-        
+
         // Count applications by round
         Map<Integer, Integer> roundCounts = new HashMap<>();
-        
+
         // Initialize all rounds with 0
         for (int i = 0; i <= totalRounds; i++) {
             roundCounts.put(i, 0);
         }
-        
+
         // Count applicants in each round
         if (applications != null) {
             for (Application application : applications) {
@@ -258,18 +258,18 @@ public class JobSpecificStatsPanel {
                 maxCount = Math.max(maxCount, currentCount);
             }
         }
-        
+
         // Set y-axis bounds with some padding and ensure minimum of 5
         int upperBound = Math.max(maxCount + 2, 5);
         int tickUnit = Math.max(1, upperBound / 5);
-        
+
         // Make sure x-axis has enough width for all rounds
         CategoryAxis xAxis = (CategoryAxis) roundDistributionChart.getXAxis();
         int barCount = totalRounds + 1; // +1 for Not Started (round 0)
         // Set category gap proportionally smaller when there are more rounds
         double categoryGap = Math.max(10, 50 - (barCount * 3));
         roundDistributionChart.setCategoryGap(categoryGap);
-        
+
         yAxis.setLowerBound(0);
         yAxis.setUpperBound(upperBound);
         yAxis.setTickUnit(tickUnit);
@@ -315,7 +315,7 @@ public class JobSpecificStatsPanel {
         series.setName(null);
         roundDistributionChart.setLegendVisible(false);
         roundDistributionChart.getData().add(series);
-        
+
         // Force layout refresh to ensure chart updates
         roundDistributionChart.layout();
 

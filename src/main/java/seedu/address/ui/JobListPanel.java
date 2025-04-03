@@ -1,8 +1,8 @@
 package seedu.address.ui;
 
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -270,7 +270,7 @@ public class JobListPanel extends UiPart<Region> {
         // If we're currently viewing a specific job, get the fresh job object from the model
         if (currentlyViewedJob != null) {
             Job updatedJob = null;
-            
+
             // Find the job in the current job list by index
             int jobIndex = -1;
             for (int i = 0; i < jobListView.getItems().size(); i++) {
@@ -279,7 +279,7 @@ public class JobListPanel extends UiPart<Region> {
                     break;
                 }
             }
-            
+
             // If found, get the updated job
             if (jobIndex >= 0) {
                 updatedJob = jobListView.getItems().get(jobIndex);
@@ -291,21 +291,21 @@ public class JobListPanel extends UiPart<Region> {
                     Set<Skill> currentSkills = currentlyViewedJob.getSkills();
                     Set<Skill> jobSkills = job.getSkills();
                     boolean hasCommonSkills = false;
-                    
+
                     for (Skill skill : currentSkills) {
                         if (jobSkills.contains(skill)) {
                             hasCommonSkills = true;
                             break;
                         }
                     }
-                    
+
                     if (hasCommonSkills) {
                         updatedJob = job;
                         break;
                     }
                 }
             }
-            
+
             // Update the reference if we found the updated job
             if (updatedJob != null) {
                 currentlyViewedJob = updatedJob;
@@ -318,7 +318,7 @@ public class JobListPanel extends UiPart<Region> {
                 // If we're viewing a person's details, refresh that view
                 Application currentApplication = null;
                 List<Application> applications = logic.getFilteredApplicationsByJob(currentlyViewedJob);
-                
+
                 if (applications != null) {
                     for (Application app : applications) {
                         if (app.getApplicant().equals(currentlyViewedPerson)) {
@@ -327,7 +327,7 @@ public class JobListPanel extends UiPart<Region> {
                         }
                     }
                 }
-                
+
                 if (currentApplication != null) {
                     personDetailPanel.updateForPerson(currentlyViewedPerson, currentlyViewedJob, currentApplication);
                 }

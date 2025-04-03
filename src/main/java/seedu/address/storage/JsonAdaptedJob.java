@@ -73,11 +73,7 @@ class JsonAdaptedJob {
             throw new IllegalValueException(
                     String.format(MISSING_FIELD_MESSAGE_FORMAT, JobRounds.class.getSimpleName()));
         }
-        
-        if (!JobRounds.isValidJobRounds(this.jobRounds)) {
-            throw new IllegalValueException(JobRounds.MESSAGE_CONSTRAINTS);
-        }
-        
+
         final JobRounds modelJobRounds = new JobRounds(jobRounds);
 
         final Set<Skill> modelSkills = new HashSet<>(jobSkills);
