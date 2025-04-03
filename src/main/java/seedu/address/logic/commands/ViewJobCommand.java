@@ -23,7 +23,7 @@ public class ViewJobCommand extends Command {
     public static final String MESSAGE_NOT_IN_JOB_VIEW = "This command is only available in job-related views. "
             + "Please switch to job view first using 'switchview' command.";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Views the detailed information of a job. "
-            + "Parameters: INDEX (must be a positive integer)\n"
+            + "Parameters: JOB_INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
     private final Index targetIndex;

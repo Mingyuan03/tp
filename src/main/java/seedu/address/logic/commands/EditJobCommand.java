@@ -32,10 +32,11 @@ public class EditJobCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the job identified "
             + "by the index number used in the displayed job list. "
-            + "Existing values will be overwritten by the input values.\n"
+            + "Existing values will be overwritten by the input values. Must provide at least 1 field.\n"
             + "Parameters: INDEX (must be a positive integer) " + "[" + PREFIX_JOB_TITLE + "JOB_TITLE] "
             + "[" + PREFIX_JOB_ROUNDS + "NUMBER_OF_ROUNDS] "
-            + "[" + PREFIX_SKILL + "SKILLS] ";
+            + "[" + PREFIX_SKILL + "SKILLS]\n"
+            + "Example: " + COMMAND_WORD + " 2 " + PREFIX_JOB_ROUNDS + "4";
 
     public static final String MESSAGE_EDIT_JOB_SUCCESS = "Edited Job: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";

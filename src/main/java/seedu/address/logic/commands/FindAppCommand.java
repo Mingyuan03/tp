@@ -27,9 +27,9 @@ public class FindAppCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Filters the list to show only applications "
             + "with the specified status in job view.\n"
-            + "Parameters: " + PREFIX_JOB_INDEX + " OPTIONAL JOB INDEX IN JOB VIEW "
-            + PREFIX_APPLICATION_STATUS + "ROUNDS\n"
-            + "Example: " + COMMAND_WORD + PREFIX_JOB_INDEX + " 1 " + PREFIX_APPLICATION_STATUS + " 2";
+            + "Parameters: " + PREFIX_APPLICATION_STATUS + "ROUNDS "
+            + "[" + PREFIX_JOB_INDEX + "JOB_INDEX]\n"
+            + "Example: " + COMMAND_WORD + " " + PREFIX_APPLICATION_STATUS + " 2 " + PREFIX_JOB_INDEX + " 1 ";
     public static final String MESSAGE_SUCCESS = "Filtered applications by status: %1$s";
     public static final String MESSAGE_NO_MATCHES = "No applications found with status: %1$s";
     public static final String MESSAGE_JOB_NOT_FOUND = "The specified job index is invalid";
