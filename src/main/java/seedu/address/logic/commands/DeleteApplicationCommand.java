@@ -10,6 +10,7 @@ import java.util.List;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.application.Application;
@@ -34,8 +35,6 @@ public class DeleteApplicationCommand extends Command {
             + AddApplicationCommand.COMMAND_WORD + " to add an application!";
     public static final String MESSAGE_INVALID_APPLICATION = "This application does not exist in the address book. "
             + "Try using " + AddApplicationCommand.COMMAND_WORD + " to add an application first!";
-    public static final String MESSAGE_WRONG_VIEW = "This command is only available in job view. "
-            + "Please switch to job view first using 'switchview' command.";
 
     private final Index jobIndex;
     private Index applicationByJobIndex = null;
@@ -58,7 +57,7 @@ public class DeleteApplicationCommand extends Command {
 
         // Check that we're in job view
         if (!model.isInJobView()) {
-            throw new CommandException(MESSAGE_WRONG_VIEW);
+            throw new CommandException(Messages.MESSAGE_NOT_IN_JOB_VIEW);
         }
 
         ObservableList<Job> lastShownJobList = model.getFilteredJobList();

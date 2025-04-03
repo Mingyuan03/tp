@@ -19,6 +19,10 @@ public class Messages {
     public static final String MESSAGE_INVALID_JOB_DISPLAYED_INDEX = "The job index provided is invalid";
     public static final String MESSAGE_DUPLICATE_FIELDS = "Multiple values specified "
             + "for the following single-valued field(s): ";
+    public static final String MESSAGE_NOT_IN_JOB_VIEW = "This command is only available in job-related views. "
+            + "Please switch to job view first using 'switch' command.";
+    public static final String MESSAGE_NOT_IN_PERSON_VIEW = "This command is only available in person view. "
+            + "Please switch to person view first using 'switch' command.";
 
     /**
      * Returns an error message indicating the duplicate prefixes.
