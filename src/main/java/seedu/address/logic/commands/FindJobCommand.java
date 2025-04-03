@@ -3,13 +3,13 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.job.JobContainsKeywordsPredicate;
 
 /**
- * Finds and lists all jobs in address book whose JobTitle contains any of the argument keywords.
+ * Finds and lists all jobs in address book whose JobTitle contains any of the
+ * argument keywords.
  * Keyword matching is case-insensitive.
  */
 public class FindJobCommand extends Command {
@@ -19,6 +19,10 @@ public class FindJobCommand extends Command {
             + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
             + "Parameters: " + BRIEF_MESSAGE_USAGE + "\nExample: " + COMMAND_WORD + " Software Engineering";
     public static final String MESSAGE_WRONG_VIEW = "This command is only available in job view. "
+            + "Please switch to job view first using 'switchview' command.";
+    public static final String MESSAGE_NO_MATCHES = "No jobs found matching search query. To see all "
+            + "jobs again, use the 'listjob' command.";
+    public static final String MESSAGE_JOBS_LISTED_OVERVIEW = "%1$d jobs listed!";
             + "Please switch to job view first using " + SwitchViewCommand.COMMAND_WORD + " command.";
 
     private final JobContainsKeywordsPredicate predicate;
@@ -42,11 +46,10 @@ public class FindJobCommand extends Command {
         if (model.getFilteredJobList().isEmpty()) {
             // Reset the view state to job view (default view)
             model.setViewState(Model.ViewState.JOB_VIEW);
-            return CommandResult.withRefreshJobView(
-                String.format(Messages.MESSAGE_JOBS_LISTED_OVERVIEW, 0));
+            return CommandResult.withRefreshJobView(MESSAGE_NO_MATCHES);
         } else {
             return CommandResult.withRefreshJobView(
-                String.format(Messages.MESSAGE_JOBS_LISTED_OVERVIEW, model.getFilteredJobList().size()));
+                    String.format(MESSAGE_JOBS_LISTED_OVERVIEW, model.getFilteredJobList().size()));
         }
     }
 
