@@ -7,6 +7,7 @@ import static seedu.address.testutil.TypicalPersons.getTypicalApplicationsManage
 import org.junit.jupiter.api.Test;
 
 import seedu.address.model.AddressBook;
+import seedu.address.model.ApplicationsManager;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -27,7 +28,7 @@ public class ClearCommandTest {
         Model expectedModel = new ModelManager(getTypicalAddressBook(), getTypicalApplicationsManager(),
                 new UserPrefs());
         expectedModel.setAddressBook(new AddressBook());
-
+        expectedModel.setApplicationsManager(new ApplicationsManager());
         assertCommandSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS, expectedModel);
     }
 

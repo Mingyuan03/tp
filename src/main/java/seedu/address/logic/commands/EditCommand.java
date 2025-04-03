@@ -144,7 +144,8 @@ public class EditCommand extends Command {
         }
 
         /**
-         * Copy constructor. A defensive copy of {@code EditPersonDescriptor} is used internally.
+         * Copy constructor. A defensive copy of {@code EditPersonDescriptor} is used
+         * internally.
          */
         public EditPersonDescriptor(EditPersonDescriptor toCopy) {
             setName(toCopy.name);
