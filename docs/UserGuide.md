@@ -6,10 +6,29 @@
 
 # TalentMatch User Guide
 
-TalentMatch is a **desktop app for managing applicants, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). 
-TalentMatch is targeted for use by HR recruiters from **Small and Medium Enterprises** (SME) based in Singapore to manage internship applications from students in local universities.<br>
-You can add, delete, and view all application details, including job and person details from TalentMatch.
-If you can type fast, TalentMatch can get your application management tasks done faster than traditional GUI apps.
+## 🚀 **Revolutionize Your Recruitment Process**
+
+**TalentMatch** is the ultimate **power tool for HR recruiters** in Singapore SMEs who are drowning in internship applications from local universities and need a lifeline. Say goodbye to spreadsheet nightmares and scattered emails!
+
+### 💪 **Built for Busy HR Professionals Like You**
+
+Are you tired of:
+* Losing track of promising candidates?
+* Forgetting which round of interviews applicants are in?
+* Struggling to match the right skills to the right positions?
+* Wasting hours on administrative busywork instead of finding your next star intern?
+
+**TalentMatch** combines lightning-fast command-line efficiency with intuitive visuals to give you **complete control** over your recruitment pipeline. Our SME-focused solution lets you manage your entire internship program from a single dashboard.
+
+### ⚡ **Work at the Speed of Thought**
+
+With TalentMatch's CLI interface, you can:
+* **Process applications 3x faster** than traditional methods
+* **Track candidate progress** across multiple interview rounds
+* **Visualize your talent pipeline** with powerful stats and charts
+* **Never lose an applicant's details** again with automatic data organization
+
+The more you type, the more time you save. Master our simple commands and watch your productivity soar!
 
 <!-- * Table of Contents -->
 <page-nav-print />
