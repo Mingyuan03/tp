@@ -266,6 +266,9 @@ public class MainWindow extends UiPart<Stage> {
                 // Otherwise show general statistics
                 jobListPanel.showGeneralStatistics();
             }
+            
+            // Always refresh the sidepane to ensure it has the latest data
+            jobListPanel.refreshSidepane();
         }
     }
 

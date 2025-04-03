@@ -141,14 +141,21 @@ public class ParserUtil {
      * trailing whitespaces will be trimmed.
      *
      * @param jobRounds Raw jobRounds String by user.
-     * @return trimmed remark without leading and trailing whitespaces for more
-     *         efficient processing.
+     * @return JobRounds object with validated value.
+     * @throws ParseException if the given {@code jobRounds} is invalid.
      */
-    public static JobRounds parseJobRounds(String jobRounds) {
+    public static JobRounds parseJobRounds(String jobRounds) throws ParseException {
         jobRounds = jobRounds.trim();
         requireNonNull(jobRounds);
-        int jobRoundsCount = Integer.parseInt(jobRounds);
-        return new JobRounds(jobRoundsCount);
+        try {
+            int jobRoundsCount = Integer.parseInt(jobRounds);
+            if (!JobRounds.isValidJobRounds(jobRoundsCount)) {
+                throw new ParseException(JobRounds.MESSAGE_CONSTRAINTS);
+            }
+            return new JobRounds(jobRoundsCount);
+        } catch (NumberFormatException e) {
+            throw new ParseException("Job rounds must be a valid integer: " + e.getMessage());
+        }
     }
 
     /**

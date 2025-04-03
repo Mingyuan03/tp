@@ -1,0 +1,138 @@
+/* List and Table View Styles */
+
+/* List view styling */
+.list-view {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-background-color: derive(#1d1d1d, 20%);
+}
+
+.list-cell {
+    -fx-label-padding: 0 0 0 0;
+    -fx-graphic-text-gap : 0;
+    -fx-padding: 0 0 0 0;
+    -fx-background-color: transparent;
+}
+
+.list-cell:filled:even {
+    -fx-background-color: #3c3e3f;
+}
+
+.list-cell:filled:odd {
+    -fx-background-color: #515658;
+}
+
+.list-cell:filled:selected {
+    -fx-background-color: #424d5f;
+}
+
+.list-cell:filled:selected #cardPane {
+    -fx-border-color: #3e7b91;
+    -fx-border-width: 1;
+}
+
+.list-cell .label {
+    -fx-text-fill: white;
+}
+
+.cell_big_label {
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 16px;
+    -fx-text-fill: #010504;
+}
+
+.cell_small_label {
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 13px;
+    -fx-text-fill: #010504;
+}
+
+/* Table view styling */
+.table-view {
+    -fx-base: #1d1d1d;
+    -fx-control-inner-background: #1d1d1d;
+    -fx-background-color: #1d1d1d;
+    -fx-table-cell-border-color: transparent;
+    -fx-table-header-border-color: transparent;
+    -fx-padding: 5;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-size: 35;
+    -fx-border-width: 0 0 1 0;
+    -fx-background-color: transparent;
+    -fx-border-color:
+        transparent
+        transparent
+        derive(-fx-base, 80%)
+        transparent;
+    -fx-border-insets: 0 10 1 0;
+}
+
+.table-view .column-header .label {
+    -fx-font-size: 20pt;
+    -fx-font-family: "Segoe UI Light";
+    -fx-text-fill: white;
+    -fx-alignment: center-left;
+    -fx-opacity: 1;
+}
+
+.table-view:focused .table-row-cell:filled:focused:selected {
+    -fx-background-color: -fx-focus-color;
+}
+
+/* Tab pane styling */
+.tab-pane {
+    -fx-padding: 0 0 0 1;
+}
+
+.tab-pane .tab-header-area {
+    -fx-padding: 0 0 0 0;
+    -fx-min-height: 0;
+    -fx-max-height: 0;
+}
+
+/* Card Pane */
+#cardPane {
+    -fx-background-color: #3a3a3a;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 5);
+    -fx-border-width: 0;
+}
+
+/* Job List container styling */
+.job-list-container {
+    -fx-min-width: 350px;
+    -fx-pref-width: 500px;
+}
+
+/* SplitPane scrollbar styling */
+.split-pane .scroll-bar:vertical,
+.split-pane .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+}
+
+.split-pane .corner {
+    -fx-background-color: transparent;
+}
+
+/* Ensure scrollbars are hidden in any containers within SplitPane */
+.split-pane * .scroll-bar:vertical,
+.split-pane * .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+}
+
+/* Style the SplitPane divider for the sidebar */
+#splitPane > .split-pane-divider {
+    -fx-background-color: derive(#1d1d1d, 30%);
+    -fx-padding: 0 1px 0 1px;
+} 

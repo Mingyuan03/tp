@@ -19,6 +19,9 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.application.Application;
+import java.util.logging.Logger;
+import seedu.address.commons.core.LogsCenter;
+
 import seedu.address.model.job.Job;
 import seedu.address.model.job.JobRounds;
 import seedu.address.model.job.JobTitle;
@@ -35,7 +38,7 @@ public class EditJobCommand extends Command {
             + "by the index number used in the displayed job list. "
             + "Existing values will be overwritten by the input values. Must provide at least 1 field.\n"
             + "Parameters: INDEX (must be a positive integer) " + "[" + PREFIX_JOB_TITLE + "JOB_TITLE] "
-            + "[" + PREFIX_JOB_ROUNDS + "NUMBER_OF_ROUNDS] "
+            + "[" + PREFIX_JOB_ROUNDS + "NUMBER_OF_ROUNDS (1-" + JobRounds.MAX_ROUNDS + ")] "
             + "[" + PREFIX_SKILL + "SKILLS]\n"
             + "Example: " + COMMAND_WORD + " 2 " + PREFIX_JOB_ROUNDS + "4";
 
@@ -49,7 +52,7 @@ public class EditJobCommand extends Command {
 
     private final Index index;
     private final EditJobDescriptor editJobDescriptor;
-
+    private final Logger logger = LogsCenter.getLogger(EditJobCommand.class);
     /**
      * @param index             of the person in the filtered person list to edit
      * @param editJobDescriptor details to edit the person with
@@ -87,13 +90,14 @@ public class EditJobCommand extends Command {
         List<Application> existingApplications = model.getApplicationsByJob(jobToEdit);
         for (Application app : existingApplications) {
             if (app.getApplicationStatus().applicationStatus > editedJob.getJobRounds().jobRounds) {
+                logger.info("Application status is greater than job rounds");
                 throw new CommandException(MESSAGE_INVALID_APPLICATION_STATUS);
             }
         }
 
         model.setJob(jobToEdit, editedJob);
         model.resetFilteredJobList();
-        return CommandResult.withFeedback(String.format(MESSAGE_EDIT_JOB_SUCCESS, Messages.format(editedJob)));
+        return CommandResult.withRefreshApplications(String.format(MESSAGE_EDIT_JOB_SUCCESS, Messages.format(editedJob)));
     }
 
     /**

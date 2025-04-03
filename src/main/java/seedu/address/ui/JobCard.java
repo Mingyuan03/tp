@@ -61,7 +61,7 @@ public class JobCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         jobTitle.setText(job.getJobTitle().jobTitle());
         jobTitle.setWrapText(false);
-        jobTitle.setMaxWidth(200);
+        jobTitle.setMaxWidth(350);
         jobTitle.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
 
         // Add header icons
