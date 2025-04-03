@@ -350,7 +350,7 @@ Format: `delapp ij/JOB_INDEX ia/APPLICATION_BY_JOB_INDEX`
 
 <box type="warning" seamless>
 
-**Constraints:** 
+**Constraints:**
 * HR recruiters must toggle to the job view, if not already in this view, to delete an application.
 TalentMatch flags it out with this exception message:
     * `This command is only available in job view. Please switch to job view first using 'switchview' command.`
@@ -360,7 +360,7 @@ TalentMatch flags it out with this exception message:
       delapp: Deletes an application from the address book.
       Parameters: ij/<JOB_INDEX> ia/<APPLICATION_INDEX>
       Example: delapp ij/1 ia/2```
-* A unique existing application must be present. 
+* A unique existing application must be present.
 TalentMatch flags deleting non-existent out applications with this exception message:
     * `This application does not exist in the address book. Try using addapp to add an application first!`
 </box>

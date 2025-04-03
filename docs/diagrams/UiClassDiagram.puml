@@ -72,4 +72,5 @@ StatisticsChartPanel -[hidden]down- JobSpecificStatsPanel
 JobSpecificStatsPanel -[hidden]down- PersonDetailPanel
 
 MainWindow -[hidden]-|> UiPart
+
 @enduml
