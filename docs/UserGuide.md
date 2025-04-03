@@ -6,7 +6,10 @@
 
 # TalentMatch User Guide
 
-TalentMatch is a **desktop app for managing applicants, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, TalentMatch can get your applicant management tasks done faster than traditional GUI apps.
+TalentMatch is a **desktop app for managing applicants, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). 
+TalentMatch is targeted for use by HR recruiters from **Small and Medium Enterprises** (SME) based in Singapore to manage internship applications from students in local universities.<br>
+You can add, delete, and view all application details, including job and person details from TalentMatch.
+If you can type fast, TalentMatch can get your application management tasks done faster than traditional GUI apps.
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -18,26 +21,26 @@ TalentMatch is a **desktop app for managing applicants, optimized for use via a 
 1. Ensure you have Java `17` or above installed in your Computer.<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-1. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
+1. Download the latest `.jar` file from [here](https://github.com/AY2425S2-CS2103T-T08-4/tp/releases).
 
 1. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
+1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar TalentMatch.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
-   * `list` : Lists all contacts.
+  * `listjob` : Lists all job entries.
 
-   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+  * `addjob jt/Software Developer jr/3 k/JavaScript`: Adds a job titled `Software Developer` to TalentMatch.
 
-   * `delete 3` : Deletes the 3rd contact shown in the current list.
+  * `deljob 3` : Deletes the 3rd job shown in the current list.
 
-   * `clear` : Deletes all contacts.
+  * `clear` : Deletes all entries.
 
-   * `exit` : Exits the app.
+  * `exit` : Exits the app.
 
 1. Refer to the [Features](#features) below for details of each command.
 
@@ -49,22 +52,25 @@ TalentMatch is a **desktop app for managing applicants, optimized for use via a 
 
 **Notes about the command format:**<br>
 
-* Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
+* Words in `UPPER_CASE` are the parameters to be supplied by you.<br>
   e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
 
 * Items in square brackets are optional.<br>
-  e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
+  e.g `n/NAME [k/SKILL]` can be used as `n/John Doe k/Python` or as `n/John Doe`.
 
 * Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
+  e.g. `[k/SKILL]…​` can be used as ` ` (i.e. 0 times), `k/Python`, `k/Java k/Python` etc.
 
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
+* All prefixes used in TalentMatch are case-sensitive.<br>
+  e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `N/NAME P/PHONE_NUMBER` is not acceptable.
+
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
-* Job commands should be called only in job view while person commands should be called only in person view. This is to ensure users can see real time updates in response to their query.
+* Job commands should be called only in job view while person commands should be called only in person view. This is to ensure you can see real time updates in response to their queries.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </box>
@@ -79,10 +85,20 @@ Format: `help`
 
 ### Switching views : `switch`
 
-Switches the view of GUI from a persons list to a jobs list
+Switches the view of GUI from job view to person view.
 
-Format: `switch
-`
+Please note the differences in job view and person view as the commands available are different.
+
+**Job View:**
+
+![job view](images/Ui.png)
+
+**Person View:**
+
+![person view](images/personView.png)
+
+Format: `switch`
+
 ### Adding a person/job/application
 
 #### Adding a person: `add`
