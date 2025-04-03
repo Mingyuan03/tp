@@ -351,6 +351,11 @@ public class AddCommandTest {
         public void resetFilteredApplicationList() {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public void reapplyJobFilters() {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**

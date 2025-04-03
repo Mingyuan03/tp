@@ -70,6 +70,11 @@ public interface Logic {
     void resetFilteredApplicationList();
 
     /**
+     * Resets the filter of the filtered job list to show all jobs
+     */
+    void resetFilteredJobList();
+
+    /**
      * Returns the previous command relative to current pointer in the command history.
      */
     String getPrevCommand();
@@ -104,4 +109,10 @@ public interface Logic {
      * @return The current view state.
      */
     ViewState getViewState();
+
+    /**
+     * Reapplies any active job filters based on current application filters.
+     * This ensures that jobs without matching applications are filtered out properly.
+     */
+    void reapplyJobFilters();
 }

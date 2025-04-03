@@ -367,7 +367,16 @@ public class JobListPanel extends UiPart<Region> {
     public void refreshJobView() {
         int size = jobListView.getItems().size();
         // Always refresh the view, even if the list is empty
+        // Force refresh of all cells to ensure they show the correct application count
+
+        // Request layout to ensure visibility changes are applied
+        jobListView.requestLayout();
+
+        // Force refresh of all cells
         jobListView.refresh();
+
+        // Ensure UI update is processed immediately
+        jobListView.layout();
 
         // If the list is now empty, make sure to show the general statistics panel
         // which will display "No applications yet" or similar messages

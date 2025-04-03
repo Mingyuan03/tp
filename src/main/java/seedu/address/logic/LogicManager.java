@@ -118,6 +118,11 @@ public class LogicManager implements Logic {
     }
 
     @Override
+    public void resetFilteredJobList() {
+        model.resetFilteredJobList();
+    }
+
+    @Override
     public ObservableList<Job> getFilteredJobList() {
         return model.getFilteredJobList();
     }
@@ -150,5 +155,10 @@ public class LogicManager implements Logic {
     @Override
     public void setGuiSettings(GuiSettings guiSettings) {
         model.setGuiSettings(guiSettings);
+    }
+
+    @Override
+    public void reapplyJobFilters() {
+        model.reapplyJobFilters();
     }
 }
