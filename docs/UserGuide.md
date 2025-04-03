@@ -6,10 +6,29 @@
 
 # TalentMatch User Guide
 
-TalentMatch is a **desktop app for managing applicants, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). 
-TalentMatch is targeted for use by HR recruiters from **Small and Medium Enterprises** (SME) based in Singapore to manage internship applications from students in local universities.<br>
-You can add, delete, and view all application details, including job and person details from TalentMatch.
-If you can type fast, TalentMatch can get your application management tasks done faster than traditional GUI apps.
+## 🚀 **Revolutionize Your Recruitment Process**
+
+**TalentMatch** is the ultimate **power tool for HR recruiters** in Singapore SMEs who are drowning in internship applications from local universities and need a lifeline. Say goodbye to spreadsheet nightmares and scattered emails!
+
+### 💪 **Built for Busy HR Professionals Like You**
+
+Are you tired of:
+* Losing track of promising candidates?
+* Forgetting which round of interviews applicants are in?
+* Struggling to match the right skills to the right positions?
+* Wasting hours on administrative busywork instead of finding your next star intern?
+
+**TalentMatch** combines lightning-fast command-line efficiency with intuitive visuals to give you **complete control** over your recruitment pipeline. Our SME-focused solution lets you manage your entire internship program from a single dashboard.
+
+### ⚡ **Work at the Speed of Thought**
+
+With TalentMatch's CLI interface, you can:
+* **Process applications 3x faster** than traditional methods
+* **Track candidate progress** across multiple interview rounds
+* **Visualize your talent pipeline** with powerful stats and charts
+* **Never lose an applicant's details** again with automatic data organization
+
+The more you type, the more time you save. Master our simple commands and watch your productivity soar!
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -64,8 +83,9 @@ If you can type fast, TalentMatch can get your application management tasks done
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* All prefixes used in TalentMatch are case-sensitive.<br>
+* All prefixes and commands used in TalentMatch are case-sensitive.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `N/NAME P/PHONE_NUMBER` is not acceptable.
+  e.g. if the command specifies `addjob jt/JOB_TITLE`, `ADDJOB JT/JOB_TITLE` is not acceptable.
 
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
@@ -130,17 +150,34 @@ Examples:
 #### Adding an application: `addapp`
 Adds an application to TalentMatch
 
-Format: `addapp p/PHONE_NUMBER jt/JOB_TITLE [as/APPLICATION_STATUS]`
+Format: `addapp ip/PERSON_INDEX ij/JOB_INDEX`
 
 <box type="tip" seamless>
 
-**Tip:**
-* The default application status is 0
-* The specified phone number and job title must exist in TalentMatch
+**Tips:**
+* All applications start from the 0th round each time.
+* The person index can be obtained by switching to person view in TalentMatch.
+* The job index can be obtained by switching to job view in TalentMatch.
 </box>
 
-Examples:
-* `addapp p/98765432 jt/Software Engineering as/3`
+<box type="warning" seamless>
+
+**Constraints:**
+* Person and job indices must be valid positive integers existing in the respective views.
+TalentMatch flags it out with this exception message:
+    * ```Invalid command format!
+      addapp: Adds an application to the address book.
+      Parameters: ip/PERSON INDEX IN PERSON VIEW ij/JOB INDEX IN JOB VIEW
+      Example: addapp ip/1 ij/2```
+* No existing applications must be present.
+TalentMatch flags duplicate applications for the same applicant and job out with this exception message:
+    * `This application already exists in the address book Try using delapp instead!`
+</box>
+
+Example of a successful command alongside graphical depiction:
+* `addapp ip/1 ij/4`
+* ![img_1.png](img_1.png)
+
 
 ### Listing all persons/jobs
 
@@ -235,16 +272,31 @@ Examples:
 
 #### Locating application: `findapp`
 
-Finds application whose details contain both keywords.
+Finds application by job index and application status in job view.
 
-Format: `findapp p/PHONE_NUMBER jt/JOB_TITLE`
+Format: `findapp ij/JOB INDEX as/APPLICATION STATUS`
 
-* The search is case-insensitive. e.g `software` will match `Software`
-* Only full words will be matched e.g. `Engi` will not match `Engineer`
-* Matching application will be found, else return a NOT_FOUND_MESSAGE
+<box type="tip" seamless>
 
-Examples:
-* `findapp p/98765432 jt/Software Engineering` returns `Software Engineering`
+**Tip:**
+* Both the job index and application status can be retrieved from the job view alone.
+* The application status is mandatory but the job index is optional. Specify one for a more general search!
+* </box>
+
+<box type="warning" seamless>
+
+**Constraints:**
+* Job indices and application status must be valid positive integers existing in the respective views.
+TalentMatch flags it out with this exception message:
+    * ```Invalid command format!
+      findapp: Filters the list to show only applications with the specified status in job view.
+      Parameters: ij/ OPTIONAL JOB INDEX IN JOB VIEW as/ROUNDS
+      Example: findappij/ 1 as/ 2```
+* The desired application must already exist in TalentMatch. TalentMatch cannot find a non-existent application!
+</box>
+Example of a successful command alongside graphical depiction:
+* `findapp as/2`
+* ![img_6.png](img_6.png)
 
 ### Deleting a person/job/application
 
@@ -286,6 +338,37 @@ Examples:
 
 Deletes the specified application from TalentMatch.
 
+<<<<<<< HEAD
+Format: `delapp ij/JOB_INDEX ia/APPLICATION_BY_JOB_INDEX`
+
+* Deletes the application with the specified job index and the application index in the corresponding `JobCard` in job view.
+
+<box type="tip" seamless>
+**Tip:**
+* Both the job and application-by-job indices can be obtained from the job view alone.
+</box>
+
+<box type="warning" seamless>
+
+**Constraints:** 
+* HR recruiters must toggle to the job view, if not already in this view, to delete an application.
+TalentMatch flags it out with this exception message:
+    * `This command is only available in job view. Please switch to job view first using 'switchview' command.`
+* Job and application-by-job indices must be valid positive integers existing in job view.
+TalentMatch flags it out with this exception message:
+    * ```Invalid command format!
+      delapp: Deletes an application from the address book.
+      Parameters: ij/<JOB_INDEX> ia/<APPLICATION_INDEX>
+      Example: delapp ij/1 ia/2```
+* A unique existing application must be present. 
+TalentMatch flags deleting non-existent out applications with this exception message:
+    * `This application does not exist in the address book. Try using addapp to add an application first!`
+</box>
+
+Example of a successful command alongside graphical depiction:
+* `delapp ip/1 ij/4`
+* ![img_4.png](img_4.png)
+=======
 Format: `delapp j/JOB_INDEX a/APPLICATION_INDEX`
 
 * Deletes the application at the specified `APPLICATION_INDEX` for the job at the specified `JOB_INDEX`.
@@ -295,10 +378,37 @@ Format: `delapp j/JOB_INDEX a/APPLICATION_INDEX`
 
 Examples:
 * `delapp j/1 a/2` deletes the 2nd application for the 1st job.
+>>>>>>> e31aceaaac512014d13b5faf3089fb899267d5af
 
 ### Advancing applications: `adv`
 
-Advances an application to the next round of interviews
+Advances an application to the next round of interview
+
+<box type="tip" seamless>
+* All applications are advanced by exactly 1 round each time.
+* HR recruiters should exercise discretion in advancing an application as it signifies that the applicant has not only
+gone for the round, but also passed it! Therefore, an applicant who has reached the final round of an application will
+be deemed to have received a job offer. Congratulations!
+* HR recruiters should exercise discretion in advancing an application of any applicant who has reached the final round
+of another application, as this would otherwise imply the applicant has more than 1 offers for this company!
+</box>
+
+<box type="warning" seamless>
+
+**Constraints:**
+* HR recruiters must toggle to the job view, if not already in this view, to advance an application.
+TalentMatch flags it out with this exception message:
+    * `This command is only available in job view. Please switch to job view first using 'switchview' command.`
+* Job and application-by-job indices must be valid positive integers existing in job view.
+TalentMatch flags it out with this exception message:
+    * ```Invalid command format!
+      advapp: Advances an application in the address book.
+      Parameters: ij/<JOB_INDEX> ia/<APPLICATION_INDEX>
+      Example: advapp ij/1 ia/2```
+* A unique existing application must be present.
+TalentMatch flags advancing non-existent applications out with this exception message:
+    * `This application does not exist in the address book. Try using addapp to add an application first!`
+</box>
 
 Format: `adv j/JOB_INDEX a/APPLICATION_INDEX`
 
@@ -307,42 +417,69 @@ Format: `adv j/JOB_INDEX a/APPLICATION_INDEX`
 * Both indices **must be positive integers** 1, 2, 3, …​
 * This command is only available in job view.
 
+<<<<<<< HEAD
+Example of a successful command alongside graphical depiction:
+* `advapp ip/1 ij/4`
+* ![img_5.png](img_5.png)
+=======
 Examples:
 * `adv j/1 a/2` advances the 2nd application for the 1st job by one round.
 
 ### Viewing job details: `viewjob`
 
-Displays detailed information about a specific job.
+Displays detailed information about a specific job including its title, number of applicants, distribution of applicants across different interview rounds, and required skills.
 
 Format: `viewjob INDEX`
 
+Displays a sidebar that shows the job title abd the number of applicants for that job. It also shows the distribution of applicants across different interview rounds in a bar chart, and the skills required for the job.
+
+
 * Shows detailed information of the job at the specified `INDEX`.
 * The index refers to the index number shown in the displayed job list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* The index **must be a natural number** 1, 2, 3, …​
 * This command is only available in job view.
+
+Expected Output:
+![viewjob](images/viewjob.png)
 
 Examples:
 * `listjob` followed by `viewjob 2` displays detailed information of the 2nd job in TalentMatch.
+* `viewjob 1` shows detailed information about the first job in the current list.
+* `viewjob 10` will return a NOT_FOUND_MESSAGE if there are no jobs at index 10.
+* `viewjob 0` will return a INVALID_COMMAND_MESSAGE as the index must be a natural number.
 
 ### Viewing person details from job application: `viewperson`
 
 Shows detailed information about a person from a specific job application.
 
-Format: `viewperson j/JOB_INDEX a/APPLICATION_INDEX`
+Shows a sidebar that shows the applicant's name, school, degree, phone number, email, address, and skills. It also shows the application status of the applicant for the job through a progress bar.
+
+Format: `viewperson ij/JOB_INDEX ia/APPLICATION_INDEX`
 
 * Shows detailed information of the person associated with the application at the specified `APPLICATION_INDEX` for the job at the specified `JOB_INDEX`.
 * Both indices refer to the index numbers shown in the respective displayed lists.
-* Both indices **must be positive integers** 1, 2, 3, …​
+* Both indices **must be natural numbers** 1, 2, 3, …​
 * This command is only available in job view.
 
+Expected Output:
+![viewperson](images/viewperson.png)
+
 Examples:
-* `viewjob 1` followed by `viewperson j/1 a/2` displays detailed information of the person associated with the 2nd application for the 1st job.
+* `viewperson ij/1 ia/1` in job view will generate a sidebar with detailed information of the applicant associated with the 1st application for the 1st job (if it exists).
+* `viewjob 1` followed by `viewperson ij/1 ia/2` displays detailed information of the applicant associated with the 2nd application for the 1st job.
+* `viewperson ij/1 ia/2` will return a NOT_FOUND_MESSAGE if there are no applications at index 2 for the job at index 1.
+* `viewperson ij/1 ia/0` will return a INVALID_COMMAND_MESSAGE as the application index must be a natural number.
 
 ### Clearing all entries : `clear`
+>>>>>>> e31aceaaac512014d13b5faf3089fb899267d5af
 
-Clears all person entries from TalentMatch.
+Clears all person entries from TalentMatch, removing both applications, jobs and persons.
 
 Format: `clear`
+
+Expected Output:
+![clear](images/clear_job.png)
+![clear](images/clear_person.png)
 
 ### Exiting the program : `exit`
 
@@ -356,18 +493,39 @@ TalentMatch data are saved in the hard disk automatically after any command that
 
 ### Editing the data file
 
-TalentMatch data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+TalentMatch stores data in two separate JSON files:
+* `[JAR file location]/data/addressbook.json` - Contains all person and job data
+* `[JAR file location]/data/applicationbook.json` - Contains all application data linking persons to jobs
+
+Advanced users can update data directly by editing these files, but caution is advised.
 
 <box type="warning" seamless>
 
 **Caution:**
-If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes to the data files make their format invalid, TalentMatch will handle it as follows:
+
+1. If you correctly edit the files and maintain valid format:
+   * TalentMatch will load your edited data on next startup
+   * All relationships between persons, jobs, and applications will be preserved
+   * Your changes will be immediately reflected in the UI
+
+2. If the address book file is invalid or missing:
+   * TalentMatch will load sample data for both persons/jobs and applications
+   * A warning will be logged, but the application will still start
+
+3. If only the applications file is invalid or missing:
+   * TalentMatch will keep the existing persons/jobs data
+   * It will create a new, empty applications manager
+   * This means all links between persons and jobs will be lost
+
+4. If both files are valid but contain inconsistencies:
+   * Applications referring to non-existent persons or jobs may cause unexpected behavior
+
+It is strongly recommended to:
+* Back up both data files before editing them
+* Keep the file format and data consistent across both files
+* Restart the application after making direct edits to verify your changes
 </box>
-
-### Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -391,12 +549,21 @@ Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 **Add**    | `add n/NAME s/SCHOOL d/DEGREE p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho s/NUS d/Physics p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
 **AddJob** | `addjob jt/JOB_TITLE jr/INTERVIEW_ROUNDS js/JOB_SKILLS ja/JOB_ADDRESS em/JOB_TYPE` <br> e.g., `addjob jt/Software Engineering jr/3 js/Python React ja/1 Fusionopolis Place, Galaxis, Singapore 138522 em/Intern`
+<<<<<<< HEAD
+**AddApp** | `addapp ip/PHONE_INDEX ij/JOB_INDEX ` <br> e.g., `addapp ip/1 ij/1`
+**AdvApp** | `advapp ij/JOB_INDEX ia/APPLICANT_BY_JOB_INDEX ` <br> e.g., `advapp ij/1 ia/1`
+**Clear**  | `clear`
+**Delete** | `delete INDEX`<br> e.g., `delete 3`
+**DeleteJob** | `deletejob INDEX` <br> e.g., `deletejob 3`
+**DeleteApp** | `delapp ij/JOB_INDEX ia/APPLICANT_BY_JOB_INDEX ` <br> e.g., `delapp ij/1 ia/1`
+=======
 **AddApp** | `addapp p/PERSON_INDEX j/JOB_INDEX` <br> e.g., `addapp p/1 j/2`
 **AdvApp** | `adv j/JOB_INDEX a/APPLICATION_INDEX` <br> e.g., `adv j/1 a/2`
 **Clear**  | `clear`
 **Delete** | `del INDEX`<br> e.g., `del 3`
 **DeleteJob** | `deljob INDEX` <br> e.g., `deljob 3`
 **DeleteApp** | `delapp j/JOB_INDEX a/APPLICATION_INDEX` <br> e.g., `delapp j/1 a/2`
+>>>>>>> e31aceaaac512014d13b5faf3089fb899267d5af
 **Edit**   | `edit INDEX [n/NAME] [s/SCHOOL] [d/DEGREE] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **EditJob** | `editjob INDEX [jt/JOB_TITLE] [jr/INTERVIEW_ROUNDS] [js/JOB_SKILLS] [ja/JOB_ADDRESS] [em/JOB_TYPE]` <br> e.g., `editjob 7 jt/Software Engineering jr/3 [js/Python React ja/1 Fusionopolis Place, Galaxis, Singapore 138522 em/Intern`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
