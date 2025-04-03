@@ -102,7 +102,7 @@ public class MainApp extends Application {
                     applicationsManagerOptional = storage.readApplicationsManager();
                     if (applicationsManagerOptional.isEmpty()) {
                         logger.info("Creating a new data file " + storage.getApplicationsManagerFilePath()
-                                + " populated with a empty ApplicationsManager.");
+                                + " populated with an empty ApplicationsManager.");
                         initialApplicationsManagerData = new ApplicationsManager();
                     } else {
                         initialApplicationsManagerData = applicationsManagerOptional.get();
