@@ -406,10 +406,10 @@ public class ModelManager implements Model {
     @Override
     public void reapplyJobFilters() {
         logger.info("Reapplying job filters based on application filters");
-        
+
         // Get the current filtered applications list
         ObservableList<Application> currentFilteredApps = filteredApplications.getFilteredList();
-        
+
         // If application filters are active (list size is different from total)
         if (currentFilteredApps.size() < applicationsManager.getApplicationList().size()) {
             // Find jobs that have at least one application in the filtered application list
@@ -419,11 +419,11 @@ public class ModelManager implements Model {
                         return jobApps.stream().anyMatch(currentFilteredApps::contains);
                     })
                     .collect(Collectors.toList());
-            
+
             // Clear existing job filters and apply the new filter
             filteredJobs.clearFilters();
             updateFilteredJobList(jobsWithMatchingApplications::contains);
-            
+
             logger.info("After reapplying filters, job list size: " + filteredJobs.getFilteredList().size());
         }
     }

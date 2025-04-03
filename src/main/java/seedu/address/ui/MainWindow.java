@@ -186,7 +186,7 @@ public class MainWindow extends UiPart<Stage> {
         if (isJobView && jobListPanel != null) {
             // Reapply any filters to ensure jobs without matching applications are removed
             logic.reapplyJobFilters();
-            
+
             // If we're in job view, refresh the job panel to show updated applications
             jobListPanel.refreshJobView();
 
@@ -287,7 +287,7 @@ public class MainWindow extends UiPart<Stage> {
 
             // Always refresh the sidepane to ensure it has the latest data
             jobListPanel.refreshSidepane();
-            
+
             // Force an immediate UI update to ensure visibility changes are applied
             jobListPanelPlaceholder.layout();
         }
@@ -311,19 +311,19 @@ public class MainWindow extends UiPart<Stage> {
                 if (isJobView && trimmedCommand.equals("listjob")) {
                     // Reset to job view and clear all filters
                     logic.setViewState(Model.ViewState.JOB_VIEW);
-                    
+
                     // Clear application filters - ensure this is done first
                     logic.resetFilteredApplicationList();
-                    
+
                     // Clear job filters explicitly
                     logic.resetFilteredJobList();
-                    
+
                     // Clear detail panel
                     clearDetailPanel();
-                    
+
                     // Force a complete refresh of job panel to show all jobs without filters
                     refreshJobPanel();
-                    
+
                     // Force a refresh of application view as well to ensure all applications are shown
                     refreshApplicationsView();
                 } else if (!isJobView && trimmedCommand.equals("list")) {
