@@ -67,6 +67,11 @@ The more you type, the more time you save. Master our simple commands and watch 
 
 ## Features
 
+### Command History
+
+TalentMatch supports remembering command history, allowing you to be able to navigate through your past inputs and reduce the need to type out every command from scratch!<br>
+Simply use the up and down arrow keys after clicking on the command box text input area and navigate through your past inputs like how you would in terminal.
+
 <box type="info" seamless>
 
 **Notes about the command format:**<br>
@@ -94,6 +99,7 @@ The more you type, the more time you save. Master our simple commands and watch 
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </box>
+
 
 ### Viewing help : `help`
 
@@ -338,7 +344,6 @@ Examples:
 
 Deletes the specified application from TalentMatch.
 
-<<<<<<< HEAD
 Format: `delapp ij/JOB_INDEX ia/APPLICATION_BY_JOB_INDEX`
 
 * Deletes the application with the specified job index and the application index in the corresponding `JobCard` in job view.
@@ -368,7 +373,7 @@ TalentMatch flags deleting non-existent out applications with this exception mes
 Example of a successful command alongside graphical depiction:
 * `delapp ip/1 ij/4`
 * ![img_4.png](img_4.png)
-=======
+
 Format: `delapp j/JOB_INDEX a/APPLICATION_INDEX`
 
 * Deletes the application at the specified `APPLICATION_INDEX` for the job at the specified `JOB_INDEX`.
@@ -378,7 +383,6 @@ Format: `delapp j/JOB_INDEX a/APPLICATION_INDEX`
 
 Examples:
 * `delapp j/1 a/2` deletes the 2nd application for the 1st job.
->>>>>>> e31aceaaac512014d13b5faf3089fb899267d5af
 
 ### Advancing applications: `adv`
 
@@ -417,11 +421,10 @@ Format: `adv j/JOB_INDEX a/APPLICATION_INDEX`
 * Both indices **must be positive integers** 1, 2, 3, …​
 * This command is only available in job view.
 
-<<<<<<< HEAD
 Example of a successful command alongside graphical depiction:
 * `advapp ip/1 ij/4`
 * ![img_5.png](img_5.png)
-=======
+
 Examples:
 * `adv j/1 a/2` advances the 2nd application for the 1st job by one round.
 
@@ -471,7 +474,6 @@ Examples:
 * `viewperson ij/1 ia/0` will return a INVALID_COMMAND_MESSAGE as the application index must be a natural number.
 
 ### Clearing all entries : `clear`
->>>>>>> e31aceaaac512014d13b5faf3089fb899267d5af
 
 Clears all person entries from TalentMatch, removing both applications, jobs and persons.
 
@@ -558,21 +560,18 @@ Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 **Add**    | `add n/NAME s/SCHOOL d/DEGREE p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho s/NUS d/Physics p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
 **AddJob** | `addjob jt/JOB_TITLE jr/INTERVIEW_ROUNDS js/JOB_SKILLS ja/JOB_ADDRESS em/JOB_TYPE` <br> e.g., `addjob jt/Software Engineering jr/3 js/Python React ja/1 Fusionopolis Place, Galaxis, Singapore 138522 em/Intern`
-<<<<<<< HEAD
 **AddApp** | `addapp ip/PHONE_INDEX ij/JOB_INDEX ` <br> e.g., `addapp ip/1 ij/1`
 **AdvApp** | `advapp ij/JOB_INDEX ia/APPLICANT_BY_JOB_INDEX ` <br> e.g., `advapp ij/1 ia/1`
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **DeleteJob** | `deletejob INDEX` <br> e.g., `deletejob 3`
 **DeleteApp** | `delapp ij/JOB_INDEX ia/APPLICANT_BY_JOB_INDEX ` <br> e.g., `delapp ij/1 ia/1`
-=======
 **AddApp** | `addapp p/PERSON_INDEX j/JOB_INDEX` <br> e.g., `addapp p/1 j/2`
 **AdvApp** | `adv j/JOB_INDEX a/APPLICATION_INDEX` <br> e.g., `adv j/1 a/2`
 **Clear**  | `clear`
 **Delete** | `del INDEX`<br> e.g., `del 3`
 **DeleteJob** | `deljob INDEX` <br> e.g., `deljob 3`
 **DeleteApp** | `delapp j/JOB_INDEX a/APPLICATION_INDEX` <br> e.g., `delapp j/1 a/2`
->>>>>>> e31aceaaac512014d13b5faf3089fb899267d5af
 **Edit**   | `edit INDEX [n/NAME] [s/SCHOOL] [d/DEGREE] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **EditJob** | `editjob INDEX [jt/JOB_TITLE] [jr/INTERVIEW_ROUNDS] [js/JOB_SKILLS] [ja/JOB_ADDRESS] [em/JOB_TYPE]` <br> e.g., `editjob 7 jt/Software Engineering jr/3 [js/Python React ja/1 Fusionopolis Place, Galaxis, Singapore 138522 em/Intern`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
