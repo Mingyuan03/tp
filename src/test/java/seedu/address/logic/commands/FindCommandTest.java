@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.commands.FindCommand.MESSAGE_NO_PERSONS_FOUND;
 import static seedu.address.logic.commands.FindCommand.MESSAGE_PERSONS_LISTED_OVERVIEW;
 import static seedu.address.testutil.TypicalPersons.CARL;
 import static seedu.address.testutil.TypicalPersons.ELLE;
@@ -73,8 +74,7 @@ public class FindCommandTest {
         predicate = preparePredicate(" ");
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredPersonList(predicate);
-        CommandResult expectedCommandResult = CommandResult.withFeedback(
-                String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0));
+        CommandResult expectedCommandResult = CommandResult.withFeedback(MESSAGE_NO_PERSONS_FOUND);
 
         // Execute the command
         CommandResult result = command.execute(model);
