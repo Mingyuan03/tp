@@ -24,8 +24,8 @@ import seedu.address.model.job.Job;
 public class FindAppCommand extends Command {
 
     public static final String COMMAND_WORD = "findapp";
-    public static final String BRIEF_MESSAGE_USAGE = PREFIX_JOB_INDEX + " OPTIONAL JOB INDEX IN JOB VIEW "
-            + PREFIX_APPLICATION_STATUS + "ROUNDS";
+    public static final String BRIEF_MESSAGE_USAGE = PREFIX_APPLICATION_STATUS + "ROUNDS "
+            + "[" + PREFIX_JOB_INDEX + " JOB_INDEX]";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Filters the list to show only applications "
             + "with the specified status in job view.\n"
             + "Parameters: " + BRIEF_MESSAGE_USAGE

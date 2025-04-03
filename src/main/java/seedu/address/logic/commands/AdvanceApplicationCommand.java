@@ -21,7 +21,7 @@ import seedu.address.model.job.Job;
 public class AdvanceApplicationCommand extends Command {
     public static final String COMMAND_WORD = "advapp";
     public static final String BRIEF_MESSAGE_USAGE =
-            "[" + PREFIX_JOB_INDEX + "JOB_INDEX] " + "[" + PREFIX_APPLICATION_INDEX + "APPLICATION_INDEX]";
+            PREFIX_JOB_INDEX + "JOB_INDEX " + PREFIX_APPLICATION_INDEX + "APPLICATION_INDEX";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Advances an application in the address book."
             + "\nParameters: " + BRIEF_MESSAGE_USAGE
             + "\nExample: " + COMMAND_WORD + " " + PREFIX_JOB_INDEX + "1 " + PREFIX_APPLICATION_INDEX + "2";

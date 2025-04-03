@@ -21,8 +21,7 @@ import seedu.address.model.job.Job;
 public class DeleteApplicationCommand extends Command {
     public static final String COMMAND_WORD = "delapp";
     public static final String BRIEF_MESSAGE_USAGE =
-            "[" + PREFIX_JOB_INDEX + "JOB_INDEX] "
-            + "[" + PREFIX_APPLICATION_INDEX + "APPLICATION_INDEX]";
+            PREFIX_JOB_INDEX + "JOB_INDEX " + PREFIX_APPLICATION_INDEX + "APPLICATION_INDEX";
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes an application from the address book."
             + "\nParameters: " + BRIEF_MESSAGE_USAGE

@@ -15,7 +15,7 @@ import seedu.address.model.job.Job;
  * Deletes a Job from the address book.
  */
 public class DeleteJobCommand extends Command {
-    public static final String COMMAND_WORD = "deletejob";
+    public static final String COMMAND_WORD = "deljob";
     public static final String BRIEF_MESSAGE_USAGE = "INDEX (must be a positive integer)";
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the job identified by the index number used in the displayed job list.\n"
