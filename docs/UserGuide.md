@@ -296,37 +296,58 @@ Examples:
 
 ### Viewing job details: `viewjob`
 
-Displays detailed information about a specific job.
+Displays detailed information about a specific job including its title, number of applicants, distribution of applicants across different interview rounds, and required skills.
 
 Format: `viewjob INDEX`
 
+Displays a sidebar that shows the job title abd the number of applicants for that job. It also shows the distribution of applicants across different interview rounds in a bar chart, and the skills required for the job.
+
+
 * Shows detailed information of the job at the specified `INDEX`.
 * The index refers to the index number shown in the displayed job list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* The index **must be a natural number** 1, 2, 3, …​
 * This command is only available in job view.
+
+Expected Output:
+![viewjob](images/viewjob.png)
 
 Examples:
 * `listjob` followed by `viewjob 2` displays detailed information of the 2nd job in TalentMatch.
+* `viewjob 1` shows detailed information about the first job in the current list.
+* `viewjob 10` will return a NOT_FOUND_MESSAGE if there are no jobs at index 10.
+* `viewjob 0` will return a INVALID_COMMAND_MESSAGE as the index must be a natural number.
 
 ### Viewing person details from job application: `viewperson`
 
 Shows detailed information about a person from a specific job application.
 
-Format: `viewperson j/JOB_INDEX a/APPLICATION_INDEX`
+Shows a sidebar that shows the applicant's name, school, degree, phone number, email, address, and skills. It also shows the application status of the applicant for the job through a progress bar.
+
+Format: `viewperson ij/JOB_INDEX ia/APPLICATION_INDEX`
 
 * Shows detailed information of the person associated with the application at the specified `APPLICATION_INDEX` for the job at the specified `JOB_INDEX`.
 * Both indices refer to the index numbers shown in the respective displayed lists.
-* Both indices **must be positive integers** 1, 2, 3, …​
+* Both indices **must be natural numbers** 1, 2, 3, …​
 * This command is only available in job view.
 
+Expected Output:
+![viewperson](images/viewperson.png)
+
 Examples:
-* `viewjob 1` followed by `viewperson j/1 a/2` displays detailed information of the person associated with the 2nd application for the 1st job.
+* `viewperson ij/1 ia/1` in job view will generate a sidebar with detailed information of the applicant associated with the 1st application for the 1st job (if it exists).
+* `viewjob 1` followed by `viewperson ij/1 ia/2` displays detailed information of the applicant associated with the 2nd application for the 1st job.
+* `viewperson ij/1 ia/2` will return a NOT_FOUND_MESSAGE if there are no applications at index 2 for the job at index 1.
+* `viewperson ij/1 ia/0` will return a INVALID_COMMAND_MESSAGE as the application index must be a natural number.
 
 ### Clearing all entries : `clear`
 
-Clears all person entries from TalentMatch.
+Clears all person entries from TalentMatch, removing both applications, jobs and persons.
 
 Format: `clear`
+
+Expected Output:
+![clear](images/clear_job.png)
+![clear](images/clear_person.png)
 
 ### Exiting the program : `exit`
 
@@ -340,18 +361,39 @@ TalentMatch data are saved in the hard disk automatically after any command that
 
 ### Editing the data file
 
-TalentMatch data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+TalentMatch stores data in two separate JSON files:
+* `[JAR file location]/data/addressbook.json` - Contains all person and job data
+* `[JAR file location]/data/applicationbook.json` - Contains all application data linking persons to jobs
+
+Advanced users can update data directly by editing these files, but caution is advised.
 
 <box type="warning" seamless>
 
 **Caution:**
-If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes to the data files make their format invalid, TalentMatch will handle it as follows:
+
+1. If you correctly edit the files and maintain valid format:
+   * TalentMatch will load your edited data on next startup
+   * All relationships between persons, jobs, and applications will be preserved
+   * Your changes will be immediately reflected in the UI
+
+2. If the address book file is invalid or missing:
+   * TalentMatch will load sample data for both persons/jobs and applications
+   * A warning will be logged, but the application will still start
+
+3. If only the applications file is invalid or missing:
+   * TalentMatch will keep the existing persons/jobs data
+   * It will create a new, empty applications manager
+   * This means all links between persons and jobs will be lost
+
+4. If both files are valid but contain inconsistencies:
+   * Applications referring to non-existent persons or jobs may cause unexpected behavior
+
+It is strongly recommended to:
+* Back up both data files before editing them
+* Keep the file format and data consistent across both files
+* Restart the application after making direct edits to verify your changes
 </box>
-
-### Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
 
 --------------------------------------------------------------------------------------------------------------------
 
