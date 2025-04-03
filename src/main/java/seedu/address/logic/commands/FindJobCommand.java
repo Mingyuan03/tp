@@ -23,7 +23,6 @@ public class FindJobCommand extends Command {
     public static final String MESSAGE_NO_MATCHES = "No jobs found matching search query. To see all "
             + "jobs again, use the 'listjob' command.";
     public static final String MESSAGE_JOBS_LISTED_OVERVIEW = "%1$d jobs listed!";
-            + "Please switch to job view first using " + SwitchViewCommand.COMMAND_WORD + " command.";
 
     private final JobContainsKeywordsPredicate predicate;
 

@@ -56,7 +56,6 @@ public enum CliCommands {
     private final String commandWord;
     private final String messageUsage;
 
-
     /**
      * Instantiate a valid command String alongside its command instruction.
      * @param commandWord valid command String parsed.

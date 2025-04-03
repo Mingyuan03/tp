@@ -21,9 +21,9 @@ import seedu.address.model.person.Person;
 public class AddCommand extends Command {
     public static final String COMMAND_WORD = "add";
     public static final String BRIEF_MESSAGE_USAGE =
-            "[" + PREFIX_NAME + "NAME] " + "[" + PREFIX_PHONE + "PHONE_NUMBER] "
-            + "[" + PREFIX_EMAIL + "EMAIL] " + "[" + PREFIX_ADDRESS + "HOME_ADDRESS] "
-            + "[" + PREFIX_SCHOOL + "SCHOOL] " + "[" + PREFIX_DEGREE + "DEGREE] " + "[" + PREFIX_SKILL + "SKILL]...";
+            PREFIX_NAME + "NAME " + PREFIX_PHONE + "PHONE_NUMBER "
+            + PREFIX_EMAIL + "EMAIL " + PREFIX_ADDRESS + "HOME_ADDRESS "
+            + PREFIX_SCHOOL + "SCHOOL " + PREFIX_DEGREE + "DEGREE " + "[" + PREFIX_SKILL + "SKILL]...";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. "
             + "Parameters: " + BRIEF_MESSAGE_USAGE
             + "\nExample: " + COMMAND_WORD + " " + PREFIX_NAME + "John Doe " + PREFIX_PHONE + "98765432 "
