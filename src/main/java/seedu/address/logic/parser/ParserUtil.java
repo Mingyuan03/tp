@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
@@ -104,14 +105,17 @@ public class ParserUtil {
     }
 
     /**
-     * @param remark Raw remark by user.
-     * @return trimmed remark without leading and trailing whitespaces for more
+     * @param school Raw school by user.
+     * @return trimmed school without leading and trailing whitespaces for more
      *         efficient processing.
      */
-    public static School parseRemark(String remark) {
-        requireNonNull(remark);
-        String trimmedRemark = remark.trim(); // School yet has format constraints.
-        return new School(trimmedRemark);
+    public static School parseSchool(String school) throws ParseException {
+        requireNonNull(school);
+        String trimmedSchool = school.trim();
+        if (!School.isValidSchool(trimmedSchool)) {
+            throw new ParseException(School.MESSAGE_CONSTRAINTS);
+        }
+        return new School(trimmedSchool);
     }
 
     /**
@@ -119,9 +123,12 @@ public class ParserUtil {
      * @return trimmed remark without leading and trailing whitespaces for more
      *         efficient processing.
      */
-    public static Degree parseDegree(String degree) {
+    public static Degree parseDegree(String degree) throws ParseException {
         requireNonNull(degree);
-        String trimmedDegree = degree.trim(); // School yet has format constraints.
+        String trimmedDegree = degree.trim();
+        if (!Degree.isValidDegree(trimmedDegree)) {
+            throw new ParseException(Degree.MESSAGE_CONSTRAINTS);
+        }
         return new Degree(trimmedDegree);
     }
 
@@ -130,9 +137,12 @@ public class ParserUtil {
      * @return trimmed remark without leading and trailing whitespaces for more
      *         efficient processing.
      */
-    public static JobTitle parseJobTitle(String jobTitle) {
+    public static JobTitle parseJobTitle(String jobTitle) throws ParseException {
         jobTitle = jobTitle.trim();
         requireNonNull(jobTitle);
+        if (!JobTitle.isValidJobTitle(jobTitle)) {
+            throw new ParseException(JobTitle.MESSAGE_CONSTRAINTS);
+        }
         return new JobTitle(jobTitle);
     }
 
@@ -141,14 +151,21 @@ public class ParserUtil {
      * trailing whitespaces will be trimmed.
      *
      * @param jobRounds Raw jobRounds String by user.
-     * @return trimmed remark without leading and trailing whitespaces for more
-     *         efficient processing.
+     * @return JobRounds object with validated value.
+     * @throws ParseException if the given {@code jobRounds} is invalid.
      */
-    public static JobRounds parseJobRounds(String jobRounds) {
+    public static JobRounds parseJobRounds(String jobRounds) throws ParseException {
         jobRounds = jobRounds.trim();
         requireNonNull(jobRounds);
-        int jobRoundsCount = Integer.parseInt(jobRounds);
-        return new JobRounds(jobRoundsCount);
+        try {
+            int jobRoundsCount = Integer.parseInt(jobRounds);
+            if (!JobRounds.isValidJobRounds(jobRoundsCount)) {
+                throw new ParseException(JobRounds.MESSAGE_CONSTRAINTS);
+            }
+            return new JobRounds(jobRoundsCount);
+        } catch (NumberFormatException e) {
+            throw new ParseException("Job rounds must be a valid integer: " + e.getMessage());
+        }
     }
 
     /**
@@ -176,5 +193,13 @@ public class ParserUtil {
             skillSet.add(parseSkill(skillName));
         }
         return skillSet;
+    }
+
+    /**
+     * Returns true if none of the prefixes contains empty {@code Optional} values
+     * in {@code ArgumentMultimap}.
+     */
+    public static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 }

@@ -1,0 +1,194 @@
+/* Control Styles - Buttons, TextFields, Dialog Panes */
+
+.text-field {
+    -fx-font-size: 12pt;
+    -fx-font-family: "Segoe UI Semibold";
+}
+
+/* Button Styling */
+.button {
+    -fx-padding: 5 22 5 22;
+    -fx-border-color: #e2e2e2;
+    -fx-border-width: 2;
+    -fx-background-radius: 0;
+    -fx-background-color: #1d1d1d;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-font-size: 11pt;
+    -fx-text-fill: #d8d8d8;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+}
+
+.button:hover {
+    -fx-background-color: #3a3a3a;
+}
+
+.button:pressed, .button:default:hover:pressed {
+  -fx-background-color: white;
+  -fx-text-fill: #1d1d1d;
+}
+
+.button:focused {
+    -fx-border-color: white, white;
+    -fx-border-width: 1, 1;
+    -fx-border-style: solid, segments(1, 1);
+    -fx-border-radius: 0, 0;
+    -fx-border-insets: 1 1 1 1, 0;
+}
+
+.button:disabled, .button:default:disabled {
+    -fx-opacity: 0.4;
+    -fx-background-color: #1d1d1d;
+    -fx-text-fill: white;
+}
+
+.button:default {
+    -fx-background-color: -fx-focus-color;
+    -fx-text-fill: #ffffff;
+}
+
+.button:default:hover {
+    -fx-background-color: derive(-fx-focus-color, 30%);
+}
+
+/* Icon Button */
+.icon-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 5;
+}
+
+.icon-button:hover {
+    -fx-background-color: #3e7b91;
+    -fx-background-radius: 3;
+}
+
+/* Dialog Pane Styling */
+.dialog-pane {
+    -fx-background-color: #1d1d1d;
+}
+
+.dialog-pane > *.button-bar > *.container {
+    -fx-background-color: #1d1d1d;
+}
+
+.dialog-pane > *.label.content {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.dialog-pane:header *.header-panel {
+    -fx-background-color: derive(#1d1d1d, 25%);
+}
+
+.dialog-pane:header *.header-panel *.label {
+    -fx-font-size: 18px;
+    -fx-font-style: italic;
+    -fx-fill: white;
+    -fx-text-fill: white;
+}
+
+/* Progress Bar Styling */
+.progress-bar {
+    -fx-accent: white;
+    -fx-control-inner-background: #1a1a1a;
+    -fx-background-radius: 3;
+    -fx-background-color: #1a1a1a;
+    -fx-border-radius: 3;
+    -fx-border-color: #333333;
+    -fx-border-width: 1;
+}
+
+.progress-bar > .bar {
+    -fx-background-color: white;
+    -fx-background-radius: 2;
+    -fx-background-insets: 1;
+    -fx-padding: 0.20em;
+}
+
+.progress-bar > .track {
+    -fx-background-color: #1a1a1a;
+    -fx-background-radius: 3;
+    -fx-background-insets: 0;
+}
+
+/* Custom Progress Bar IDs */
+#person-detail-progress-bar .bar {
+    -fx-background-color: white;
+}
+
+#person-detail-progress-bar .track {
+    -fx-background-color: #1a1a1a;
+}
+
+[id^="custom-progress-bar-"] .bar {
+    -fx-background-color: white;
+}
+
+[id^="custom-progress-bar-"] .track {
+    -fx-background-color: #1a1a1a;
+}
+
+.custom-progress-bar {
+    -fx-accent: white;
+    -fx-control-inner-background: #1a1a1a;
+    -fx-background-radius: 3;
+    -fx-background-color: #1a1a1a;
+    -fx-border-radius: 3;
+    -fx-border-color: #333333;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.1), 1, 0, 0, 1);
+}
+
+.mini-progress-bar {
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+}
+
+.mini-progress-bar .bar {
+    -fx-background-radius: 2;
+    -fx-background-insets: 0;
+}
+
+.mini-progress-bar .track {
+    -fx-background-color: #222225;
+    -fx-background-radius: 2;
+}
+
+/* Command Box specific styling */
+#commandTypeLabel {
+    -fx-font-size: 11px;
+    -fx-text-fill: #F70D1A;
+}
+
+#commandTextField {
+    -fx-background-color: transparent #383838 transparent #383838;
+    -fx-background-insets: 0;
+    -fx-border-color: #383838 #383838 #ffffff #383838;
+    -fx-border-insets: 0;
+    -fx-border-width: 1;
+    -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 13pt;
+    -fx-text-fill: white;
+}
+
+/* Result Display */
+.result-display {
+    -fx-background-color: transparent;
+    -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 13pt;
+    -fx-text-fill: white;
+}
+
+.result-display .label {
+    -fx-text-fill: black !important;
+}
+
+#resultDisplay .content {
+    -fx-background-color: transparent, #383838, transparent, #383838;
+    -fx-background-radius: 0;
+}
+
+#filterField, #personListPanel, #personWebpage {
+    -fx-effect: innershadow(gaussian, black, 10, 0, 0, 0);
+}
