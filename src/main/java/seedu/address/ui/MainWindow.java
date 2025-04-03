@@ -187,8 +187,18 @@ public class MainWindow extends UiPart<Stage> {
             // If we're in job view, refresh the job panel to show updated applications
             jobListPanel.refreshJobView();
 
+            // Add handling for JOB_DETAIL_VIEW state
+            if (logic.getViewState() == Model.ViewState.JOB_DETAIL_VIEW) {
+                if (selectedJobIndex >= 0 && selectedJobIndex < logic.getFilteredJobList().size()) {
+                    // Get the updated job data
+                    Job updatedJob = logic.getFilteredJobList().get(selectedJobIndex);
+                    // Re-render the job specific statistics panel with the updated job
+                    jobListPanel.showJobSpecificStatistics(updatedJob);
+                    logger.info("Refreshed job specific statistics for job: " + updatedJob.getJobTitle().jobTitle());
+                }
+            }
             // Check if we're viewing person details for a potentially deleted or updated application
-            if (logic.getViewState() == Model.ViewState.PERSON_DETAIL_VIEW) {
+            else if (logic.getViewState() == Model.ViewState.PERSON_DETAIL_VIEW) {
                 Job currentJob = jobListPanel.getCurrentlyViewedJob();
                 Person currentPerson = jobListPanel.getCurrentlyViewedPerson();
 
