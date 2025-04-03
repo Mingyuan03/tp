@@ -21,12 +21,10 @@ public class DeleteCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the person identified by the index number used in"
             + "the displayed person list.\n"
-            + "Parameters: INDEX (must be a positive integer)\n"
+            + "Parameters: INDEX (must be a positive integer > 0)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
-    public static final String MESSAGE_WRONG_VIEW = "This command is only available in person view. "
-            + "Please switch to person view first using 'switchview' command.";
 
     private final Index targetIndex;
 
@@ -40,7 +38,7 @@ public class DeleteCommand extends Command {
 
         // Check that we're in person view
         if (model.isInJobView()) {
-            throw new CommandException(MESSAGE_WRONG_VIEW);
+            throw new CommandException(Messages.MESSAGE_NOT_IN_PERSON_VIEW);
         }
 
         List<Person> lastShownList = model.getFilteredPersonList();

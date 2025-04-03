@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
@@ -37,8 +38,7 @@ public class FindCommand extends Command {
 
         // Check that we're in person view
         if (model.isInJobView()) {
-            throw new CommandException("This command is only available in person view. "
-                    + "Please switch to person view first using 'switchview' command.");
+            throw new CommandException(Messages.MESSAGE_NOT_IN_PERSON_VIEW);
         }
 
         model.updateFilteredPersonList(this.predicate);

@@ -28,8 +28,6 @@ public class AddJobCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New job added: %1$s";
     public static final String MESSAGE_DUPLICATE_JOB = "This job already exists in the address book";
-    public static final String MESSAGE_WRONG_VIEW = "This command is only available in job view. "
-            + "Please switch to job view first using 'switchview' command.";
 
     private final Job toAdd;
 
@@ -46,7 +44,7 @@ public class AddJobCommand extends Command {
         requireNonNull(model);
         // 1st guard condition below: Person view is not intended for adding a new job.
         if (!model.isInJobView()) {
-            throw new CommandException(MESSAGE_WRONG_VIEW);
+            throw new CommandException(Messages.MESSAGE_NOT_IN_JOB_VIEW);
         }
         // 2nd guard condition below: Preexisting valid job. Code below traces to Job::isSameJob.
         if (model.hasJob(toAdd)) {

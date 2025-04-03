@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.ApplicationsManager;
 import seedu.address.model.Model;
@@ -75,7 +76,7 @@ public class FindAppCommandTest {
         FindAppCommand command = new FindAppCommand("1");
 
         // The command should throw CommandException when executed in PERSON_VIEW
-        assertThrows(CommandException.class, FindAppCommand.MESSAGE_WRONG_VIEW, () -> command.execute(model));
+        assertThrows(CommandException.class, Messages.MESSAGE_NOT_IN_JOB_VIEW, () -> command.execute(model));
     }
 
     @Test

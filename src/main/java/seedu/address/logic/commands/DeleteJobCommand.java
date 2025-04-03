@@ -19,14 +19,12 @@ public class DeleteJobCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the job identified by the index number used in the displayed job list.\n"
-            + "Parameters: INDEX (must be a positive integer)\n"
+            + "Parameters: INDEX (must be a positive integer > 0)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_DELETE_JOB_SUCCESS = "Deleted Job: %1$s";
 
     public static final String MESSAGE_INVALID_JOB = "This Job does not exist in the address book";
-    public static final String MESSAGE_WRONG_VIEW = "This command is only available in job view. "
-            + "Please switch to job view first using 'switchview' command.";
 
     private final Index targetIndex;
 
@@ -40,7 +38,7 @@ public class DeleteJobCommand extends Command {
 
         // Check that we're in job view
         if (!model.isInJobView()) {
-            throw new CommandException(MESSAGE_WRONG_VIEW);
+            throw new CommandException(Messages.MESSAGE_NOT_IN_JOB_VIEW);
         }
 
         List<Job> lastShownList = model.getFilteredJobList();

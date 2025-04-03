@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 
@@ -13,8 +14,6 @@ public class ListJobCommand extends Command {
     public static final String COMMAND_WORD = "listjob";
 
     public static final String MESSAGE_SUCCESS = "Listed all jobs";
-    public static final String MESSAGE_WRONG_VIEW = "This command is only available in job view. "
-            + "Please switch to job view first using 'switchview' command.";
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
@@ -22,7 +21,7 @@ public class ListJobCommand extends Command {
 
         // Check that we're in job view
         if (!model.isInJobView()) {
-            throw new CommandException(MESSAGE_WRONG_VIEW);
+            throw new CommandException(Messages.MESSAGE_NOT_IN_JOB_VIEW);
         }
 
         model.resetFilteredJobList();

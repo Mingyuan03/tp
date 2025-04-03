@@ -41,7 +41,7 @@ public class EditCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the person identified "
             + "by the index number used in the displayed person list. "
             + "Existing values will be overwritten by the input values. Must provide at least 1 field.\n"
-            + "Parameters: INDEX (must be a positive integer) " + "[" + PREFIX_NAME + "NAME] " + "[" + PREFIX_SCHOOL
+            + "Parameters: INDEX (must be a positive integer > 0) " + "[" + PREFIX_NAME + "NAME] " + "[" + PREFIX_SCHOOL
             + "SCHOOL] " + "[" + PREFIX_DEGREE + "DEGREE] " + "[" + PREFIX_PHONE + "PHONE] " + "[" + PREFIX_EMAIL
             + "EMAIL] " + "[" + PREFIX_ADDRESS + "ADDRESS] " + "[" + PREFIX_SKILL + "SKILL]...\n"
             + "Example: " + COMMAND_WORD + " 1 " + PREFIX_PHONE + "91234567 " + PREFIX_EMAIL + "johndoe@example.com";
@@ -49,8 +49,6 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
-    public static final String MESSAGE_WRONG_VIEW = "This command is only available in person view. "
-            + "Please switch to person view first using 'switchview' command.";
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
@@ -73,7 +71,7 @@ public class EditCommand extends Command {
 
         // Check that we're in person view
         if (model.isInJobView()) {
-            throw new CommandException(MESSAGE_WRONG_VIEW);
+            throw new CommandException(Messages.MESSAGE_NOT_IN_PERSON_VIEW);
         }
 
         List<Person> lastShownList = model.getFilteredPersonList();

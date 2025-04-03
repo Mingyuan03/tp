@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.application.Application;
@@ -34,8 +35,6 @@ public class FindAppCommand extends Command {
     public static final String MESSAGE_NO_MATCHES = "No applications found with status: %1$s. To see all "
             + "applications again, use the 'listjob' command.";
     public static final String MESSAGE_JOB_NOT_FOUND = "The specified job index is invalid";
-    public static final String MESSAGE_WRONG_VIEW = "This command is only available in job view. "
-            + "Please switch to job view first using 'switchview' command.";
 
     private static final Logger logger = LogsCenter.getLogger(FindAppCommand.class);
 
@@ -67,7 +66,7 @@ public class FindAppCommand extends Command {
 
         // Check if we're in job view
         if (!model.isInJobView()) {
-            throw new CommandException(MESSAGE_WRONG_VIEW);
+            throw new CommandException(Messages.MESSAGE_NOT_IN_JOB_VIEW);
         }
 
         // Check if we need to reset the view
