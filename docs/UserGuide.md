@@ -130,7 +130,7 @@ Format: `switch`
 #### Adding a person: `add`
 Adds a person to TalentMatch.
 
-Format: `add n/NAME s/SCHOOL d/DEGREE p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
+Format: `add n/NAME s/SCHOOL d/DEGREE p/PHONE_NUMBER e/EMAIL a/ADDRESS [k/SKILL]…​`
 
 <box type="tip" seamless>
 
@@ -139,17 +139,17 @@ Format: `add n/NAME s/SCHOOL d/DEGREE p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]�
 
 Examples:
 * `add n/John Doe s/NUS d/Computer Science p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe s/NTU d/Civil Engineering t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `add n/Betsy Crowe s/NTU d/Civil Engineering t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 k/python`
 
 ---
 
 #### Adding a job: `addjob`
 Adds a job to TalentMatch
 
-Format: `addjob jt/JOB_TITLE jr/INTERVIEW_ROUNDS js/JOB_SKILLS ja/JOB_ADDRESS em/JOB_TYPE`
+Format: `addjob jt/JOB_TITLE jr/INTERVIEW_ROUNDS k/SKILL`
 
 Examples:
-* `addjob jt/Software Engineering jr/3 js/Python React ja/1 Fusionopolis Place, Galaxis, Singapore 138522 em/Intern`
+* `addjob jt/Software Engineering jr/3 k/python`
 
 ---
 
@@ -207,18 +207,18 @@ Format: `listjob`
 
 Edits an existing person in TalentMatch.
 
-Format: `edit INDEX [n/NAME] [s/SCHOOL] [d/DEGREE] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
+Format: `edit INDEX [n/NAME] [s/SCHOOL] [d/DEGREE] [p/PHONE] [e/EMAIL] [a/ADDRESS] [k/SKILL]…​`
 
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person's tags by typing `t/` without
+* You can remove all the person's tags by typing `k/` without
     specifying any tags after it.
 
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
-*  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+*  `edit 2 n/Betsy Crower k/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing skills.
 
 ---
 
@@ -226,17 +226,17 @@ Examples:
 
 Edits an existing job in TalentMatch.
 
-Format: `editjob INDEX [jt/JOB_TITLE] [jr/INTERVIEW_ROUNDS] [js/JOB_SKILLS] [ja/JOB_ADDRESS] [em/JOB_TYPE]`
+Format: `editjob INDEX [jt/JOB_TITLE] [jr/INTERVIEW_ROUNDS] [k/SKILL]`
 
 * Edits the job at the specified `INDEX`. The index refers to the index number shown in the displayed job list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing job skills, the existing skills of the person will be removed i.e adding of skills is not cumulative.
-* You can remove all the job's skills by typing `js/` without
+* You can remove all the job's skills by typing `k/` without
   specifying any skills after it.
 
 Examples:
-*  `editjob 7 jt/Software Engineering jr/3 [js/Python React ja/1 Fusionopolis Place, Galaxis, Singapore 138522 em/Intern`
+*  `editjob 7 jt/Software Engineering jr/3 k/`
 
 ### Locating persons/jobs/applications:
 
@@ -344,7 +344,7 @@ Examples:
 
 Deletes the specified application from TalentMatch.
 
-Format: `delapp ij/JOB_INDEX ia/APPLICATION_BY_JOB_INDEX`
+Format: `delapp ij/JOB_INDEX ia/APPLICATION_INDEX`
 
 * Deletes the application with the specified job index and the application index in the corresponding `JobCard` in job view.
 
