@@ -385,7 +385,7 @@ Format: `delapp ij/JOB_INDEX ia/APPLICATION_INDEX`
 Examples:
 * `delapp ij/1 ia/2` deletes the 2nd application for the 1st job.
 
-### Advancing applications: `advapp`
+### Advancing applications: `adv`
 
 Advances an application to the next round of interview
 
@@ -409,7 +409,7 @@ TalentMatch flags it out with this exception message:
     * ```Invalid command format!
       advapp: Advances an application in the address book.
       Parameters: ij/<JOB_INDEX> ia/<APPLICATION_INDEX>
-      Example: advapp ij/1 ia/2```
+      Example: adv ij/1 ia/2```
 * A unique existing application must be present.
 TalentMatch flags advancing non-existent applications out with this exception message:
     * `This application does not exist in the address book. Try using addapp to add an application first!`

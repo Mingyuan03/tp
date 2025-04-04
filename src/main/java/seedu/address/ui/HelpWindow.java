@@ -41,7 +41,7 @@ public class HelpWindow extends UiPart<Stage> {
         super(FXML, root);
         this.userGuideLink.setText(USERGUIDE_URL);
         this.helpMessage.setText(message);
-        this.userGuideLink.setOnAction(event -> openUserGuide());
+        this.userGuideLink.setOnAction(event -> copyUrl());
     }
 
     /**
