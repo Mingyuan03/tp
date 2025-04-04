@@ -423,7 +423,7 @@ Format: `adv j/JOB_INDEX a/APPLICATION_INDEX`
 * This command is only available in job view.
 
 Example of a successful command alongside graphical depiction:
-* `advapp ip/1 ij/4`
+* `adv ip/1 ij/4`
 * ![img_5.png](img_5.png)
 
 Examples:
@@ -558,24 +558,24 @@ It is strongly recommended to:
 
 ## Command summary
 
-| Action         | Format, Examples                                                                                                                                                                                     |
-|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Add**        | `add n/NAME s/SCHOOL d/DEGREE p/PHONE_NUMBER e/EMAIL a/ADDRESS [k/SKILL]…​` <br> e.g., `add n/James Ho s/NUS d/Physics p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 k/python k/java` |
-| **AddJob**     | `addjob jt/JOB_TITLE jr/INTERVIEW_ROUNDS [k/SKILL]…​` <br> e.g., `addjob jt/Software Engineering jr/3 k/Python`                                                                                      |
-| **AddApp**     | `addapp ip/PHONE_INDEX ij/JOB_INDEX ` <br> e.g., `addapp ip/1 ij/1`                                                                                                                                  |
-| **AdvApp**     | `adv ij/JOB_INDEX ia/APPLICANT_BY_JOB_INDEX ` <br> e.g., `adv ij/1 ia/1`                                                                                                                             |
-| **Clear**      | `clear`                                                                                                                                                                                              |
-| **Delete**     | `del INDEX`<br> e.g., `del 3`                                                                                                                                                                        |
-| **DeleteJob**  | `deljob INDEX` <br> e.g., `deljob 3`                                                                                                                                                                 |
-| **DeleteApp**  | `delapp ij/JOB_INDEX ia/APPLICANT_BY_JOB_INDEX ` <br> e.g., `delapp ij/1 ia/1`                                                                                                                       |
-| **Edit**       | `edit INDEX [n/NAME] [s/SCHOOL] [d/DEGREE] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                                    |
-| **EditJob**    | `editjob INDEX [jt/JOB_TITLE] [jr/INTERVIEW_ROUNDS] [k/SKILL]…​` <br> e.g., `editjob 7 jt/Software Engineering jr/3`                                                                                 |
-| **Find**       | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                                                           |
-| **FindJob**    | `findjob KEYWORD [MORE_KEYWORDS]`<br> e.g., `findjob Software Engineering`                                                                                                                           |
-| **FindApp**    | `findapp ia/APPLICATION_STATUS [ij/JOB_INDEX]` <br> e.g., `findapp ia/2 ij/1`                                                                                                                        |
-| **List**       | `list`                                                                                                                                                                                               |
-| **ListJobs**   | `listjob`                                                                                                                                                                                            |
-| **Help**       | `help`                                                                                                                                                                                               |
-| **switch**     | `switch`                                                                                                                                                                                             |
-| **ViewJob**    | `viewjob INDEX` <br> e.g., `viewjob 3`                                                                                                                                                               |
+| Action      | Format, Examples                                                                                                                                                                                     |
+|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Add**     | `add n/NAME s/SCHOOL d/DEGREE p/PHONE_NUMBER e/EMAIL a/ADDRESS [k/SKILL]…​` <br> e.g., `add n/James Ho s/NUS d/Physics p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 k/python k/java` |
+| **AddJob**  | `addjob jt/JOB_TITLE jr/INTERVIEW_ROUNDS [k/SKILL]…​` <br> e.g., `addjob jt/Software Engineering jr/3 k/Python`                                                                                      |
+| **AddApp**  | `addapp ip/PHONE_INDEX ij/JOB_INDEX ` <br> e.g., `addapp ip/1 ij/1`                                                                                                                                  |
+| **Adv**     | `adv ij/JOB_INDEX ia/APPLICANT_BY_JOB_INDEX ` <br> e.g., `adv ij/1 ia/1`                                                                                                                             |
+| **Clear**   | `clear`                                                                                                                                                                                              |
+| **Delete**  | `del INDEX`<br> e.g., `del 3`                                                                                                                                                                        |
+| **DeleteJob** | `deljob INDEX` <br> e.g., `deljob 3`                                                                                                                                                                 |
+| **DeleteApp** | `delapp ij/JOB_INDEX ia/APPLICANT_BY_JOB_INDEX ` <br> e.g., `delapp ij/1 ia/1`                                                                                                                       |
+| **Edit**    | `edit INDEX [n/NAME] [s/SCHOOL] [d/DEGREE] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                                    |
+| **EditJob** | `editjob INDEX [jt/JOB_TITLE] [jr/INTERVIEW_ROUNDS] [k/SKILL]…​` <br> e.g., `editjob 7 jt/Software Engineering jr/3`                                                                                 |
+| **Find**    | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                                                           |
+| **FindJob** | `findjob KEYWORD [MORE_KEYWORDS]`<br> e.g., `findjob Software Engineering`                                                                                                                           |
+| **FindApp** | `findapp ia/APPLICATION_STATUS [ij/JOB_INDEX]` <br> e.g., `findapp ia/2 ij/1`                                                                                                                        |
+| **List**    | `list`                                                                                                                                                                                               |
+| **ListJobs** | `listjob`                                                                                                                                                                                            |
+| **Help**    | `help`                                                                                                                                                                                               |
+| **switch**  | `switch`                                                                                                                                                                                             |
+| **ViewJob** | `viewjob INDEX` <br> e.g., `viewjob 3`                                                                                                                                                               |
 | **ViewPerson** | `viewperson ij/JOB_INDEX ia/APPLICATION_INDEX` <br> e.g., `viewperson ij/1 ia/2`                                                                                                                     |

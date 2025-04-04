@@ -20,7 +20,7 @@ import seedu.address.model.job.Job;
  * Advances the {@code ApplicationStatus} of an {@code Application} by 1 round.
  */
 public class AdvanceApplicationCommand extends Command {
-    public static final String COMMAND_WORD = "advapp";
+    public static final String COMMAND_WORD = "adv";
     public static final String BRIEF_MESSAGE_USAGE =
             PREFIX_JOB_INDEX + "JOB_INDEX " + PREFIX_APPLICATION_INDEX + "APPLICATION_INDEX";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Advances an application in the address book."

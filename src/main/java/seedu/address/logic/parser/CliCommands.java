@@ -36,7 +36,7 @@ public enum CliCommands {
     DELETEJOB(DeleteJobCommand.COMMAND_WORD, DeleteJobCommand.BRIEF_MESSAGE_USAGE),
     EDITJOB(EditJobCommand.COMMAND_WORD, EditJobCommand.BRIEF_MESSAGE_USAGE),
     LISTJOB(ListJobCommand.COMMAND_WORD, CliCommands.NO_PREFIXES),
-    FINDJOB(FindJobCommand.COMMAND_WORD, CliCommands.NO_PREFIXES),
+    FINDJOB(FindJobCommand.COMMAND_WORD, FindJobCommand.BRIEF_MESSAGE_USAGE),
     // Application-specific commands below.
     ADDAPP(AddApplicationCommand.COMMAND_WORD, AddApplicationCommand.BRIEF_MESSAGE_USAGE),
     DELETEAPP(DeleteApplicationCommand.COMMAND_WORD, DeleteApplicationCommand.BRIEF_MESSAGE_USAGE),
