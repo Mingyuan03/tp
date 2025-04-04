@@ -385,7 +385,7 @@ Format: `delapp ij/JOB_INDEX ia/APPLICATION_INDEX`
 Examples:
 * `delapp ij/1 ia/2` deletes the 2nd application for the 1st job.
 
-### Advancing applications: `adv`
+### Advancing applications: `advapp`
 
 Advances an application to the next round of interview
 
