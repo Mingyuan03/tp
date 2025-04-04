@@ -48,7 +48,7 @@ public enum CliCommands {
     SWITCHVIEW(SwitchViewCommand.COMMAND_WORD, CliCommands.NO_PREFIXES),
     // Miscellaneous commands below.
     CLEAR(ClearCommand.COMMAND_WORD, CliCommands.NO_PREFIXES),
-    HELP(HelpCommand.COMMAND_WORD, HelpCommand.MESSAGE_USAGE),
+    HELP(HelpCommand.COMMAND_WORD, CliCommands.NO_PREFIXES),
     EXIT(ExitCommand.COMMAND_WORD, CliCommands.NO_PREFIXES);
 
     private static final String NO_PREFIXES = "No prefixes needed";
@@ -80,6 +80,9 @@ public enum CliCommands {
      * @return Corresponding command comprising the command word and its command instruction.
      */
     public static CliCommands fromCommandWord(String input) {
+        if (input == null) {
+            return null;
+        }
         for (CliCommands command : CliCommands.values()) {
             if (command.getCommandWord().equalsIgnoreCase(input.trim())) {
                 return command;

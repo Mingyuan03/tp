@@ -11,15 +11,13 @@ import seedu.address.model.Model;
  */
 public class HelpCommand extends Command {
     public static final String COMMAND_WORD = "help";
-    public static final String MESSAGE_USAGE = "Displays all command words and formats by default, or "
-            + "the specific valid command word and format.\n"
-            + "Default example: " + COMMAND_WORD + "\nSpecific example: " + COMMAND_WORD + " " + COMMAND_WORD + "\n";
+    public static final String MESSAGE_USAGE = "Displays all command words and formats by default";
     public static final String MESSAGE_SUCCESS = "Help window opened.";
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        // Reduced to single dispatch below.
+        // Reduced to single dispatch below. CliCommands enum enables future multiple dispatch if necessary.
         return CommandResult.withHelp(MESSAGE_SUCCESS);
     }
 

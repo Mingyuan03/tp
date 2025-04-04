@@ -14,6 +14,6 @@ public class HelpCommandTest {
     @Test
     public void execute_helpCommand_success() {
         CommandResult expectedCommandResult = CommandResult.withHelp(HelpCommand.MESSAGE_SUCCESS);
-        assertCommandSuccess(new HelpCommand(), model, expectedCommandResult, expectedModel);
+        assertCommandSuccess(new HelpCommand(), this.model, expectedCommandResult, this.expectedModel);
     }
 }

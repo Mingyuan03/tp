@@ -31,7 +31,7 @@ With TalentMatch's CLI interface, you can:
 The more you type, the more time you save. Master our simple commands and watch your productivity soar!
 
 <!-- * Table of Contents -->
-<page-nav-print />
+<page-nav-print></page-nav-print>
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -80,7 +80,7 @@ Simply use the up and down arrow keys after clicking on the command box text inp
   e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
 
 * Items in square brackets are optional.<br>
-  e.g `n/NAME [k/SKILL]` can be used as `n/John Doe k/Python` or as `n/John Doe`.
+  e.g. `n/NAME [k/SKILL]` can be used as `n/John Doe k/Python` or as `n/John Doe`.
 
 * Items with `…`​ after them can be used multiple times including zero times.<br>
   e.g. `[k/SKILL]…​` can be used as ` ` (i.e. 0 times), `k/Python`, `k/Java k/Python` etc.
@@ -103,7 +103,7 @@ Simply use the up and down arrow keys after clicking on the command box text inp
 
 ### Viewing help : `help`
 
-Shows a message explaning how to access the help page.
+Shows a message explaining how to access the help page.
 
 ![help message](images/helpMessage.png)
 
@@ -212,7 +212,7 @@ Format: `edit INDEX [n/NAME] [s/SCHOOL] [d/DEGREE] [p/PHONE] [e/EMAIL] [a/ADDRES
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
-* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
+* When editing tags, the existing tags of the person will be removed i.e. adding of tags is not cumulative.
 * You can remove all the person's tags by typing `t/` without
     specifying any tags after it.
 
@@ -231,7 +231,7 @@ Format: `editjob INDEX [jt/JOB_TITLE] [jr/INTERVIEW_ROUNDS] [js/JOB_SKILLS] [ja/
 * Edits the job at the specified `INDEX`. The index refers to the index number shown in the displayed job list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
-* When editing job skills, the existing skills of the person will be removed i.e adding of skills is not cumulative.
+* When editing job skills, the existing skills of the person will be removed i.e. adding of skills is not cumulative.
 * You can remove all the job's skills by typing `js/` without
   specifying any skills after it.
 
@@ -246,7 +246,7 @@ Finds persons whose details contain any of the given keywords.
 
 Format: `find KEYWORD [MORE_KEYWORDS]`
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
+* The search is case-insensitive. e.g. `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only full words will be matched e.g. `Han` will not match `Hans`
 * Persons matching at least one keyword will be returned (i.e. `OR` search).
@@ -265,7 +265,7 @@ Finds jobs whose details contain any of the given keywords.
 
 Format: `findjob KEYWORD [MORE_KEYWORDS]`
 
-* The search is case-insensitive. e.g `software` will match `Software`
+* The search is case-insensitive. e.g. `software` will match `Software`
 * The order of the keywords does not matter. e.g. `Engineering Software` will match `Software Engineering`
 * Only full words will be matched e.g. `Engi` will not match `Engineer`
 * Jobs matching at least one keyword will be returned (i.e. `OR` search).
@@ -300,6 +300,7 @@ TalentMatch flags it out with this exception message:
       Example: findappij/ 1 as/ 2```
 * The desired application must already exist in TalentMatch. TalentMatch cannot find a non-existent application!
 </box>
+
 Example of a successful command alongside graphical depiction:
 * `findapp as/2`
 * ![img_6.png](img_6.png)
@@ -527,6 +528,7 @@ It is strongly recommended to:
 * Back up both data files before editing them
 * Keep the file format and data consistent across both files
 * Restart the application after making direct edits to verify your changes
+
 </box>
 
 --------------------------------------------------------------------------------------------------------------------
@@ -542,10 +544,10 @@ It is strongly recommended to:
 
 ### UI Issues
 1. **Multiple Window Usage:** When using multiple screens, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **Minimising the Help Window:** If you minimize the Help Window and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+2. **Minimising the Help Window:** If you minimise the Help Window and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimised, and no new Help Window will appear. The remedy is to manually restore the minimised Help Window.
 3. **Text Truncation in Display:** Long text entries may be truncated with "..." when the application window isn't wide enough. You may not be able to see the complete information for some fields.
 4. **Viewport Issues:** Parts of the application may be cut off at smaller window sizes, including the default size at first startup.
-5. **Oversized Messages:** Some success and error messages may be too long to read easily in the current application.
+5. **Over-sized Messages:** Some success and error messages may be too long to read easily in the current application.
 
 ### Data Storage Issues
 6. **Storage File Synchronization:** The application generates two storage files: applicationsmanager.json and addressbook.json. Both files contain information related to persons and jobs. If you make changes to persons or jobs in one file, you MUST replicate these changes in the other file. Failure to synchronize these files will result in data mismatches when the application loads, leading to undefined application behavior.
@@ -556,24 +558,24 @@ It is strongly recommended to:
 
 ## Command summary
 
- Action         | Format, Examples                                                                                                                                                                                     
-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- **Add**        | `add n/NAME s/SCHOOL d/DEGREE p/PHONE_NUMBER e/EMAIL a/ADDRESS [k/SKILL]…​` <br> e.g., `add n/James Ho s/NUS d/Physics p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 k/python k/java` 
- **AddJob**     | `addjob jt/JOB_TITLE jr/INTERVIEW_ROUNDS [k/SKILL]…​` <br> e.g., `addjob jt/Software Engineering jr/3 k/Python`                                                                                      
- **AddApp**     | `addapp ip/PHONE_INDEX ij/JOB_INDEX ` <br> e.g., `addapp ip/1 ij/1`                                                                                                                                  
- **AdvApp**     | `adv ij/JOB_INDEX ia/APPLICANT_BY_JOB_INDEX ` <br> e.g., `adv ij/1 ia/1`                                                                                                                             
- **Clear**      | `clear`                                                                                                                                                                                              
- **Delete**     | `del INDEX`<br> e.g., `del 3`                                                                                                                                                                        
- **DeleteJob**  | `deljob INDEX` <br> e.g., `deljob 3`                                                                                                                                                                 
- **DeleteApp**  | `delapp ij/JOB_INDEX ia/APPLICANT_BY_JOB_INDEX ` <br> e.g., `delapp ij/1 ia/1`                                                                                                                       
- **Edit**       | `edit INDEX [n/NAME] [s/SCHOOL] [d/DEGREE] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                                    
- **EditJob**    | `editjob INDEX [jt/JOB_TITLE] [jr/INTERVIEW_ROUNDS] [k/SKILL]…​` <br> e.g., `editjob 7 jt/Software Engineering jr/3`                                                                                 
- **Find**       | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                                                           
- **FindJob**    | `findjob KEYWORD [MORE_KEYWORDS]`<br> e.g., `findjob Software Engineering`                                                                                                                           
- **FindApp**    | `findapp ia/APPLICATION_STATUS [ij/JOB_INDEX]` <br> e.g., `findapp ia/2 ij/1`                                                                                                                        
- **List**       | `list`                                                                                                                                                                                               
- **ListJobs**   | `listjob`                                                                                                                                                                                            
- **Help**       | `help`                                                                                                                                                                                               
- **switch**     | `switch`                                                                                                                                                                                             
- **ViewJob**    | `viewjob INDEX` <br> e.g., `viewjob 3`                                                                                                                                                               
- **ViewPerson** | `viewperson ij/JOB_INDEX ia/APPLICATION_INDEX` <br> e.g., `viewperson ij/1 ia/2`                                                                                                                     
+| Action         | Format, Examples                                                                                                                                                                                     |
+|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Add**        | `add n/NAME s/SCHOOL d/DEGREE p/PHONE_NUMBER e/EMAIL a/ADDRESS [k/SKILL]…​` <br> e.g., `add n/James Ho s/NUS d/Physics p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 k/python k/java` |
+| **AddJob**     | `addjob jt/JOB_TITLE jr/INTERVIEW_ROUNDS [k/SKILL]…​` <br> e.g., `addjob jt/Software Engineering jr/3 k/Python`                                                                                      |
+| **AddApp**     | `addapp ip/PHONE_INDEX ij/JOB_INDEX ` <br> e.g., `addapp ip/1 ij/1`                                                                                                                                  |
+| **AdvApp**     | `adv ij/JOB_INDEX ia/APPLICANT_BY_JOB_INDEX ` <br> e.g., `adv ij/1 ia/1`                                                                                                                             |
+| **Clear**      | `clear`                                                                                                                                                                                              |
+| **Delete**     | `del INDEX`<br> e.g., `del 3`                                                                                                                                                                        |
+| **DeleteJob**  | `deljob INDEX` <br> e.g., `deljob 3`                                                                                                                                                                 |
+| **DeleteApp**  | `delapp ij/JOB_INDEX ia/APPLICANT_BY_JOB_INDEX ` <br> e.g., `delapp ij/1 ia/1`                                                                                                                       |
+| **Edit**       | `edit INDEX [n/NAME] [s/SCHOOL] [d/DEGREE] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                                    |
+| **EditJob**    | `editjob INDEX [jt/JOB_TITLE] [jr/INTERVIEW_ROUNDS] [k/SKILL]…​` <br> e.g., `editjob 7 jt/Software Engineering jr/3`                                                                                 |
+| **Find**       | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                                                           |
+| **FindJob**    | `findjob KEYWORD [MORE_KEYWORDS]`<br> e.g., `findjob Software Engineering`                                                                                                                           |
+| **FindApp**    | `findapp ia/APPLICATION_STATUS [ij/JOB_INDEX]` <br> e.g., `findapp ia/2 ij/1`                                                                                                                        |
+| **List**       | `list`                                                                                                                                                                                               |
+| **ListJobs**   | `listjob`                                                                                                                                                                                            |
+| **Help**       | `help`                                                                                                                                                                                               |
+| **switch**     | `switch`                                                                                                                                                                                             |
+| **ViewJob**    | `viewjob INDEX` <br> e.g., `viewjob 3`                                                                                                                                                               |
+| **ViewPerson** | `viewperson ij/JOB_INDEX ia/APPLICATION_INDEX` <br> e.g., `viewperson ij/1 ia/2`                                                                                                                     |
