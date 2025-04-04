@@ -375,7 +375,7 @@ Example of a successful command alongside graphical depiction:
 * `delapp ip/1 ij/4`
 * ![img_4.png](img_4.png)
 
-Format: `delapp j/JOB_INDEX a/APPLICATION_INDEX`
+Format: `delapp ij/JOB_INDEX ia/APPLICATION_INDEX`
 
 * Deletes the application at the specified `APPLICATION_INDEX` for the job at the specified `JOB_INDEX`.
 * Both indices refer to the index numbers shown in the respective displayed lists.
@@ -383,7 +383,7 @@ Format: `delapp j/JOB_INDEX a/APPLICATION_INDEX`
 * This command is only available in job view.
 
 Examples:
-* `delapp j/1 a/2` deletes the 2nd application for the 1st job.
+* `delapp ij/1 ia/2` deletes the 2nd application for the 1st job.
 
 ### Advancing applications: `adv`
 
