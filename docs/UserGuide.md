@@ -92,6 +92,8 @@ Simply use the up and down arrow keys after clicking on the command box text inp
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `N/NAME P/PHONE_NUMBER` is not acceptable.
   e.g. if the command specifies `addjob jt/JOB_TITLE`, `ADDJOB JT/JOB_TITLE` is not acceptable.
 
+* All parameters that accept alphanumeric characters are case insensitive, except for `EMAIL`.
+
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
@@ -420,6 +422,7 @@ Format: `addapp ip/PERSON_INDEX ij/JOB_INDEX`
 * All applications start from the 0th round each time (start at 0 of JOB_ROUNDS when added).
 * The `PERSON_INDEX` can be obtained by switching to Person View in TalentMatch.
 * The `JOB_INDEX` can be obtained by switching to Job View in TalentMatch.
+* `addapp` is the only application command that is available to you in both Person and Job view.
 
 </box>
 
