@@ -36,7 +36,8 @@ public class AddApplicationCommandParser implements Parser<AddApplicationCommand
             return new AddApplicationCommand(personIndex, jobIndex);
         } catch (ParseException pe) {
             throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_INDEX_FORMAT, pe.getMessage(), AddApplicationCommand.MESSAGE_USAGE), pe);
+                    String.format(MESSAGE_INVALID_COMMAND_INDEX_FORMAT,
+                    pe.getMessage(), AddApplicationCommand.MESSAGE_USAGE), pe);
         }
     }
 }

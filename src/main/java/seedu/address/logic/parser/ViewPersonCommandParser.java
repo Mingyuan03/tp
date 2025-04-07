@@ -38,7 +38,8 @@ public class ViewPersonCommandParser implements Parser<ViewPersonCommand> {
             return new ViewPersonCommand(jobIndex, applicationIndex);
         } catch (ParseException pe) {
             throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_INDEX_FORMAT, pe.getMessage(), ViewPersonCommand.MESSAGE_USAGE), pe);
+                    String.format(MESSAGE_INVALID_COMMAND_INDEX_FORMAT,
+                    pe.getMessage(), ViewPersonCommand.MESSAGE_USAGE), pe);
         }
     }
 }

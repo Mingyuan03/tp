@@ -43,7 +43,8 @@ public class FindAppCommandParser implements Parser<FindAppCommand> {
             return new FindAppCommand(rounds);
         } catch (ParseException pe) {
             throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_INDEX_FORMAT, pe.getMessage(), FindAppCommand.MESSAGE_USAGE), pe);
+                    String.format(MESSAGE_INVALID_COMMAND_INDEX_FORMAT,
+                    pe.getMessage(), FindAppCommand.MESSAGE_USAGE), pe);
         }
     }
 }

@@ -44,7 +44,8 @@ public class AdvanceApplicationCommandParser implements Parser<AdvanceApplicatio
             return new AdvanceApplicationCommand(jobIndex, appByJobIndex);
         } catch (ParseException pe) {
             throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_INDEX_FORMAT, pe.getMessage(), AdvanceApplicationCommand.MESSAGE_USAGE), pe);
+                    String.format(MESSAGE_INVALID_COMMAND_INDEX_FORMAT,
+                    pe.getMessage(), AdvanceApplicationCommand.MESSAGE_USAGE), pe);
         }
     }
 }

@@ -43,7 +43,8 @@ public class DeleteApplicationCommandParser implements Parser<DeleteApplicationC
             return new DeleteApplicationCommand(jobIndex, appByJobIndex);
         } catch (ParseException pe) {
             throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_INDEX_FORMAT, pe.getMessage(), DeleteApplicationCommand.MESSAGE_USAGE), pe);
+                    String.format(MESSAGE_INVALID_COMMAND_INDEX_FORMAT,
+                    pe.getMessage(), DeleteApplicationCommand.MESSAGE_USAGE), pe);
         }
     }
 }
