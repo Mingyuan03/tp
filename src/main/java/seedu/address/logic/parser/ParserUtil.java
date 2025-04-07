@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.application.ApplicationStatus;
 import seedu.address.model.job.JobRounds;
 import seedu.address.model.job.JobTitle;
 import seedu.address.model.person.Address;
@@ -52,7 +53,7 @@ public class ParserUtil {
      */
     public static Name parseName(String name) throws ParseException {
         requireNonNull(name);
-        String trimmedName = name.trim();
+        String trimmedName = name.trim().toUpperCase();
         if (!Name.isValidName(trimmedName)) {
             throw new ParseException(Name.MESSAGE_CONSTRAINTS);
         }
@@ -97,7 +98,7 @@ public class ParserUtil {
      */
     public static Address parseAddress(String address) throws ParseException {
         requireNonNull(address);
-        String trimmedAddress = address.trim();
+        String trimmedAddress = address.trim().toUpperCase();
         if (!Address.isValidAddress(trimmedAddress)) {
             throw new ParseException(Address.MESSAGE_CONSTRAINTS);
         }
@@ -111,7 +112,7 @@ public class ParserUtil {
      */
     public static School parseSchool(String school) throws ParseException {
         requireNonNull(school);
-        String trimmedSchool = school.trim();
+        String trimmedSchool = school.trim().toUpperCase();
         if (!School.isValidSchool(trimmedSchool)) {
             throw new ParseException(School.MESSAGE_CONSTRAINTS);
         }
@@ -125,7 +126,7 @@ public class ParserUtil {
      */
     public static Degree parseDegree(String degree) throws ParseException {
         requireNonNull(degree);
-        String trimmedDegree = degree.trim();
+        String trimmedDegree = degree.trim().toUpperCase();
         if (!Degree.isValidDegree(trimmedDegree)) {
             throw new ParseException(Degree.MESSAGE_CONSTRAINTS);
         }
@@ -138,7 +139,7 @@ public class ParserUtil {
      *         efficient processing.
      */
     public static JobTitle parseJobTitle(String jobTitle) throws ParseException {
-        jobTitle = jobTitle.trim();
+        jobTitle = jobTitle.trim().toUpperCase();
         requireNonNull(jobTitle);
         if (!JobTitle.isValidJobTitle(jobTitle)) {
             throw new ParseException(JobTitle.MESSAGE_CONSTRAINTS);
@@ -176,7 +177,7 @@ public class ParserUtil {
      */
     public static Skill parseSkill(String skill) throws ParseException {
         requireNonNull(skill);
-        String trimmedSkill = skill.trim().toLowerCase();
+        String trimmedSkill = skill.trim().toUpperCase();
         if (!Skill.isValidSkillName(trimmedSkill)) {
             throw new ParseException(Skill.MESSAGE_CONSTRAINTS);
         }
@@ -201,5 +202,25 @@ public class ParserUtil {
      */
     public static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
+    }
+
+    /**
+     * Parses a {@code String status} into a {@code ApplicationStatus}. Leading and
+     * trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code status} is invalid.
+     */
+    public static ApplicationStatus parseStatus(String status) throws ParseException {
+        requireNonNull(status);
+        status = status.trim();
+        try {
+            int applicationStatusValue = Integer.parseInt(status);
+            if (!ApplicationStatus.isValidApplicationStatus(applicationStatusValue)) {
+                throw new ParseException(ApplicationStatus.MESSAGE_CONSTRAINTS);
+            }
+            return new ApplicationStatus(applicationStatusValue);
+        } catch (NumberFormatException e) {
+            throw new ParseException(ApplicationStatus.MESSAGE_CONSTRAINTS);
+        }
     }
 }
