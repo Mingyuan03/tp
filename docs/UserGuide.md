@@ -231,6 +231,12 @@ Format: `findjob KEYWORD [MORE_KEYWORDS]…​`
   e.g. `findjob data engineering` followed by `findjob engineering` will only return `Software Engineering`
 * To reset the displayed list (i.e. when the displayed list is empty or the job you are searching for is no longer in the list), use `listjob` to reset back to original list and continue searching again.
 
+Searchable fields:
+* JOB_TITLE
+* JOB_ROUNDS
+* SKILL
+![findjob_fields](images/findjob_params.png)
+
 Expected output:
 * `findjob data engineer` returns jobs which contain data or engineer in their details. 
 
@@ -344,6 +350,16 @@ Format: `find KEYWORD [MORE_KEYWORDS]…​`
   e.g. `find Hans Bo` followed by `find Hans` will only return `Hans Gruber`
 * To reset the displayed list (i.e. when the displayed list is empty or the person you are searching for is no longer in the list), use `list` to reset back to original list and continue searching again.
 
+Searchable fields:
+* NAME
+* SCHOOL
+* DEGREE
+* PHONE
+* EMAIL
+* ADDRESS
+* SKILL
+![find_fields](images/find_params.png)
+
 Expected output:
 * `find alex irfan` returns persons who contain alex **or** irfan in their details
 
@@ -386,7 +402,7 @@ These commands support CRUD operations on Applications and are only available to
 ---------------|-------------------------------------------------------------|----------------
 `PERSON_INDEX`  | Index of the person in the displayed person list in Person View | Must be a positive integer and should be an index displayed in Person View.
 `JOB_INDEX`       | Index of the job in the displayed job list in Job View      | Must be a positive integer and should be an index displayed in Job View.
-`APPLICATION_STATUS` | Current round of application process that an applicant is at | Must be a positive integer > 0 and should be less than or equal JOB_ROUNDS of that particular job.
+`APPLICATION_STATUS` | Current round of application process that an applicant is at | Must be a positive integer >= 0 and should be less than or equal JOB_ROUNDS of that particular job.
 `APPLICATION_INDEX` | Index of the application in the displayed job list in Job View | Must be a positive integer and should be an index displayed in Job View.
 
 Here is a brief label of the various parameters:
