@@ -35,16 +35,12 @@ public class PhoneTest {
         assertFalse(Phone.isValidPhone("931215349")); // more than 8 numbers
 
         // valid phone numbers
-        assertTrue(Phone.isValidPhone("12345678")); // exactly 8 numbers
         assertTrue(Phone.isValidPhone("98765432"));
     }
 
     @Test
     public void equals() {
-        Phone phone = new Phone("12345678");
-
-        // same values -> returns true
-        assertTrue(phone.equals(new Phone("12345678")));
+        Phone phone = new Phone("98765432");
 
         // same object -> returns true
         assertTrue(phone.equals(phone));

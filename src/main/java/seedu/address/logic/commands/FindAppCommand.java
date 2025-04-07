@@ -38,13 +38,13 @@ public class FindAppCommand extends Command {
 
     private static final Logger logger = LogsCenter.getLogger(FindAppCommand.class);
 
-    private final String status;
+    private final ApplicationStatus status;
     private final Optional<Index> jobIndex;
 
     /**
      * Creates a FindAppCommand to filter by the specified status
      */
-    public FindAppCommand(String status) {
+    public FindAppCommand(ApplicationStatus status) {
         this.status = status;
         this.jobIndex = Optional.empty();
     }
@@ -52,7 +52,7 @@ public class FindAppCommand extends Command {
     /**
      * Creates a FindAppCommand to filter by the specified job and status
      */
-    public FindAppCommand(Index jobIndex, String status) {
+    public FindAppCommand(Index jobIndex, ApplicationStatus status) {
         this.status = status;
         this.jobIndex = Optional.of(jobIndex);
     }
@@ -77,8 +77,7 @@ public class FindAppCommand extends Command {
         }
 
         // Create the status predicate
-        ApplicationStatus targetStatus = new ApplicationStatus(Integer.parseInt(status));
-        ApplicationStatusPredicate statusPredicate = new ApplicationStatusPredicate(targetStatus);
+        ApplicationStatusPredicate statusPredicate = new ApplicationStatusPredicate(status);
 
         if (jobIndex.isPresent()) {
             // If job index is specified, first filter the job list
