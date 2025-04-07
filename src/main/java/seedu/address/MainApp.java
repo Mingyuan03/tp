@@ -206,6 +206,9 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         logger.info("Starting AddressBook " + MainApp.VERSION);
+        // Set minimum size constraints but don't force a specific size
+        primaryStage.setMinWidth(1200);
+        primaryStage.setMinHeight(800);
         ui.start(primaryStage);
     }
 
