@@ -191,7 +191,7 @@ Format: `editjob INDEX [jt/JOB_TITLE] [jr/JOB_ROUNDS] [k/SKILL]…​`
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing job skills, the existing skills of the person will be removed i.e adding of skills is not cumulative.
-* You can remove all the job's skills by typing `js/` without
+* You can remove all the job's skills by typing `k/` without
   specifying any skills after it.
 
 <box type="warning" seamless>
@@ -218,7 +218,7 @@ Format: `listjob`
 
 Finds jobs whose details contain any of the given keywords.
 
-Format: `findjob KEYWORD [MORE_KEYWORDS]`
+Format: `findjob KEYWORD [MORE_KEYWORDS]…​`
 
 * The search is case-insensitive. e.g `software` will match `Software`
 * The order of the keywords does not matter. e.g. `Engineering Software` will match `Software Engineering`
@@ -232,7 +232,7 @@ Format: `findjob KEYWORD [MORE_KEYWORDS]`
 * To reset the displayed list (i.e. when the displayed list is empty or the job you are searching for is no longer in the list), use `listjob` to reset back to original list and continue searching again.
 
 Expected output:
-* `findjob data engineer` returns jobs which contain data or engineering in their details. 
+* `findjob data engineer` returns jobs which contain data or engineer in their details. 
 
 ![findjob_success](images/findjob_success.png)
 
@@ -273,7 +273,7 @@ These commands support CRUD operations on Persons and are only available to you 
 `NAME`  | Name of the applicant                                           | Only alphanumeric characters and spaces allowed, and should not be blank.
 `PHONE_NUMBER`  | Phone number of the applicant                                   | Should be a valid Singapore phone number, and contain only 8 numbers.
 `EMAIL`  | Email of the applicant                                          | Emails should be of the format local-part@domain and adhere to the following constraints:<br>1. The local-part should only contain alphanumeric characters and these special characters, excluding the parentheses, (+_.-). The local-part may not start or end with any special characters.<br>2. This is followed by a '@' and then a domain name. The domain name is made up of domain labels separated by periods. The domain name must:<br>- end with a domain label at least 2 characters long<br>- have each domain label start and end with alphanumeric characters<br>- have each domain label consist of alphanumeric characters, separated only by hyphens, if any.
-`ADDRESS` | Address of the applicant                                        | Contains alphanumeric characters as well as special characters, and should not be blank.
+`ADDRESS` | Address of the applicant                                        | Contains alphanumeric characters and special characters, and should not be blank.
 `SCHOOL` | School that the applicant is currently studying in              | Only alphanumeric characters and spaces allowed, and should not be blank.
 `DEGREE` | Degree that the applicant is currently pursuing                 | Only alphanumeric characters and spaces allowed, and should not be blank.
 `SKILL` | Skills that the applicant possesses                             | Only alphanummeric charcters are allowed, with the exception of `.` and `/`. Skills should only be one word with no spaces.
@@ -296,8 +296,8 @@ Expected output:<br>
 ![add_success](images/addjob_success.png)
 
 Examples:
-* `add n/John Doe s/NUS d/Computer Science p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe s/NTU d/Civil Engineering k/Communication e/betsycrowe@example.com a/Newgate Prison p/1234567 k/Python`
+* `add n/John Doe s/NUS d/Computer Science p/98765432 e/johnd@example.com a/John street, block 123, #01-01` adds a person with the specified details without skills.
+* `add n/Betsy Crowe s/NTU d/Civil Engineering k/Communication e/betsycrowe@example.com a/Newgate Prison p/1234567 k/Python` adds a person with the specified details with skills.
 
 ### Editing a person: `edit`
 
@@ -319,7 +319,7 @@ Expected output:<br>
 
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
-*  `edit 2 n/Betsy Crower k/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+*  `edit 2 n/Betsy Crower k/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing skills.
 
 #### Listing all persons: `list`
 
@@ -331,7 +331,7 @@ Format: `list`
 
 Finds persons whose details contain any of the given keywords.
 
-Format: `find KEYWORD [MORE_KEYWORDS]`
+Format: `find KEYWORD [MORE_KEYWORDS]…​`
 
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
@@ -439,7 +439,7 @@ Format: `findapp as/APPLICATION_STATUS [ij/JOB_INDEX]`
 * Both the job index and application status can be retrieved from the job view alone.
 * Using `APPLICATION_STATUS` on its own returns all applications with the specified `APPLICATION_STATUS`.
 * Using `APPLICATION_STATUS` and `JOB_INDEX` returns all applications under the specified job at `JOB_INDEX` with the specified `APPLICATION_STATUS`.
-* `findapp` works on the current displayed list of jobs (i.e. if there are multiple jobs with applications with an `APPLICATION_STATUS` of 3 in TalentMatch, but only 1 job is currently displayed on the job list,<br>`findapp as/3` returns only that 1 job).
+* `findapp` works on the current displayed list of jobs (i.e. if there are multiple jobs with applications with an `APPLICATION_STATUS` of 3 in TalentMatch, but only 1 job is currently displayed on the job list, `findapp as/3` returns only that 1 job).
 * Use `listjob` to clear any existing filters to reset the search space to the entire job list.
 
 </box>
@@ -524,7 +524,7 @@ Expected output:<br>
 
 Examples:
 * `advapp ij/1 ia/2` advances the 2nd application for the 1st job by one round (if it exists).
-* 
+
 ### Viewing job details: `viewjob`
 
 Displays a sidebar that shows the job title abd the number of applicants for that job. It also shows the distribution of applicants across different interview rounds in a bar chart, and the skills required for the job.
@@ -622,8 +622,13 @@ It is strongly recommended to:
 change data in the other view unknowingly. 
 
 **Q**: Why are the find commands so restrictive?<br>
-**A**: TalentMatch is built in consideration of the overwhelming amount of internship applications that a job opening could face. Having a find function that continuously reduces the search space
-allows you to be able to better narrow down on certain individuals amidst a staggering number of applicants.
+**A**: TalentMatch is built with the assumption that experience users will be unlikely to make typing mistakes when searching for a certain job/person, hence having a find function that continuously
+reduces the search space improves your experience by being able to narrow down your displayed lists for easier addition of applications. In the event of typing a wrong keyword, you can use `list`/`listjob` in the 
+appropriate view to reset your current search and try searching again.
+
+**Q**: Why are skills limited to 1 word?<br>
+**A**: TalentMatch follows typical resume formats where skills are listed as single words. In the event of skills that take up multiple words, you can compromise by
+concatenating them into a single word.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -631,15 +636,16 @@ allows you to be able to better narrow down on certain individuals amidst a stag
 
 ### UI Issues
 1. **Multiple Window Usage:** When using multiple screens, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **Minimising the Help Window:** If you minimize the Help Window and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+2. **Minimising the Help Window:** If you minimize the Help Window and then run the `help` command again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 3. **Text Truncation in Display:** Long text entries may be truncated with "..." when the application window isn't wide enough. You may not be able to see the complete information for some fields.
-4. **Viewport Issues:** Parts of the application may be cut off at smaller window sizes, including the default size at first startup.
+4. **Viewport Issues:** Parts of the application may be cut off at smaller window sizes, including the default size at first startup. We have included a minimum viewport size for most devices, however in the case where your device is unable to support this viewport, then you may run into unexpected UI issues as mentioned before.
 5. **Oversized Messages:** Some success and error messages may be too long to read easily in the current application.
 
 ### Data Storage Issues
 6. **Storage File Synchronization:** The application generates two storage files: applicationsmanager.json and addressbook.json. Both files contain information related to persons and jobs. If you make changes to persons or jobs in one file, you MUST replicate these changes in the other file. Failure to synchronize these files will result in data mismatches when the application loads, leading to undefined application behavior.
 7. **Command Syntax Sensitivity:** Any non-adherence to the case sensitivity and input validation rules given in the command descriptions may cause unexpected errors. You should read through and follow these case sensitivity and input validation rules carefully.
 8. **Multiple Instance Conflict:** Running multiple instances of the application simultaneously can corrupt your data files. You should only run one instance of TalentMatch at a time. Close any existing instance before opening a new one.
+9. **Skill Storage Limitation:** Adding skills that are more than 1 word long will result in an error. You can concatenate the skill into a single word before adding them as a compromise.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -650,11 +656,11 @@ Action     | Format, Examples
 **Add**    | `add n/NAME s/SCHOOL d/DEGREE p/PHONE_NUMBER e/EMAIL a/ADDRESS [k/SKILL]…​` <br> e.g., `add n/James Ho s/NUS d/Physics p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 k/python k/java`
 **AddJob** | `addjob jt/JOB_TITLE jr/INTERVIEW_ROUNDS [k/SKILL]…​` <br> e.g., `addjob jt/Software Engineering jr/3 k/Python`
 **AddApp** | `addapp ip/PERSON_INDEX ij/JOB_INDEX ` <br> e.g., `addapp ip/1 ij/1`
-**AdvApp** | `advapp ij/JOB_INDEX ia/APPLICANT_INDEX ` <br> e.g., `adv ij/1 ia/1`
+**AdvApp** | `advapp ij/JOB_INDEX ia/APPLICATION_INDEX ` <br> e.g., `adv ij/1 ia/1`
 **Clear**  | `clear`
 **Delete** | `del INDEX`<br> e.g., `del 3`
 **DeleteJob** | `deljob INDEX` <br> e.g., `deljob 3`
-**DeleteApp** | `delapp ij/JOB_INDEX ia/APPLICANT_INDEX ` <br> e.g., `delapp ij/1 ia/1`
+**DeleteApp** | `delapp ij/JOB_INDEX ia/APPLICATION_INDEX ` <br> e.g., `delapp ij/1 ia/1`
 **Edit**   | `edit INDEX [n/NAME] [s/SCHOOL] [d/DEGREE] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [k/SKILL]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **EditJob** | `editjob INDEX [jt/JOB_TITLE] [jr/INTERVIEW_ROUNDS] [k/SKILL]…​` <br> e.g., `editjob 7 jt/Software Engineering jr/3`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]…​`<br> e.g., `find James Jake`
