@@ -111,9 +111,10 @@ public class EditCommandTest {
         showPersonAtIndex(expectedModel, INDEX_ONE);
 
         Person personInFilteredList = model.getFilteredPersonList().get(INDEX_ONE.getZeroBased());
-        Person editedPerson = new PersonBuilder(personInFilteredList).withName(VALID_NAME_BOB).build();
+        Person editedPerson = new PersonBuilder(personInFilteredList).withName(VALID_NAME_BOB.toLowerCase())
+                .build();
         EditCommand editCommand = new EditCommand(INDEX_ONE,
-                new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build());
+                new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB.toLowerCase()).build());
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
 

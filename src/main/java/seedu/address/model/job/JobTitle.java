@@ -3,6 +3,8 @@ package seedu.address.model.job;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+import seedu.address.commons.util.StringUtil;
+
 /**
  * Represents a job title in a {@Code Job}.
  */
@@ -43,7 +45,7 @@ public record JobTitle(String jobTitle) {
      */
     @Override
     public String toString() {
-        return this.jobTitle;
+        return StringUtil.toTitleCase(this.jobTitle);
     }
 
     /**

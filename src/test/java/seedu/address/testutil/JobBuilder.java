@@ -1,5 +1,6 @@
 package seedu.address.testutil;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,7 +17,6 @@ public class JobBuilder {
 
     public static final String DEFAULT_JOB_TITLE = "Software Engineering";
     public static final int DEFAULT_JOB_ROUNDS = 5;
-    public static final String DEFAULT_JOB_TYPE = "Intern";
 
     private JobTitle jobTitle;
     private JobRounds jobRounds;
@@ -26,7 +26,7 @@ public class JobBuilder {
      * Creates a {@code JobBuilder} with the default details.
      */
     public JobBuilder() {
-        jobTitle = new JobTitle(DEFAULT_JOB_TITLE);
+        jobTitle = new JobTitle(DEFAULT_JOB_TITLE.toLowerCase());
         jobRounds = new JobRounds(DEFAULT_JOB_ROUNDS);
         skills = new HashSet<>();
     }
@@ -44,7 +44,7 @@ public class JobBuilder {
      * Sets the {@code JobTitle} of the {@code Job} that we are building.
      */
     public JobBuilder withJobTitle(String jobTitle) {
-        this.jobTitle = new JobTitle(jobTitle);
+        this.jobTitle = new JobTitle(jobTitle.toLowerCase());
         return this;
     }
 
@@ -61,7 +61,7 @@ public class JobBuilder {
      * {@code Job} that we are building.
      */
     public JobBuilder withSkills(String... skills) {
-        this.skills = SampleDataUtil.getSkillSet(skills);
+        this.skills = SampleDataUtil.getSkillSet(Arrays.stream(skills).map(String::toLowerCase).toArray(String[]::new));
         return this;
     }
 

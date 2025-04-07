@@ -6,6 +6,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.Logic;
 import seedu.address.model.application.Application;
 import seedu.address.model.job.Job;
@@ -63,8 +64,8 @@ public class PersonDetailPanel {
     /**
      * Updates the panel to show information about the given person.
      *
-     * @param person The person to show
-     * @param job The job the person applied to
+     * @param person      The person to show
+     * @param job         The job the person applied to
      * @param application The person's application
      */
     public void updateForPerson(Person person, Job job, Application application) {
@@ -73,12 +74,12 @@ public class PersonDetailPanel {
         }
 
         // Update person information
-        nameLabel.setText(person.getName().toString());
+        nameLabel.setText(StringUtil.toTitleCase(person.getName().toString()));
         phoneLabel.setText(person.getPhone().toString());
         emailLabel.setText(person.getEmail().toString());
-        addressLabel.setText(person.getAddress().toString());
-        schoolLabel.setText(person.getSchool() != null ? person.getSchool().toString() : "N/A");
-        degreeLabel.setText(person.getDegree() != null ? person.getDegree().toString() : "N/A");
+        addressLabel.setText(StringUtil.toTitleCase(person.getAddress().toString()));
+        schoolLabel.setText(person.getSchool() != null ? person.getSchool().toString().toUpperCase() : "N/A");
+        degreeLabel.setText(person.getDegree() != null ? person.getDegree().toString().toUpperCase() : "N/A");
 
         // Update skill tags - use stylish tags instead of comma-separated text
         skillsContainer.getChildren().clear();
@@ -109,7 +110,7 @@ public class PersonDetailPanel {
 
         // Update application information
         if (job != null) {
-            jobTitleLabel.setText(job.getJobTitle().jobTitle());
+            jobTitleLabel.setText(StringUtil.toTitleCase(job.getJobTitle().jobTitle()));
 
             if (application != null) {
                 int currentRound = application.getApplicationStatus().applicationStatus;
