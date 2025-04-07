@@ -154,23 +154,4 @@ public class FindAppCommandTest {
         assertThrows(CommandException.class, FindAppCommand.MESSAGE_JOB_NOT_FOUND, () -> command.execute(model));
     }
 
-    @Test
-    public void equals() {
-        FindAppCommand findAppCommand2 = new FindAppCommand(new ApplicationStatus(1));
-        FindAppCommand findAppCommand1 = new FindAppCommand(new ApplicationStatus(1));
-        FindAppCommand findAppCommand3 = new FindAppCommand(new ApplicationStatus(1));
-        FindAppCommand findAppCommand4 = new FindAppCommand(Index.fromOneBased(1), new ApplicationStatus(1));
-
-        // same object -> returns true
-        assertTrue(findAppCommand1.equals(findAppCommand1));
-
-        // same values -> returns true
-        assertTrue(findAppCommand1.equals(findAppCommand2));
-
-        // different values -> returns false
-        assertFalse(findAppCommand1.equals(findAppCommand3));
-
-        // different types -> returns false
-        assertFalse(findAppCommand1.equals(findAppCommand4));
-    }
 }

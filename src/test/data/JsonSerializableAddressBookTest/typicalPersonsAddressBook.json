@@ -2,99 +2,99 @@
   "_comment": "AddressBook save file which contains the same Person values as in TypicalPersons#getTypicalAddressBook()",
   "persons": [
     {
-      "name": "Alice Pauline",
+      "name": "alice pauline",
       "phone": "94351253",
       "email": "alice@example.com",
-      "address": "123, Jurong West Ave 6, #08-111",
-      "school": "NUS",
-      "degree": "Computer Science",
+      "address": "123, jurong west ave 6, #08-111",
+      "school": "nus",
+      "degree": "computer science",
       "skills": ["friends"]
     },
     {
-      "name": "Benson Meier",
+      "name": "benson meier",
       "phone": "98765432",
       "email": "johnd@example.com",
-      "address": "311, Clementi Ave 2, #02-25",
-      "school": "NTU",
-      "degree": "Business Analytics",
-      "skills": ["owesMoney", "friends"]
+      "address": "311, clementi ave 2, #02-25",
+      "school": "ntu",
+      "degree": "business analytics",
+      "skills": ["owesmoney", "friends"]
     },
     {
-      "name": "Carl Kurz",
+      "name": "carl kurz",
       "phone": "95352563",
       "email": "heinz@example.com",
       "address": "wall street",
-      "school": "SMU",
-      "degree": "Mathematics",
+      "school": "smu",
+      "degree": "mathematics",
       "skills": []
     },
     {
-      "name": "Daniel Meier",
+      "name": "daniel meier",
       "phone": "87652533",
       "email": "cornelia@example.com",
       "address": "10th street",
-      "school": "SIM",
-      "degree": "Physics",
+      "school": "sim",
+      "degree": "physics",
       "skills": ["friends"]
     },
     {
-      "name": "Elle Meyer",
+      "name": "elle meyer",
       "phone": "94822244",
       "email": "werner@example.com",
       "address": "michegan ave",
-      "school": "SIT",
-      "degree": "Accounting",
+      "school": "sit",
+      "degree": "accounting",
       "skills": []
     },
     {
-      "name": "Fiona Kunz",
+      "name": "fiona kunz",
       "phone": "94824277",
       "email": "lydia@example.com",
       "address": "little tokyo",
-      "school": "NTU",
-      "degree": "Civil Engineering",
+      "school": "ntu",
+      "degree": "civil engineering",
       "skills": []
     },
     {
-      "name": "George Best",
+      "name": "george best",
       "phone": "94824422",
       "email": "anna@example.com",
       "address": "4th street",
-      "school": "NUS",
-      "degree": "Computer Engineering",
+      "school": "nus",
+      "degree": "computer engineering",
       "skills": []
     }
-  ],
+],
   "jobs": [
     {
-      "jobTitle": "Software Engineer",
+      "jobTitle": "software engineer",
       "jobRounds": 5,
-      "skills": ["Java", "SpringBoot", "Microservices"]
+      "skills": ["java", "springboot", "microservices"]
     },
     {
-      "jobTitle": "Data Scientist",
+      "jobTitle": "data scientist",
       "jobRounds": 4,
-      "skills": ["Python", "ML", "TensorFlow"]
+      "skills": ["python", "ml", "tensorflow"]
     },
     {
-      "jobTitle": "Product Manager",
+      "jobTitle": "product manager",
       "jobRounds": 3,
-      "skills": ["Agile", "Planning"]
+      "skills": ["agile", "planning"]
     },
     {
-      "jobTitle": "UX Designer",
+      "jobTitle": "ux designer",
       "jobRounds": 3,
-      "skills": ["Figma", "Research", "WireFraming"]
+      "skills": ["figma", "research", "wireframing"]
     },
     {
-      "jobTitle": "DevOps Engineer",
+      "jobTitle": "devops engineer",
       "jobRounds": 4,
-      "skills": ["AWS", "Kubernetes", "CICD"]
+      "skills": ["aws", "kubernetes", "cicd"]
     },
     {
-      "jobTitle": "Full Stack Developer",
+      "jobTitle": "full stack developer",
       "jobRounds": 4,
-      "skills": ["React", "NodeJS", "MongoDB"]
+      "skills": ["react", "nodejs", "mongodb"]
     }
   ]
 }
