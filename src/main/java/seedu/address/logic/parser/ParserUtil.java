@@ -53,7 +53,7 @@ public class ParserUtil {
      */
     public static Name parseName(String name) throws ParseException {
         requireNonNull(name);
-        String trimmedName = name.trim().toUpperCase();
+        String trimmedName = name.trim().toLowerCase();
         if (!Name.isValidName(trimmedName)) {
             throw new ParseException(Name.MESSAGE_CONSTRAINTS);
         }
@@ -98,7 +98,7 @@ public class ParserUtil {
      */
     public static Address parseAddress(String address) throws ParseException {
         requireNonNull(address);
-        String trimmedAddress = address.trim().toUpperCase();
+        String trimmedAddress = address.trim().toLowerCase();
         if (!Address.isValidAddress(trimmedAddress)) {
             throw new ParseException(Address.MESSAGE_CONSTRAINTS);
         }
@@ -112,7 +112,7 @@ public class ParserUtil {
      */
     public static School parseSchool(String school) throws ParseException {
         requireNonNull(school);
-        String trimmedSchool = school.trim().toUpperCase();
+        String trimmedSchool = school.trim().toLowerCase();
         if (!School.isValidSchool(trimmedSchool)) {
             throw new ParseException(School.MESSAGE_CONSTRAINTS);
         }
@@ -126,7 +126,7 @@ public class ParserUtil {
      */
     public static Degree parseDegree(String degree) throws ParseException {
         requireNonNull(degree);
-        String trimmedDegree = degree.trim().toUpperCase();
+        String trimmedDegree = degree.trim().toLowerCase();
         if (!Degree.isValidDegree(trimmedDegree)) {
             throw new ParseException(Degree.MESSAGE_CONSTRAINTS);
         }
@@ -139,7 +139,7 @@ public class ParserUtil {
      *         efficient processing.
      */
     public static JobTitle parseJobTitle(String jobTitle) throws ParseException {
-        jobTitle = jobTitle.trim().toUpperCase();
+        jobTitle = jobTitle.trim().toLowerCase();
         requireNonNull(jobTitle);
         if (!JobTitle.isValidJobTitle(jobTitle)) {
             throw new ParseException(JobTitle.MESSAGE_CONSTRAINTS);
@@ -165,7 +165,7 @@ public class ParserUtil {
             }
             return new JobRounds(jobRoundsCount);
         } catch (NumberFormatException e) {
-            throw new ParseException("Job rounds must be a valid integer: " + e.getMessage());
+            throw new ParseException(JobRounds.MESSAGE_CONSTRAINTS);
         }
     }
 
@@ -177,7 +177,7 @@ public class ParserUtil {
      */
     public static Skill parseSkill(String skill) throws ParseException {
         requireNonNull(skill);
-        String trimmedSkill = skill.trim().toUpperCase();
+        String trimmedSkill = skill.trim().toLowerCase();
         if (!Skill.isValidSkillName(trimmedSkill)) {
             throw new ParseException(Skill.MESSAGE_CONSTRAINTS);
         }
