@@ -76,7 +76,7 @@ public class StringUtil {
     // Reused from https://stackoverflow.com/a/44189841
     /**
      * Converts a string to title case.
-     * 
+     *
      * @param input The input string to be converted.
      * @return The input string in title case.
      */
