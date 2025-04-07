@@ -45,8 +45,6 @@ TalentMatch uses GitHub Actions for CI. The project comes with the necessary Git
 
 ### CI Pipeline Overview
 
-![CI Pipeline](images/CIPipeline.png)
-
 The TalentMatch CI pipeline includes:
 
 1. **Compilation check**: Verifies that the code compiles without errors

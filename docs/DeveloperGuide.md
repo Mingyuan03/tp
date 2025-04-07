@@ -124,7 +124,7 @@ Here are the other classes in `Logic` (omitted from the class diagram above) tha
 <puml src="diagrams/ParserClasses.puml" width="600"/>
 
 How the parsing works:
-* When called upon to parse a user command, the `AddressBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `TalentMatchParser` returns back as a `Command` object.
+* When called upon to parse a user command, the `AddressBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `AddressBookParser` returns back as a `Command` object.
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
 ### Model component
@@ -136,7 +136,7 @@ How the parsing works:
 The `Model` component,
 
 * stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object), all `Job` objects (which are contained in a `UniqueJobList` object) and all `Application` objects (which are contained in a `UniqueApplicationList`).
-* stores the currently 'selected' `Person`, `Job`, `Application` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* stores the currently 'selected' `Person`, `Job`, `Application` objects (e.g., results of a search query) as a separate `stackable filtered_ list` which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * stores a `UserPref` object that represents the user's preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
@@ -189,7 +189,7 @@ Step 1. The user launches the application for the first time. The `VersionedTale
 
 <puml src="diagrams/UndoRedoState0.puml" alt="UndoRedoState0" />
 
-Step 2. The user executes `delete 5` command to delete the 5th person in the address book. The `delete` command calls `Model#commitTalentMatch()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `TalentMatchStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
+Step 2. The user executes `del 5` command to delete the 5th person in the address book. The `del` command calls `Model#commitTalentMatch()`, causing the modified state of the address book after the `del 5` command executes to be saved in the `TalentMatchStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
 
 <puml src="diagrams/UndoRedoState1.puml" alt="UndoRedoState1" />
 
@@ -316,18 +316,19 @@ These features combine to provide HR recruiters with a comprehensive tool for ma
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
-| Priority | As a …​                                    | I want to …​                 | So that I can…​                                                        |
+
+| Priority | As a …​                                    | I want to …​                 | So that I can…​                                               |
 |----------|--------------------------------------------|------------------------------|------------------------------------------------------------------------|
-| `* * *`  | Hiring manager   | add a new applicant          | track his/her application status easily                 |
-| `* * *`  | Hiring manager   | delete a person        | remove his/her entry once their application is rejected       |
-| `* * *`  | Hiring manager   | view all applicants as a list| view a summary of their applications                                   |
-| `* * *`  | Hiring manager   | find an applicant by details | locate details of an applicant without having to go through the entire list |
+| `* * *`  | HR Recruiter   | add a new applicant          | track his/her application status easily                 |
+| `* * *`  | HR Recruiter   | delete a person        | remove his/her entry once their application is rejected       |
+| `* * *`  | HR Recruiter   | view all applicants as a list| view a summary of their applications                                   |
+| `* * *`  | HR Recruiter   | find an applicant by details | locate details of an applicant without having to go through the entire list |
 | `* * *`  | HR recruiter     | search applications by job and person | quickly locate specific applications without browsing through all records |
 | `* * *`  | HR recruiter     | have a separate view for jobs | focus on job-specific data when needed |
 | `* * *`  | HR recruiter     | search by application status | identify applications at specific stages in the recruitment process |
 | `* * *`  | HR recruiter     | search across multiple fields simultaneously | find candidates that match complex criteria |
 | `* * *`  | HR recruiter     | view the applications for each person | see all positions a candidate has applied for at once |
-| `* *`    | Hiring manager   | filter applicants            | simplify my search for those who are more suitable for this role       |
+| `* *`    | HR Recruiter     | filter applicants            | simplify my search for those who are more suitable for this role       |
 | `* *`    | Recruiter        | create an application to link people with roles applied | keep track of the applicants for a specific role |
 | `* *`    | HR recruiter     | create role openings  | eventually assign them to applicants and search open roles |
 | `* *`    | HR recruiter     | see the role(s) a candidate is applying for | more quickly evaluate if their qualifications align or if such roles are currently available |
@@ -343,7 +344,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* *`    | HR recruiter     | have datetime support for applications | schedule and track interview appointments |
 | `* *`    | HR recruiter     | clearly distinguish between applications | avoid confusion when dealing with multiple applications |
 | `* *`    | HR recruiter     | focus on internship applications | manage the specific needs of intern recruitment |
-| `*`      | Hiring manager   | sort applicants        | view the top most suitable applicants for the role I'm hiring                 |
+| `*`      | HR Recruiter     | sort applicants        | view the top most suitable applicants for the role I'm hiring                 |
 | `*`      | HR recruiter     | have a more user-friendly help command | quickly learn how to use the system |
 | `*`      | HR recruiter     | preview applicants for a job | get a quick overview without changing views |
 | `*`      | HR recruiter     | make JobView the primary view | streamline my workflow as I primarily work with job openings |
@@ -353,333 +354,152 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 (For all use cases below, the **System** is `TalentMatch` and the **Actor** is the `HR manager (HR)`, unless specified otherwise)
 
-**Use case: Add an applicant**
+**Use case: Remove a person**
 
 **MSS**
 
-1. HR requests to add an applicant
-2. TalentMatch prompts for details of the applicant
-3. HR fills in the details
-4. TalentMatch request HR to confirm the details
-5. HR confirms the details
-6. TalentMatch adds applicant to the system
+1. User requests to list all persons.
+2. TalentMatch shows a list of all persons with their indices.
+3. User requests to delete a specific person in the list by their index.
+4. TalentMatch deletes the person.
+
+     Use case ends.
+
+**Extensions**
+
+* 1a. User is in Job View.
+  * 1a1. TalentMatch prompts user to switch to Person View.<br>
+  Use case resumes at step 2.
+
+* 2a. The given index is invalid.
+  * 2a1. TalentConnect shows an error message.<br>
+  Use case resumes at step 3.
+
+---
+
+**Use case: Add a job**
+
+**MSS**
+
+1. User requests to add a job.
+2. TalentMatch prompts for details of the job (title, rounds, required skills).
+3. User fills in the relevant details.
+4. TalentMatch adds the job to the system.
   Use case ends.
 
 **Extensions**
 
-* 4a. HR decides to change details.
-  * 4a1. HR cancels confirmation.
-  Use case resumes at step 3.
-
-* 4a. TalentMatch finds an existing applicant
-  Use case resumes at step 3.
-
-* *a. HR loses connection.
-  * *a1. TalentMatch saves details
-  * *a2. TalentMatch prompts HR to continue where he/she left off
-  Use case resumes at step 3.
-
-**Use case: Add a job opening**
-
-**MSS**
-
-1. HR requests to add a job opening
-2. TalentMatch prompts for details of the job (title, rounds, required skills)
-3. HR fills in the job details
-4. TalentMatch requests HR to confirm the details
-5. HR confirms the details
-6. TalentMatch adds the job to the system
-  Use case ends.
-
-**Extensions**
-
-* 3a. HR provides invalid job details (missing required fields).
+* 3a. User provides invalid job details (missing required fields/ wrong format).
   * 3a1. TalentMatch shows an error message.
-  * 3a2. HR corrects the details.
+  * 3a2. User corrects the details.<br>
   Use case resumes at step 4.
 
-* 4a. HR decides to change details.
-  * 4a1. HR cancels confirmation.
-  Use case resumes at step 3.
-
-* 4b. TalentMatch finds an existing job with identical details.
-  * 4b1. TalentMatch informs HR of the duplicate.
-  * 4b2. HR modifies details to make them unique.
+* 3b. TalentMatch finds an existing job with identical job title.
+  * 3b1. TalentMatch informs HR of the duplicate.
+  * 3b2. HR modifies job title to make it unique.<br>
   Use case resumes at step 4.
+
+---
 
 **Use case: Create an application**
 
 **MSS**
 
-1. HR requests to create an application
-2. TalentMatch prompts for the person and job to link
-3. HR selects the person and job
-4. TalentMatch requests HR to confirm the application details
-5. HR confirms the details
-6. TalentMatch creates the application linking the person and job
+1. User requests to create an application.
+2. TalentMatch prompts for the person and job to link.
+3. User selects the person index and job index.
+4. TalentMatch creates the application linking the person and job
   Use case ends.
 
 **Extensions**
 
 * 3a. The person doesn't exist in the system.
-  * 3a1. HR adds the person first.
+  * 3a1. User adds the person first.<br>
   Use case resumes at step 3.
 
 * 3b. The job doesn't exist in the system.
-  * 3b1. HR adds the job first.
+  * 3b1. User adds the job first.<br>
   Use case resumes at step 3.
 
 * 4a. TalentMatch detects an existing application for the same person and job.
-  * 4a1. TalentMatch informs HR of the duplicate.
+  * 4a1. TalentMatch raises an error to inform user of the duplicate application.<br>
   Use case ends.
 
-**Use case: List all applicants**
-
-**MSS**
-
-1. HR requests to list all applicants
-2. TalentMatch shows a list of applicants
-
-  Use case ends.
-
-**Extensions**
-
-* 2a. The list is empty.
-
-  Use case ends.
+---
 
 **Use case: List all jobs**
 
 **MSS**
 
-1. HR requests to list all jobs
-2. TalentMatch shows a list of job openings
-
+1. User requests to list all jobs
+2. TalentMatch shows a list of job openings<br>
   Use case ends.
 
 **Extensions**
 
-* 2a. The list is empty.
+* 1a. User is in Person View.
+    * 1a1. TalentMatch prompts user to switch to Job View.<br>
+    Use case resumes at step 2.
 
-  Use case ends.
-
-**Use case: List all applications**
-
-**MSS**
-
-1. HR requests to list all applications
-2. TalentMatch shows a list of applications with linked person and job information
-
-  Use case ends.
-
-**Extensions**
-
-* 2a. The list is empty.
-
-  Use case ends.
-
-**Use case: Delete an applicant**
-
-**MSS**
-
-1.  HR requests to list applicants
-2.  TalentMatch shows a list of applicants
-3.  HR requests to delete a specific applicant in the list
-4.  TalentMatch deletes the person
-
-    Use case ends.
-
-**Extensions**
-
-* 2a. The list is empty.
-
-  Use case ends.
-
-* 3a. The given index is invalid.
-
-    * 3a1. TalentMatch shows an error message.
-
-      Use case resumes at step 2.
-
-**Use case: Delete a job**
-
-**MSS**
-
-1. HR requests to list jobs
-2. TalentMatch shows a list of jobs
-3. HR requests to delete a specific job in the list
-4. TalentMatch checks for applications linked to the job
-5. TalentMatch deletes the job
-
-  Use case ends.
-
-**Extensions**
-
-* 2a. The list is empty.
-
-  Use case ends.
-
-* 3a. The given index is invalid.
-  * 3a1. TalentMatch shows an error message.
-
-  Use case resumes at step 2.
-
-* 4a. The job has linked applications.
-  * 4a1. TalentMatch warns HR about linked applications that will also be deleted.
-  * 4a2. HR confirms the deletion.
-  * 4a3. TalentMatch deletes the job and all linked applications.
-
-  Use case ends.
-
-* 4a2a. HR cancels the deletion.
-
-  Use case ends.
+---
 
 **Use case: Delete an application**
 
 **MSS**
 
-1. HR requests to list applications
-2. TalentMatch shows a list of applications
-3. HR requests to delete a specific application in the list
-4. TalentMatch deletes the application
+1.  User requests to delete an application.
+2.  TalentMatch prompts user for job index and application index.
+3.  User selects the job index and application index in the list.
+4.  TalentMatch deletes the application.
 
-  Use case ends.
+    Use case ends.
 
 **Extensions**
 
-* 2a. The list is empty.
+* 1a. User is in Person View.
+    * 1a1. TalentMatch prompts user to switch to Job View.<br>
+      Use case resumes at step 2.
 
-  Use case ends.
+* 3a. User provides invalid job index or application index.
+    * 3a1. TalentMatch shows an error message.
+    * 3a2. User corrects the index.<br>
+      Use case resumes at step 4.
 
-* 3a. The given index is invalid.
-  * 3a1. TalentMatch shows an error message.
+---
 
-  Use case resumes at step 2.
-
-**Use case: Find an applicant**
+**Use case: Find a job**
 
 **MSS**
 
-1. HR requests to find an applicant by given condition
-2. TalentMatch shows a list of applicants who fit the description
+1. User requests to list jobs.
+2. TalentMatch shows a list of jobs.
+3. User requests to find a job by a keyword.
+4. TalentMatch filters and list any jobs that contain the full keyword.
 
-  Use case ends.
-
-**Extensions**
-
-* 1a. TalentMatch prompts HR for more details (eg categories, skills).
-  * 1a1. TalentMatch prompts HR for more details.
-  * 1a2. HR provides more details.
-    Use case resumes at step 2.
-
-* 2a. TalentMatch finds no matching applicant
-  * 2a1. TalentMatch goes back to original page
-   Use case ends.
-
-**Use case: Find a job by skills**
-
-**MSS**
-
-1. HR requests to find jobs by specific skills
-2. TalentMatch shows a list of jobs requiring those skills
-
-  Use case ends.
+   Use case ends
 
 **Extensions**
 
-* 2a. TalentMatch finds no matching jobs.
-  * 2a1. TalentMatch informs HR that no jobs match the specified skills.
+* 1a. User is in Person View.
+    * 1a1. TalentMatch prompts user to switch to Job View.<br>
+      Use case resumes at step 2.
 
-  Use case ends.
+* 3a. User mistypes the keyword.
+  * 3a1. TalentMatch returns the wrong list/ empty list of jobs.
+  * 3a2. User refreshes the list of jobs.<br>
+  Use case resumes at step 3.
 
-**Use case: Search applications by status**
-
-**MSS**
-
-1. HR requests to search applications by status (e.g., pending, interviewed, rejected)
-2. TalentMatch shows a list of applications with the specified status
-
-  Use case ends.
-
-**Extensions**
-
-* 1a. HR provides an invalid status.
-  * 1a1. TalentMatch shows an error message with valid status options.
-  * 1a2. HR corrects the status.
-
-  Use case resumes at step 2.
-
-* 2a. No applications with the specified status exist.
-  * 2a1. TalentMatch informs HR that no applications match the specified status.
-
-  Use case ends.
-
-**Use case: Update application status**
-
-**MSS**
-
-1. HR requests to list applications
-2. TalentMatch shows a list of applications
-3. HR selects an application to update
-4. TalentMatch prompts for the new status
-5. HR provides the new status
-6. TalentMatch updates the application status
-
-  Use case ends.
-
-**Extensions**
-
-* 3a. The given index is invalid.
-  * 3a1. TalentMatch shows an error message.
-
-  Use case resumes at step 2.
-
-* 5a. HR provides an invalid status.
-  * 5a1. TalentMatch shows an error message with valid status options.
-  * 5a2. HR corrects the status.
-
-  Use case resumes at step 6.
-
-**Use case: View applicants for a job**
-
-**MSS**
-
-1. HR requests to list jobs
-2. TalentMatch shows a list of jobs
-3. HR selects a job to view applicants for
-4. TalentMatch displays all applicants who have applied for the selected job
-
-  Use case ends.
-
-**Extensions**
-
-* 3a. The given index is invalid.
-  * 3a1. TalentMatch shows an error message.
-
-  Use case resumes at step 2.
-
-* 4a. No applications exist for the selected job.
-  * 4a1. TalentMatch informs HR that no applications exist for this job.
-
-  Use case ends.
+---
 
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
+2.  Should be able to hold up to 500 persons without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 4.  Should respond to any user command within 2 seconds.
 5.  Should be usable by a person who has never used a contact management system before with minimal training.
-6.  User data should be stored in a human-editable text file for easy backup and transfer.
+6.  User data should be stored in a human-editable json file for easy backup and transfer.
 7.  The system should be able to recover from unexpected shutdowns without data loss.
-8.  The UI should be color-blind friendly and support accessibility features.
-9.  Should have a comprehensive help system that can be accessed offline.
-10. The system should maintain data privacy and security by not exposing applicant information unnecessarily.
-
-
-
-*{More to be added}*
 
 ### Glossary
 
@@ -702,39 +522,142 @@ testers are expected to do more *exploratory* testing.
 
 1. Initial launch
 
-   1. Download the jar file and copy into an empty folder
+    1. Download the jar file and copy into an empty folder
+    1. Double-click the jar file<br>
+       Expected: Shows the GUI with a set of sample data. The window size is adjustable.
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size is adjustable.
+2. Saving window preferences
 
-1. Saving window preferences
-
-   1. Resize the window to an optimum height and width. Move the window to a different location. Close the window.
-
-   1. Re-launch the app by double-clicking the jar file.<br>
+    1. Resize the window to an optimum height and width. Move the window to a different location. Close the window.
+    1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
+3. Shutdown
+    1. Close the application window<br>
+       Expected: Application closes and all data is saved.
 
-### Deleting a person
+### Person Management
 
-1. Deleting a person while all persons are being shown
+1. Adding a person
 
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+    1. Prerequisites: List all persons using the `list` command.
+    1. Test case: `add n/John Doe p/98765432 e/john@example.com a/123 Jurong Street s/NUS d/CS`<br>
+       Expected: Person is added to the list. Details of the added person shown in the status message.
+    1. Test case: `add n/John Doe`<br>
+       Expected: No person is added. Error details shown in the status message.
+    1. Other incorrect add commands to try: `add`, `add n/`, `add p/12345678`<br>
+       Expected: Similar to previous.
 
-   1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+2. Deleting a person
 
-   1. Test case: `delete 0`<br>
-      Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+    1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+    1. Test case: `del 1`<br>
+       Expected: First person is deleted from the list. Details of the deleted person shown in the status message.
+    1. Test case: `del 0`<br>
+       Expected: No person is deleted. Error details shown in the status message.
+    1. Other incorrect delete commands to try: `delete`, `del x`, `...` (where x is larger than the list size)<br>
+       Expected: Similar to previous.
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+3. Finding a person
+
+    1. Prerequisites: List all persons using the `list` command.
+    1. Test case: `find John`<br>
+       Expected: Shows a list of persons with names containing "John".
+    1. Test case: `find 98765432`<br>
+       Expected: Shows a list of persons with phone numbers containing "98765432".
+    1. Test case: `find john@example.com`<br>
+       Expected: Shows a list of persons with emails containing "john@example.com".
+
+### Job Management
+
+1. Adding a job
+
+    1. Prerequisites: List all jobs using the `listjob` command.
+    1. Test case: `addjob jt/Software Engineer jr/3 k/Java k/Python`<br>
+       Expected: Job is added to the list. Details of the added job shown in the status message.
+    1. Test case: `addjob t/Software Engineer`<br>
+       Expected: No job is added. Error details shown in the status message.
+    1. Other incorrect addjob commands to try: `addjob`, `addjob t/`, `addjob s/Java`<br>
+       Expected: Similar to previous.
+
+2. Deleting a job
+
+    1. Prerequisites: List all jobs using the `listjob` command. Multiple jobs in the list.
+    1. Test case: `deljob 1`<br>
+       Expected: First job is deleted from the list. Details of the deleted job shown in the status message.
+    1. Test case: `deljob 0`<br>
+       Expected: No job is deleted. Error details shown in the status message.
+    1. Other incorrect deletejob commands to try: `deletejob`, `deljob x`, `...` (where x is larger than the list size)<br>
+       Expected: Similar to previous.
+
+3. Finding a job
+
+    1. Prerequisites: List all jobs using the `listjob` command.
+    1. Test case: `findjob Software`<br>
+       Expected: Shows a list of jobs with titles containing "Software".
+    1. Test case: `findjob Java`<br>
+       Expected: Shows a list of jobs requiring the skill "Java".
+
+### Application Management
+
+1. Creating an application
+
+    1. Prerequisites: List all persons and jobs using the `list` and `listjob` commands.
+    1. Test case: `addapp ij/1 ip/1`<br>
+       Expected: Application is created linking the first person and first job. Details shown in the status message.
+    1. Test case: `addapp ij/0 ip/1`<br>
+       Expected: No application is created. Error details shown in the status message.
+    1. Other incorrect apply commands to try: `addapp`, `apply ij/x ip/y`, `...` (where x or y is larger than the list size)<br>
+       Expected: Similar to previous.
+
+2. Deleting an application
+
+    1. Prerequisites: List all jobs using the `listjob` command. Each job card contains multiple applications in the list.
+    1. Test case: `delapp ij/1 ia/1`<br>
+       Expected: First application for the first job is deleted from the list. Details of the deleted application shown in the status message.
+    1. Test case: `delapp ij/0 ia/1`<br>
+       Expected: No application is deleted. Error details shown in the status message.
+    1. Other incorrect deleteapp commands to try: `delapp`, `delapp ij/x ia/y`, `...` (where x is larger than the list size and y is larger than the number of applications for the said job)<br>
+       Expected: Similar to previous.
+
+3. Finding applications
+
+    1. Prerequisites: List all jobs using the `listjob` command.
+    1. Test case: `findapp as/3`<br>
+       Expected: Shows a list of job cards applications corresponding to the application status queried.
+    1. Test case: `findapp as/1`<br>
+       Expected: Shows a list of applications with application status of 1.
+    1. Test case: `findapp ij/1 as/1`<br>
+       Expected: Shows a list of applications with application status of 1 for job at index 1.
+
+### View Management
+
+1. Switching views
+
+    1. Test case: `switch`<br>
+       Expected: Switches to person view when in job view, showing the person list panel.
+    1. Test case: `switch`<br>
+       Expected: Switches to job view when in person view, showing the job list panel.
 
 ### Saving data
 
 1. Dealing with missing/corrupted data files
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+    1. Delete the `data/addressbook.json` file<br>
+       Expected: Application starts with a new default address book and default applications manager.
+    1. Delete the `data/applicationsmanager.json` file<br>
+       Expected: Application starts with a new empty applications manager and address book stays the same.
+    1. Corrupt the `data/addressbook.json` file by adding invalid JSON<br>
+       Expected: Application starts with a new default address book and default applications manager.
+    1. Corrupt the `data/applicationsmanager.json` file by adding invalid JSON<br>
+       Expected: Application starts with a new empty applications manager and address book stays the same.
+
+### Help Command
+
+1. Accessing help
+
+    1. Test case: `help`<br>
+       Expected: Opens the help window showing command usage information.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -748,10 +671,7 @@ testers are expected to do more *exploratory* testing.
 2. **Fix multiple window display issue:**
    When using multiple screens, if users move the application to a secondary screen, and later switch to using only the primary screen, the GUI opens off-screen. We plan to implement logic to detect and remedy this scenario by ensuring the application window always appears within the bounds of available screens, eliminating the need for users to manually delete the `preferences.json` file.
 
-3. **Improve Help Window functionality:**
-   Currently, if a user minimizes the Help Window and then runs the `help` command (or uses the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window remains minimized, and no new Help Window appears. We plan to modify the Help Window functionality to either restore the minimized window or allow creation of a new window when the help command is invoked.
-
-4. **Implement intelligent case sensitivity handling:**
+3. **Implement intelligent case sensitivity handling:**
    Currently, the application has rigid case sensitivity rules that don't always align with user expectations. We plan to improve this by:
    - Making non-critical fields (like descriptive text) case-insensitive for better usability
    - Maintaining case sensitivity where it provides important distinctions (e.g., usernames, passwords)
@@ -760,14 +680,14 @@ testers are expected to do more *exploratory* testing.
    - Offering clearer feedback about case requirements for different fields
    This approach will reduce friction while allowing users to make informed decisions about potential ambiguities.
 
-5. **Enhance viewport management:**
+4. **Enhance viewport management:**
    Parts of the application may be cut off at smaller window sizes, including the default size at first startup. We plan to improve dynamic UI resizing to properly handle different window sizes and ensure all UI elements remain accessible.
 
-6. **Improve message display formatting:**
+5. **Improve message display formatting:**
    Some success and error messages are too long and become hard to read in the current interface. We plan to implement better message formatting with line breaks, improved layout, and possibly expandable/collapsible message areas for detailed information.
 
-7. **Improve data recovery for corrupted storage files:**
+6. **Improve data recovery for corrupted storage files:**
    Currently, when storage files (`applicationsmanager.json` and `addressbook.json`) are detected to have corruption or incorrect formatting, the application wipes all data and starts with a clean slate, resulting in complete data loss even from minor formatting errors. We plan to implement a more robust data recovery mechanism that attempts to salvage uncorrupted portions of the files, creates automatic backups before wiping data, and provides users with options to restore from previous states rather than immediately discarding all data.
 
-8. **Improve command parsing robustness:**
+7. **Improve command parsing robustness:**
    The current command parsing is sensitive to case and strict validation rules, causing unexpected errors when these rules aren't followed. We plan to make the command parser more robust by implementing flexible case handling, improved error detection, and more intuitive validation with better feedback to users.
