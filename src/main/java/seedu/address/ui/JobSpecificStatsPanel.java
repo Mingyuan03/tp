@@ -115,20 +115,20 @@ public class JobSpecificStatsPanel {
         // Add summary panel with nice styling
         VBox summaryBox = new VBox(10);
         summaryBox.setStyle("-fx-background-color: linear-gradient(to bottom right, #3a3a3a, #2a2a2a); "
-                + "-fx-padding: 20; "
-                + "-fx-background-radius: 8; "
-                + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 5);");
+                           + "-fx-padding: 20; "
+                           + "-fx-background-radius: 8; "
+                           + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 5);");
 
         // Styled applicant count label
         applicantCountLabel = new Label("Total Applicants: 0");
         applicantCountLabel.setStyle("-fx-text-fill: linear-gradient(to right, #ff9966, #ff5e62); "
-                + "-fx-font-size: 18px; "
-                + "-fx-font-weight: bold; "
-                + "-fx-padding: 5 0; "
-                + "-fx-effect: dropshadow(one-pass-box, rgba(255,255,255,0.2), 1, 0, 0, 1); "
-                + "-fx-background-color: rgba(255,255,255,0.05); "
-                + "-fx-background-radius: 4; "
-                + "-fx-padding: 8 12;");
+                                    + "-fx-font-size: 18px; "
+                                    + "-fx-font-weight: bold; "
+                                    + "-fx-padding: 5 0; "
+                                    + "-fx-effect: dropshadow(one-pass-box, rgba(255,255,255,0.2), 1, 0, 0, 1); "
+                                    + "-fx-background-color: rgba(255,255,255,0.05); "
+                                    + "-fx-background-radius: 4; "
+                                    + "-fx-padding: 8 12;");
 
         summaryBox.getChildren().add(applicantCountLabel);
         container.getChildren().add(summaryBox);
@@ -160,34 +160,35 @@ public class JobSpecificStatsPanel {
         roundDistributionChart.setPadding(new javafx.geometry.Insets(10, 10, 40, 10));
 
         // Style the bar chart
-        String barChartCss = ".chart-bar-label { -fx-fill: white; }"
-                + ".axis-label { -fx-text-fill: white; }"
-                + ".axis { -fx-tick-label-fill: white; }"
-                + ".chart-series-bar { -fx-bar-fill: white; }"
-                + ".chart-plot-background { -fx-background-color: #2d2d30; }"
-                + ".chart-vertical-grid-lines { -fx-stroke: transparent; }"
-                + ".chart-horizontal-grid-lines { -fx-stroke: transparent; }"
-                + ".chart-alternative-row-fill { -fx-fill: transparent; }"
-                + ".chart-alternative-column-fill { -fx-fill: transparent; }"
-                + ".chart-vertical-zero-line { -fx-stroke: transparent; }"
-                + ".chart-horizontal-zero-line { -fx-stroke: transparent; }"
-                + ".default-color0.chart-bar { -fx-background-radius: 0; }"
-                + ".chart-line-symbol, .chart-symbol "
-                + "{ -fx-background-color: transparent, transparent; "
-                + "-fx-background-radius: 0px; "
-                + "-fx-padding: 0px; }"
-                + ".chart-series-line { -fx-stroke: transparent; }"
-                + ".chart-legend-item-symbol { -fx-background-color: transparent; }"
-                + ".chart-plot-background > * { -fx-background-color: transparent; }"
-                + ".data0.chart-bar { -fx-bar-fill: white; }"
-                + ".series0.chart-bar { -fx-bar-fill: white; }"
-                + ".chart-legend { -fx-background-color: transparent; "
-                + "visibility: hidden; -fx-padding: 0px; "
-                + "-fx-border-width: 0px; -fx-max-width: 0px; "
-                + "-fx-max-height: 0px; -fx-opacity: 0; "
-                + "display: none; }"
-                + ".chart-legend-item { visibility: hidden; "
-                + "-fx-padding: 0px; -fx-opacity: 0; display: none; }";
+        String barChartCss =
+            ".chart-bar-label { -fx-fill: white; }"
+            + ".axis-label { -fx-text-fill: white; }"
+            + ".axis { -fx-tick-label-fill: white; }"
+            + ".chart-series-bar { -fx-bar-fill: white; }"
+            + ".chart-plot-background { -fx-background-color: #2d2d30; }"
+            + ".chart-vertical-grid-lines { -fx-stroke: transparent; }"
+            + ".chart-horizontal-grid-lines { -fx-stroke: transparent; }"
+            + ".chart-alternative-row-fill { -fx-fill: transparent; }"
+            + ".chart-alternative-column-fill { -fx-fill: transparent; }"
+            + ".chart-vertical-zero-line { -fx-stroke: transparent; }"
+            + ".chart-horizontal-zero-line { -fx-stroke: transparent; }"
+            + ".default-color0.chart-bar { -fx-background-radius: 0; }"
+            + ".chart-line-symbol, .chart-symbol "
+            + "{ -fx-background-color: transparent, transparent; "
+            + "-fx-background-radius: 0px; "
+            + "-fx-padding: 0px; }"
+            + ".chart-series-line { -fx-stroke: transparent; }"
+            + ".chart-legend-item-symbol { -fx-background-color: transparent; }"
+            + ".chart-plot-background > * { -fx-background-color: transparent; }"
+            + ".data0.chart-bar { -fx-bar-fill: white; }"
+            + ".series0.chart-bar { -fx-bar-fill: white; }"
+            + ".chart-legend { -fx-background-color: transparent; "
+            + "visibility: hidden; -fx-padding: 0px; "
+            + "-fx-border-width: 0px; -fx-max-width: 0px; "
+            + "-fx-max-height: 0px; -fx-opacity: 0; "
+            + "display: none; }"
+            + ".chart-legend-item { visibility: hidden; "
+            + "-fx-padding: 0px; -fx-opacity: 0; display: none; }";
 
         // Apply only basic style properties directly
         roundDistributionChart.setStyle("-fx-background-color: #2d2d30; -fx-padding: 10;");
@@ -299,8 +300,8 @@ public class JobSpecificStatsPanel {
 
         for (int i = 0; i <= totalRounds; i++) {
             String roundLabel = i == 0 ? "Applied"
-                    : i == totalRounds ? "Offered"
-                            : "Round " + i;
+                                : i == totalRounds ? "Offered"
+                                : "Round " + i;
 
             // Truncate round label if too long
             if (roundLabel.length() > 15) {
@@ -361,8 +362,8 @@ public class JobSpecificStatsPanel {
                 if (data.getNode() != null) {
                     // Apply style directly to the node
                     data.getNode().setStyle("-fx-background-color: white;"
-                            + "-fx-background-insets: 0;"
-                            + "-fx-background-radius: 0;");
+                        + "-fx-background-insets: 0;"
+                        + "-fx-background-radius: 0;");
                 }
             }
         }
@@ -384,25 +385,28 @@ public class JobSpecificStatsPanel {
         }
 
         // Apply styles to other elements
-        roundDistributionChart.lookupAll(".chart-bar-label").forEach(node -> node.setStyle("-fx-fill: white;"));
+        roundDistributionChart.lookupAll(".chart-bar-label").forEach(node ->
+            node.setStyle("-fx-fill: white;"));
 
-        roundDistributionChart.lookupAll(".axis-label").forEach(node -> node.setStyle("-fx-text-fill: white;"));
+        roundDistributionChart.lookupAll(".axis-label").forEach(node ->
+            node.setStyle("-fx-text-fill: white;"));
 
-        roundDistributionChart.lookupAll(".axis").forEach(node -> node.setStyle("-fx-tick-label-fill: white;"));
+        roundDistributionChart.lookupAll(".axis").forEach(node ->
+            node.setStyle("-fx-tick-label-fill: white;"));
 
-        roundDistributionChart.lookupAll(".chart-plot-background")
-                .forEach(node -> node.setStyle("-fx-background-color: #2d2d30;"));
+        roundDistributionChart.lookupAll(".chart-plot-background").forEach(node ->
+            node.setStyle("-fx-background-color: #2d2d30;"));
 
-        roundDistributionChart.lookupAll(".chart-vertical-grid-lines")
-                .forEach(node -> node.setStyle("-fx-stroke: transparent;"));
+        roundDistributionChart.lookupAll(".chart-vertical-grid-lines").forEach(node ->
+            node.setStyle("-fx-stroke: transparent;"));
 
-        roundDistributionChart.lookupAll(".chart-horizontal-grid-lines")
-                .forEach(node -> node.setStyle("-fx-stroke: transparent;"));
+        roundDistributionChart.lookupAll(".chart-horizontal-grid-lines").forEach(node ->
+            node.setStyle("-fx-stroke: transparent;"));
 
-        roundDistributionChart.lookupAll(".chart-vertical-zero-line")
-                .forEach(node -> node.setStyle("-fx-stroke: transparent;"));
+        roundDistributionChart.lookupAll(".chart-vertical-zero-line").forEach(node ->
+            node.setStyle("-fx-stroke: transparent;"));
 
-        roundDistributionChart.lookupAll(".chart-horizontal-zero-line")
-                .forEach(node -> node.setStyle("-fx-stroke: transparent;"));
+        roundDistributionChart.lookupAll(".chart-horizontal-zero-line").forEach(node ->
+            node.setStyle("-fx-stroke: transparent;"));
     }
 }
