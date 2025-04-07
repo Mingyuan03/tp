@@ -10,6 +10,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import seedu.address.commons.util.StringUtil;
 import seedu.address.model.application.Application;
 import seedu.address.model.person.Person;
 import seedu.address.model.skill.Skill;
@@ -32,7 +33,7 @@ public class PersonCard extends UiPart<Region> {
      */
 
     public final Person person;
-    public final List<Application> applications; //This should be applications from person
+    public final List<Application> applications; // This should be applications from person
 
     // Graphic Components
     @FXML
@@ -84,7 +85,7 @@ public class PersonCard extends UiPart<Region> {
         this.applications = applications;
         id.setText(displayedIndex
                 + ". ");
-        name.setText(person.getName().fullName);
+        name.setText(StringUtil.toTitleCase(person.getName().fullName));
         name.setWrapText(false);
         name.setMaxWidth(200);
         name.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
@@ -111,7 +112,7 @@ public class PersonCard extends UiPart<Region> {
 
         // Address with white icon and modern styling
         addressBox.getChildren().add(0, IconUtil.createIcon(FontAwesomeIcon.HOME, "white"));
-        address.setText(person.getAddress().value);
+        address.setText(StringUtil.toTitleCase(person.getAddress().value));
         address.setWrapText(false);
         address.setMaxWidth(200);
         address.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
@@ -121,7 +122,7 @@ public class PersonCard extends UiPart<Region> {
 
         // Degree with white icons and modern styling
         degreeBox.getChildren().add(0, IconUtil.createIcon(FontAwesomeIcon.GRADUATION_CAP, "white"));
-        degree.setText(person.getDegree().value);
+        degree.setText(person.getDegree().value.toUpperCase());
         degree.setWrapText(false);
         degree.setMaxWidth(150);
         degree.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
@@ -132,7 +133,7 @@ public class PersonCard extends UiPart<Region> {
                 + " -fx-padding: 5 10 5 10;");
 
         // School with white icon
-        school.setText(person.getSchool().value);
+        school.setText(person.getSchool().value.toUpperCase());
         school.setWrapText(false);
         school.setMaxWidth(150);
         school.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
@@ -148,13 +149,12 @@ public class PersonCard extends UiPart<Region> {
                 .forEach(skill -> {
                     Label skillLabel = new Label(skill.skillName());
                     skillLabel.setStyle(
-                        "-fx-background-color: #3e7b91; "
-                        + "-fx-text-fill: white; "
-                        + "-fx-padding: 3 8 3 8; "
-                        + "-fx-background-radius: 3; "
-                        + "-fx-font-size: 11px; "
-                        + "-fx-font-weight: bold;"
-                    );
+                            "-fx-background-color: #3e7b91; "
+                                    + "-fx-text-fill: white; "
+                                    + "-fx-padding: 3 8 3 8; "
+                                    + "-fx-background-radius: 3; "
+                                    + "-fx-font-size: 11px; "
+                                    + "-fx-font-weight: bold;");
 
                     // Limit width and add ellipsis for long skill names
                     skillLabel.setMaxWidth(120);
@@ -188,61 +188,57 @@ public class PersonCard extends UiPart<Region> {
         apps.setPrefWrapLength(Double.MAX_VALUE); // Use all available width for wrapping
 
         applications.stream().sorted(Comparator.comparing(Application::getApplicationStatus))
-            .forEach(app -> {
-                String jobTitle = app.getJob().getJobTitle().toString();
+                .forEach(app -> {
+                    String jobTitle = StringUtil.toTitleCase(app.getJob().getJobTitle().toString());
 
-                // Truncate long job titles directly in the string
-                if (jobTitle.length() > 20) {
-                    jobTitle = jobTitle.substring(0, 17) + "...";
-                }
+                    // Truncate long job titles directly in the string
+                    if (jobTitle.length() > 20) {
+                        jobTitle = jobTitle.substring(0, 17) + "...";
+                    }
 
-                int currentRound = app.getApplicationStatus().applicationStatus;
-                int maxRound = app.getJob().getJobRounds().jobRounds;
+                    int currentRound = app.getApplicationStatus().applicationStatus;
+                    int maxRound = app.getJob().getJobRounds().jobRounds;
 
-                // Create a VBox for each application card (vertical layout)
-                VBox appCard = new VBox();
-                appCard.setSpacing(3);
-                // Set to a percentage of parent width for better distribution
-                appCard.setPrefWidth(160);
-                appCard.setMaxWidth(160);
-                appCard.setStyle(
-                    "-fx-background-color: #2d2d30; "
-                    + "-fx-padding: 5 10 5 10; "
-                    + "-fx-background-radius: 4; "
-                    + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 2, 0, 0, 1);"
-                );
+                    // Create a VBox for each application card (vertical layout)
+                    VBox appCard = new VBox();
+                    appCard.setSpacing(3);
+                    // Set to a percentage of parent width for better distribution
+                    appCard.setPrefWidth(160);
+                    appCard.setMaxWidth(160);
+                    appCard.setStyle(
+                            "-fx-background-color: #2d2d30; "
+                                    + "-fx-padding: 5 10 5 10; "
+                                    + "-fx-background-radius: 4; "
+                                    + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 2, 0, 0, 1);");
 
-                // Job title
-                Label appLabel = new Label(jobTitle);
-                appLabel.setWrapText(false);
-                appLabel.setMaxWidth(145);
-                appLabel.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
-                appLabel.setStyle(
-                    "-fx-text-fill: white; "
-                    + "-fx-font-weight: bold;"
-                );
+                    // Job title
+                    Label appLabel = new Label(jobTitle);
+                    appLabel.setWrapText(false);
+                    appLabel.setMaxWidth(145);
+                    appLabel.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
+                    appLabel.setStyle(
+                            "-fx-text-fill: white; "
+                                    + "-fx-font-weight: bold;");
 
-                // Progress indicator - show as round X/Y
-                Label progressLabel = new Label("Round: " + currentRound + "/" + maxRound);
-                progressLabel.setWrapText(false);
-                progressLabel.setStyle(
-                    "-fx-text-fill: #f39c12; "
-                    + "-fx-font-size: 11px; "
-                    + "-fx-padding: 2 6 2 6; "
-                    + "-fx-background-color: rgba(243, 156, 18, 0.15); "
-                    + "-fx-background-radius: 10;"
-                );
+                    // Progress indicator - show as round X/Y
+                    Label progressLabel = new Label("Round: " + currentRound + "/" + maxRound);
+                    progressLabel.setWrapText(false);
+                    progressLabel.setStyle(
+                            "-fx-text-fill: #f39c12; "
+                                    + "-fx-font-size: 11px; "
+                                    + "-fx-padding: 2 6 2 6; "
+                                    + "-fx-background-color: rgba(243, 156, 18, 0.15); "
+                                    + "-fx-background-radius: 10;");
 
-                appCard.getChildren().addAll(appLabel, progressLabel);
-                apps.getChildren().add(appCard);
-            });
+                    appCard.getChildren().addAll(appLabel, progressLabel);
+                    apps.getChildren().add(appCard);
+                });
         apps.setStyle("-fx-alignment: center-left;");
 
         // Style the entire card
         cardPane.setStyle(
-            "-fx-background-color: linear-gradient(to bottom, #303030, #252525); "
-            + "-fx-background-radius: 8; "
-            + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 5);"
-        );
+                "-fx-background-color: linear-gradient(to bottom, #303030, #252525); "
+                        + "-fx-background-radius: 8; "
+                        + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 5);");
     }
 }

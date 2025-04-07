@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import seedu.address.commons.util.StringUtil;
 import seedu.address.model.application.Application;
 import seedu.address.model.job.Job;
 import seedu.address.ui.util.IconUtil;
@@ -59,7 +60,7 @@ public class JobCard extends UiPart<Region> {
 
         // Setup job header with CSS classes (styling in DarkTheme.css)
         id.setText(displayedIndex + ". ");
-        jobTitle.setText(job.getJobTitle().jobTitle());
+        jobTitle.setText(StringUtil.toTitleCase(job.getJobTitle().jobTitle()));
         jobTitle.setWrapText(false);
         jobTitle.setMaxWidth(350);
         jobTitle.setTextOverrun(javafx.scene.control.OverrunStyle.ELLIPSIS);
@@ -95,7 +96,7 @@ public class JobCard extends UiPart<Region> {
             applicantsContainer.getChildren().add(noApplicantsLabel);
         } else {
             // Add each applicant card to the TilePane
-            int[] index = {0}; // Use array to allow modification in lambda
+            int[] index = { 0 }; // Use array to allow modification in lambda
             applicationsList.stream()
                     .map(application -> createDetailedMiniPersonCard(application, index[0]++))
                     .forEach(miniCard -> applicantsContainer.getChildren().add(miniCard));
@@ -105,7 +106,7 @@ public class JobCard extends UiPart<Region> {
     /**
      * Creates a detailed mini person card for each applicant
      *
-     * @param application The application to display
+     * @param application  The application to display
      * @param displayIndex The index to display (0-based)
      * @return A VBox containing the mini person card
      */
@@ -124,7 +125,7 @@ public class JobCard extends UiPart<Region> {
         nameBox.getChildren().add(indexLabel);
 
         nameBox.getChildren().add(IconUtil.createIcon(FontAwesomeIcon.USER, "white"));
-        Label nameLabel = new Label(application.getApplicant().getName().fullName);
+        Label nameLabel = new Label(StringUtil.toTitleCase(application.getApplicant().getName().fullName));
         nameLabel.getStyleClass().add("mini-card-name");
         nameLabel.setWrapText(false);
         nameLabel.setMaxWidth(150);
