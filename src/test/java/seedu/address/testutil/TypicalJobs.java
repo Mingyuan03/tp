@@ -16,4 +16,4 @@ public class TypicalJobs {
             new JobRounds(3),
             Set.of(new Skill("Python"))
     );
-} 
+}

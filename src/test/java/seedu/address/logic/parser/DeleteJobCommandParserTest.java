@@ -21,25 +21,25 @@ public class DeleteJobCommandParserTest {
     @Test
     public void parse_invalidArgs_throwsParseException() {
         // Empty argument
-        assertParseFailure(parser, "", 
+        assertParseFailure(parser, "",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteJobCommand.MESSAGE_USAGE));
-        
+
         // Non-integer argument
-        assertParseFailure(parser, "abc", 
+        assertParseFailure(parser, "abc",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteJobCommand.MESSAGE_USAGE));
-        
+
         // Negative integer
-        assertParseFailure(parser, "-1", 
+        assertParseFailure(parser, "-1",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteJobCommand.MESSAGE_USAGE));
-        
+
         // Zero index
-        assertParseFailure(parser, "0", 
+        assertParseFailure(parser, "0",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteJobCommand.MESSAGE_USAGE));
     }
-    
+
     @Test
     public void parse_extraWhitespace_returnsDeleteJobCommand() {
         // Leading and trailing whitespace
         assertParseSuccess(parser, "  1  ", new DeleteJobCommand(INDEX_ONE));
     }
-} 
+}

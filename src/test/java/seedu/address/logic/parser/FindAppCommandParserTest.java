@@ -19,7 +19,7 @@ public class FindAppCommandParserTest {
 
     @Test
     public void parse_emptyArg_throwsParseException() {
-        assertParseFailure(parser, "     ", 
+        assertParseFailure(parser, "     ",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindAppCommand.MESSAGE_USAGE));
     }
 
@@ -73,8 +73,8 @@ public class FindAppCommandParserTest {
         ApplicationStatus status = new ApplicationStatus(2);
         Index jobIndex = INDEX_ONE;
         FindAppCommand expectedCommand = new FindAppCommand(jobIndex, status);
-        assertParseSuccess(parser, 
-                " " + PREFIX_APPLICATION_STATUS + "2 " + PREFIX_JOB_INDEX + "1", 
+        assertParseSuccess(parser,
+                " " + PREFIX_APPLICATION_STATUS + "2 " + PREFIX_JOB_INDEX + "1",
                 expectedCommand);
     }
 
@@ -84,12 +84,12 @@ public class FindAppCommandParserTest {
         ApplicationStatus status = new ApplicationStatus(2);
         FindAppCommand expectedCommand = new FindAppCommand(status);
         assertParseSuccess(parser, "  " + PREFIX_APPLICATION_STATUS + "2  ", expectedCommand);
-        
+
         // Multiple whitespaces with job index
         Index jobIndex = INDEX_ONE;
         FindAppCommand expectedCommandWithJobIndex = new FindAppCommand(jobIndex, status);
-        assertParseSuccess(parser, 
-                "  " + PREFIX_APPLICATION_STATUS + "2  " + PREFIX_JOB_INDEX + "1  ", 
+        assertParseSuccess(parser,
+                "  " + PREFIX_APPLICATION_STATUS + "2  " + PREFIX_JOB_INDEX + "1  ",
                 expectedCommandWithJobIndex);
     }
-} 
+}
