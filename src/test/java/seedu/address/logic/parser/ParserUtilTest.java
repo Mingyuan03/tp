@@ -28,7 +28,7 @@ public class ParserUtilTest {
     private static final String INVALID_SKILL = "#swift";
 
     private static final String VALID_NAME = "Rachel Walker";
-    private static final String VALID_PHONE = "12345678";
+    private static final String VALID_PHONE = "91234567";
     private static final String VALID_ADDRESS = "123 Main Street #0505";
     private static final String VALID_EMAIL = "rachel@example.com";
     private static final String VALID_SKILL_1 = "javascript";
@@ -68,14 +68,15 @@ public class ParserUtilTest {
 
     @Test
     public void parseName_validValueWithoutWhitespace_returnsName() throws Exception {
-        Name expectedName = new Name(VALID_NAME);
+        Name expectedName = new Name(VALID_NAME.toLowerCase());
         assertEquals(expectedName, ParserUtil.parseName(VALID_NAME));
     }
 
     @Test
     public void parseName_validValueWithWhitespace_returnsTrimmedName() throws Exception {
         String nameWithWhitespace = WHITESPACE + VALID_NAME + WHITESPACE;
-        Name expectedName = new Name(VALID_NAME);
+        Name expectedName = new Name(VALID_NAME.toLowerCase());
+
         assertEquals(expectedName, ParserUtil.parseName(nameWithWhitespace));
     }
 
@@ -114,14 +115,14 @@ public class ParserUtilTest {
 
     @Test
     public void parseAddress_validValueWithoutWhitespace_returnsAddress() throws Exception {
-        Address expectedAddress = new Address(VALID_ADDRESS);
+        Address expectedAddress = new Address(VALID_ADDRESS.toLowerCase());
         assertEquals(expectedAddress, ParserUtil.parseAddress(VALID_ADDRESS));
     }
 
     @Test
     public void parseAddress_validValueWithWhitespace_returnsTrimmedAddress() throws Exception {
         String addressWithWhitespace = WHITESPACE + VALID_ADDRESS + WHITESPACE;
-        Address expectedAddress = new Address(VALID_ADDRESS);
+        Address expectedAddress = new Address(VALID_ADDRESS.toLowerCase());
         assertEquals(expectedAddress, ParserUtil.parseAddress(addressWithWhitespace));
     }
 

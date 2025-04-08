@@ -1,7 +1,6 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
@@ -57,13 +56,13 @@ public class FindAppCommandTest {
 
     @Test
     public void constructor_withStatus_createsCommand() {
-        FindAppCommand command = new FindAppCommand("1");
+        FindAppCommand command = new FindAppCommand(new ApplicationStatus(1));
         assertTrue(command instanceof FindAppCommand);
     }
 
     @Test
     public void constructor_withJobIndexAndStatus_createsCommand() {
-        FindAppCommand command = new FindAppCommand(Index.fromOneBased(1), "1");
+        FindAppCommand command = new FindAppCommand(Index.fromOneBased(1), new ApplicationStatus(1));
         assertTrue(command instanceof FindAppCommand);
     }
 
@@ -73,7 +72,7 @@ public class FindAppCommandTest {
         model.setViewState(Model.ViewState.PERSON_VIEW);
 
         // Execute command
-        FindAppCommand command = new FindAppCommand("1");
+        FindAppCommand command = new FindAppCommand(new ApplicationStatus(1));
 
         // The command should throw CommandException when executed in PERSON_VIEW
         assertThrows(CommandException.class, Messages.MESSAGE_NOT_IN_JOB_VIEW, () -> command.execute(model));
@@ -86,11 +85,10 @@ public class FindAppCommandTest {
         expectedModel.setViewState(Model.ViewState.JOB_VIEW);
 
         // Configure expected model
-        expectedModel.updateFilteredApplicationList(app ->
-            app.getApplicationStatus().equals(new ApplicationStatus(1)));
+        expectedModel.updateFilteredApplicationList(app -> app.getApplicationStatus().equals(new ApplicationStatus(1)));
 
         // Execute command
-        FindAppCommand command = new FindAppCommand("1");
+        FindAppCommand command = new FindAppCommand(new ApplicationStatus(1));
         String expectedMessage = String.format(FindAppCommand.MESSAGE_SUCCESS, "1");
 
         // Execute directly since we need to check multiple result properties
@@ -102,7 +100,6 @@ public class FindAppCommandTest {
         assertEquals(Model.ViewState.JOB_VIEW, model.getCurrentViewState());
     }
 
-
     @Test
     public void execute_withStatusInJobView_success() throws CommandException {
         // Set view states
@@ -110,11 +107,10 @@ public class FindAppCommandTest {
         expectedModel.setViewState(Model.ViewState.JOB_VIEW);
 
         // Configure expected model
-        expectedModel.updateFilteredApplicationList(app ->
-            app.getApplicationStatus().equals(new ApplicationStatus(1)));
+        expectedModel.updateFilteredApplicationList(app -> app.getApplicationStatus().equals(new ApplicationStatus(1)));
 
         // Execute command
-        FindAppCommand command = new FindAppCommand("1");
+        FindAppCommand command = new FindAppCommand(new ApplicationStatus(1));
         String expectedMessage = String.format(FindAppCommand.MESSAGE_SUCCESS, "1");
 
         // Execute directly since we need to check multiple result properties
@@ -132,12 +128,11 @@ public class FindAppCommandTest {
         expectedModel.setViewState(Model.ViewState.JOB_VIEW);
 
         // Configure expected model
-        expectedModel.updateFilteredApplicationList(app ->
-            app.getApplicationStatus().equals(new ApplicationStatus(1))
-            && app.getJob().equals(job));
+        expectedModel.updateFilteredApplicationList(app -> app.getApplicationStatus().equals(new ApplicationStatus(1))
+                && app.getJob().equals(job));
 
         // Execute command with job index and status
-        FindAppCommand command = new FindAppCommand(Index.fromOneBased(1), "1");
+        FindAppCommand command = new FindAppCommand(Index.fromOneBased(1), new ApplicationStatus(1));
         String expectedMessage = String.format(FindAppCommand.MESSAGE_SUCCESS, "1");
 
         // Execute directly since we need to check multiple result properties
@@ -154,27 +149,8 @@ public class FindAppCommandTest {
         model.setViewState(Model.ViewState.JOB_VIEW);
 
         // Execute command with invalid job index
-        FindAppCommand command = new FindAppCommand(Index.fromOneBased(999), "1");
+        FindAppCommand command = new FindAppCommand(Index.fromOneBased(999), new ApplicationStatus(1));
         assertThrows(CommandException.class, FindAppCommand.MESSAGE_JOB_NOT_FOUND, () -> command.execute(model));
     }
 
-    @Test
-    public void equals() {
-        FindAppCommand findAppCommand1 = new FindAppCommand("1");
-        FindAppCommand findAppCommand2 = new FindAppCommand("1");
-        FindAppCommand findAppCommand3 = new FindAppCommand("2");
-        FindAppCommand findAppCommand4 = new FindAppCommand(Index.fromOneBased(1), "1");
-
-        // same object -> returns true
-        assertTrue(findAppCommand1.equals(findAppCommand1));
-
-        // same values -> returns true
-        assertTrue(findAppCommand1.equals(findAppCommand2));
-
-        // different values -> returns false
-        assertFalse(findAppCommand1.equals(findAppCommand3));
-
-        // different types -> returns false
-        assertFalse(findAppCommand1.equals(findAppCommand4));
-    }
 }

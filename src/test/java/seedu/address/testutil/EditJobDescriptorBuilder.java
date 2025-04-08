@@ -41,7 +41,7 @@ public class EditJobDescriptorBuilder {
      * building.
      */
     public EditJobDescriptorBuilder withJobTitle(String jobTitle) {
-        descriptor.setJobTitle(new JobTitle(jobTitle));
+        descriptor.setJobTitle(new JobTitle(jobTitle.toLowerCase()));
         return this;
     }
 

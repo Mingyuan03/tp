@@ -204,9 +204,9 @@ public class MainWindow extends UiPart<Stage> {
                     logic.setViewState(Model.ViewState.JOB_VIEW);
                     jobListPanel.showGeneralStatistics();
                 }
-            }
-            // Check if we're viewing person details for a potentially deleted or updated application
-            else if (logic.getViewState() == Model.ViewState.PERSON_DETAIL_VIEW) {
+            } else if (logic.getViewState() == Model.ViewState.PERSON_DETAIL_VIEW) {
+                // Check if we're viewing person details for a potentially deleted or updated
+                // application
                 Job currentJob = jobListPanel.getCurrentlyViewedJob();
                 Person currentPerson = jobListPanel.getCurrentlyViewedPerson();
 
@@ -324,7 +324,8 @@ public class MainWindow extends UiPart<Stage> {
                     // Force a complete refresh of job panel to show all jobs without filters
                     refreshJobPanel();
 
-                    // Force a refresh of application view as well to ensure all applications are shown
+                    // Force a refresh of application view as well to ensure all applications are
+                    // shown
                     refreshApplicationsView();
                 } else if (!isJobView && trimmedCommand.equals("list")) {
                     // Reset to person view and clear all filters
@@ -384,7 +385,7 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Displays the details of a person for a specific job.
      *
-     * @param jobIndex The index of the job
+     * @param jobIndex    The index of the job
      * @param personIndex The index of the person
      */
     private void viewPersonDetails(int jobIndex, int personIndex) {
@@ -494,7 +495,6 @@ public class MainWindow extends UiPart<Stage> {
             selectedJobIndex = -1;
         }
     }
-
 
     /**
      * Clears the current view and returns to the general overview.

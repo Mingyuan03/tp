@@ -48,7 +48,7 @@ public class EditPersonDescriptorBuilder {
      * building.
      */
     public EditPersonDescriptorBuilder withName(String name) {
-        descriptor.setName(new Name(name));
+        descriptor.setName(new Name(name.toLowerCase()));
         return this;
     }
 
@@ -75,7 +75,7 @@ public class EditPersonDescriptorBuilder {
      * building.
      */
     public EditPersonDescriptorBuilder withAddress(String address) {
-        descriptor.setAddress(new Address(address));
+        descriptor.setAddress(new Address(address.toLowerCase()));
         return this;
     }
 
@@ -84,7 +84,7 @@ public class EditPersonDescriptorBuilder {
      * building.
      */
     public EditPersonDescriptorBuilder withSchool(String school) {
-        descriptor.setSchool(new School(school));
+        descriptor.setSchool(new School(school.toLowerCase()));
         return this;
     }
 
@@ -93,7 +93,7 @@ public class EditPersonDescriptorBuilder {
      * building.
      */
     public EditPersonDescriptorBuilder withDegree(String degree) {
-        descriptor.setDegree(new Degree(degree));
+        descriptor.setDegree(new Degree(degree.toLowerCase()));
         return this;
     }
 

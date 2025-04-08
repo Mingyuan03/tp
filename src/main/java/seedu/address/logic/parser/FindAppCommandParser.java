@@ -8,6 +8,7 @@ import static seedu.address.logic.parser.ParserUtil.arePrefixesPresent;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.FindAppCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.application.ApplicationStatus;
 
 /**
  * Parses input arguments and creates a new FindAppCommand object
@@ -31,20 +32,17 @@ public class FindAppCommandParser implements Parser<FindAppCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindAppCommand.MESSAGE_USAGE));
         }
 
-        String rounds = argMultimap.getValue(PREFIX_APPLICATION_STATUS).get();
-
-        // If job index is present, parse it
-        if (arePrefixesPresent(argMultimap, PREFIX_JOB_INDEX)) {
-            try {
+        try {
+            ApplicationStatus rounds = ParserUtil
+                    .parseStatus(argMultimap.getValue(PREFIX_APPLICATION_STATUS).get());
+            if (arePrefixesPresent(argMultimap, PREFIX_JOB_INDEX)) {
                 Index jobIndex = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_JOB_INDEX).get());
                 return new FindAppCommand(jobIndex, rounds);
-            } catch (ParseException pe) {
-                throw new ParseException(
-                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindAppCommand.MESSAGE_USAGE), pe);
             }
+            return new FindAppCommand(rounds);
+        } catch (ParseException pe) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindAppCommand.MESSAGE_USAGE), pe);
         }
-
-        // If no job index, just return command with rounds
-        return new FindAppCommand(rounds);
     }
 }

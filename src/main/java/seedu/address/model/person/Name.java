@@ -3,6 +3,8 @@ package seedu.address.model.person;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+import seedu.address.commons.util.StringUtil;
+
 /**
  * Represents a Person's name in the address book. Guarantees: immutable; is
  * valid as declared in {@link #isValidName(String)}
@@ -40,7 +42,7 @@ public class Name {
 
     @Override
     public String toString() {
-        return fullName;
+        return StringUtil.toTitleCase(fullName);
     }
 
     @Override

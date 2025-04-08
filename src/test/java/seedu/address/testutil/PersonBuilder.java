@@ -1,5 +1,6 @@
 package seedu.address.testutil;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,12 +38,12 @@ public class PersonBuilder {
      * Creates a {@code PersonBuilder} with the default details.
      */
     public PersonBuilder() {
-        name = new Name(DEFAULT_NAME);
+        name = new Name(DEFAULT_NAME.toLowerCase());
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
-        address = new Address(DEFAULT_ADDRESS);
-        school = new School(DEFAULT_SCHOOL);
-        degree = new Degree(DEFAULT_DEGREE);
+        address = new Address(DEFAULT_ADDRESS.toLowerCase());
+        school = new School(DEFAULT_SCHOOL.toLowerCase());
+        degree = new Degree(DEFAULT_DEGREE.toLowerCase());
         skills = new HashSet<>();
     }
 
@@ -63,7 +64,7 @@ public class PersonBuilder {
      * Sets the {@code Name} of the {@code Person} that we are building.
      */
     public PersonBuilder withName(String name) {
-        this.name = new Name(name);
+        this.name = new Name(name.toLowerCase());
         return this;
     }
 
@@ -87,7 +88,7 @@ public class PersonBuilder {
      * Sets the {@code Address} of the {@code Person} that we are building.
      */
     public PersonBuilder withAddress(String address) {
-        this.address = new Address(address);
+        this.address = new Address(address.toLowerCase());
         return this;
     }
 
@@ -98,7 +99,7 @@ public class PersonBuilder {
      * @return Person with the associated school.
      */
     public PersonBuilder withSchool(String school) {
-        this.school = new School(school);
+        this.school = new School(school.toLowerCase());
         return this;
     }
 
@@ -106,7 +107,7 @@ public class PersonBuilder {
      * Sets the {@code Degree} of the {@code Person} that we are building.
      */
     public PersonBuilder withDegree(String degree) {
-        this.degree = new Degree(degree);
+        this.degree = new Degree(degree.toLowerCase());
         return this;
     }
 
@@ -115,7 +116,7 @@ public class PersonBuilder {
      * {@code Person} that we are building.
      */
     public PersonBuilder withSkills(String... skills) {
-        this.skills = SampleDataUtil.getSkillSet(skills);
+        this.skills = SampleDataUtil.getSkillSet(Arrays.stream(skills).map(String::toLowerCase).toArray(String[]::new));
         return this;
     }
 

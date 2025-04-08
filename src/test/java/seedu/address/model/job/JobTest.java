@@ -40,7 +40,7 @@ public class JobTest {
         // name differs in case, all other attributes same -> false
         Job editedJob2 = new JobBuilder(DATA_SCIENTIST_MICROSOFT)
                 .withJobTitle(VALID_JOB_TITLE_DATA_SCIENTIST.toLowerCase()).build();
-        assertFalse(DATA_SCIENTIST_MICROSOFT.isSameJob(editedJob2));
+        assertTrue(DATA_SCIENTIST_MICROSOFT.isSameJob(editedJob2));
 
         // name with trailing spaces, all other attributes same -> return false
         String jobTitlewWithTrailingSpaces = VALID_JOB_TITLE_DATA_SCIENTIST + " ";

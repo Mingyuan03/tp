@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.Logic;
 import seedu.address.model.application.Application;
 import seedu.address.model.job.Job;
@@ -77,7 +78,7 @@ public class JobSpecificStatsPanel {
         }
 
         // Update job title
-        jobTitleLabel.setText(job.getJobTitle().jobTitle());
+        jobTitleLabel.setText(StringUtil.toTitleCase(job.getJobTitle().jobTitle()));
 
         // Update statistics
         updateApplicantCount(job);

@@ -35,7 +35,7 @@ public class School {
 
     @Override
     public String toString() {
-        return this.value;
+        return value.toUpperCase();
     }
 
     @Override
