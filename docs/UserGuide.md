@@ -406,12 +406,20 @@ Examples:
 
 These commands support CRUD operations on Applications and are only available to you in Job View so that you are able to see real time updates on the GUI.
 
-**Parameters** | **Definition**                                              | **Constraints**
----------------|-------------------------------------------------------------|----------------
-`PERSON_INDEX`  | Index of the person in the displayed person list in Person View | Must be a natural number and should be an index displayed in Person View.
-`JOB_INDEX`       | Index of the job in the displayed job list in Job View      | Must be a natural number and should be an index displayed in Job View.
-`APPLICATION_STATUS` | Current round of application process that an applicant is at | Must be a positive integer >= 0 and should be less than or equal JOB_ROUNDS of that particular job.
-`APPLICATION_INDEX` | Index of the application in the displayed job list in Job View | Must be a natural number and should be an index displayed in Job View.
+**Parameters** | **Definition**                                                                     | **Constraints**
+---------------|------------------------------------------------------------------------------------|----------------
+`PERSON_INDEX`  | Index of the person in the displayed person list in Person View                    | Must be a natural number and should be an index displayed in Person View.
+`JOB_INDEX`       | Index of the job in the displayed job list in Job View                             | Must be a natural number and should be an index displayed in Job View.
+`APPLICATION_STATUS` | A numerical value indicating an applicant's progress through the interview process | Must be a positive integer >= 0 and should be less than or equal JOB_ROUNDS of that particular job.
+`APPLICATION_INDEX` | Index of the application in the displayed job list in Job View                     | Must be a natural number and should be an index displayed in Job View.
+
+<box type="tip" seamless>
+
+* Status 0: The applicant has just applied and hasn't undergone any interviews yet.
+* Status k (where k is between 1 and total rounds - 1): The applicant has successfully PASSED round k and is waiting for the next round.
+* Status = Job Rounds: The applicant has passed all interview rounds and has been offered the position.
+
+</box>
 
 Here is a brief label of the various parameters:
 
@@ -528,7 +536,7 @@ Format: `advapp ij/JOB_INDEX ia/APPLICATION_INDEX`
 
 * All applications are advanced by exactly 1 round each time.
 * You should exercise discretion in advancing an application as it signifies that the applicant has not only
-gone for the round, but also passed it! Therefore, an applicant who has reached the final round of an application will
+gone for the round, but also passed it! Therefore, an applicant who has reached the final round of an application (i.e. round 5 of 5) will
 be deemed to have received a job offer. Congratulations!
 * You should exercise discretion in advancing an application of any applicant who has reached the final round
 of another application, as this would otherwise imply the applicant has more than 1 offers for this company!
