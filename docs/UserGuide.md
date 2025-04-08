@@ -61,7 +61,7 @@ The more you type, the more time you save. Master our simple commands and watch 
 
   * `exit` : Exits the app.
 
-1. Refer to the [Features](#features) below for details of each command.
+Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -89,10 +89,10 @@ Simply use the up and down arrow keys after clicking on the command box text inp
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
 * All prefixes and commands used in TalentMatch are case-sensitive.<br>
-  e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `N/NAME P/PHONE_NUMBER` is not acceptable.
+  e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `N/NAME P/PHONE_NUMBER` is not acceptable.<br>
   e.g. if the command specifies `addjob jt/JOB_TITLE`, `ADDJOB JT/JOB_TITLE` is not acceptable.
 
-* All parameters that accept alphanumeric characters are case insensitive, except for `EMAIL`.
+* All parameters that accept alphanumeric characters are case-insensitive, except for `EMAIL`.
 
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
@@ -162,7 +162,7 @@ These commands support CRUD operations on Jobs and are only available to you in 
 `JOB_TITLE`    | Name of the job opening                                              | Only alphanumeric characters and spaces allowed, and should not be blank.
 `JOB_ROUNDS`   | Number of rounds that an applicant has to complete before receiving an offer | Must be a positive integer between 1 and 10 (inclusive).
 `SKILL`       | Skills that are required by the job                                  | Only alphanummeric charcters are allowed, with the exception of `.` and `/`. Skills should only be one word with no spaces.
-`INDEX`       | Index of the job in the displayed job list in Job View               | Must be a positive integer and should be an index displayed in Job View.
+`INDEX`       | Index of the job in the displayed job list in Job View               | Must be a natural number and should be an index displayed in Job View.
 
 ### Adding a job: `addjob`
 Adds a job to TalentMatch
@@ -189,7 +189,8 @@ Edits an existing job in TalentMatch.
 
 Format: `editjob INDEX [jt/JOB_TITLE] [jr/JOB_ROUNDS] [k/SKILL]…​`
 
-* Edits the job at the specified `INDEX`. The index refers to the index number shown in the displayed job list. The index **must be a positive integer** 1, 2, 3, …​
+* Edits the job at the specified `INDEX`. The index refers to the index number shown in the displayed job list. 
+* The index **must be a natural number** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing job skills, the existing skills of the person will be removed i.e adding of skills is not cumulative.
@@ -222,11 +223,13 @@ Finds jobs whose details contain any of the given keywords.
 
 Format: `findjob KEYWORD [MORE_KEYWORDS]…​`
 
-* The search is case-insensitive. e.g `software` will match `Software`
+* The search is case-insensitive. e.g. `software` will match `Software`
 * The order of the keywords does not matter. e.g. `Engineering Software` will match `Software Engineering`
 * Only full words will be matched e.g. `Engi` will not match `Engineer`
-* Jobs matching at least one keyword will be returned (i.e. `OR` search).
+* Jobs matching at least one keyword will be returned (i.e. `OR` search).<br>
   e.g. `Engineer` will return `Software Engineer`, `AI Engineer`
+* Keywords are searched across multiple fields.
+  e.g. `findjob 2` will return jobs that contain 2 any of the searchable fields.
 * Keywords used in a single `findjob` command searches the displayed list using logical OR.
   e.g. `findjob data engineering` will return `Software Engineering` and `Data Scientist`
 * Consecutive `findjob` commands continue the search based on the current displayed list.
@@ -244,7 +247,7 @@ Expected output:
 
 ![findjob_success](images/findjob_success.png)
 
-* `findjob data engineer` followed by `findjob software` returns jobs with contains data **or** engineer, **and** software in its details. 
+* `findjob data engineer` followed by `findjob software` returns jobs which contains data **or** engineer, **and** software in its details. 
 
 ![consec_findjob_success](images/consec_findjob_success.png)
 
@@ -259,7 +262,7 @@ Format: `deljob INDEX`
 
 * Deletes the job at the specified `INDEX`.
 * The index refers to the index number shown in the displayed job list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* The index **must be a natural number** 1, 2, 3, …​
 
 Expected output:<br>
 `deljob 7` deletes the job at the 7th index.
@@ -279,13 +282,13 @@ These commands support CRUD operations on Persons and are only available to you 
 **Parameters** | **Definition**                                                  | **Constraints**
 ---------------|-----------------------------------------------------------------|----------------
 `NAME`  | Name of the applicant                                           | Only alphanumeric characters and spaces allowed, and should not be blank.
-`PHONE_NUMBER`  | Phone number of the applicant                                   | Should be a valid Singapore phone number, and contain only 8 numbers.
+`PHONE_NUMBER`  | Phone number of the applicant                                   | Should be a valid Singapore phone number (starts with 6, 8 or 9), and contain only 8 numbers.
 `EMAIL`  | Email of the applicant                                          | Emails should be of the format local-part@domain and adhere to the following constraints:<br>1. The local-part should only contain alphanumeric characters and these special characters, excluding the parentheses, (+_.-). The local-part may not start or end with any special characters.<br>2. This is followed by a '@' and then a domain name. The domain name is made up of domain labels separated by periods. The domain name must:<br>- end with a domain label at least 2 characters long<br>- have each domain label start and end with alphanumeric characters<br>- have each domain label consist of alphanumeric characters, separated only by hyphens, if any.
 `ADDRESS` | Address of the applicant                                        | Contains alphanumeric characters and special characters, and should not be blank.
 `SCHOOL` | School that the applicant is currently studying in              | Only alphanumeric characters and spaces allowed, and should not be blank.
 `DEGREE` | Degree that the applicant is currently pursuing                 | Only alphanumeric characters and spaces allowed, and should not be blank.
 `SKILL` | Skills that the applicant possesses                             | Only alphanummeric charcters are allowed, with the exception of `.` and `/`. Skills should only be one word with no spaces.
-`INDEX` | Index of the person in the displayed person list in Person View | Must be a positive integer and should be an index displayed in Person View.
+`INDEX` | Index of the person in the displayed person list in Person View | Must be a natural number and should be an index displayed in Person View.
 
 ### Adding a person: `add`
 Adds a person to TalentMatch.
@@ -305,7 +308,7 @@ Expected output:<br>
 
 Examples:
 * `add n/John Doe s/NUS d/Computer Science p/98765432 e/johnd@example.com a/John street, block 123, #01-01` adds a person with the specified details without skills.
-* `add n/Betsy Crowe s/NTU d/Civil Engineering k/Communication e/betsycrowe@example.com a/Newgate Prison p/1234567 k/Python` adds a person with the specified details with skills.
+* `add n/Betsy Crowe s/NTU d/Civil Engineering k/Communication e/betsycrowe@example.com a/Newgate Prison p/97542384 k/Python` adds a person with the specified details with skills.
 
 ### Editing a person: `edit`
 
@@ -313,7 +316,8 @@ Edits an existing person in TalentMatch.
 
 Format: `edit INDEX [n/NAME] [s/SCHOOL] [d/DEGREE] [p/PHONE] [e/EMAIL] [a/ADDRESS] [k/SKILL]…​`
 
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
+* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. 
+* The index **must be a natural number** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing skills, the existing skills of the person will be removed i.e adding of skills is not cumulative.
@@ -341,11 +345,13 @@ Finds persons whose details contain any of the given keywords.
 
 Format: `find KEYWORD [MORE_KEYWORDS]…​`
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
+* The search is case-insensitive. e.g. `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search).
+* Persons matching at least one keyword will be returned (i.e. `OR` search).<br>
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* Keywords are searched across multiple fields.
+  e.g. `find Alice` will return persons that contain Alice in any of the searchable fields.
 * Keywords used in a single `findjob` command searches the displayed list using logical OR.
   e.g. `find Hans Bo` will return `Hans Gruber`, `Bo Yang`
 * Consecutive `find` commands continue the search based on the current displayed list.
@@ -383,7 +389,7 @@ Format: `del INDEX`
 
 * Deletes the person at the specified `INDEX`.
 * The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* The index **must be a natural number** 1, 2, 3, …​
 
 Expected output:<br>
 `del 7` deletes the person at the 7th index.
@@ -402,10 +408,10 @@ These commands support CRUD operations on Applications and are only available to
 
 **Parameters** | **Definition**                                              | **Constraints**
 ---------------|-------------------------------------------------------------|----------------
-`PERSON_INDEX`  | Index of the person in the displayed person list in Person View | Must be a positive integer and should be an index displayed in Person View.
-`JOB_INDEX`       | Index of the job in the displayed job list in Job View      | Must be a positive integer and should be an index displayed in Job View.
+`PERSON_INDEX`  | Index of the person in the displayed person list in Person View | Must be a natural number and should be an index displayed in Person View.
+`JOB_INDEX`       | Index of the job in the displayed job list in Job View      | Must be a natural number and should be an index displayed in Job View.
 `APPLICATION_STATUS` | Current round of application process that an applicant is at | Must be a positive integer >= 0 and should be less than or equal JOB_ROUNDS of that particular job.
-`APPLICATION_INDEX` | Index of the application in the displayed job list in Job View | Must be a positive integer and should be an index displayed in Job View.
+`APPLICATION_INDEX` | Index of the application in the displayed job list in Job View | Must be a natural number and should be an index displayed in Job View.
 
 Here is a brief label of the various parameters:
 
@@ -444,7 +450,7 @@ Expected output:<br>
 ![img_1.png](img_1.png)
 
 Examples:
-* `addap ip/3 ij/6` adds an application for the 3rd person to the 6th job in the current displayed person and job list respectively.
+* `addapp ip/3 ij/6` adds an application for the 3rd person to the 6th job in the current displayed person and job list respectively.
 
 ### Locating application: `findapp`
 
@@ -466,7 +472,8 @@ Format: `findapp as/APPLICATION_STATUS [ij/JOB_INDEX]`
 <box type="warning" seamless>
 
 **Warnings:**
-* `JOB_INDEX` and `APPLICATION_STATUS` must be valid positive integers existing in the respective views.
+* `JOB_INDEX` and `APPLICATION_STATUS` must be valid positive integers (exception of `APPLICATION_STATUS` having 0) existing in the respective views.
+* The index **must be a natural number** 1, 2, 3, …​
 * **The desired application must already exist in TalentMatch**. TalentMatch cannot find a non-existent application!
 * `findjob` can be used alongside `findapp`, however do note that all searches will search the current displayed list.
   * i.e. Suppose job A has 3 applications (2 of which have `APPLICATION_STATUS` of 2), `findapp as/2` returns all applications with `APPLICATION_STATUS` of 2, using `findjob A` after will return job A with only 2 applications shown (despite there existing 3 applications). 
@@ -498,6 +505,7 @@ Both the job and application indices can be obtained from the job view alone.
 
 **Warnings:**
 * `JOB_INDEX` and `APPLICATION_INDEX` must be valid positive integers existing in Job View.
+* The index **must be a natural number** 1, 2, 3, …​
 * A unique existing application must be present.
   TalentMatch flags deleting non-existent applications with this exception message:
     * `This application does not exist in the address book. Try using addapp to add an application first!`
@@ -529,7 +537,8 @@ of another application, as this would otherwise imply the applicant has more tha
 <box type="warning" seamless>
 
 **Warnings:**
-* `JOB_INDEX` and `APPLICATION_INDEX` must be valid positive integers existing in Job View.
+* `JOB_INDEX` and `APPLICATION_INDEX` must be valid indices existing in Job View.
+* The index **must be a natural number** 1, 2, 3, …​
 * **A unique existing application must be present.**
   TalentMatch flags advancing non-existent applications out with this exception message:
     * `This application does not exist in the address book. Try using addapp to add an application first!`
@@ -541,12 +550,12 @@ Expected output:<br>
 
 ![img_5.png](img_5.png)
 
-Examples:
+Example:
 * `advapp ij/1 ia/2` advances the 2nd application for the 1st job by one round (if it exists).
 
 ### Viewing job details: `viewjob`
 
-Displays a sidebar that shows the job title abd the number of applicants for that job. It also shows the distribution of applicants across different interview rounds in a bar chart, and the skills required for the job.
+Displays a sidebar that shows the job title and the number of applicants for that job. It also shows the distribution of applicants across different interview rounds in a bar chart, and the skills required for the job.
 
 Format: `viewjob INDEX`
 
@@ -588,7 +597,7 @@ Examples:
 
 --- 
 
-### Saving the data
+## Saving the data
 
 TalentMatch data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
@@ -599,6 +608,8 @@ TalentMatch stores data in two separate JSON files:
 * `[JAR file location]/data/applicationbook.json` - Contains all application data linking persons to jobs
 
 Advanced users can update data directly by editing these files, but caution is advised.
+
+Do note that all case-insensitive fields are stored in lowercase in these files and casing is done automatically by TalentMatch.
 
 <box type="warning" seamless>
 
@@ -641,7 +652,7 @@ It is strongly recommended to:
 change data in the other view unknowingly. 
 
 **Q**: Why are the find commands so restrictive?<br>
-**A**: TalentMatch is built with the assumption that experience users will be unlikely to make typing mistakes when searching for a certain job/person, hence having a find function that continuously
+**A**: TalentMatch is built with the assumption that experienced users will be unlikely to make typing mistakes when searching for a certain job/person, hence having a find function that continuously
 reduces the search space improves your experience by being able to narrow down your displayed lists for easier addition of applications. In the event of typing a wrong keyword, you can use `list`/`listjob` in the 
 appropriate view to reset your current search and try searching again.
 
@@ -655,10 +666,11 @@ concatenating them into a single word.
 
 ### UI Issues
 1. **Multiple Window Usage:** When using multiple screens, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **Minimising the Help Window:** If you minimize the Help Window and then run the `help` command again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+2. **Minimizing the Help Window:** If you minimize the Help Window and then run the `help` command again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 3. **Text Truncation in Display:** Long text entries may be truncated with "..." when the application window isn't wide enough. You may not be able to see the complete information for some fields.
 4. **Viewport Issues:** Parts of the application may be cut off at smaller window sizes, including the default size at first startup. We have included a minimum viewport size for most devices, however in the case where your device is unable to support this viewport, then you may run into unexpected UI issues as mentioned before.
 5. **Oversized Messages:** Some success and error messages may be too long to read easily in the current application.
+6. **Inconsistent Casing:** TalentMatch automatically capitalises the case-insensitive fields, which could result in weird capitalisation in some cases.
 
 ### Data Storage Issues
 6. **Storage File Synchronization:** The application generates two storage files: applicationsmanager.json and addressbook.json. Both files contain information related to persons and jobs. If you make changes to persons or jobs in one file, you MUST replicate these changes in the other file. Failure to synchronize these files will result in data mismatches when the application loads, leading to undefined application behavior.
@@ -672,10 +684,10 @@ concatenating them into a single word.
 
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add n/NAME s/SCHOOL d/DEGREE p/PHONE_NUMBER e/EMAIL a/ADDRESS [k/SKILL]…​` <br> e.g., `add n/James Ho s/NUS d/Physics p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 k/python k/java`
+**Add**    | `add n/NAME s/SCHOOL d/DEGREE p/PHONE_NUMBER e/EMAIL a/ADDRESS [k/SKILL]…​` <br> e.g., `add n/James Ho s/NUS d/Physics p/83920347 e/jamesho@example.com a/123, Clementi Rd, 1234665 k/python k/java`
 **AddJob** | `addjob jt/JOB_TITLE jr/INTERVIEW_ROUNDS [k/SKILL]…​` <br> e.g., `addjob jt/Software Engineering jr/3 k/Python`
 **AddApp** | `addapp ip/PERSON_INDEX ij/JOB_INDEX ` <br> e.g., `addapp ip/1 ij/1`
-**AdvApp** | `advapp ij/JOB_INDEX ia/APPLICATION_INDEX ` <br> e.g., `adv ij/1 ia/1`
+**AdvApp** | `advapp ij/JOB_INDEX ia/APPLICATION_INDEX ` <br> e.g., `advapp ij/1 ia/1`
 **Clear**  | `clear`
 **Delete** | `del INDEX`<br> e.g., `del 3`
 **DeleteJob** | `deljob INDEX` <br> e.g., `deljob 3`
@@ -684,7 +696,7 @@ Action     | Format, Examples
 **EditJob** | `editjob INDEX [jt/JOB_TITLE] [jr/INTERVIEW_ROUNDS] [k/SKILL]…​` <br> e.g., `editjob 7 jt/Software Engineering jr/3`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]…​`<br> e.g., `find James Jake`
 **FindJob** | `findjob KEYWORD [MORE_KEYWORDS]…​`<br> e.g., `findjob Software Engineering`
-**FindApp** | `findapp ia/APPLICATION_STATUS [ij/JOB_INDEX]` <br> e.g., `findapp ia/2 ij/1`
+**FindApp** | `findapp as/APPLICATION_STATUS [ij/JOB_INDEX]` <br> e.g., `findapp as/2 ij/1`
 **Help**   | `help`
 **List**   | `list`
 **ListJobs** | `listjob`
